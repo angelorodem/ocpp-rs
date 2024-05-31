@@ -17,7 +17,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct IdTagInfo {
     /// Optional. This contains the date at which idTag should be removed from the Authorization Cache.

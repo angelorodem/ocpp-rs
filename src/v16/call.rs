@@ -1,279 +1,399 @@
 use super::enums::{
-    AvailabilityType,
-    CertificateUse,
-    ChargePointErrorCode,
-    ChargePointStatus,
-    ChargingProfilePurposeType,
-    ChargingRateUnitType,
-    DiagnosticsStatus,
-    FirmwareStatus,
-    Log,
-    MessageTrigger,
-    Reason,
-    ResetType,
-    UpdateType,
-    UploadLogStatus,
+    AvailabilityType, CertificateUse, ChargePointErrorCode, ChargePointStatus,
+    ChargingProfilePurposeType, ChargingRateUnitType, DiagnosticsStatus, FirmwareStatus, Log,
+    MessageTrigger, Reason, ResetType, UpdateType, UploadLogStatus,
 };
-use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use strum_macros::EnumString;
+use serde_tuple::*;
 
-#[derive(Debug, Serialize, Deserialize)]
+// Call action enum
+#[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+#[serde(untagged)]
+pub enum Action {
+    Authorize(Authorize),
+    BootNotification(BootNotification),
+    CancelReservation(CancelReservation),
+    CertificateSigned(CertificateSigned),
+    ChangeAvailability(ChangeAvailability),
+    ChangeConfiguration(ChangeConfiguration),
+    ClearCache(ClearCache),
+    ClearChargingProfile(ClearChargingProfile),
+    DataTransfer(DataTransfer),
+    DeleteCertificate(DeleteCertificate),
+    DiagnosticsStatusNotification(DiagnosticsStatusNotification),
+    ExtendedTriggerMessage(ExtendedTriggerMessage),
+    FirmwareStatusNotification(FirmwareStatusNotification),
+    GetCompositeSchedule(GetCompositeSchedule),
+    GetConfiguration(GetConfiguration),
+    GetDiagnostics(GetDiagnostics),
+    GetInstalledCertificateIds(GetInstalledCertificateIds),
+    GetLocalListVersion(GetLocalListVersion),
+    GetLog(GetLog),
+    Heartbeat(Heartbeat),
+    InstallCertificate(InstallCertificate),
+    LogStatusNotification(LogStatusNotification),
+    MeterValues(MeterValues),
+    RemoteStartTransaction(RemoteStartTransaction),
+    RemoteStopTransaction(RemoteStopTransaction),
+    ReserveNow(ReserveNow),
+    Reset(Reset),
+    SecurityEventNotification(SecurityEventNotification),
+    SendLocalList(SendLocalList),
+    SetChargingProfile(SetChargingProfile),
+    SignCertificate(SignCertificate),
+    SignedFirmwareStatusNotification(SignedFirmwareStatusNotification),
+    SignedUpdateFirmware(SignedUpdateFirmware),
+    StartTransaction(StartTransaction),
+    StatusNotification(StatusNotification),
+    StopTransaction(StopTransaction),
+    TriggerMessage(TriggerMessage),
+    UnlockConnector(UnlockConnector),
+    UpdateFirmware(UpdateFirmware),
+}
+
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Call {
+    pub unique_id: String,
+    pub action: String,
+    pub payload: Action,
+}
+
+//////////////////////////// Call structs ////////////////////////////
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct CancelReservation {
-    reservation_id: i32,
+    pub reservation_id: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct CertificateSigned {
-    certificate_chain: String,
+    pub certificate_chain: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ChangeAvailability {
-    connector_id: i32,
+    pub connector_id: i32,
     #[serde(rename = "type")]
-    availability_type: AvailabilityType,
+    pub availability_type: AvailabilityType,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ChangeConfiguration {
-    key: String,
-    value: String,
+    pub key: String,
+    pub value: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ClearCache {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ClearChargingProfile {
-    id: Option<i32>,
-    connector_id: Option<i32>,
-    charging_profile_purpose: Option<ChargingProfilePurposeType>,
-    stack_level: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connector_id: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charging_profile_purpose: Option<ChargingProfilePurposeType>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stack_level: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct DeleteCertificate {
-    certificate_hash_data: HashMap<String, String>,
+    pub certificate_hash_data: HashMap<String, String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ExtendedTriggerMessage {
-    requested_message: MessageTrigger,
-    connector_id: Option<i32>,
+    pub requested_message: MessageTrigger,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connector_id: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetCompositeSchedule {
-    connector_id: i32,
-    duration: i32,
-    charging_rate_unit: Option<ChargingRateUnitType>,
+    pub connector_id: i32,
+    pub duration: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charging_rate_unit: Option<ChargingRateUnitType>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetConfiguration {
-    key: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub key: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetDiagnostics {
-    location: String,
-    retries: Option<i32>,
-    retry_interval: Option<i32>,
-    start_time: Option<String>,
-    stop_time: Option<String>,
+    pub location: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retries: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retry_interval: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub start_time: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stop_time: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetInstalledCertificateIds {
-    certificate_type: CertificateUse,
+    pub certificate_type: CertificateUse,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetLocalListVersion {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetLog {
-    log: HashMap<String, String>,
-    log_type: Log,
-    request_id: i32,
-    retries: Option<i32>,
-    retry_interval: Option<i32>,
+    pub log: HashMap<String, String>,
+    pub log_type: Log,
+    pub request_id: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retries: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retry_interval: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct InstallCertificate {
-    certificate_type: CertificateUse,
-    certificate: String,
+    pub certificate_type: CertificateUse,
+    pub certificate: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct RemoteStartTransaction {
-    id_tag: String,
-    connector_id: Option<i32>,
-    charging_profile: Option<HashMap<String, String>>,
+    pub id_tag: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connector_id: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charging_profile: Option<HashMap<String, String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct RemoteStopTransaction {
-    transaction_id: i32,
+    pub transaction_id: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ReserveNow {
-    connector_id: i32,
-    expiry_date: String,
-    id_tag: String,
-    reservation_id: i32,
-    parent_id_tag: Option<String>,
+    pub connector_id: i32,
+    pub expiry_date: String,
+    pub id_tag: String,
+    pub reservation_id: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent_id_tag: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct Reset {
     #[serde(rename = "type")]
-    reset_type: ResetType,
+    pub reset_type: ResetType,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SendLocalList {
-    list_version: i32,
-    update_type: UpdateType,
-    local_authorization_list: Vec<String>,
+    pub list_version: i32,
+    pub update_type: UpdateType,
+    pub local_authorization_list: Vec<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SetChargingProfile {
-    connector_id: i32,
-    cs_charging_profiles: HashMap<String, String>,
+    pub connector_id: i32,
+    pub cs_charging_profiles: HashMap<String, String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SignedUpdateFirmware {
-    request_id: i32,
-    firmware: HashMap<String, String>,
-    retries: Option<i32>,
-    retry_interval: Option<i32>,
+    pub request_id: i32,
+    pub firmware: HashMap<String, String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retries: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retry_interval: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct TriggerMessage {
-    requested_message: MessageTrigger,
-    connector_id: Option<i32>,
+    pub requested_message: MessageTrigger,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connector_id: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct UnlockConnector {
-    connector_id: i32,
+    pub connector_id: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct UpdateFirmware {
-    location: String,
-    retrieve_date: String,
-    retries: Option<i32>,
-    retry_interval: Option<i32>,
+    pub location: String,
+    pub retrieve_date: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retries: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub retry_interval: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct Authorize {
-    id_tag: String,
+    pub id_tag: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct BootNotification {
-    charge_point_model: String,
-    charge_point_vendor: String,
-    charge_box_serial_number: Option<String>,
-    charge_point_serial_number: Option<String>,
-    firmware_version: Option<String>,
-    iccid: Option<String>,
-    imsi: Option<String>,
-    meter_serial_number: Option<String>,
-    meter_type: Option<String>,
+    pub charge_point_model: String,
+    pub charge_point_vendor: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charge_box_serial_number: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charge_point_serial_number: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub firmware_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub iccid: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub imsi: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub meter_serial_number: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub meter_type: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct DiagnosticsStatusNotification {
-    status: DiagnosticsStatus,
+    pub status: DiagnosticsStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct FirmwareStatusNotification {
-    status: FirmwareStatus,
+    pub status: FirmwareStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct Heartbeat {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct LogStatusNotification {
-    status: UploadLogStatus,
-    request_id: i32,
+    pub status: UploadLogStatus,
+    pub request_id: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct MeterValues {
-    connector_id: i32,
-    meter_value: Vec<String>,
-    transaction_id: Option<i32>,
+    pub connector_id: i32,
+    pub meter_value: Vec<String>,
+    pub transaction_id: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SecurityEventNotification {
     #[serde(rename = "type")]
-    event_type: String,
-    timestamp: String,
-    tech_info: Option<String>,
+    pub event_type: String,
+    pub timestamp: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tech_info: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SignCertificate {
-    csr: String,
+    pub csr: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SignedFirmwareStatusNotification {
-    status: FirmwareStatus,
-    request_id: i32,
+    pub status: FirmwareStatus,
+    pub request_id: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct StartTransaction {
-    connector_id: i32,
-    id_tag: String,
-    meter_start: i32,
-    timestamp: String,
-    reservation_id: Option<i32>,
+    pub connector_id: i32,
+    pub id_tag: String,
+    pub meter_start: i32,
+    pub timestamp: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reservation_id: Option<i32>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
-    meter_stop: i32,
-    timestamp: String,
-    transaction_id: i32,
-    reason: Option<Reason>,
-    id_tag: Option<String>,
-    transaction_data: Option<Vec<String>>,
+    pub meter_stop: i32,
+    pub timestamp: String,
+    pub transaction_id: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reason: Option<Reason>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id_tag: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub transaction_data: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct StatusNotification {
-    connector_id: i32,
-    error_code: ChargePointErrorCode,
-    status: ChargePointStatus,
-    timestamp: Option<String>,
-    info: Option<String>,
-    vendor_id: Option<String>,
-    vendor_error_code: Option<String>,
+    pub connector_id: i32,
+    pub error_code: ChargePointErrorCode,
+    pub status: ChargePointStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub timestamp: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub info: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub vendor_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub vendor_error_code: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct DataTransfer {
-    vendor_id: String,
-    message_id: Option<String>,
-    data: Option<String>,
+    pub vendor_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data: Option<String>,
 }
-
-
-
-
-

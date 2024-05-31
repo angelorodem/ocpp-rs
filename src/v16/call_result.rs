@@ -25,192 +25,291 @@ use super::enums::{
 use super::data_types::IdTagInfo;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use strum_macros::EnumString;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[serde(untagged)]
+pub enum Result {
+    Authorize(Authorize),
+    BootNotification(BootNotification),
+    CancelReservation(CancelReservation),
+    CertificateSigned(CertificateSigned),
+    ChangeAvailability(ChangeAvailability),
+    ChangeConfiguration(ChangeConfiguration),
+    ClearCache(ClearCache),
+    ClearChargingProfile(ClearChargingProfile),
+    DataTransfer(DataTransfer),
+    DeleteCertificate(DeleteCertificate),
+    DiagnosticsStatusNotification(DiagnosticsStatusNotification),
+    ExtendedTriggerMessage(ExtendedTriggerMessage),
+    FirmwareStatusNotification(FirmwareStatusNotification),
+    GetCompositeSchedule(GetCompositeSchedule),
+    GetConfiguration(GetConfiguration),
+    GetDiagnostics(GetDiagnostics),
+    GetInstalledCertificateIds(GetInstalledCertificateIds),
+    GetLocalListVersion(GetLocalListVersion),
+    GetLog(GetLog),
+    Heartbeat(Heartbeat),
+    InstallCertificate(InstallCertificate),
+    LogStatusNotification(LogStatusNotification),
+    MeterValues(MeterValues),
+    RemoteStartTransaction(RemoteStartTransaction),
+    RemoteStopTransaction(RemoteStopTransaction),
+    ReserveNow(ReserveNow),
+    Reset(Reset),
+    SecurityEventNotification(SecurityEventNotification),
+    SendLocalList(SendLocalList),
+    SetChargingProfile(SetChargingProfile),
+    SignCertificate(SignCertificate),
+    SignedFirmwareStatusNotification(SignedFirmwareStatusNotification),
+    SignedUpdateFirmware(SignedUpdateFirmware),
+    StartTransaction(StartTransaction),
+    StatusNotification(StatusNotification),
+    StopTransaction(StopTransaction),
+    TriggerMessage(TriggerMessage),
+}
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct CallResult	 {
+    pub unique_id: String,
+    pub payload: Result,
+}
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct Authorize {
-    id_tag_info: IdTagInfo,
+    pub id_tag_info: IdTagInfo,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct BootNotification {
-    current_time: String,
-    interval: i32,
-    status: RegistrationStatus,
+    pub current_time: String,
+    pub interval: i32,
+    pub status: RegistrationStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct DiagnosticsStatusNotification {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct FirmwareStatusNotification {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct Heartbeat {
-    current_time: String,
+    pub current_time: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct LogStatusNotification {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SecurityEventNotification {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SignCertificate {
-    status: GenericStatus,
+    pub status: GenericStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct MeterValues {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct StartTransaction {
-    transaction_id: i32,
-    id_tag_info: IdTagInfo,
+    pub transaction_id: i32,
+    pub id_tag_info: IdTagInfo,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct StatusNotification {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
-    id_tag_info: Option<IdTagInfo>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id_tag_info: Option<IdTagInfo>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct CancelReservation {
-    status: CancelReservationStatus,
+    pub status: CancelReservationStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct CertificateSigned {
-    status: CertificateSignedStatus,
+    pub status: CertificateSignedStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ChangeAvailability {
-    status: AvailabilityStatus,
+    pub status: AvailabilityStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ChangeConfiguration {
-    status: ConfigurationStatus,
+    pub status: ConfigurationStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ClearCache {
-    status: ClearCacheStatus,
+    pub status: ClearCacheStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ClearChargingProfile {
-    status: ClearChargingProfileStatus,
+    pub status: ClearChargingProfileStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct DeleteCertificate {
-    status: DeleteCertificateStatus,
+    pub status: DeleteCertificateStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ExtendedTriggerMessage {
-    status: TriggerMessageStatus,
+    pub status: TriggerMessageStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetInstalledCertificateIds {
-    status: GetInstalledCertificateStatus,
-    certificate_hash_data: Option<Vec<String>>,
+    pub status: GetInstalledCertificateStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub certificate_hash_data: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetCompositeSchedule {
-    status: GetCompositeScheduleStatus,
-    connector_id: Option<i32>,
-    schedule_start: Option<String>,
-    charging_schedule: Option<HashMap<String, String>>,
+    pub status: GetCompositeScheduleStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connector_id: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub schedule_start: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub charging_schedule: Option<HashMap<String, String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetConfiguration {
-    configuration_key: Option<Vec<String>>,
-    unknown_key: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub configuration_key: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unknown_key: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetDiagnostics {
-    file_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub file_name: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetLocalListVersion {
-    list_version: i32,
+    pub list_version: i32,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct GetLog {
-    status: LogStatus,
-    filename: Option<String>,
+    pub status: LogStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub filename: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct InstallCertificate {
-    status: CertificateStatus,
+    pub status: CertificateStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct RemoteStartTransaction {
-    status: RemoteStartStopStatus,
+    pub status: RemoteStartStopStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct RemoteStopTransaction {
-    status: RemoteStartStopStatus,
+    pub status: RemoteStartStopStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct ReserveNow {
-    status: ReservationStatus,
+    pub status: ReservationStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct Reset {
-    status: ResetStatus,
+    pub status: ResetStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SendLocalList {
-    status: UpdateStatus,
+    pub status: UpdateStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SetChargingProfile {
-    status: ChargingProfileStatus,
+    pub status: ChargingProfileStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SignedFirmwareStatusNotification {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct SignedUpdateFirmware {
-    status: UpdateFirmwareStatus,
+    pub status: UpdateFirmwareStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct TriggerMessage {
-    status: TriggerMessageStatus,
+    pub status: TriggerMessageStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct UnlockConnector {
-    status: UnlockStatus,
+    pub status: UnlockStatus,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct UpdateFirmware {}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
 pub struct DataTransfer {
-    status: DataTransferStatus,
-    data: Option<String>,
+    pub status: DataTransferStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data: Option<String>,
 }
