@@ -2,10 +2,10 @@ use ocpp_rs::v16::parse::{parse, Message};
 use ocpp_rs::v16::call::{Action, BootNotification, Call};
 
 #[test]
-fn test_parse() {
+fn test_parse_boot_notification() {
     let data = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
     let message = parse(data).unwrap();
-    println!("{:?}", message);
+    println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call {
         unique_id: "19223201".to_string(),
@@ -27,3 +27,4 @@ fn test_parse() {
         _ => panic!("Unexpected message type"),
     }
 }
+
