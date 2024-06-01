@@ -25,11 +25,11 @@ use super::enums::{
 use super::data_types::IdTagInfo;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use strum_macros::EnumString;
+use strum_macros::AsRefStr;
 use serde_tuple::*;
 
 
-#[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum Result {
     Authorize(Authorize),
@@ -74,8 +74,19 @@ pub enum Result {
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CallResult	 {
+    pub(super) message_id: i32,
     pub unique_id: String,
     pub payload: Result,
+}
+
+impl CallResult {
+    pub fn new(unique_id: String, payload: Result) -> Self {
+        Self {
+            message_id: 3,
+            unique_id,
+            payload,
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
