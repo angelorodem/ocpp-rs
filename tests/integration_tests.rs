@@ -1,10 +1,10 @@
-use ocpp_rs::v16::parse::{parse, Message};
+use ocpp_rs::v16::parse::{to_message, Message};
 use ocpp_rs::v16::call::{Action, BootNotification, Call};
 
 #[test]
 fn test_parse_boot_notification() {
     let data = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-    let message = parse(data).unwrap();
+    let message = to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call {

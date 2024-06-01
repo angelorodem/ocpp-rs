@@ -26,6 +26,8 @@ use super::data_types::IdTagInfo;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum_macros::EnumString;
+use serde_tuple::*;
+
 
 #[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
@@ -69,7 +71,7 @@ pub enum Result {
     TriggerMessage(TriggerMessage),
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CallResult	 {
     pub unique_id: String,
@@ -85,7 +87,9 @@ pub struct Authorize {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct BootNotification {
+    /// ISO 8601 timestamp
     pub current_time: String,
+    /// Interval in seconds
     pub interval: i32,
     pub status: RegistrationStatus,
 }

@@ -13,7 +13,7 @@ pub enum Message {
     CallError(CallError),
 }
 
-pub fn parse(data: &str) -> Result<Message> {
+pub fn to_message(data: &str) -> Result<Message> {
     
     let v: Vec<serde_json::Value> = serde_json::from_str(data)?;
 
@@ -49,7 +49,21 @@ pub fn parse(data: &str) -> Result<Message> {
         _ => Err(serde_json::Error::custom("Invalid message type")),
         
     }
+}
 
-    
-    
+pub fn from_message(message: &Message) -> Result<String> {
+    match message {
+        Message::Call(call) => {
+            let v = serde_json::to_value(call)?;
+            Ok(v.to_string())
+        }
+        Message::CallResult(call_result) => {
+            let v = serde_json::to_value(call_result)?;
+            Ok(v.to_string())
+        }
+        Message::CallError(call_error) => {
+            let v = serde_json::to_value(call_error)?;
+            Ok(v.to_string())
+        }
+    }
 }
