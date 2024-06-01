@@ -31,7 +31,7 @@ use serde_tuple::*;
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
-pub enum Result {
+pub enum ResultPayload {
     Authorize(Authorize),
     BootNotification(BootNotification),
     CancelReservation(CancelReservation),
@@ -76,11 +76,11 @@ pub enum Result {
 pub struct CallResult	 {
     pub(super) message_id: i32,
     pub unique_id: String,
-    pub payload: Result,
+    pub payload: ResultPayload,
 }
 
 impl CallResult {
-    pub fn new(unique_id: String, payload: Result) -> Self {
+    pub fn new(unique_id: String, payload: ResultPayload) -> Self {
         Self {
             message_id: 3,
             unique_id,

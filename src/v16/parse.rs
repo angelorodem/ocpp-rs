@@ -17,8 +17,8 @@ pub fn to_message(data: &str) -> Result<Message> {
 
     let v: Vec<serde_json::Value> = serde_json::from_str(data)?;
 
-    #[cfg(debug_assertions)]
-    println!("Input payload: {:?}\n", v[3]);
+    // #[cfg(debug_assertions)]
+    // println!("Input payload: {:?}\n", v[3]);
 
     match v[0].as_i64() {
         Some(2) => {
