@@ -4,15 +4,17 @@ use super::enums::{
     MessageTrigger, Reason, ResetType, UpdateType, UploadLogStatus,
 };
 use chrono::{DateTime, Utc};
+use serde::de::SeqAccess;
+use serde::Deserializer;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use strum_macros::EnumString;
 use serde_tuple::*;
 use super::utils::{iso8601_date_time_optional,iso8601_date_time};
 
+use std::collections::HashMap;
+use strum_macros::AsRefStr;
 
 // Call action enum
-#[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum Action {
@@ -57,12 +59,24 @@ pub enum Action {
     UpdateFirmware(UpdateFirmware),
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Call {
+    pub(super) message_id: i32,
     pub unique_id: String,
     pub action: String,
     pub payload: Action,
+}
+
+impl Call {
+    pub fn new(unique_id: String, action: String, payload: Action) -> Self {
+        Self {
+            message_id: 2,
+            unique_id,
+            action,
+            payload,
+        }
+    }
 }
 
 //////////////////////////// Call structs ////////////////////////////
@@ -405,4 +419,371 @@ pub struct DataTransfer {
     pub message_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
+}
+
+
+impl<'de> Deserialize<'de> for Call {
+    /// We need to manually implement the deserialization of the Call struct because the payload
+    /// which has some variant types cannot be deserialized automatically, like Heartbeat and ClearCache which are empty structs.
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct MyVisitor;
+
+        impl<'de> serde::de::Visitor<'de> for MyVisitor {
+            type Value = Call;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                formatter.write_str("a sequence with at least two elements")
+            }
+
+            fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+            where
+                A: SeqAccess<'de>,
+            {
+                let _message_id: i32 = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(0, &self))?;
+                let unique_id: String = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(1, &self))?;
+                let action: String = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(2, &self))?;
+                let payload: serde_json::Value = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+
+                match action.as_str() {
+                    "Authorize" => {
+                        let data: Authorize =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::Authorize(data)))
+                    }
+                    "BootNotification" => {
+                        let data: BootNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::BootNotification(data)))
+                    }
+                    "CancelReservation" => {
+                        let data: CancelReservation =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::CancelReservation(data),
+                        ))
+                    }
+                    "CertificateSigned" => {
+                        let data: CertificateSigned =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::CertificateSigned(data),
+                        ))
+                    }
+                    "ChangeAvailability" => {
+                        let data: ChangeAvailability =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::ChangeAvailability(data),
+                        ))
+                    }
+                    "ChangeConfiguration" => {
+                        let data: ChangeConfiguration =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::ChangeConfiguration(data),
+                        ))
+                    }
+                    "ClearCache" => {
+                        let data: ClearCache =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::ClearCache(data)))
+                    }
+                    "ClearChargingProfile" => {
+                        let data: ClearChargingProfile =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::ClearChargingProfile(data),
+                        ))
+                    }
+                    "DataTransfer" => {
+                        let data: DataTransfer =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::DataTransfer(data)))
+                    }
+                    "DeleteCertificate" => {
+                        let data: DeleteCertificate =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::DeleteCertificate(data),
+                        ))
+                    }
+                    "DiagnosticsStatusNotification" => {
+                        let data: DiagnosticsStatusNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::DiagnosticsStatusNotification(data),
+                        ))
+                    }
+                    "ExtendedTriggerMessage" => {
+                        let data: ExtendedTriggerMessage =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::ExtendedTriggerMessage(data),
+                        ))
+                    }
+                    "FirmwareStatusNotification" => {
+                        let data: FirmwareStatusNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::FirmwareStatusNotification(data),
+                        ))
+                    }
+                    "GetCompositeSchedule" => {
+                        let data: GetCompositeSchedule =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::GetCompositeSchedule(data),
+                        ))
+                    }
+                    "GetConfiguration" => {
+                        let data: GetConfiguration =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::GetConfiguration(data)))
+                    }
+                    "GetDiagnostics" => {
+                        let data: GetDiagnostics =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::GetDiagnostics(data)))
+                    }
+                    "GetInstalledCertificateIds" => {
+                        let data: GetInstalledCertificateIds =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::GetInstalledCertificateIds(data),
+                        ))
+                    }
+                    "GetLocalListVersion" => {
+                        let data: GetLocalListVersion =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::GetLocalListVersion(data),
+                        ))
+                    }
+                    "GetLog" => {
+                        let data: GetLog =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::GetLog(data)))
+                    }
+                    "Heartbeat" => {
+                        let data: Heartbeat =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::Heartbeat(data)))
+                    }
+                    "InstallCertificate" => {
+                        let data: InstallCertificate =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::InstallCertificate(data),
+                        ))
+                    }
+                    "LogStatusNotification" => {
+                        let data: LogStatusNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::LogStatusNotification(data),
+                        ))
+                    }
+                    "MeterValues" => {
+                        let data: MeterValues =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::MeterValues(data)))
+                    }
+                    "RemoteStartTransaction" => {
+                        let data: RemoteStartTransaction =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::RemoteStartTransaction(data),
+                        ))
+                    }
+                    "RemoteStopTransaction" => {
+                        let data: RemoteStopTransaction =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::RemoteStopTransaction(data),
+                        ))
+                    }
+                    "ReserveNow" => {
+                        let data: ReserveNow =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::ReserveNow(data)))
+                    }
+                    "Reset" => {
+                        let data: Reset =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::Reset(data)))
+                    }
+                    "SecurityEventNotification" => {
+                        let data: SecurityEventNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::SecurityEventNotification(data),
+                        ))
+                    }
+                    "SendLocalList" => {
+                        let data: SendLocalList =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::SendLocalList(data)))
+                    }
+                    "SetChargingProfile" => {
+                        let data: SetChargingProfile =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::SetChargingProfile(data),
+                        ))
+                    }
+                    "SignCertificate" => {
+                        let data: SignCertificate =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::SignCertificate(data)))
+                    }
+                    "SignedFirmwareStatusNotification" => {
+                        let data: SignedFirmwareStatusNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::SignedFirmwareStatusNotification(data),
+                        ))
+                    }
+                    "SignedUpdateFirmware" => {
+                        let data: SignedUpdateFirmware =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::SignedUpdateFirmware(data),
+                        ))
+                    }
+                    "StartTransaction" => {
+                        let data: StartTransaction =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::StartTransaction(data)))
+                    }
+                    "StatusNotification" => {
+                        let data: StatusNotification =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(
+                            unique_id,
+                            action,
+                            Action::StatusNotification(data),
+                        ))
+                    }
+                    "StopTransaction" => {
+                        let data: StopTransaction =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::StopTransaction(data)))
+                    }
+                    "TriggerMessage" => {
+                        let data: TriggerMessage =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::TriggerMessage(data)))
+                    }
+                    "UnlockConnector" => {
+                        let data: UnlockConnector =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::UnlockConnector(data)))
+                    }
+                    "UpdateFirmware" => {
+                        let data: UpdateFirmware =
+                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        Ok(Call::new(unique_id, action, Action::UpdateFirmware(data)))
+                    }
+
+                    _ => Err(serde::de::Error::unknown_variant(
+                        &action,
+                        &[
+                            "Authorize",
+                            "BootNotification",
+                            "CancelReservation",
+                            "CertificateSigned",
+                            "ChangeAvailability",
+                            "ChangeConfiguration",
+                            "ClearCache",
+                            "ClearChargingProfile",
+                            "DataTransfer",
+                            "DeleteCertificate",
+                            "DiagnosticsStatusNotification",
+                            "ExtendedTriggerMessage",
+                            "FirmwareStatusNotification",
+                            "GetCompositeSchedule",
+                            "GetConfiguration",
+                            "GetDiagnostics",
+                            "GetInstalledCertificateIds",
+                            "GetLocalListVersion",
+                            "GetLog",
+                            "Heartbeat",
+                            "InstallCertificate",
+                            "LogStatusNotification",
+                            "MeterValues",
+                            "RemoteStartTransaction",
+                            "RemoteStopTransaction",
+                            "ReserveNow",
+                            "Reset",
+                            "SecurityEventNotification",
+                            "SendLocalList",
+                            "SetChargingProfile",
+                            "SignCertificate",
+                            "SignedFirmwareStatusNotification",
+                            "SignedUpdateFirmware",
+                            "StartTransaction",
+                            "StatusNotification",
+                            "StopTransaction",
+                            "TriggerMessage",
+                            "UnlockConnector",
+                            "UpdateFirmware",
+                        ],
+                    )),
+                }
+            }
+        }
+
+        deserializer.deserialize_seq(MyVisitor)
+    }
 }

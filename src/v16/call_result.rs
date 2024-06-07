@@ -26,14 +26,14 @@ use super::data_types::IdTagInfo;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use strum_macros::EnumString;
+use strum_macros::AsRefStr;
 use serde_tuple::*;
 use super::utils::iso8601_date_time;
 
 
-#[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
-pub enum Result {
+pub enum ResultPayload {
     Authorize(Authorize),
     BootNotification(BootNotification),
     CancelReservation(CancelReservation),
@@ -76,8 +76,19 @@ pub enum Result {
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CallResult	 {
+    pub(super) message_id: i32,
     pub unique_id: String,
-    pub payload: Result,
+    pub payload: ResultPayload,
+}
+
+impl CallResult {
+    pub fn new(unique_id: String, payload: ResultPayload) -> Self {
+        Self {
+            message_id: 3,
+            unique_id,
+            payload,
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
