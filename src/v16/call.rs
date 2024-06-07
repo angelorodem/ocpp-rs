@@ -3,10 +3,13 @@ use super::enums::{
     ChargingProfilePurposeType, ChargingRateUnitType, DiagnosticsStatus, FirmwareStatus, Log,
     MessageTrigger, Reason, ResetType, UpdateType, UploadLogStatus,
 };
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum_macros::EnumString;
 use serde_tuple::*;
+use super::utils::{iso8601_date_time_optional,iso8601_date_time};
+
 
 // Call action enum
 #[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
@@ -147,9 +150,11 @@ pub struct GetDiagnostics {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub retry_interval: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub start_time: Option<String>,
+    #[serde(with = "iso8601_date_time_optional")]
+    pub start_time: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub stop_time: Option<String>,
+    #[serde(with = "iso8601_date_time_optional")]
+    pub stop_time: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -329,7 +334,8 @@ pub struct MeterValues {
 pub struct SecurityEventNotification {
     #[serde(rename = "type")]
     pub event_type: String,
-    pub timestamp: String,
+    #[serde(with = "iso8601_date_time")]
+    pub timestamp: DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tech_info: Option<String>,
 }
@@ -353,7 +359,8 @@ pub struct StartTransaction {
     pub connector_id: i32,
     pub id_tag: String,
     pub meter_start: i32,
-    pub timestamp: String,
+    #[serde(with = "iso8601_date_time")]
+    pub timestamp: DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reservation_id: Option<i32>,
 }
@@ -362,7 +369,8 @@ pub struct StartTransaction {
 #[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
     pub meter_stop: i32,
-    pub timestamp: String,
+    #[serde(with = "iso8601_date_time")]
+    pub timestamp: DateTime<Utc>,
     pub transaction_id: i32,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reason: Option<Reason>,
@@ -379,7 +387,8 @@ pub struct StatusNotification {
     pub error_code: ChargePointErrorCode,
     pub status: ChargePointStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub timestamp: Option<String>,
+    #[serde(with = "iso8601_date_time_optional")]
+    pub timestamp: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub info: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

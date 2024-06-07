@@ -3,7 +3,6 @@ use super::enums::{
     ChargingProfileKindType,
     ChargingProfilePurposeType,
     ChargingRateUnitType,
-    CiStringType,
     HashAlgorithm,
     Location,
     Measurand,
@@ -16,12 +15,14 @@ use super::enums::{
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use super::utils::{iso8601_date_time_optional,iso8601_date_time};
 
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct IdTagInfo {
     /// Optional. This contains the date at which idTag should be removed from the Authorization Cache.
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
     pub expiry_date: Option<DateTime<Utc>>,
     /// Optional. This contains the parent-identifier. IdToken
     #[validate(length(min = 1, max = 20))]
@@ -62,6 +63,7 @@ pub struct ChargingSchedule {
     pub duration: Option<i32>,
     /// Optional. Starting point of an absolute schedule. If absent the schedule will be relative to start of charging.
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
     pub start_schedule: Option<DateTime<Utc>>,
     /// Required. The unit of measure Limit is expressed in.
     pub charging_rate_unit: ChargingRateUnitType,
@@ -84,7 +86,9 @@ pub struct ChargingProfile {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub recurrency_kind: Option<RecurrencyKind>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
     pub valid_from: Option<DateTime<Utc>>,
+    #[serde(with = "iso8601_date_time_optional")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub valid_to: Option<DateTime<Utc>>,
     pub charging_schedule: ChargingSchedule,
@@ -133,6 +137,7 @@ pub struct SampledValue {
 #[serde(rename_all = "camelCase")]
 pub struct MeterValue {
     /// Required. Timestamp for measured value(s).
+    #[serde(with = "iso8601_date_time")]
     pub timestamp: DateTime<Utc>,
     /// Required. One or more measured values
     pub sampled_value: Vec<SampledValue>,
@@ -160,8 +165,10 @@ pub struct CertificateHashData {
 #[serde(rename_all = "camelCase")]
 pub struct Firmware {
     pub location: String,
+    #[serde(with = "iso8601_date_time")]
     pub retrieve_date_time: DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
     pub install_date_time: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signing_certificate: Option<String>,
@@ -175,7 +182,9 @@ pub struct Firmware {
 pub struct LogParameters {
     pub remote_location: String,
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
     pub oldest_timestamp: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
     pub latest_timestamp: Option<DateTime<Utc>>,
 }

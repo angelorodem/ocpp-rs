@@ -23,10 +23,12 @@ use super::enums::{
     UpdateStatus,
 };
 use super::data_types::IdTagInfo;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum_macros::EnumString;
 use serde_tuple::*;
+use super::utils::iso8601_date_time;
 
 
 #[derive(EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
@@ -88,7 +90,8 @@ pub struct Authorize {
 #[serde(rename_all = "camelCase")]
 pub struct BootNotification {
     /// ISO 8601 timestamp
-    pub current_time: String,
+    #[serde(with = "iso8601_date_time")]
+    pub current_time: DateTime<Utc>,
     /// Interval in seconds
     pub interval: i32,
     pub status: RegistrationStatus,
@@ -105,7 +108,8 @@ pub struct FirmwareStatusNotification {}
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Heartbeat {
-    pub current_time: String,
+    #[serde(with = "iso8601_date_time")]
+    pub current_time: DateTime<Utc>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
