@@ -17,6 +17,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
+//TODO: Check if this expiry date is serialized to the iso format
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct IdTagInfo {

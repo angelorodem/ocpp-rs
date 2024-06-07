@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use strum_macros::AsRefStr;
+use strum_macros::{AsRefStr, EnumString};
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum AuthorizationStatus {
@@ -103,7 +103,7 @@ pub enum ChargePointErrorCode {
     WeakSignal,
 }
 
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ChargePointStatus {
     /// When a Connector becomes available for a new user (Operative)
     #[default]
