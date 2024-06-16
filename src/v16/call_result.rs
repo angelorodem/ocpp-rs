@@ -27,7 +27,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum_macros::AsRefStr;
-use serde_tuple::*;
+use serde_tuple::{Serialize_tuple, Deserialize_tuple};
 use super::utils::iso8601_date_time;
 
 

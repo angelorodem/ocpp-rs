@@ -1,5 +1,5 @@
 use serde_json::Value;
-use serde_tuple::*;
+use serde_tuple::{Serialize_tuple, Deserialize_tuple};
 
 
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]

@@ -7,11 +7,12 @@ use chrono::{DateTime, Utc};
 use serde::de::SeqAccess;
 use serde::Deserializer;
 use serde::{Deserialize, Serialize};
-use serde_tuple::*;
+use serde_tuple::Serialize_tuple;
 use super::utils::{iso8601_date_time_optional,iso8601_date_time};
 
 use std::collections::HashMap;
 use strum_macros::AsRefStr;
+use rand::Rng;
 
 // Call action enum
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
@@ -69,7 +70,12 @@ pub struct Call {
 }
 
 impl Call {
-    pub fn new(unique_id: String, action: String, payload: Action) -> Self {
+    pub fn new(unique_id: Option<String>, action: String, payload: Action) -> Self {
+        let unique_id = unique_id.unwrap_or_else(|| {
+            let mut rng = rand::thread_rng();
+            rng.gen::<u32>().to_string()
+        });
+
         Self {
             message_id: 2,
             unique_id,
@@ -96,7 +102,7 @@ pub struct CertificateSigned {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ChangeAvailability {
-    pub connector_id: i32,
+    pub connector_id: u32,
     #[serde(rename = "type")]
     pub availability_type: AvailabilityType,
 }
@@ -142,7 +148,7 @@ pub struct ExtendedTriggerMessage {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetCompositeSchedule {
-    pub connector_id: i32,
+    pub connector_id: u32,
     pub duration: i32,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub charging_rate_unit: Option<ChargingRateUnitType>,
@@ -219,7 +225,7 @@ pub struct RemoteStopTransaction {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ReserveNow {
-    pub connector_id: i32,
+    pub connector_id: u32,
     pub expiry_date: String,
     pub id_tag: String,
     pub reservation_id: i32,
@@ -245,7 +251,7 @@ pub struct SendLocalList {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SetChargingProfile {
-    pub connector_id: i32,
+    pub connector_id: u32,
     pub cs_charging_profiles: HashMap<String, String>,
 }
 
@@ -265,13 +271,13 @@ pub struct SignedUpdateFirmware {
 pub struct TriggerMessage {
     pub requested_message: MessageTrigger,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub connector_id: Option<i32>,
+    pub connector_id: Option<u32>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UnlockConnector {
-    pub connector_id: i32,
+    pub connector_id: u32,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -338,7 +344,7 @@ pub struct LogStatusNotification {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValues {
-    pub connector_id: i32,
+    pub connector_id: u32,
     pub meter_value: Vec<String>,
     pub transaction_id: Option<i32>,
 }
@@ -370,9 +376,9 @@ pub struct SignedFirmwareStatusNotification {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StartTransaction {
-    pub connector_id: i32,
+    pub connector_id: u32,
     pub id_tag: String,
-    pub meter_start: i32,
+    pub meter_start: u32,
     #[serde(with = "iso8601_date_time")]
     pub timestamp: DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -397,7 +403,7 @@ pub struct StopTransaction {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StatusNotification {
-    pub connector_id: i32,
+    pub connector_id: u32,
     pub error_code: ChargePointErrorCode,
     pub status: ChargePointStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -459,18 +465,18 @@ impl<'de> Deserialize<'de> for Call {
                     "Authorize" => {
                         let data: Authorize =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::Authorize(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::Authorize(data)))
                     }
                     "BootNotification" => {
                         let data: BootNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::BootNotification(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::BootNotification(data)))
                     }
                     "CancelReservation" => {
                         let data: CancelReservation =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::CancelReservation(data),
                         ))
@@ -479,7 +485,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: CertificateSigned =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::CertificateSigned(data),
                         ))
@@ -488,7 +494,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: ChangeAvailability =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::ChangeAvailability(data),
                         ))
@@ -497,7 +503,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: ChangeConfiguration =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::ChangeConfiguration(data),
                         ))
@@ -505,13 +511,13 @@ impl<'de> Deserialize<'de> for Call {
                     "ClearCache" => {
                         let data: ClearCache =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::ClearCache(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::ClearCache(data)))
                     }
                     "ClearChargingProfile" => {
                         let data: ClearChargingProfile =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::ClearChargingProfile(data),
                         ))
@@ -519,13 +525,13 @@ impl<'de> Deserialize<'de> for Call {
                     "DataTransfer" => {
                         let data: DataTransfer =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::DataTransfer(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::DataTransfer(data)))
                     }
                     "DeleteCertificate" => {
                         let data: DeleteCertificate =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::DeleteCertificate(data),
                         ))
@@ -534,7 +540,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: DiagnosticsStatusNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::DiagnosticsStatusNotification(data),
                         ))
@@ -543,7 +549,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: ExtendedTriggerMessage =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::ExtendedTriggerMessage(data),
                         ))
@@ -552,7 +558,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: FirmwareStatusNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::FirmwareStatusNotification(data),
                         ))
@@ -561,7 +567,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: GetCompositeSchedule =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::GetCompositeSchedule(data),
                         ))
@@ -569,18 +575,18 @@ impl<'de> Deserialize<'de> for Call {
                     "GetConfiguration" => {
                         let data: GetConfiguration =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::GetConfiguration(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::GetConfiguration(data)))
                     }
                     "GetDiagnostics" => {
                         let data: GetDiagnostics =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::GetDiagnostics(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::GetDiagnostics(data)))
                     }
                     "GetInstalledCertificateIds" => {
                         let data: GetInstalledCertificateIds =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::GetInstalledCertificateIds(data),
                         ))
@@ -589,7 +595,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: GetLocalListVersion =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::GetLocalListVersion(data),
                         ))
@@ -597,18 +603,18 @@ impl<'de> Deserialize<'de> for Call {
                     "GetLog" => {
                         let data: GetLog =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::GetLog(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::GetLog(data)))
                     }
                     "Heartbeat" => {
                         let data: Heartbeat =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::Heartbeat(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::Heartbeat(data)))
                     }
                     "InstallCertificate" => {
                         let data: InstallCertificate =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::InstallCertificate(data),
                         ))
@@ -617,7 +623,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: LogStatusNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::LogStatusNotification(data),
                         ))
@@ -625,13 +631,13 @@ impl<'de> Deserialize<'de> for Call {
                     "MeterValues" => {
                         let data: MeterValues =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::MeterValues(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::MeterValues(data)))
                     }
                     "RemoteStartTransaction" => {
                         let data: RemoteStartTransaction =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::RemoteStartTransaction(data),
                         ))
@@ -640,7 +646,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: RemoteStopTransaction =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::RemoteStopTransaction(data),
                         ))
@@ -648,18 +654,18 @@ impl<'de> Deserialize<'de> for Call {
                     "ReserveNow" => {
                         let data: ReserveNow =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::ReserveNow(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::ReserveNow(data)))
                     }
                     "Reset" => {
                         let data: Reset =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::Reset(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::Reset(data)))
                     }
                     "SecurityEventNotification" => {
                         let data: SecurityEventNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::SecurityEventNotification(data),
                         ))
@@ -667,13 +673,13 @@ impl<'de> Deserialize<'de> for Call {
                     "SendLocalList" => {
                         let data: SendLocalList =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::SendLocalList(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::SendLocalList(data)))
                     }
                     "SetChargingProfile" => {
                         let data: SetChargingProfile =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::SetChargingProfile(data),
                         ))
@@ -681,13 +687,13 @@ impl<'de> Deserialize<'de> for Call {
                     "SignCertificate" => {
                         let data: SignCertificate =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::SignCertificate(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::SignCertificate(data)))
                     }
                     "SignedFirmwareStatusNotification" => {
                         let data: SignedFirmwareStatusNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::SignedFirmwareStatusNotification(data),
                         ))
@@ -696,7 +702,7 @@ impl<'de> Deserialize<'de> for Call {
                         let data: SignedUpdateFirmware =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::SignedUpdateFirmware(data),
                         ))
@@ -704,13 +710,13 @@ impl<'de> Deserialize<'de> for Call {
                     "StartTransaction" => {
                         let data: StartTransaction =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::StartTransaction(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::StartTransaction(data)))
                     }
                     "StatusNotification" => {
                         let data: StatusNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
-                            unique_id,
+                            Some(unique_id),
                             action,
                             Action::StatusNotification(data),
                         ))
@@ -718,22 +724,22 @@ impl<'de> Deserialize<'de> for Call {
                     "StopTransaction" => {
                         let data: StopTransaction =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::StopTransaction(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::StopTransaction(data)))
                     }
                     "TriggerMessage" => {
                         let data: TriggerMessage =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::TriggerMessage(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::TriggerMessage(data)))
                     }
                     "UnlockConnector" => {
                         let data: UnlockConnector =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::UnlockConnector(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::UnlockConnector(data)))
                     }
                     "UpdateFirmware" => {
                         let data: UpdateFirmware =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(unique_id, action, Action::UpdateFirmware(data)))
+                        Ok(Call::new(Some(unique_id), action, Action::UpdateFirmware(data)))
                     }
 
                     _ => Err(serde::de::Error::unknown_variant(
