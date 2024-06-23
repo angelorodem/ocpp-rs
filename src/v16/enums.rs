@@ -543,7 +543,7 @@ pub enum ReadingContext {
     Trigger,
 }
 
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, Copy)]
 pub enum Reason {
     /// The transaction was stopped because of the authorization status in a StartTransaction.conf
     DeAuthorized,

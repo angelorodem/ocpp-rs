@@ -109,10 +109,11 @@ pub struct KeyValue {
     pub value: Option<String>,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct SampledValue {
-    /// Required. Value as a “Raw” (decimal) number or “SignedData”. Field Type is “string” to allow for digitally signed data readings. Decimal numeric values are also acceptable to allow fractional values for measurands such as Temperature and Current.
+    /// Required. Value as a “Raw” (decimal) number or “SignedData”. Field Type is “string” to allow for digitally signed data readings.
+    /// Decimal numeric values are also acceptable to allow fractional values for measurands such as Temperature and Current.
     pub value: String,
     /// Optional. Type of detail value: start, end or sample. Default = “Sample.Periodic”
     #[serde(skip_serializing_if = "Option::is_none")]

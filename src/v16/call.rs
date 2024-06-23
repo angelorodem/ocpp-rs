@@ -1,3 +1,4 @@
+use super::data_types::MeterValue;
 use super::enums::{
     AvailabilityType, CertificateUse, ChargePointErrorCode, ChargePointStatus,
     ChargingProfilePurposeType, ChargingRateUnitType, DiagnosticsStatus, FirmwareStatus, Log,
@@ -15,7 +16,7 @@ use strum_macros::AsRefStr;
 use rand::Rng;
 
 // Call action enum
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum Action {
@@ -60,7 +61,7 @@ pub enum Action {
     UpdateFirmware(UpdateFirmware),
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Serialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Call {
     pub(super) message_id: i32,
@@ -341,11 +342,11 @@ pub struct LogStatusNotification {
     pub request_id: i32,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValues {
     pub connector_id: u32,
-    pub meter_value: Vec<String>,
+    pub meter_value: Vec<MeterValue>,
     pub transaction_id: Option<i32>,
 }
 
@@ -385,10 +386,10 @@ pub struct StartTransaction {
     pub reservation_id: Option<i32>,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
-    pub meter_stop: i32,
+    pub meter_stop: u32,
     #[serde(with = "iso8601_date_time")]
     pub timestamp: DateTime<Utc>,
     pub transaction_id: i32,
@@ -397,7 +398,7 @@ pub struct StopTransaction {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id_tag: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub transaction_data: Option<Vec<String>>,
+    pub transaction_data: Option<Vec<MeterValue>>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]

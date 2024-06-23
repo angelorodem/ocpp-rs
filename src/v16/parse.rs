@@ -5,7 +5,7 @@ use super::call_result::CallResult;
 use serde::{de::Error, Deserialize, Serialize};
 use serde_json::Result;
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum Message {
     Call(Call),
