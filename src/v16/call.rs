@@ -125,7 +125,7 @@ pub struct ClearChargingProfile {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub connector_id: Option<i32>,
+    pub connector_id: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub charging_profile_purpose: Option<ChargingProfilePurposeType>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -143,7 +143,7 @@ pub struct DeleteCertificate {
 pub struct ExtendedTriggerMessage {
     pub requested_message: MessageTrigger,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub connector_id: Option<i32>,
+    pub connector_id: Option<u32>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -212,7 +212,7 @@ pub struct InstallCertificate {
 pub struct RemoteStartTransaction {
     pub id_tag: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub connector_id: Option<i32>,
+    pub connector_id: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub charging_profile: Option<HashMap<String, String>>,
 }
