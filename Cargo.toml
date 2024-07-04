@@ -1,7 +1,18 @@
 [package]
-name = "ocpp-rs"
-version = "0.1.13"
+authors = ["Angelo L. B. Rodem"]
+name = "ocpp_rs"
+version = "0.1.4"
 edition = "2021"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/angelorodem/ocpp-rs"
+homepage = "https://github.com/angelorodem/ocpp-rs"
+description = """
+Protocol implementation for Open Charge Point Protocol (OCPP) in Rust.
+"""
+categories = ["data-structures", "algorithms"]
+keywords = ["ocpp", "charger", "oca",  "eletric-vehicle", "ocpp16"]
+exclude = ["doc_imgs/", ".*"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
