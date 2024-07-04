@@ -66,7 +66,7 @@ pub enum CertificateUse {
     ManufacturerRootCertificate,
 }
 
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, EnumString)]
 pub enum ChargePointErrorCode {
     /// Failure to lock or unlock connector.
     ConnectorLockFailure,

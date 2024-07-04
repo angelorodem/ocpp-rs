@@ -379,7 +379,7 @@ pub struct SignedFirmwareStatusNotification {
 pub struct StartTransaction {
     pub connector_id: u32,
     pub id_tag: String,
-    pub meter_start: u32,
+    pub meter_start: u64,
     #[serde(with = "iso8601_date_time")]
     pub timestamp: DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -389,7 +389,7 @@ pub struct StartTransaction {
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
-    pub meter_stop: u32,
+    pub meter_stop: u64,
     #[serde(with = "iso8601_date_time")]
     pub timestamp: DateTime<Utc>,
     pub transaction_id: i32,
