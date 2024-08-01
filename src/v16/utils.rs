@@ -5,13 +5,6 @@ pub mod iso8601_date_time {
 
     static FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
 
-    // The signature of a serialize_with function must follow the pattern:
-    //
-    //    fn serialize<S>(&T, S) -> Result<S::Ok, S::Error>
-    //    where
-    //        S: Serializer
-    //
-    // although it may also be generic over the input types T.
     pub fn serialize<S>(
         date: &DateTime<Utc>,
         serializer: S,
@@ -23,13 +16,6 @@ pub mod iso8601_date_time {
         serializer.serialize_str(&s)
     }
 
-    // The signature of a deserialize_with function must follow the pattern:
-    //
-    //    fn deserialize<'de, D>(D) -> Result<T, D::Error>
-    //    where
-    //        D: Deserializer<'de>
-    //
-    // although it may also be generic over the output types T.
     pub fn deserialize<'de, D>(
         deserializer: D,
     ) -> Result<DateTime<Utc>, D::Error>
@@ -48,13 +34,6 @@ pub mod iso8601_date_time_optional {
 
     static FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
 
-    // The signature of a serialize_with function must follow the pattern:
-    //
-    //    fn serialize<S>(&T, S) -> Result<S::Ok, S::Error>
-    //    where
-    //        S: Serializer
-    //
-    // although it may also be generic over the input types T.
     pub fn serialize<S>(
         date: &Option<DateTime<Utc>>,
         serializer: S,
@@ -71,13 +50,6 @@ pub mod iso8601_date_time_optional {
         }
     }
 
-    // The signature of a deserialize_with function must follow the pattern:
-    //
-    //    fn deserialize<'de, D>(D) -> Result<T, D::Error>
-    //    where
-    //        D: Deserializer<'de>
-    //
-    // although it may also be generic over the output types T.
     pub fn deserialize<'de, D>(
         deserializer: D,
     ) -> Result<Option<DateTime<Utc>>, D::Error>
