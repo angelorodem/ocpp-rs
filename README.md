@@ -1,6 +1,6 @@
 # ocpp-rs
-Idiomatic implementation of OCPP 
+Idiomatic implementation of OCPP 1.6
 
-WIP
+- Used in production
+- Includes packet parsing
 
-Includes packet parsing
