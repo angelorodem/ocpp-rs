@@ -29,8 +29,10 @@ use std::collections::HashMap;
 use strum_macros::AsRefStr;
 use serde_tuple::{Serialize_tuple, Deserialize_tuple};
 use super::utils::iso8601_date_time;
+use arbitrary::Arbitrary;
 
 
+#[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum ResultPayload {
@@ -91,12 +93,27 @@ impl CallResult {
     }
 }
 
+impl Arbitrary<'_> for CallResult {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let unique_id = i32::arbitrary(u)?;
+        let payload = ResultPayload::arbitrary(u)?;
+
+        Ok(CallResult {
+            message_id: 3,
+            unique_id: unique_id.to_string(),
+            payload,
+        }) 
+    }
+}
+
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Authorize {
     pub id_tag_info: IdTagInfo,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct BootNotification {
@@ -108,14 +125,17 @@ pub struct BootNotification {
     pub status: RegistrationStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct DiagnosticsStatusNotification {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct FirmwareStatusNotification {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Heartbeat {
@@ -123,24 +143,29 @@ pub struct Heartbeat {
     pub current_time: DateTimeWrapper,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct LogStatusNotification {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SecurityEventNotification {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignCertificate {
     pub status: GenericStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValues {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StartTransaction {
@@ -148,10 +173,12 @@ pub struct StartTransaction {
     pub id_tag_info: IdTagInfo,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StatusNotification {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
@@ -159,54 +186,63 @@ pub struct StopTransaction {
     pub id_tag_info: Option<IdTagInfo>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct CancelReservation {
     pub status: CancelReservationStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct CertificateSigned {
     pub status: CertificateSignedStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ChangeAvailability {
     pub status: AvailabilityStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ChangeConfiguration {
     pub status: ConfigurationStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ClearCache {
     pub status: ClearCacheStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ClearChargingProfile {
     pub status: ClearChargingProfileStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct DeleteCertificate {
     pub status: DeleteCertificateStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ExtendedTriggerMessage {
     pub status: TriggerMessageStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetInstalledCertificateIds {
@@ -215,6 +251,7 @@ pub struct GetInstalledCertificateIds {
     pub certificate_hash_data: Option<Vec<String>>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetCompositeSchedule {
@@ -227,6 +264,7 @@ pub struct GetCompositeSchedule {
     pub charging_schedule: Option<HashMap<String, String>>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetConfiguration {
@@ -236,6 +274,7 @@ pub struct GetConfiguration {
     pub unknown_key: Option<Vec<String>>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetDiagnostics {
@@ -243,12 +282,14 @@ pub struct GetDiagnostics {
     pub file_name: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLocalListVersion {
     pub list_version: i32,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLog {
@@ -257,74 +298,87 @@ pub struct GetLog {
     pub filename: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct InstallCertificate {
     pub status: CertificateStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct RemoteStartTransaction {
     pub status: RemoteStartStopStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct RemoteStopTransaction {
     pub status: RemoteStartStopStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ReserveNow {
     pub status: ReservationStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Reset {
     pub status: ResetStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SendLocalList {
     pub status: UpdateStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SetChargingProfile {
     pub status: ChargingProfileStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignedFirmwareStatusNotification {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignedUpdateFirmware {
     pub status: UpdateFirmwareStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct TriggerMessage {
     pub status: TriggerMessageStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UnlockConnector {
     pub status: UnlockStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UpdateFirmware {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct DataTransfer {

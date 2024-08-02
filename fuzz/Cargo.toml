@@ -21,3 +21,10 @@ path = "fuzz_targets/valid_calls.rs"
 test = false
 doc = false
 bench = false
+
+[[bin]]
+name = "valid_call_result"
+path = "fuzz_targets/valid_call_result.rs"
+test = false
+doc = false
+bench = false
