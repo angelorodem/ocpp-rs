@@ -1,26 +1,6 @@
 use super::enums::{
-    AvailabilityStatus,
-    CancelReservationStatus,
-    CertificateSignedStatus,
-    CertificateStatus,
-    ChargingProfileStatus,
-    ClearCacheStatus,
-    ClearChargingProfileStatus,
-    ConfigurationStatus,
-    DataTransferStatus,
-    DeleteCertificateStatus,
     GenericStatus,
-    GetCompositeScheduleStatus,
-    GetInstalledCertificateStatus,
-    LogStatus,
-    RegistrationStatus,
-    RemoteStartStopStatus,
-    ReservationStatus,
-    ResetStatus,
-    TriggerMessageStatus,
     UnlockStatus,
-    UpdateFirmwareStatus,
-    UpdateStatus,
 };
 use super::data_types::IdTagInfo;
 use crate::v16::utils::DateTimeWrapper;
@@ -36,19 +16,10 @@ use arbitrary::Arbitrary;
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum ResultPayload {
+    GenericStatusResponse(GenericStatusResponse),
     Authorize(Authorize),
     BootNotification(BootNotification),
-    CancelReservation(CancelReservation),
-    CertificateSigned(CertificateSigned),
-    ChangeAvailability(ChangeAvailability),
-    ChangeConfiguration(ChangeConfiguration),
-    ClearCache(ClearCache),
-    ClearChargingProfile(ClearChargingProfile),
     DataTransfer(DataTransfer),
-    DeleteCertificate(DeleteCertificate),
-    DiagnosticsStatusNotification(DiagnosticsStatusNotification),
-    ExtendedTriggerMessage(ExtendedTriggerMessage),
-    FirmwareStatusNotification(FirmwareStatusNotification),
     GetCompositeSchedule(GetCompositeSchedule),
     GetConfiguration(GetConfiguration),
     GetDiagnostics(GetDiagnostics),
@@ -56,23 +27,9 @@ pub enum ResultPayload {
     GetLocalListVersion(GetLocalListVersion),
     GetLog(GetLog),
     Heartbeat(Heartbeat),
-    InstallCertificate(InstallCertificate),
-    LogStatusNotification(LogStatusNotification),
-    MeterValues(MeterValues),
-    RemoteStartTransaction(RemoteStartTransaction),
-    RemoteStopTransaction(RemoteStopTransaction),
-    ReserveNow(ReserveNow),
-    Reset(Reset),
-    SecurityEventNotification(SecurityEventNotification),
-    SendLocalList(SendLocalList),
-    SetChargingProfile(SetChargingProfile),
-    SignCertificate(SignCertificate),
-    SignedFirmwareStatusNotification(SignedFirmwareStatusNotification),
-    SignedUpdateFirmware(SignedUpdateFirmware),
     StartTransaction(StartTransaction),
-    StatusNotification(StatusNotification),
     StopTransaction(StopTransaction),
-    TriggerMessage(TriggerMessage),
+    EmptyResponse(EmptyResponse),
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
@@ -84,7 +41,8 @@ pub struct CallResult	 {
 }
 
 impl CallResult {
-    pub fn new(unique_id: String, payload: ResultPayload) -> Self {
+    #[must_use]
+    pub const fn new(unique_id: String, payload: ResultPayload) -> Self {
         Self {
             message_id: 3,
             unique_id,
@@ -98,7 +56,7 @@ impl Arbitrary<'_> for CallResult {
         let unique_id = i32::arbitrary(u)?;
         let payload = ResultPayload::arbitrary(u)?;
 
-        Ok(CallResult {
+        Ok(Self {
             message_id: 3,
             unique_id: unique_id.to_string(),
             payload,
@@ -122,18 +80,8 @@ pub struct BootNotification {
     pub current_time: DateTimeWrapper,
     /// Interval in seconds
     pub interval: i32,
-    pub status: RegistrationStatus,
+    pub status: GenericStatus,
 }
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct DiagnosticsStatusNotification {}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct FirmwareStatusNotification {}
 
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -146,24 +94,7 @@ pub struct Heartbeat {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
-pub struct LogStatusNotification {}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct SecurityEventNotification {}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct SignCertificate {
-    pub status: GenericStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct MeterValues {}
+pub struct EmptyResponse {}
 
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -176,11 +107,6 @@ pub struct StartTransaction {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
-pub struct StatusNotification {}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id_tag_info: Option<IdTagInfo>,
@@ -189,64 +115,15 @@ pub struct StopTransaction {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
-pub struct CancelReservation {
-    pub status: CancelReservationStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct CertificateSigned {
-    pub status: CertificateSignedStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct ChangeAvailability {
-    pub status: AvailabilityStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct ChangeConfiguration {
-    pub status: ConfigurationStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct ClearCache {
-    pub status: ClearCacheStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct ClearChargingProfile {
-    pub status: ClearChargingProfileStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct DeleteCertificate {
-    pub status: DeleteCertificateStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct ExtendedTriggerMessage {
-    pub status: TriggerMessageStatus,
+pub struct GenericStatusResponse {
+    pub status: GenericStatus,
 }
 
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetInstalledCertificateIds {
-    pub status: GetInstalledCertificateStatus,
+    pub status: GenericStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub certificate_hash_data: Option<Vec<String>>,
 }
@@ -255,7 +132,7 @@ pub struct GetInstalledCertificateIds {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetCompositeSchedule {
-    pub status: GetCompositeScheduleStatus,
+    pub status: GenericStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub connector_id: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -293,77 +170,9 @@ pub struct GetLocalListVersion {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLog {
-    pub status: LogStatus,
+    pub status: GenericStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub filename: Option<String>,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct InstallCertificate {
-    pub status: CertificateStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct RemoteStartTransaction {
-    pub status: RemoteStartStopStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct RemoteStopTransaction {
-    pub status: RemoteStartStopStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct ReserveNow {
-    pub status: ReservationStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct Reset {
-    pub status: ResetStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct SendLocalList {
-    pub status: UpdateStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct SetChargingProfile {
-    pub status: ChargingProfileStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct SignedFirmwareStatusNotification {}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct SignedUpdateFirmware {
-    pub status: UpdateFirmwareStatus,
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct TriggerMessage {
-    pub status: TriggerMessageStatus,
 }
 
 #[derive(Arbitrary)]
@@ -376,13 +185,8 @@ pub struct UnlockConnector {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
-pub struct UpdateFirmware {}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
 pub struct DataTransfer {
-    pub status: DataTransferStatus,
+    pub status: GenericStatus,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
 }

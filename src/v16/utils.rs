@@ -1,7 +1,6 @@
 use arbitrary::{self, Arbitrary};
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
-use validator::Validate;
 // New type pattern to implement Arbitrary for DateTime
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default, Copy)]
 pub struct DateTimeWrapper(pub DateTime<Utc>);

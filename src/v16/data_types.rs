@@ -1,16 +1,5 @@
 use super::enums::{
-    AuthorizationStatus,
-    ChargingProfileKindType,
-    ChargingProfilePurposeType,
-    ChargingRateUnitType,
-    HashAlgorithm,
-    Location,
-    Measurand,
-    Phase,
-    ReadingContext,
-    RecurrencyKind,
-    UnitOfMeasure,
-    ValueFormat,
+    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, GenericStatus, HashAlgorithm, Location, Measurand, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure, ValueFormat
 };
 use crate::v16::utils::DateTimeWrapper;
 use serde::{Deserialize, Serialize};
@@ -34,7 +23,7 @@ pub struct IdTagInfo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parent_id_tag: Option<String>,
     /// Required. This contains whether the idTag has been accepted or not by the Central System.
-    pub status: AuthorizationStatus,
+    pub status: GenericStatus,
 }
 
 #[derive(Arbitrary)]
