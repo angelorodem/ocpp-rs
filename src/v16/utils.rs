@@ -1,41 +1,70 @@
+use arbitrary::{self, Arbitrary};
+use serde::{Deserialize, Serialize};
+use chrono::{DateTime, Utc};
+use validator::Validate;
+// New type pattern to implement Arbitrary for DateTime
+#[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default, Copy)]
+pub struct DateTimeWrapper(pub DateTime<Utc>);
+
+impl Arbitrary<'_> for DateTimeWrapper {
+    fn arbitrary(u: &mut arbitrary::Unstructured) -> arbitrary::Result<Self> {
+        
+        Ok(DateTimeWrapper(DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z").unwrap().with_timezone(&chrono::Utc)))
+    }
+}
+
+// impl<T> Arbitrary<'_> for Vec<T> {
+//  fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+//         let len = u.int_in_range(0..100)?;
+//         let mut vec = Vec::with_capacity(len);
+//         for _ in 0..len {
+//             vec.push(T::arbitrary(u)?);
+//         }
+//         Ok(vec)
+//  }   
+// }
+
+
 // Serializer for serde that forces to be in the format of ISO8601
 pub mod iso8601_date_time {
     use chrono::{DateTime, Utc, NaiveDateTime};
     use serde::{self, Deserialize, Serializer, Deserializer};
+    use super::DateTimeWrapper;
 
     static FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
 
     pub fn serialize<S>(
-        date: &DateTime<Utc>,
+        date: &DateTimeWrapper,
         serializer: S,
     ) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
-        let s = format!("{}", date.format(FORMAT));
+        let s = format!("{}", date.0.format(FORMAT));
         serializer.serialize_str(&s)
     }
 
     pub fn deserialize<'de, D>(
         deserializer: D,
-    ) -> Result<DateTime<Utc>, D::Error>
+    ) -> Result<DateTimeWrapper, D::Error>
     where
         D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
         let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
-        Ok(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc))
+        Ok(DateTimeWrapper(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc)))
     }
 }
 
 pub mod iso8601_date_time_optional {
     use chrono::{DateTime, Utc, NaiveDateTime};
     use serde::{self, Deserialize, Serializer, Deserializer};
+    use super::DateTimeWrapper;
 
     static FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
 
     pub fn serialize<S>(
-        date: &Option<DateTime<Utc>>,
+        date: &Option<DateTimeWrapper>,
         serializer: S,
     ) -> Result<S::Ok, S::Error>
     where
@@ -43,7 +72,7 @@ pub mod iso8601_date_time_optional {
     {
         match date {
             Some(date) => {
-                let s = format!("{}", date.format(FORMAT));
+                let s = format!("{}", date.0.format(FORMAT));
                 serializer.serialize_str(&s)
             },
             None => serializer.serialize_none(),
@@ -52,7 +81,7 @@ pub mod iso8601_date_time_optional {
 
     pub fn deserialize<'de, D>(
         deserializer: D,
-    ) -> Result<Option<DateTime<Utc>>, D::Error>
+    ) -> Result<Option<DateTimeWrapper>, D::Error>
     where
         D: Deserializer<'de>,
     {
@@ -60,7 +89,7 @@ pub mod iso8601_date_time_optional {
         match opt {
             Some(s) => {
                 let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
-                Ok(Some(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc)))
+                Ok(Some(DateTimeWrapper(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc))))
             },
             None => Ok(None),
         }       

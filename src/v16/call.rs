@@ -4,7 +4,7 @@ use super::enums::{
     ChargingProfilePurposeType, ChargingRateUnitType, DiagnosticsStatus, FirmwareStatus, Log,
     MessageTrigger, Reason, ResetType, UpdateType, UploadLogStatus,
 };
-use chrono::{DateTime, Utc};
+use crate::v16::utils::DateTimeWrapper;
 use serde::de::SeqAccess;
 use serde::Deserializer;
 use serde::{Deserialize, Serialize};
@@ -15,7 +15,10 @@ use std::collections::HashMap;
 use strum_macros::AsRefStr;
 use rand::Rng;
 
+use arbitrary::Arbitrary;
+
 // Call action enum
+#[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
@@ -86,20 +89,38 @@ impl Call {
     }
 }
 
+impl Arbitrary<'_> for Call {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let unique_id = i32::arbitrary(u)?;
+        let payload = Action::arbitrary(u)?;
+        let action = payload.as_ref();
+
+        Ok(Call {
+            message_id: 2,
+            unique_id: unique_id.to_string(),
+            action: action.to_string(),
+            payload,
+        }) 
+    }
+}
+
 //////////////////////////// Call structs ////////////////////////////
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct CancelReservation {
     pub reservation_id: i32,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct CertificateSigned {
     pub certificate_chain: String,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ChangeAvailability {
@@ -108,6 +129,7 @@ pub struct ChangeAvailability {
     pub availability_type: AvailabilityType,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ChangeConfiguration {
@@ -115,10 +137,12 @@ pub struct ChangeConfiguration {
     pub value: String,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ClearCache {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ClearChargingProfile {
@@ -132,12 +156,14 @@ pub struct ClearChargingProfile {
     pub stack_level: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct DeleteCertificate {
     pub certificate_hash_data: HashMap<String, String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ExtendedTriggerMessage {
@@ -146,6 +172,7 @@ pub struct ExtendedTriggerMessage {
     pub connector_id: Option<u32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetCompositeSchedule {
@@ -155,6 +182,7 @@ pub struct GetCompositeSchedule {
     pub charging_rate_unit: Option<ChargingRateUnitType>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetConfiguration {
@@ -162,6 +190,7 @@ pub struct GetConfiguration {
     pub key: Option<Vec<String>>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetDiagnostics {
@@ -170,24 +199,29 @@ pub struct GetDiagnostics {
     pub retries: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub retry_interval: Option<i32>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub start_time: Option<DateTime<Utc>>,
+    pub start_time: Option<DateTimeWrapper>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub stop_time: Option<DateTime<Utc>>,
+    pub stop_time: Option<DateTimeWrapper>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetInstalledCertificateIds {
     pub certificate_type: CertificateUse,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLocalListVersion {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLog {
@@ -200,6 +234,7 @@ pub struct GetLog {
     pub retry_interval: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct InstallCertificate {
@@ -207,6 +242,7 @@ pub struct InstallCertificate {
     pub certificate: String,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct RemoteStartTransaction {
@@ -217,12 +253,14 @@ pub struct RemoteStartTransaction {
     pub charging_profile: Option<HashMap<String, String>>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct RemoteStopTransaction {
     pub transaction_id: i32,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct ReserveNow {
@@ -234,6 +272,7 @@ pub struct ReserveNow {
     pub parent_id_tag: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Reset {
@@ -241,6 +280,7 @@ pub struct Reset {
     pub reset_type: ResetType,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SendLocalList {
@@ -249,6 +289,7 @@ pub struct SendLocalList {
     pub local_authorization_list: Vec<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SetChargingProfile {
@@ -256,6 +297,7 @@ pub struct SetChargingProfile {
     pub cs_charging_profiles: HashMap<String, String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignedUpdateFirmware {
@@ -267,6 +309,7 @@ pub struct SignedUpdateFirmware {
     pub retry_interval: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct TriggerMessage {
@@ -275,12 +318,14 @@ pub struct TriggerMessage {
     pub connector_id: Option<u32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UnlockConnector {
     pub connector_id: u32,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UpdateFirmware {
@@ -292,12 +337,14 @@ pub struct UpdateFirmware {
     pub retry_interval: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Authorize {
     pub id_tag: String,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct BootNotification {
@@ -319,22 +366,26 @@ pub struct BootNotification {
     pub meter_type: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct DiagnosticsStatusNotification {
     pub status: DiagnosticsStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct FirmwareStatusNotification {
     pub status: FirmwareStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Heartbeat {}
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct LogStatusNotification {
@@ -342,6 +393,7 @@ pub struct LogStatusNotification {
     pub request_id: i32,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValues {
@@ -350,23 +402,26 @@ pub struct MeterValues {
     pub transaction_id: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SecurityEventNotification {
     #[serde(rename = "type")]
     pub event_type: String,
     #[serde(with = "iso8601_date_time")]
-    pub timestamp: DateTime<Utc>,
+    pub timestamp: DateTimeWrapper,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tech_info: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignCertificate {
     pub csr: String,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct SignedFirmwareStatusNotification {
@@ -374,6 +429,7 @@ pub struct SignedFirmwareStatusNotification {
     pub request_id: i32,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StartTransaction {
@@ -381,17 +437,18 @@ pub struct StartTransaction {
     pub id_tag: String,
     pub meter_start: u64,
     #[serde(with = "iso8601_date_time")]
-    pub timestamp: DateTime<Utc>,
+    pub timestamp: DateTimeWrapper,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reservation_id: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
     pub meter_stop: u64,
     #[serde(with = "iso8601_date_time")]
-    pub timestamp: DateTime<Utc>,
+    pub timestamp: DateTimeWrapper,
     pub transaction_id: i32,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reason: Option<Reason>,
@@ -401,15 +458,17 @@ pub struct StopTransaction {
     pub transaction_data: Option<Vec<MeterValue>>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StatusNotification {
     pub connector_id: u32,
     pub error_code: ChargePointErrorCode,
     pub status: ChargePointStatus,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub timestamp: Option<DateTime<Utc>>,
+    pub timestamp: Option<DateTimeWrapper>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub info: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -418,6 +477,7 @@ pub struct StatusNotification {
     pub vendor_error_code: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct DataTransfer {

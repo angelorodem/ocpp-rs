@@ -3,6 +3,7 @@ use ocpp_rs::v16::call::{*};
 use ocpp_rs::v16::data_types::{*};
 use ocpp_rs::v16::enums::{*};
 use ocpp_rs::v16::parse::{to_message, Message};
+use ocpp_rs::v16::utils::DateTimeWrapper;
 
 #[test]
 fn test_parse_boot_notification() {
@@ -58,11 +59,13 @@ fn test_status_notification() {
     let message = to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
+    let time = DateTimeWrapper(DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z").unwrap().with_timezone(&chrono::Utc));
+
     let action =  StatusNotification {
         connector_id: 1,
         error_code: ChargePointErrorCode::NoError,
         status: ChargePointStatus::Available,
-        timestamp: Some(DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z").unwrap().with_timezone(&chrono::Utc)),
+        timestamp: Some(time),
         ..Default::default()
     };
 

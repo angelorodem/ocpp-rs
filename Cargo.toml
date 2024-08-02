@@ -26,4 +26,4 @@ validator = { version = "0.18", features = ["derive"] }
 serde_tuple = "0.5"
 derive_more = "0.99"
 rand = "0.8"
-arbitrary = { version = "1", features = ["derive"] }
+arbitrary = {version = "1", features = ["derive"]}

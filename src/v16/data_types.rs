@@ -12,19 +12,23 @@ use super::enums::{
     UnitOfMeasure,
     ValueFormat,
 };
-use chrono::{DateTime, Utc};
+use crate::v16::utils::DateTimeWrapper;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use super::utils::{iso8601_date_time_optional,iso8601_date_time};
+use arbitrary::Arbitrary;
+
 
 //TODO: Check if this expiry date is serialized to the iso format
+#[derive(Arbitrary)]
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct IdTagInfo {
     /// Optional. This contains the date at which idTag should be removed from the Authorization Cache.
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub expiry_date: Option<DateTime<Utc>>,
+    pub expiry_date: Option<DateTimeWrapper>,
     /// Optional. This contains the parent-identifier. IdToken
     #[validate(length(min = 1, max = 20))]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -33,6 +37,7 @@ pub struct IdTagInfo {
     pub status: AuthorizationStatus,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct AuthorizationData {
@@ -44,6 +49,7 @@ pub struct AuthorizationData {
     pub id_tag_info: Option<IdTagInfo>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingSchedulePeriod {
@@ -56,6 +62,7 @@ pub struct ChargingSchedulePeriod {
     pub number_phases: Option<i32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingSchedule {
@@ -63,9 +70,10 @@ pub struct ChargingSchedule {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<i32>,
     /// Optional. Starting point of an absolute schedule. If absent the schedule will be relative to start of charging.
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub start_schedule: Option<DateTime<Utc>>,
+    pub start_schedule: Option<DateTimeWrapper>,
     /// Required. The unit of measure Limit is expressed in.
     pub charging_rate_unit: ChargingRateUnitType,
     /// Required. List of ChargingSchedulePeriod elements defining maximum power or current usage over time. The startSchedule of the first ChargingSchedulePeriod SHALL always be 0.
@@ -75,6 +83,7 @@ pub struct ChargingSchedule {
     pub min_charging_rate: Option<f32>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingProfile {
@@ -86,15 +95,18 @@ pub struct ChargingProfile {
     pub charging_profile_kind: ChargingProfileKindType,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub recurrency_kind: Option<RecurrencyKind>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub valid_from: Option<DateTime<Utc>>,
+    pub valid_from: Option<DateTimeWrapper>,
+    #[serde(default)]
     #[serde(with = "iso8601_date_time_optional")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub valid_to: Option<DateTime<Utc>>,
+    pub valid_to: Option<DateTimeWrapper>,
     pub charging_schedule: ChargingSchedule,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct KeyValue {
@@ -109,6 +121,7 @@ pub struct KeyValue {
     pub value: Option<String>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct SampledValue {
@@ -135,17 +148,19 @@ pub struct SampledValue {
     pub unit: Option<UnitOfMeasure>,
 }
 
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValue {
     /// Required. Timestamp for measured value(s).
     #[serde(with = "iso8601_date_time")]
-    pub timestamp: DateTime<Utc>,
+    pub timestamp: DateTimeWrapper,
     /// Required. One or more measured values
     pub sampled_value: Vec<SampledValue>,
 }
 
 // Not standard 1.6
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct CertificateHashData {
@@ -163,15 +178,17 @@ pub struct CertificateHashData {
 }
 
 // Not standard 1.6
+#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct Firmware {
     pub location: String,
     #[serde(with = "iso8601_date_time")]
-    pub retrieve_date_time: DateTime<Utc>,
+    pub retrieve_date_time: DateTimeWrapper,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub install_date_time: Option<DateTime<Utc>>,
+    pub install_date_time: Option<DateTimeWrapper>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signing_certificate: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -179,14 +196,17 @@ pub struct Firmware {
 }
 
 // Not standard 1.6
+#[derive(Arbitrary)]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LogParameters {
     pub remote_location: String,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub oldest_timestamp: Option<DateTime<Utc>>,
+    pub oldest_timestamp: Option<DateTimeWrapper>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
-    pub latest_timestamp: Option<DateTime<Utc>>,
+    pub latest_timestamp: Option<DateTimeWrapper>,
 }
