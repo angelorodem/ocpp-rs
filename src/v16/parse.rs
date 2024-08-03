@@ -1,13 +1,13 @@
 use crate::errors::{Error, Result};
 
-use super::call::{Call};
+use super::call::Call;
 use super::call_error::CallError;
 use super::call_result::CallResult;
 
 use serde::{Deserialize, Serialize};
 
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum Message {
     Call(Call),

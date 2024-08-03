@@ -7,8 +7,6 @@ use validator::Validate;
 use super::utils::{iso8601_date_time_optional,iso8601_date_time};
 use arbitrary::Arbitrary;
 
-
-//TODO: Check if this expiry date is serialized to the iso format
 #[derive(Arbitrary)]
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]
 #[serde(rename_all = "camelCase")]
