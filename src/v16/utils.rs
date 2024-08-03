@@ -25,7 +25,7 @@ impl Arbitrary<'_> for DateTimeWrapper {
 
 
 // Serializer for serde that forces to be in the format of ISO8601
-pub mod iso8601_date_time {
+pub(crate) mod iso8601_date_time {
     use chrono::{DateTime, Utc, NaiveDateTime};
     use serde::{self, Deserialize, Serializer, Deserializer};
     use super::DateTimeWrapper;
@@ -55,7 +55,7 @@ pub mod iso8601_date_time {
     }
 }
 
-pub mod iso8601_date_time_optional {
+pub(crate) mod iso8601_date_time_optional {
     use chrono::{DateTime, Utc, NaiveDateTime};
     use serde::{self, Deserialize, Serializer, Deserializer};
     use super::DateTimeWrapper;

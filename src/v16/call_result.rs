@@ -35,8 +35,8 @@ pub enum IdTagInfoResponses {
 
 impl IdTagInfoResponses {
     #[must_use]
-    /// When waiting for a response that might contain ``IdTagInfo`` or ``StopTransaction``,
-    /// this function will return the ``IdTagInfo`` if it exists.
+    /// When waiting for a response that might contain `IdTagInfo` or `StopTransaction`,
+    /// this function will return the `IdTagInfo` if it exists.
     /// No need for matching
     pub fn get_id_tag_info(self) -> Option<IdTagInfo> {
         match self {
@@ -54,7 +54,7 @@ impl IdTagInfoResponses {
 /// Since some structs might come as empty due to the optional fields,
 /// this enum is used to handle those cases, since the serializer has no way
 /// to know which struct to use when deserializing, since there is no type field
-/// in the ``CallResult`` spec.
+/// in the `CallResult` spec.
 pub enum EmptyResponses {
     EmptyResponse(EmptyResponse),
     GetConfiguration(GetConfiguration),
@@ -83,15 +83,15 @@ impl EmptyResponses {
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-/// even when fields are present and null, the deserializer will transform data with only ``status`` as
-/// ``GenericStatusResponse`` instead of other structs that implement status plus other **optional** fields.
+/// even when fields are present and null, the deserializer will transform data with only `status` as
+/// `GenericStatusResponse` instead of other structs that implement status plus other **optional** fields.
 /// (cases that contain non optional fields are not affected)
 /// 
-/// This means, in case you are waiting for a response that matches a struct that contains ``status``, you should
-/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// This means, in case you are waiting for a response that matches a struct that contains `status`, you should
+/// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 /// 
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,
-/// but ``CallResult`` does not.
+/// but `CallResult` does not.
 pub enum StatusResponses {
     GetInstalledCertificateIds(GetInstalledCertificateIds),
     GetCompositeSchedule(GetCompositeSchedule),
@@ -239,15 +239,15 @@ impl PossibleEmpty for StopTransaction {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-/// even when fields are present and null, the deserializer will transform data with only ``status`` as
-/// ``GenericStatusResponse`` instead of other structs that implement status plus other **optional** fields.
+/// even when fields are present and null, the deserializer will transform data with only `status` as
+/// `GenericStatusResponse` instead of other structs that implement status plus other **optional** fields.
 /// (cases that contain non optional fields are not affected)
 /// 
-/// This means, in case you are waiting for a response that matches a struct that contains ``status``, you should
-/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// This means, in case you are waiting for a response that matches a struct that contains `status`, you should
+/// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 /// 
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,
-/// but ``CallResult`` does not.
+/// but `CallResult` does not.
 pub struct GenericStatusResponse {
     pub status: GenericStatus,
 }
@@ -262,14 +262,14 @@ impl Status for GenericStatusResponse {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-/// even when present and null, the deserializer will transform data with only ``status`` as
-/// ``GenericStatusResponse`` instead of this struct.
+/// even when present and null, the deserializer will transform data with only `status` as
+/// `GenericStatusResponse` instead of this struct.
 /// 
 /// This means, in case you are waiting for a response that matches this struct, you should
-/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 /// 
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,
-/// but ``CallResult`` does not.
+/// but `CallResult` does not.
 pub struct GetInstalledCertificateIds {
     pub status: GenericStatus,
     pub certificate_hash_data: Option<Vec<String>>,
@@ -285,14 +285,14 @@ impl Status for GetInstalledCertificateIds {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-/// even when present and null, the deserializer will transform data with only ``status`` as
-/// ``GenericStatusResponse`` instead of this struct.
+/// even when present and null, the deserializer will transform data with only `status` as
+/// `GenericStatusResponse` instead of this struct.
 /// 
 /// This means, in case you are waiting for a response that matches this struct, you should
-/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 /// 
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,
-/// but ``CallResult`` does not.
+/// but `CallResult` does not.
 pub struct GetCompositeSchedule {
     pub status: GenericStatus,
     pub connector_id: Option<i32>,
@@ -348,14 +348,14 @@ pub struct GetLocalListVersion {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-/// even when present and null, the deserializer will transform data with only ``status`` as
-/// ``GenericStatusResponse`` instead of this struct.
+/// even when present and null, the deserializer will transform data with only `status` as
+/// `GenericStatusResponse` instead of this struct.
 /// 
 /// This means, in case you are waiting for a response that matches this struct, you should
-/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 /// 
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,
-/// but ``CallResult`` does not.
+/// but `CallResult` does not.
 pub struct GetLog {
     pub status: GenericStatus,
     pub filename: Option<String>,
@@ -378,14 +378,14 @@ pub struct UnlockConnector {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-/// even when present and null, the deserializer will transform data with only ``status`` as
-/// ``GenericStatusResponse`` instead of this struct.
+/// even when present and null, the deserializer will transform data with only `status` as
+/// `GenericStatusResponse` instead of this struct.
 /// 
 /// This means, in case you are waiting for a response that matches this struct, you should
-/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 /// 
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,
-/// but ``CallResult`` does not.
+/// but `CallResult` does not.
 pub struct DataTransfer {
     pub status: GenericStatus,
     pub data: Option<String>,

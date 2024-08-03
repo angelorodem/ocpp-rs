@@ -409,18 +409,18 @@ pub enum Measurand {
 
 #[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum MessageTrigger {
-    /// To trigger a BootNotification request
+    /// To trigger a `BootNotification` request
     #[default]
     BootNotification,
-    ///To trigger a DiagnosticsStatusNotification request
+    ///To trigger a `DiagnosticsStatusNotification` request
     DiagnosticsStatusNotification,
-    /// To trigger a FirmwareStatusNotification request
+    /// To trigger a `FirmwareStatusNotification` request
     FirmwareStatusNotification,
     /// To trigger a Heartbeat request
     Heartbeat,
-    /// To trigger a MeterValues request
+    /// To trigger a `MeterValues` request
     MeterValues,
-    ///  To trigger a StatusNotification request
+    ///  To trigger a `StatusNotification` request
     StatusNotification,
 }
 

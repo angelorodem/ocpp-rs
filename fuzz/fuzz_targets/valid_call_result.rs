@@ -8,14 +8,14 @@ use ocpp_rs::v16::data_types::*;
 use ocpp_rs::v16::enums::*;
 
 // IMPORTANT: When deserializing data from JSON, optional fields might not be present,
-// even when present and null, the deserializer will transform data with only ``status`` as
-// ``GenericStatusResponse`` instead of this struct.
+// even when present and null, the deserializer will transform data with only `status` as
+// `GenericStatusResponse` instead of this struct.
 //
 // This means, in case you are waiting for a response that matches this struct, you should
-// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+// also check if first you receive a `GenericStatusResponse` that matches the same `unique_id` you've sent.
 //
 // This is mostly due to the protocol not being properly projected, because Call does have the type field,
-// but ``CallResult`` does not.
+// but `CallResult` does not.
 //
 // This fuzzing test finds this issues, so we need to handle these cases.
 fuzz_target!(|data: CallResult| {

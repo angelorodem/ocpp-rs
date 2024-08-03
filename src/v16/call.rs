@@ -490,7 +490,7 @@ pub struct DataTransfer {
 
 impl<'de> Deserialize<'de> for Call {
     /// We need to manually implement the deserialization of the Call struct because the payload
-    /// which has some variant types cannot be deserialized automatically, like ``Heartbeat`` and ``ClearCache`` which are empty structs.
+    /// which has some variant types cannot be deserialized automatically, like `Heartbeat` and `ClearCache` which are empty structs.
     #[allow(clippy::too_many_lines)]
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where

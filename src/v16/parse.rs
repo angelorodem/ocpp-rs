@@ -16,8 +16,8 @@ pub enum Message {
 }
 
 /// Parses a string into a Message
-/// Message is a container for ``Call``, ``CallResult``, and ``CallError``
-/// The message type is determined by the ``message_id`` field
+/// Message is a container for `Call`, `CallResult`, and `CallError`
+/// The message type is determined by the `message_id` field
 /// 
 /// # Errors
 /// Will return Err if the message type is not 2, 3, or 4
