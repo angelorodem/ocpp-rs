@@ -15,21 +15,123 @@ use arbitrary::Arbitrary;
 #[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
+/// The position of each variant is important, since the deserializer will try to match the first variant
 pub enum ResultPayload {
-    GenericStatusResponse(GenericStatusResponse),
-    Authorize(Authorize),
+    StartTransaction(StartTransaction),
     BootNotification(BootNotification),
-    DataTransfer(DataTransfer),
-    GetCompositeSchedule(GetCompositeSchedule),
+    Heartbeat(Heartbeat),
+    PossibleStatusResponse(StatusResponses),
+    PossibleEmptyResponse(EmptyResponses),
+}
+
+
+#[derive(Arbitrary)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[serde(untagged)]
+pub enum IdTagInfoResponses {
+    Authorize(Authorize),
+    StopTransaction(StopTransaction),
+}
+
+impl IdTagInfoResponses {
+    #[must_use]
+    /// When waiting for a response that might contain ``IdTagInfo`` or ``StopTransaction``,
+    /// this function will return the ``IdTagInfo`` if it exists.
+    /// No need for matching
+    pub fn get_id_tag_info(self) -> Option<IdTagInfo> {
+        match self {
+            Self::Authorize(id_tag_info) => Some(id_tag_info.id_tag_info),
+            Self::StopTransaction(stop_transaction) => stop_transaction.id_tag_info,
+        }
+    }
+    
+}
+
+
+#[derive(Arbitrary)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[serde(untagged)]
+/// Since some structs might come as empty due to the optional fields,
+/// this enum is used to handle those cases, since the serializer has no way
+/// to know which struct to use when deserializing, since there is no type field
+/// in the ``CallResult`` spec.
+pub enum EmptyResponses {
+    EmptyResponse(EmptyResponse),
     GetConfiguration(GetConfiguration),
     GetDiagnostics(GetDiagnostics),
+    /// For Stop transaction
+    PossibleIdTagInfoResponse(IdTagInfoResponses),
+}
+
+impl EmptyResponses {
+    #[must_use]
+    pub fn is_empty(&self) -> bool {
+        match self {
+            Self::EmptyResponse(_) => true,
+            Self::GetConfiguration(get_configuration) => get_configuration.is_empty(),
+            Self::GetDiagnostics(get_diagnostics) => get_diagnostics.is_empty(),
+            Self::PossibleIdTagInfoResponse(id_tag_info_responses) => match id_tag_info_responses {
+                IdTagInfoResponses::Authorize(_) => false,
+                IdTagInfoResponses::StopTransaction(stop_transaction) => stop_transaction.is_empty(),
+            },
+        }
+    }
+    
+}
+
+#[derive(Arbitrary)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[serde(untagged)]
+/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
+/// even when fields are present and null, the deserializer will transform data with only ``status`` as
+/// ``GenericStatusResponse`` instead of other structs that implement status plus other **optional** fields.
+/// (cases that contain non optional fields are not affected)
+/// 
+/// This means, in case you are waiting for a response that matches a struct that contains ``status``, you should
+/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// 
+/// This is mostly due to the protocol not being properly projected, because Call does have the type field,
+/// but ``CallResult`` does not.
+pub enum StatusResponses {
     GetInstalledCertificateIds(GetInstalledCertificateIds),
-    GetLocalListVersion(GetLocalListVersion),
+    GetCompositeSchedule(GetCompositeSchedule),
     GetLog(GetLog),
-    Heartbeat(Heartbeat),
-    StartTransaction(StartTransaction),
-    StopTransaction(StopTransaction),
-    EmptyResponse(EmptyResponse),
+    DataTransfer(DataTransfer),
+    StatusResponse(GenericStatusResponse),
+}
+
+impl StatusResponses {
+    #[must_use]
+    pub const fn get_status(&self) -> &GenericStatus {
+        match self {
+            Self::StatusResponse(generic_status_response) => &generic_status_response.status,
+            Self::GetInstalledCertificateIds(get_installed_certificate_ids) => &get_installed_certificate_ids.status,
+            Self::GetCompositeSchedule(get_composite_schedule) => &get_composite_schedule.status,
+            Self::GetLog(get_log) => &get_log.status,
+            Self::DataTransfer(data_transfer) => &data_transfer.status,            
+        }
+    }
+
+    #[must_use]
+    pub fn is_only_status(&self) -> bool {
+        match self {
+            Self::StatusResponse(generic_status_response) => generic_status_response.is_only_status(),
+            Self::GetInstalledCertificateIds(get_installed_certificate_ids) => get_installed_certificate_ids.is_only_status(),
+            Self::GetCompositeSchedule(get_composite_schedule) => get_composite_schedule.is_only_status(),
+            Self::GetLog(get_log) => get_log.is_only_status(),
+            Self::DataTransfer(data_transfer) => data_transfer.is_only_status(),            
+        }
+    }
+}
+
+
+pub trait Status {
+    /// This return true if the type contains only the status field.
+    fn is_only_status(&self) -> bool;    
+}
+
+pub trait PossibleEmpty {
+    fn is_empty(&self) -> bool;    
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
@@ -83,6 +185,12 @@ pub struct BootNotification {
     pub status: GenericStatus,
 }
 
+impl Status for BootNotification {
+    fn is_only_status(&self) -> bool {
+        false
+    } 
+}
+
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
@@ -94,7 +202,15 @@ pub struct Heartbeat {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// This struct will come as empty.
+/// This might be ill interpreted by the deserializer.
 pub struct EmptyResponse {}
+
+impl PossibleEmpty for EmptyResponse {
+    fn is_empty(&self) -> bool {
+        true
+    }        
+}
 
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -107,56 +223,118 @@ pub struct StartTransaction {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// This struct might come as empty due to the optional fields.
+/// This might be ill interpreted by the deserializer.
 pub struct StopTransaction {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub id_tag_info: Option<IdTagInfo>,
+}
+
+impl PossibleEmpty for StopTransaction {
+    fn is_empty(&self) -> bool {
+        self.id_tag_info.is_none()
+    }    
 }
 
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
+/// even when fields are present and null, the deserializer will transform data with only ``status`` as
+/// ``GenericStatusResponse`` instead of other structs that implement status plus other **optional** fields.
+/// (cases that contain non optional fields are not affected)
+/// 
+/// This means, in case you are waiting for a response that matches a struct that contains ``status``, you should
+/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// 
+/// This is mostly due to the protocol not being properly projected, because Call does have the type field,
+/// but ``CallResult`` does not.
 pub struct GenericStatusResponse {
     pub status: GenericStatus,
 }
 
+impl Status for GenericStatusResponse {
+    fn is_only_status(&self) -> bool {
+        true
+    }
+}
+
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
+/// even when present and null, the deserializer will transform data with only ``status`` as
+/// ``GenericStatusResponse`` instead of this struct.
+/// 
+/// This means, in case you are waiting for a response that matches this struct, you should
+/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// 
+/// This is mostly due to the protocol not being properly projected, because Call does have the type field,
+/// but ``CallResult`` does not.
 pub struct GetInstalledCertificateIds {
     pub status: GenericStatus,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub certificate_hash_data: Option<Vec<String>>,
 }
 
+impl Status for GetInstalledCertificateIds {
+    fn is_only_status(&self) -> bool {
+        self.certificate_hash_data.is_none()
+    }       
+}
+
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
+/// even when present and null, the deserializer will transform data with only ``status`` as
+/// ``GenericStatusResponse`` instead of this struct.
+/// 
+/// This means, in case you are waiting for a response that matches this struct, you should
+/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// 
+/// This is mostly due to the protocol not being properly projected, because Call does have the type field,
+/// but ``CallResult`` does not.
 pub struct GetCompositeSchedule {
     pub status: GenericStatus,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub connector_id: Option<i32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub schedule_start: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub charging_schedule: Option<HashMap<String, String>>,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct GetConfiguration {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub configuration_key: Option<Vec<String>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub unknown_key: Option<Vec<String>>,
+impl Status for GetCompositeSchedule {
+    fn is_only_status(&self) -> bool {
+        self.connector_id.is_none() && self.schedule_start.is_none() && self.charging_schedule.is_none()
+    }      
 }
 
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// This struct might come as empty due to the optional fields.
+/// This might be ill interpreted by the deserializer.
+pub struct GetConfiguration {
+    pub configuration_key: Option<Vec<String>>,
+    pub unknown_key: Option<Vec<String>>,
+}
+
+impl PossibleEmpty for GetConfiguration {
+    fn is_empty(&self) -> bool {
+        self.configuration_key.is_none() && self.unknown_key.is_none()
+    }        
+}
+
+#[derive(Arbitrary)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[serde(rename_all = "camelCase")]
+/// This struct might come as empty due to the optional fields.
+/// This might be ill interpreted by the deserializer.
 pub struct GetDiagnostics {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_name: Option<String>,
+}
+
+impl PossibleEmpty for GetDiagnostics {
+    fn is_empty(&self) -> bool {
+        self.file_name.is_none()
+    }        
 }
 
 #[derive(Arbitrary)]
@@ -169,10 +347,24 @@ pub struct GetLocalListVersion {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
+/// even when present and null, the deserializer will transform data with only ``status`` as
+/// ``GenericStatusResponse`` instead of this struct.
+/// 
+/// This means, in case you are waiting for a response that matches this struct, you should
+/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// 
+/// This is mostly due to the protocol not being properly projected, because Call does have the type field,
+/// but ``CallResult`` does not.
 pub struct GetLog {
     pub status: GenericStatus,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub filename: Option<String>,
+}
+
+impl Status for GetLog {
+    fn is_only_status(&self) -> bool {
+        self.filename.is_none()
+    }      
 }
 
 #[derive(Arbitrary)]
@@ -185,8 +377,22 @@ pub struct UnlockConnector {
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
+/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,
+/// even when present and null, the deserializer will transform data with only ``status`` as
+/// ``GenericStatusResponse`` instead of this struct.
+/// 
+/// This means, in case you are waiting for a response that matches this struct, you should
+/// also check if first you receive a ``GenericStatusResponse`` that matches the same ``unique_id`` you've sent.
+/// 
+/// This is mostly due to the protocol not being properly projected, because Call does have the type field,
+/// but ``CallResult`` does not.
 pub struct DataTransfer {
     pub status: GenericStatus,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
+}
+
+impl Status for DataTransfer {
+   fn is_only_status(&self) -> bool {
+        self.data.is_none()
+   }       
 }

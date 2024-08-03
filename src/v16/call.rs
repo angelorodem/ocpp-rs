@@ -488,17 +488,17 @@ pub struct DataTransfer {
     pub data: Option<String>,
 }
 
-
 impl<'de> Deserialize<'de> for Call {
     /// We need to manually implement the deserialization of the Call struct because the payload
-    /// which has some variant types cannot be deserialized automatically, like Heartbeat and ClearCache which are empty structs.
+    /// which has some variant types cannot be deserialized automatically, like ``Heartbeat`` and ``ClearCache`` which are empty structs.
+    #[allow(clippy::too_many_lines)]
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
-        struct MyVisitor;
+        struct CallVisitor;
 
-        impl<'de> serde::de::Visitor<'de> for MyVisitor {
+        impl<'de> serde::de::Visitor<'de> for CallVisitor {
             type Value = Call;
 
             fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -851,6 +851,6 @@ impl<'de> Deserialize<'de> for Call {
             }
         }
 
-        deserializer.deserialize_seq(MyVisitor)
+        deserializer.deserialize_seq(CallVisitor)
     }
 }
