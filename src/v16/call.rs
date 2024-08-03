@@ -17,7 +17,8 @@ use rand::Rng;
 
 use arbitrary::Arbitrary;
 
-// Call action enum
+/// Call action enum
+/// Please look at the OCPP 1.6 specification for more information
 #[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
