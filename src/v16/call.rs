@@ -64,7 +64,7 @@ pub enum Action {
     UpdateFirmware(UpdateFirmware),
 }
 
-#[derive(Debug, PartialEq, Serialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Call {
     pub(super) message_id: i32,
