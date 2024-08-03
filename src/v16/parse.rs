@@ -1,4 +1,4 @@
-use crate::errors::{Error, Result};
+use crate::errors::{CallTypeMismatch, Error, Result};
 
 use super::call::Call;
 use super::call_error::CallError;
@@ -39,7 +39,7 @@ pub fn to_message(data: &str) -> Result<Message> {
             let call_error: CallError = serde_json::from_str(data)?;
             Ok(Message::CallError(call_error))
         }
-        _ => Err(Error::custom("Invalid message type")),
+        _ => Err(Error::InvalidMessageCallType),
     }
 }
 
@@ -58,7 +58,7 @@ fn get_call_type(buf: &str) -> Result<u8> {
             return Ok(value as u8);
         }
     }
-    Err(Error::custom("Invalid message type"))
+    Err(Error::InvalidMessageCallType)
 }
 
 /// Convert message into a string
@@ -70,21 +70,21 @@ pub fn from_message(message: &Message) -> Result<String> {
     match message {
         Message::Call(call) => {
             if call.message_id != 2 {
-                return Err(Error::custom("Invalid call message type, expected 2"));
+                return Err(Error::CallTypeMismatch(CallTypeMismatch{expected: 2, found: call.message_id}));
             }            
             let v = serde_json::to_value(call)?;
             Ok(v.to_string())
         }
         Message::CallResult(call_result) => {
             if call_result.message_id != 3 {
-                return Err(Error::custom("Invalid callResult message type, expected 3"));
+                return Err(Error::CallTypeMismatch(CallTypeMismatch{expected: 3, found: call_result.message_id}));
             }
             let v = serde_json::to_value(call_result)?;
             Ok(v.to_string())
         }
         Message::CallError(call_error) => {
             if call_error.message_id != 4 {
-                return Err(Error::custom("Invalid callError message type, expected 4"));
+                return Err(Error::CallTypeMismatch(CallTypeMismatch{expected: 4, found: call_error.message_id}));
             }
             let v = serde_json::to_value(call_error)?;
             Ok(v.to_string())

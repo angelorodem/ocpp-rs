@@ -11,6 +11,10 @@ pub enum Error {
     #[from]
     Utf8(std::string::FromUtf8Error),
     #[from]
+    InvalidMessageCallType,
+    #[from]
+    CallTypeMismatch(CallTypeMismatch),
+    #[from]
     Custom(String),    
 }
 
@@ -24,4 +28,10 @@ impl From<&str> for Error {
     fn from(s: &str) -> Self {
         Self::Custom(s.to_string())
     }
+}
+
+#[derive(Debug)]
+pub struct CallTypeMismatch {
+    pub expected: i32,
+    pub found: i32,
 }
