@@ -25,7 +25,7 @@ pub enum ChargePointErrorCode {
     /// Failure to lock or unlock connector.
     ConnectorLockFailure,
     /// Communication failure with the vehicle, might be Mode 3 or other communication protocol problem.
-    /// This is not a real error in the sense that the Charge Point doesn’t need to go to the faulted state. Instead, it should go to the SuspendedEVSE state.
+    /// This is not a real error in the sense that the Charge Point doesn’t need to go to the faulted state. Instead, it should go to the `SuspendedEVSE` state.
     EVCommunicationError,
     /// Ground fault circuit interrupter has been activated.
     GroundFailure,
@@ -33,7 +33,7 @@ pub enum ChargePointErrorCode {
     HighTemperature,
     /// Error in internal hard- or software component.
     InternalError,
-    /// The authorization information received from the Central System is in conflict with the LocalAuthorizationList.
+    /// The authorization information received from the Central System is in conflict with the `LocalAuthorizationList`.
     LocalListConflict,
     /// No error to report.
     #[default]
@@ -104,9 +104,9 @@ pub enum ChargingProfilePurposeType {
     #[default]
     ChargePointMaxProfile,
     /// Default profile *that can be configured in the Charge Point.
-    /// When a new transaction is started, this profile SHALL be used, unless it was a transaction that was started by a RemoteStartTransaction.req with a ChargeProfile that is accepted by the Charge Point.
+    /// When a new transaction is started, this profile SHALL be used, unless it was a transaction that was started by a RemoteStartTransaction.req with a `ChargeProfile` that is accepted by the Charge Point.
     TxDefaultProfile,
-    /// Profile with constraints to be imposed by the Charge Point on the current transaction, or on a new transaction when this is started via a RemoteStartTransaction.req with a ChargeProfile.
+    /// Profile with constraints to be imposed by the Charge Point on the current transaction, or on a new transaction when this is started via a RemoteStartTransaction.req with a `ChargeProfile`.
     ///  A profile with this purpose SHALL cease to be valid when the transaction terminates.
     TxProfile,
 }
@@ -206,7 +206,7 @@ pub enum FirmwareStatus {
     DownloadFailed,
     /// Firmware is being downloaded.
     Downloading,
-    /// Charge Point is not performing firmware update related tasks. Status Idle SHALL only be used as in a FirmwareStatusNotificationRequest that was triggered by a TriggerMessageRequest
+    /// Charge Point is not performing firmware update related tasks. Status Idle SHALL only be used as in a `FirmwareStatusNotificationRequest` that was triggered by a `TriggerMessageRequest`
     #[default]
     Idle,
     /// Installation of new firmware has failed.
@@ -224,64 +224,64 @@ pub enum GenericStatus {
     Accepted,
     /// Request has not been accepted and will not be executed.
     Rejected,
-    /// Used for AvailabilityStatus, CertificateStatus
+    /// Used for `AvailabilityStatus`, `CertificateStatus`
     /// Request has been accepted and will be executed when transaction(s) in progress have finished.
     Scheduled,
-    /// Used for AuthorizationStatus
+    /// Used for `AuthorizationStatus`
     /// Identifier has been blocked. Not allowed for charging.
     Blocked,
-    /// Used for AuthorizationStatus
+    /// Used for `AuthorizationStatus`
     /// Identifier has expired. Not allowed for charging.
     Expired,
-    /// Used for AuthorizationStatus
+    /// Used for `AuthorizationStatus`
     /// Identifier is unknown. Not allowed for charging.
     Invalid,
-    /// Used for AuthorizationStatus
+    /// Used for `AuthorizationStatus`
     /// Identifier is already involved in another transaction and multiple transactions are not allowed. (Only relevant for a StartTransaction.req.)
     ConcurrentTx,
-    /// Used for CertificateStatus
+    /// Used for `CertificateStatus`
     Failed,
-    /// Used for ChargingProfileStatus
+    /// Used for `ChargingProfileStatus`
     /// Charge Point indicates that the request is not supported.
     NotSupported,
-    /// Used for ClearChargingProfileStatus, ConfigurationStatus
+    /// Used for `ClearChargingProfileStatus`, `ConfigurationStatus`
     /// No Charging Profile(s) were found matching the request.
     Unknown,
-    /// Used for ConfigurationStatus
+    /// Used for `ConfigurationStatus`
     /// Configuration key is supported and setting has been changed, but change will be available after reboot (Charge Point will not reboot itself)
     RebootRequired,
-    /// Used for DataTransferStatus
+    /// Used for `DataTransferStatus`
     /// Message could not be interpreted due to unknown messageId string.
     UnknownMessageId,
-    /// Used for DataTransferStatus
+    /// Used for `DataTransferStatus`
     /// Message could not be interpreted due to unknown vendorId string.
     UnknownVendorId,
-    /// Used for DeleteCertificateStatus
+    /// Used for `DeleteCertificateStatus`
     /// Certificate was not found
     NotFound,
-    /// Used for LogStatus
+    /// Used for `LogStatus`
     AcceptedCanceled,
-    /// Used for RegistrationStatus, AcceptedCanceled
+    /// Used for `RegistrationStatus`, `AcceptedCanceled`
     /// Central System is not yet ready to accept the Charge Point. Central System may send
     /// messages to retrieve information or prepare the Charge Point.
     Pending,
-    /// Used for ReservationStatus
+    /// Used for `ReservationStatus`
     /// Reservation has not been made, because connectors or specified connector are in an unavailable state.
     Unavailable,
-    /// Used for ReservationStatus
+    /// Used for `ReservationStatus`
     /// Reservation has not been made, because connectors or specified connector are in a faulted state.
     Faulted,
-    /// Used for ReservationStatus
+    /// Used for `ReservationStatus`
     /// Reservation has not been made. All connectors or the specified connector are occupied.
     Occupied,
-    /// Used for TriggerMessageStatus
+    /// Used for `TriggerMessageStatus`
     /// Requested notification cannot be sent because it is either not implemented or unknown.
     NotImplemented,
-    /// Used for UpdateFirmwareStatus
+    /// Used for `UpdateFirmwareStatus`
     InvalidCertificate,
-    /// Used for UpdateFirmwareStatus
+    /// Used for `UpdateFirmwareStatus`
     RevokedCertificate,
-    /// Used for UpdateStatus
+    /// Used for `UpdateStatus`
     /// Version number in the request for a differential update is less or equal then version number of current list.
     VersionMismatch,
 }
@@ -340,36 +340,36 @@ pub enum Measurand {
     #[strum(serialize = "Energy.Active.Import.Register")]
     #[serde(rename = "Energy.Active.Import.Register")]
     EnergyActiveImportRegister,
-    ///  Numerical value read from the "reactive electrical energy" (VARh or kVARh) register of the (most authoritative) electrical meter measuring energy exported (to the grid).
+    ///  Numerical value read from the "reactive electrical energy" (`VARh` or kVARh) register of the (most authoritative) electrical meter measuring energy exported (to the grid).
     #[strum(serialize = "Energy.Reactive.Export.Register")]
     #[serde(rename = "Energy.Reactive.Export.Register")]
     EnergyReactiveExportRegister,
-    /// Numerical value read from the "reactive electrical energy" (VARh or kVARh) register of the (most authoritative) electrical meter measuring energy imported (from the grid supply).
+    /// Numerical value read from the "reactive electrical energy" (`VARh` or kVARh) register of the (most authoritative) electrical meter measuring energy imported (from the grid supply).
     #[strum(serialize = "Energy.Reactive.Import.Register")]
     #[serde(rename = "Energy.Reactive.Import.Register")]
     EnergyReactiveImportRegister,
     /// Absolute amount of "active electrical energy" (Wh or kWh) exported (to the grid) during an associated time "interval",
-    ///  specified by a Metervalues ReadingContext, and applicable interval duration configuration values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+    ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".
     #[strum(serialize = "Energy.Active.Export.Interval")]
     #[serde(rename = "Energy.Active.Export.Interval")]
     EnergyActiveExportInterval,
     /// Absolute amount of "active electrical energy" (Wh or kWh) imported (from the grid supply) during an associated time "interval",
-    ///  specified by a Metervalues ReadingContext, and applicable interval duration configuration values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+    ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".
     #[strum(serialize = "Energy.Active.Import.Interval")]
     #[serde(rename = "Energy.Active.Import.Interval")]
     EnergyActiveImportInterval,
-    /// Absolute amount of "reactive electrical energy" (VARh or kVARh) exported (to the grid) during an associated time "interval",
-    ///  specified by a Metervalues ReadingContext, and applicable interval duration configuration values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+    /// Absolute amount of "reactive electrical energy" (`VARh` or kVARh) exported (to the grid) during an associated time "interval",
+    ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".
     #[strum(serialize = "Energy.Reactive.Export.Interval")]
     #[serde(rename = "Energy.Reactive.Export.Interval")]
     EnergyReactiveExportInterval,
-    ///  Absolute amount of "reactive electrical energy" (VARh or kVARh) imported (from the grid supply) during an associated time "interval",
-    ///  specified by a Metervalues ReadingContext, and applicable interval duration configuration values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+    ///  Absolute amount of "reactive electrical energy" (`VARh` or kVARh) imported (from the grid supply) during an associated time "interval",
+    ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".
     #[strum(serialize = "Energy.Reactive.Import.Interval")]
     #[serde(rename = "Energy.Reactive.Import.Interval")]
     EnergyReactiveImportInterval,
-    /// Instantaneous reading of powerline frequency. NOTE: OCPP 1.6 does not have a UnitOfMeasure for frequency,
-    ///  the UnitOfMeasure for any SampledValue with measurand: Frequency is Hertz.
+    /// Instantaneous reading of powerline frequency. NOTE: OCPP 1.6 does not have a `UnitOfMeasure` for frequency,
+    ///  the `UnitOfMeasure` for any `SampledValue` with measurand: Frequency is Hertz.
     Frequency,
     /// Instantaneous active power exported by EV. (W or kW)
     #[strum(serialize = "Power.Active.Export")]
@@ -556,7 +556,7 @@ pub enum UnitOfMeasure {
     #[serde(rename = "kW")]
     #[strum(serialize = "kW")]
     Kw,
-    /// VoltAmpere (apparent power).
+    /// `VoltAmpere` (apparent power).
     #[serde(rename = "VA")]
     #[strum(serialize = "VA")]
     Va,
@@ -597,7 +597,7 @@ pub enum UnlockStatus {
     /// detected that the connector is still locked or the unlock mechanism failed.
     UnlockFailed,
     /// # From OCPP Specification
-    /// Charge Point has no connector lock, or ConnectorId is unknown.
+    /// Charge Point has no connector lock, or `ConnectorId` is unknown.
     NotSupported,
 }
 

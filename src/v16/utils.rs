@@ -8,7 +8,7 @@ pub struct DateTimeWrapper(pub DateTime<Utc>);
 impl Arbitrary<'_> for DateTimeWrapper {
     fn arbitrary(u: &mut arbitrary::Unstructured) -> arbitrary::Result<Self> {
         
-        Ok(DateTimeWrapper(DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z").unwrap().with_timezone(&chrono::Utc)))
+        Ok(Self(DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z").unwrap().with_timezone(&chrono::Utc)))
     }
 }
 

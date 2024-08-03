@@ -19,7 +19,7 @@ use arbitrary::Arbitrary;
 
 // Call action enum
 #[derive(Arbitrary)]
-#[derive(AsRefStr, Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum Action {
@@ -74,7 +74,7 @@ pub struct Call {
 }
 
 impl Call {
-    pub fn new(unique_id: Option<String>, action: String, payload: Action) -> Self {
+    #[must_use] pub fn new(unique_id: Option<String>, action: String, payload: Action) -> Self {
         let unique_id = unique_id.unwrap_or_else(|| {
             let mut rng = rand::thread_rng();
             rng.gen::<u32>().to_string()
@@ -95,7 +95,7 @@ impl Arbitrary<'_> for Call {
         let payload = Action::arbitrary(u)?;
         let action = payload.as_ref();
 
-        Ok(Call {
+        Ok(Self {
             message_id: 2,
             unique_id: unique_id.to_string(),
             action: action.to_string(),
@@ -394,7 +394,7 @@ pub struct LogStatusNotification {
 }
 
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValues {
     pub connector_id: u32,
@@ -443,7 +443,7 @@ pub struct StartTransaction {
 }
 
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StopTransaction {
     pub meter_stop: u64,

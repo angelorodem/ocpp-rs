@@ -18,7 +18,7 @@ pub struct IdTagInfo {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
     pub expiry_date: Option<DateTimeWrapper>,
-    /// Optional. This contains the parent-identifier. IdToken
+    /// Optional. This contains the parent-identifier. `IdToken`
     #[validate(length(min = 1, max = 20))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parent_id_tag: Option<String>,
@@ -27,13 +27,13 @@ pub struct IdTagInfo {
 }
 
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct AuthorizationData {
     /// Required. The identifier to which this authorization applies.
     #[validate(length(min = 1, max = 20))]
     pub id_tag: String,
-    /// Optional. (Required when UpdateType is Full) This contains information about authorization status, expiry and parent id. For a Differential update the following applies: If this element is present, then this entry SHALL be added or updated in the Local Authorization List. If this element is absent, than the entry for this idtag in the Local Authorization List SHALL be deleted.
+    /// Optional. (Required when `UpdateType` is Full) This contains information about authorization status, expiry and parent id. For a Differential update the following applies: If this element is present, then this entry SHALL be added or updated in the Local Authorization List. If this element is absent, than the entry for this idtag in the Local Authorization List SHALL be deleted.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id_tag_info: Option<IdTagInfo>,
 }
@@ -42,7 +42,7 @@ pub struct AuthorizationData {
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingSchedulePeriod {
-    /// Required. Start of the period, in seconds from the start of schedule. The value of StartPeriod also defines the stop time of the previous period.
+    /// Required. Start of the period, in seconds from the start of schedule. The value of `StartPeriod` also defines the stop time of the previous period.
     pub start_period: i32,
     /// Required. Charging rate limit during the schedule period, in the applicable chargingRateUnit, for example in Amperes or Watts. Accepts at most one digit fraction (e.g. 8.1).
     pub limit: f32,
@@ -65,7 +65,7 @@ pub struct ChargingSchedule {
     pub start_schedule: Option<DateTimeWrapper>,
     /// Required. The unit of measure Limit is expressed in.
     pub charging_rate_unit: ChargingRateUnitType,
-    /// Required. List of ChargingSchedulePeriod elements defining maximum power or current usage over time. The startSchedule of the first ChargingSchedulePeriod SHALL always be 0.
+    /// Required. List of `ChargingSchedulePeriod` elements defining maximum power or current usage over time. The startSchedule of the first `ChargingSchedulePeriod` SHALL always be 0.
     pub charging_schedule_period: Vec<ChargingSchedulePeriod>,
     /// Optional. Minimum charging rate supported by the electric vehicle. The unit of measure is defined by the chargingRateUnit. This parameter is intended to be used by a local smart charging algorithm to optimize the power allocation for in the case a charging process is inefficient at lower charging rates. Accepts at most one digit fraction (e.g. 8.1)
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -96,13 +96,13 @@ pub struct ChargingProfile {
 }
 
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct KeyValue {
     /// Required.
     #[validate(length(min = 1, max = 50))]
     pub key: String,
-    /// Required. False if the value can be set with the ChangeConfiguration message.
+    /// Required. False if the value can be set with the `ChangeConfiguration` message.
     pub readonly: bool,
     /// Optional. If key is known but not set, this field may be absent.
     #[validate(length(min = 1, max = 500))]
@@ -114,7 +114,7 @@ pub struct KeyValue {
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct SampledValue {
-    /// Required. Value as a “Raw” (decimal) number or “SignedData”. Field Type is “string” to allow for digitally signed data readings.
+    /// Required. Value as a “Raw” (decimal) number or “`SignedData`”. Field Type is “string” to allow for digitally signed data readings.
     /// Decimal numeric values are also acceptable to allow fractional values for measurands such as Temperature and Current.
     pub value: String,
     /// Optional. Type of detail value: start, end or sample. Default = “Sample.Periodic”
@@ -138,7 +138,7 @@ pub struct SampledValue {
 }
 
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValue {
     /// Required. Timestamp for measured value(s).
@@ -150,7 +150,7 @@ pub struct MeterValue {
 
 // Not standard 1.6
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct CertificateHashData {
     /// Required. Used algorithms for the hashes provided.
@@ -168,7 +168,7 @@ pub struct CertificateHashData {
 
 // Not standard 1.6
 #[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
 #[serde(rename_all = "camelCase")]
 pub struct Firmware {
     pub location: String,

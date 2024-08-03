@@ -13,7 +13,7 @@ pub struct CallError {
 }
 
 impl CallError {
-    pub fn new(unique_id: String, error_code: String, error_description: String, error_details: Vec<Value>) -> Self {
+    #[must_use] pub const fn new(unique_id: String, error_code: String, error_description: String, error_details: Vec<Value>) -> Self {
         Self {
             message_id: 4,
             unique_id,
