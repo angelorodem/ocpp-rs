@@ -105,8 +105,6 @@ impl Arbitrary<'_> for Call {
     }
 }
 
-//////////////////////////// Call structs ////////////////////////////
-
 #[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
