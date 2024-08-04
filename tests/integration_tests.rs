@@ -4,7 +4,6 @@ use ocpp_rs::v16::call_result::CallResult;
 use ocpp_rs::v16::data_types::*;
 use ocpp_rs::v16::enums::*;
 use ocpp_rs::v16::parse::{to_message, Message};
-use ocpp_rs::v16::utils::DateTimeWrapper;
 
 #[test]
 fn test_parse_boot_notification() {

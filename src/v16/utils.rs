@@ -1,6 +1,5 @@
 use arbitrary::{self, Arbitrary};
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
+use chrono::DateTime;
 
 use super::data_types::DateTimeWrapper;
 // New type pattern to implement Arbitrary for DateTime
