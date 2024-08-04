@@ -2,8 +2,7 @@ use super::enums::{
     GenericStatus,
     UnlockStatus,
 };
-use super::data_types::IdTagInfo;
-use crate::v16::utils::DateTimeWrapper;
+use super::data_types::{DateTimeWrapper, IdTagInfo};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use strum_macros::AsRefStr;

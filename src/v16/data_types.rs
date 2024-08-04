@@ -1,11 +1,15 @@
 use super::enums::{
     ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, GenericStatus, HashAlgorithm, Location, Measurand, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure, ValueFormat
 };
-use crate::v16::utils::DateTimeWrapper;
+
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use super::utils::{iso8601_date_time_optional,iso8601_date_time};
 use arbitrary::Arbitrary;
+
+#[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default, Copy)]
+pub struct DateTimeWrapper(pub DateTime<Utc>);
 
 #[derive(Arbitrary)]
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]

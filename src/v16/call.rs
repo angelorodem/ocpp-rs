@@ -1,10 +1,10 @@
-use super::data_types::MeterValue;
+use super::data_types::{DateTimeWrapper, MeterValue};
 use super::enums::{
     AvailabilityType, CertificateUse, ChargePointErrorCode, ChargePointStatus,
     ChargingProfilePurposeType, ChargingRateUnitType, DiagnosticsStatus, FirmwareStatus, Log,
     MessageTrigger, Reason, ResetType, UpdateType, UploadLogStatus,
 };
-use crate::v16::utils::DateTimeWrapper;
+
 use serde::de::SeqAccess;
 use serde::Deserializer;
 use serde::{Deserialize, Serialize};

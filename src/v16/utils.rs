@@ -1,9 +1,10 @@
 use arbitrary::{self, Arbitrary};
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+
+use super::data_types::DateTimeWrapper;
 // New type pattern to implement Arbitrary for DateTime
-#[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default, Copy)]
-pub struct DateTimeWrapper(pub DateTime<Utc>);
+
 
 impl Arbitrary<'_> for DateTimeWrapper {
     fn arbitrary(_: &mut arbitrary::Unstructured) -> arbitrary::Result<Self> {
