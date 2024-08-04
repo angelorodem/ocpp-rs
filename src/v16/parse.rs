@@ -9,13 +9,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
+/// Message is a container for `Call`, `CallResult`, and `CallError`   
+/// The message type is determined by the `message_id` field 
+/// These enum variants contains all OCPP messages
 pub enum Message {
+    /// Used to Send a commands (mostly used by the server)
     Call(Call),
+    /// Used to send a response to a command (mostly used by the client)
     CallResult(CallResult),
+    /// Used to send an error response to a command (mostly used by the client)
     CallError(CallError),
 }
 
-/// Parses a JSON string into a Message   
+/// Parses a JSON string into a Message struct   
 /// Message is a container for `Call`, `CallResult`, and `CallError`   
 /// The message type is determined by the `message_id` field   
 /// 

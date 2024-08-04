@@ -1,7 +1,7 @@
 //!# OCPP-RS
 //!
 //! OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP) in Rust.   
-//! it currently supports OCPP 1.6.
+//! it currently only supports OCPP 1.6.
 //!
 //! ## Usage
 //! In Cargo.toml, add the following dependency:
@@ -12,10 +12,10 @@
 //!
 //! # Particularities
 //! Since the original OCPP 1.6 protocol does not contain a type field for `CallResult`, when parsing `CallResult`lt, you need to handle
-//! Special cases where unit JSON payloads ```{}``` are ambiguous, and might get serialized as a `EmptyResponse` instead of the variant
-//! you are waiting for.
+//! Special cases where JSON payloads are ambiguous, like empty objects like: ```{}```, these might get serialized as a `EmptyResponse` instead of the variant
+//! you are waiting for like `GetConfiguration`.
 //! 
-//! Look at this file to see how to properly handle `CallResults`: [`valid_call_result.rs`](fuzz/fuzz_targets/valid_call_result.rs)
+//! Look at this file to see how to properly handle `CallResults`: [`valid_call_result.rs`](https://github.com/angelorodem/ocpp-rs/blob/main/fuzz/fuzz_targets/valid_call_result.rs)
 //! 
 //! ## Example
 //! Receiving a payload from a client:
