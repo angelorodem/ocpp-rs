@@ -17,8 +17,8 @@ use rand::Rng;
 
 use arbitrary::Arbitrary;
 
-/// Call action enum
-/// Please look at the OCPP 1.6 specification for more information
+/// Call action enum    
+/// Please look at the OCPP 1.6 specification for more information    
 #[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -488,8 +488,8 @@ pub struct DataTransfer {
 }
 
 impl<'de> Deserialize<'de> for Call {
-    /// We need to manually implement the deserialization of the Call struct because the payload
-    /// which has some variant types cannot be deserialized automatically, like `Heartbeat` and `ClearCache` which are empty structs.
+    /// We need to manually implement the deserialization of the Call struct because the payload    
+    /// which has some variant types cannot be deserialized automatically, like `Heartbeat` and `ClearCache` which are empty structs.    
     #[allow(clippy::too_many_lines)]
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where

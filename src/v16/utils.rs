@@ -12,18 +12,6 @@ impl Arbitrary<'_> for DateTimeWrapper {
     }
 }
 
-// impl<T> Arbitrary<'_> for Vec<T> {
-//  fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
-//         let len = u.int_in_range(0..100)?;
-//         let mut vec = Vec::with_capacity(len);
-//         for _ in 0..len {
-//             vec.push(T::arbitrary(u)?);
-//         }
-//         Ok(vec)
-//  }   
-// }
-
-
 // Serializer for serde that forces to be in the format of ISO8601
 pub(crate) mod iso8601_date_time {
     use chrono::{DateTime, Utc, NaiveDateTime};

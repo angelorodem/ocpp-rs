@@ -15,13 +15,13 @@ pub enum Message {
     CallError(CallError),
 }
 
-/// Parses a string into a Message
-/// Message is a container for `Call`, `CallResult`, and `CallError`
-/// The message type is determined by the `message_id` field
+/// Parses a JSON string into a Message   
+/// Message is a container for `Call`, `CallResult`, and `CallError`   
+/// The message type is determined by the `message_id` field   
 /// 
 /// # Errors
-/// Will return Err if the message type is not 2, 3, or 4
-/// and if the JSON deserialization fails
+/// Will return Err if the message type is not 2, 3, or 4   
+/// and if the JSON deserialization fails   
 pub fn to_message(data: &str) -> Result<Message> {
 
     let call_type = get_call_type(data)?;
@@ -43,7 +43,7 @@ pub fn to_message(data: &str) -> Result<Message> {
     }
 }
 
-/// Check the initial characters of the message to determine the message type
+/// Check the initial characters of the message to determine the message type    
 fn get_call_type(buf: &str) -> Result<u8> {
     for c in buf.chars().enumerate().skip(1) {
         if c.0 > 4 {
@@ -61,11 +61,11 @@ fn get_call_type(buf: &str) -> Result<u8> {
     Err(Error::InvalidMessageCallType)
 }
 
-/// Convert message into a string
-/// # Errors
-/// 
-/// Will return Err if the JSON serialization fails
-/// or if the message type is not 2, 3, or 4
+/// Convert message into a string by serializing it into JSON    
+/// # Errors    
+///     
+/// Will return Err if the JSON serialization fails    
+/// or if the message type is not 2, 3, or 4    
 pub fn from_message(message: &Message) -> Result<String> {
     match message {
         Message::Call(call) => {
