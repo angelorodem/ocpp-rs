@@ -1,3 +1,28 @@
+//! # Call
+//! 
+//! This module contains the `Call` struct and its variants, which are the actions that can be sent to the Charge Point.
+//! //! ## Example
+//! Receiving a payload from a client:
+//! ```rust
+//! use ocpp_rs::v16::parse::{self, Message};
+//! use ocpp_rs::v16::call::{Action, Call};
+//! 
+//! // Example incoming message
+//! let incoming_json = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
+//! let incoming_message = parse::to_message(incoming_json);
+//! 
+//! // Handle incoming message (Check the type of the message)
+//! if let Ok(Message::Call(call)) = incoming_message {
+//!     match call.payload {
+//!         Action::BootNotification(boot_notification) => {
+//!            // Do something with boot_notification
+//!         },
+//!         _ => {
+//!           // Handle other actions
+//!         }
+//!    }
+//! }
+//! ```
 use super::data_types::{DateTimeWrapper, MeterValue};
 use super::enums::{
     AvailabilityType, CertificateUse, ChargePointErrorCode, ChargePointStatus,
@@ -17,7 +42,7 @@ use rand::Rng;
 
 use arbitrary::Arbitrary;
 
-/// Call action enum    
+/// Call action enum that contains all the possible actions that can be sent to the Charge Point.    
 /// Please look at the OCPP 1.6 specification for more information    
 #[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]

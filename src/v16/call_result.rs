@@ -1,3 +1,32 @@
+//! # Call Result    
+//! This module contains all response messages to a given `Call` message.    
+//! Note that `CallResult` does not contain a type field, so you need to handle special cases where JSON can be ambiguous.    
+//! These special cases are inside specific enum variants, `PossibleEmptyResponse` and `PossibleStatusResponse`.   
+//! Inside `PossibleEmptyResponse` you will find `PossibleIdTagInfoResponse` that also contain two different cases.   
+//! 
+//! ## Example
+//! 
+//! Sending a payload to a client:
+//! ```rust
+//! use ocpp_rs::v16::call::StartTransaction;
+//! use ocpp_rs::v16::call_result::{self, CallResult, ResultPayload};
+//! use ocpp_rs::v16::data_types::IdTagInfo;
+//! use ocpp_rs::v16::enums::ChargePointStatus;
+//! use ocpp_rs::v16::parse::Message;
+//! 
+//! let response = Message::CallResult(CallResult::new(
+//!     "1234".to_string(),
+//!     ResultPayload::StartTransaction(call_result::StartTransaction {
+//!         transaction_id: 0,
+//!         id_tag_info: IdTagInfo {
+//!             status: ocpp_rs::v16::enums::GenericStatus::Accepted,
+//!             expiry_date: None,
+//!             parent_id_tag: None,
+//!         },
+//!     }),
+//! ));
+//!```
+
 use super::enums::{
     GenericStatus,
     UnlockStatus,
@@ -14,7 +43,7 @@ use arbitrary::Arbitrary;
 #[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
-/// The position of each variant is important, since the deserializer will try to match the first variant    
+/// This enum is used to handle the different types of responses that might come from the server.  
 pub enum ResultPayload {
     StartTransaction(StartTransaction),
     BootNotification(BootNotification),
@@ -27,6 +56,8 @@ pub enum ResultPayload {
 #[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
+/// This enum has types that are ambiguous when deserializing, they both contain `IdTagInfo`,
+/// and one can be empty.
 pub enum IdTagInfoResponses {
     Authorize(Authorize),
     StopTransaction(StopTransaction),

@@ -24,8 +24,10 @@
 //! use ocpp_rs::v16::call::{Action, Call};
 //! 
 //! // Example incoming message
-//! let incoming_text = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-//! let incoming_message = parse::to_message(incoming_text);
+//! let incoming_json = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
+//! let incoming_message = parse::to_message(incoming_json);
+//! 
+//! // Handle incoming message (Check the type of the message)
 //! if let Ok(Message::Call(call)) = incoming_message {
 //!     match call.payload {
 //!         Action::BootNotification(boot_notification) => {
@@ -57,7 +59,7 @@
 //!         },
 //!     }),
 //! ));
-//!```
+//! ```
 //! 
 #![warn(clippy::all, clippy::pedantic, clippy::nursery, clippy::cargo)]
 #![allow(clippy::multiple_crate_versions)]
