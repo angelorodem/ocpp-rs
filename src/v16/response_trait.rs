@@ -1,3 +1,5 @@
+use alloc::string::String;
+
 use super::call::{self};
 use super::call_result::{self};
 
@@ -14,9 +16,8 @@ pub trait Response {
     ) -> call_result::CallResult;
 }
 
-
 impl Response for call::Authorize {
-    type ResponseType = call_result::Authorize;
+    type ResponseType = call_result::GenericIdTagInfo;
     fn get_response(
         &self,
         unique_id: String,
@@ -25,9 +26,7 @@ impl Response for call::Authorize {
         call_result::CallResult::new(
             unique_id,
             call_result::ResultPayload::PossibleEmptyResponse(
-                call_result::EmptyResponses::PossibleIdTagInfoResponse(
-                    call_result::IdTagInfoResponses::Authorize(payload),
-                ),
+                call_result::EmptyResponses::GenericIdTagInfoResponse(payload),
             ),
         )
     }
@@ -567,7 +566,7 @@ impl Response for call::StatusNotification {
 }
 
 impl Response for call::StopTransaction {
-    type ResponseType = call_result::StopTransaction;
+    type ResponseType = call_result::GenericIdTagInfo;
     fn get_response(
         &self,
         unique_id: String,
@@ -576,9 +575,7 @@ impl Response for call::StopTransaction {
         call_result::CallResult::new(
             unique_id,
             call_result::ResultPayload::PossibleEmptyResponse(
-                call_result::EmptyResponses::PossibleIdTagInfoResponse(
-                    call_result::IdTagInfoResponses::StopTransaction(payload),
-                ),
+                call_result::EmptyResponses::GenericIdTagInfoResponse(payload),
             ),
         )
     }

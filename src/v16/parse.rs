@@ -4,8 +4,9 @@ use super::call::Call;
 use super::call_error::CallError;
 use super::call_result::CallResult;
 
+use alloc::string::String;
 use serde::{Deserialize, Serialize};
-
+use crate::alloc::string::ToString;
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]

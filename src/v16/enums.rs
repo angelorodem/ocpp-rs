@@ -1,8 +1,7 @@
-use arbitrary::Arbitrary;
 use serde::{Deserialize, Serialize};
 use strum_macros::{AsRefStr, EnumString};
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum AvailabilityType {
     /// Charge point is not available for charging.    
     Inoperative,
@@ -11,7 +10,7 @@ pub enum AvailabilityType {
     Operative,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum CertificateUse {
     #[default]
     CentralSystemRootCertificate,
@@ -19,7 +18,7 @@ pub enum CertificateUse {
 }
 
 #[derive(
-    Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, EnumString,
+    AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, EnumString,
 )]
 pub enum ChargePointErrorCode {
     /// Failure to lock or unlock connector.    
@@ -59,7 +58,7 @@ pub enum ChargePointErrorCode {
 }
 
 #[derive(
-    Arbitrary, AsRefStr, EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default,
+    AsRefStr, EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default,
 )]
 pub enum ChargePointStatus {
     /// When a Connector becomes available for a new user (Operative)    
@@ -87,7 +86,7 @@ pub enum ChargePointStatus {
     Faulted,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ChargingProfileKindType {
     /// Schedule periods are relative to a fixed point in time defined in the schedule.    
     #[default]
@@ -98,7 +97,7 @@ pub enum ChargingProfileKindType {
     Relative,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ChargingProfilePurposeType {
     /// Configuration for the maximum power or current available for an entire Charge Point.    
     #[default]
@@ -111,14 +110,14 @@ pub enum ChargingProfilePurposeType {
     TxProfile,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ChargingRateUnitType {
     #[default]
     W,
     A,
 }
 
-#[derive(Arbitrary, Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum CiStringType {
     CiString20 = 20,
     CiString25 = 25,
@@ -127,7 +126,7 @@ pub enum CiStringType {
     CiString500 = 500,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 pub enum ConfigurationKey {
     AllowOfflineTxForUnknownId,
     AuthorizationCacheEnabled,
@@ -185,7 +184,7 @@ pub enum ConfigurationKey {
     SecurityProfile,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum DiagnosticsStatus {
     /// Charge Point is not performing diagnostics related tasks. Status Idle SHALL only be used as in a DiagnosticsStatusNotification.req that was triggered by a TriggerMessage.req    
     #[default]
@@ -198,7 +197,7 @@ pub enum DiagnosticsStatus {
     Uploading,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum FirmwareStatus {
     /// New firmware has been downloaded by Charge Point.    
     Downloaded,
@@ -217,7 +216,7 @@ pub enum FirmwareStatus {
     Installed,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum GenericStatus {
     /// Request has been accepted and will be executed.    
     #[default]
@@ -286,14 +285,14 @@ pub enum GenericStatus {
     VersionMismatch,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 pub enum HashAlgorithm {
     SHA256,
     SHA384,
     SHA512,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum Location {
     /// Measurement inside body of Charge Point (e.g. Temperature)    
     #[default]
@@ -310,14 +309,14 @@ pub enum Location {
     Outlet,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum Log {
     #[default]
     DiagnosticsLog,
     SecurityLog,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum Measurand {
     ///Instantaneous current flow from EV    
     #[strum(serialize = "Current.Export")]
@@ -407,7 +406,7 @@ pub enum Measurand {
     Voltage,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum MessageTrigger {
     /// To trigger a `BootNotification` request    
     #[default]
@@ -424,7 +423,7 @@ pub enum MessageTrigger {
     StatusNotification,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum Phase {
     #[default]
     L1,
@@ -451,7 +450,7 @@ pub enum Phase {
     L3L1,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ReadingContext {
     /// Value taken at start of interruption.    
     #[strum(serialize = "Interruption.Begin")]
@@ -485,7 +484,7 @@ pub enum ReadingContext {
 }
 
 #[derive(
-    Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, Copy,
+    AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, Copy,
 )]
 pub enum Reason {
     /// The transaction was stopped because of the authorization status in a StartTransaction.conf    
@@ -513,7 +512,7 @@ pub enum Reason {
     UnlockCommand,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum RecurrencyKind {
     ///  The schedule restarts every 24 hours, at the same time as in the startSchedule.    
     #[default]
@@ -522,7 +521,7 @@ pub enum RecurrencyKind {
     Weekly,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ResetType {
     /// Restart (all) the hardware, the Charge Point is not required to gracefully stop ongoing transaction.    
     ///  If possible the Charge Point sends a StopTransaction.req for previously ongoing transactions after having restarted and having been accepted by the Central System via a BootNotification.conf.    
@@ -533,7 +532,7 @@ pub enum ResetType {
     Soft,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum UnitOfMeasure {
     /// Watt-hours (energy). Default.    
     Wh,
@@ -586,7 +585,7 @@ pub enum UnitOfMeasure {
     Percent,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum UnlockStatus {
     /// # From OCPP Specification    
     /// Connector has successfully been unlocked.    
@@ -601,7 +600,7 @@ pub enum UnlockStatus {
     NotSupported,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum UploadLogStatus {
     BadMessage,
     #[default]
@@ -613,7 +612,7 @@ pub enum UploadLogStatus {
     Uploading,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum UpdateType {
     /// Indicates that the current Local Authorization List must be updated with the values in this message.    
     Differential,
@@ -622,7 +621,7 @@ pub enum UpdateType {
     Full,
 }
 
-#[derive(Arbitrary, AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ValueFormat {
     /// Data is to be interpreted as integer/decimal numeric data.    
     #[default]

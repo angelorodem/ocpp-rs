@@ -32,15 +32,15 @@ use super::enums::{
     UnlockStatus,
 };
 use super::data_types::{DateTimeWrapper, IdTagInfo};
+use alloc::collections::btree_map::BTreeMap;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use strum_macros::AsRefStr;
 use serde_tuple::{Serialize_tuple, Deserialize_tuple};
 use super::utils::iso8601_date_time;
-use arbitrary::Arbitrary;
 
 
-#[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 /// This enum is used to handle the different types of responses that might come from the server.  
@@ -53,33 +53,6 @@ pub enum ResultPayload {
     PossibleEmptyResponse(EmptyResponses),
 }
 
-
-#[derive(Arbitrary)]
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
-#[serde(untagged)]
-/// This enum has types that are ambiguous when deserializing, they both contain `IdTagInfo`,
-/// and one can be empty.
-pub enum IdTagInfoResponses {
-    Authorize(Authorize),
-    StopTransaction(StopTransaction),
-}
-
-impl IdTagInfoResponses {
-    #[must_use]
-    /// When waiting for a response that might contain `IdTagInfo` or `StopTransaction`,    
-    /// this function will return the `IdTagInfo` if it exists.    
-    /// No need for matching    
-    pub fn get_id_tag_info(self) -> Option<IdTagInfo> {
-        match self {
-            Self::Authorize(id_tag_info) => Some(id_tag_info.id_tag_info),
-            Self::StopTransaction(stop_transaction) => stop_transaction.id_tag_info,
-        }
-    }
-    
-}
-
-
-#[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 /// Since some structs might come as empty due to the optional fields,    
@@ -87,11 +60,17 @@ impl IdTagInfoResponses {
 /// to know which struct to use when deserializing, since there is no type field    
 /// in the `CallResult` spec.    
 pub enum EmptyResponses {
-    EmptyResponse(EmptyResponse),
+    /// Remember to handle `EmptyResponse` before this since it is ambiguous when deserializing,
+    /// and might get interpreted as `EmptyResponse` instead of `GenericIdTagInfoResponse`.
+    GenericIdTagInfoResponse(GenericIdTagInfo),
+    /// Remember to handle `EmptyResponse` before this since it is ambiguous when deserializing,
+    /// and might get interpreted as `EmptyResponse` instead of `GetConfiguration`.
     GetConfiguration(GetConfiguration),
+    /// Remember to handle `EmptyResponse` before this since it is ambiguous when deserializing,
+    /// and might get interpreted as `EmptyResponse` instead of `GetDiagnostics`.
     GetDiagnostics(GetDiagnostics),
-    /// For Stop transaction    
-    PossibleIdTagInfoResponse(IdTagInfoResponses),
+    /// Matches all empty responses
+    EmptyResponse(EmptyResponse),
 }
 
 impl EmptyResponses {
@@ -101,16 +80,12 @@ impl EmptyResponses {
             Self::EmptyResponse(_) => true,
             Self::GetConfiguration(get_configuration) => get_configuration.is_empty(),
             Self::GetDiagnostics(get_diagnostics) => get_diagnostics.is_empty(),
-            Self::PossibleIdTagInfoResponse(id_tag_info_responses) => match id_tag_info_responses {
-                IdTagInfoResponses::Authorize(_) => false,
-                IdTagInfoResponses::StopTransaction(stop_transaction) => stop_transaction.is_empty(),
-            },
+            Self::GenericIdTagInfoResponse(generic_id_tag_info) => generic_id_tag_info.is_empty(),
         }
     }
     
 }
 
-#[derive(Arbitrary)]
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
@@ -184,27 +159,6 @@ impl CallResult {
     }
 }
 
-impl Arbitrary<'_> for CallResult {
-    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
-        let unique_id = i32::arbitrary(u)?;
-        let payload = ResultPayload::arbitrary(u)?;
-
-        Ok(Self {
-            message_id: 3,
-            unique_id: unique_id.to_string(),
-            payload,
-        }) 
-    }
-}
-
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
-pub struct Authorize {
-    pub id_tag_info: IdTagInfo,
-}
-
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct BootNotification {
@@ -222,7 +176,6 @@ impl Status for BootNotification {
     } 
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Heartbeat {
@@ -230,7 +183,6 @@ pub struct Heartbeat {
     pub current_time: DateTimeWrapper,
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// This struct will come as empty.    
@@ -243,7 +195,6 @@ impl PossibleEmpty for EmptyResponse {
     }        
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct StartTransaction {
@@ -251,22 +202,31 @@ pub struct StartTransaction {
     pub id_tag_info: IdTagInfo,
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// This struct might come as empty due to the optional fields.    
 /// This might be ill interpreted by the deserializer.    
-pub struct StopTransaction {
+pub struct GenericIdTagInfo {
     pub id_tag_info: Option<IdTagInfo>,
 }
 
-impl PossibleEmpty for StopTransaction {
+impl PossibleEmpty for GenericIdTagInfo {
     fn is_empty(&self) -> bool {
         self.id_tag_info.is_none()
     }    
 }
 
-#[derive(Arbitrary)]
+impl GenericIdTagInfo {
+    #[must_use]
+    /// When waiting for a response that might contain `IdTagInfo` or `StopTransaction`,    
+    /// this function will return the `IdTagInfo` if it exists.    
+    /// No need for matching    
+    pub fn get_id_tag_info(self) -> Option<IdTagInfo> {
+        self.id_tag_info
+    }
+    
+}
+
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
@@ -290,7 +250,6 @@ impl Status for GenericStatusResponse {
     }
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
@@ -313,7 +272,6 @@ impl Status for GetInstalledCertificateIds {
     }       
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
@@ -329,7 +287,7 @@ pub struct GetCompositeSchedule {
     pub status: GenericStatus,
     pub connector_id: Option<i32>,
     pub schedule_start: Option<String>,
-    pub charging_schedule: Option<HashMap<String, String>>,
+    pub charging_schedule: Option<BTreeMap<String, String>>,
 }
 
 impl Status for GetCompositeSchedule {
@@ -338,7 +296,6 @@ impl Status for GetCompositeSchedule {
     }      
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// This struct might come as empty due to the optional fields.    
@@ -354,7 +311,6 @@ impl PossibleEmpty for GetConfiguration {
     }        
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// This struct might come as empty due to the optional fields.    
@@ -369,14 +325,12 @@ impl PossibleEmpty for GetDiagnostics {
     }        
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLocalListVersion {
     pub list_version: i32,
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
@@ -399,14 +353,12 @@ impl Status for GetLog {
     }      
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UnlockConnector {
     pub status: UnlockStatus,
 }
 
-#[derive(Arbitrary)]
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
@@ -428,3 +380,5 @@ impl Status for DataTransfer {
         self.data.is_none()
    }       
 }
+
+

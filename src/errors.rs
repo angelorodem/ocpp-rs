@@ -1,3 +1,6 @@
+use core::{fmt::Display, num::ParseIntError};
+use crate::alloc::string::ToString;
+use alloc::string::{FromUtf8Error, String};
 use derive_more::From;
 
 pub type Result<T> = core::result::Result<T, Error>;
@@ -7,9 +10,9 @@ pub enum Error {
     #[from]
     SerdeJson(serde_json::Error),
     #[from]
-    ParseInt(std::num::ParseIntError),
+    ParseInt(ParseIntError),
     #[from]
-    Utf8(std::string::FromUtf8Error),
+    Utf8(FromUtf8Error),
     #[from]
     InvalidMessageCallType,
     #[from]
@@ -19,7 +22,7 @@ pub enum Error {
 }
 
 impl Error {
-    pub fn custom(val: impl std::fmt::Display) -> Self {
+    pub fn custom(val: impl Display + ToString) -> Self {
         Self::Custom(val.to_string())
     }    
 }

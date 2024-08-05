@@ -1,18 +1,19 @@
 use super::enums::{
-    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, GenericStatus, HashAlgorithm, Location, Measurand, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure, ValueFormat
+    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, GenericStatus,
+    HashAlgorithm, Location, Measurand, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure,
+    ValueFormat,
 };
 
+use super::utils::{iso8601_date_time, iso8601_date_time_optional};
+use alloc::string::String;
+use alloc::vec::Vec;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use validator::Validate;
-use super::utils::{iso8601_date_time_optional,iso8601_date_time};
-use arbitrary::Arbitrary;
 
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default, Copy)]
 pub struct DateTimeWrapper(pub DateTime<Utc>);
 
-#[derive(Arbitrary)]
-#[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Validate, Default)]
+#[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct IdTagInfo {
     /// Optional. This contains the date at which idTag should be removed from the Authorization Cache.    
@@ -21,19 +22,16 @@ pub struct IdTagInfo {
     #[serde(with = "iso8601_date_time_optional")]
     pub expiry_date: Option<DateTimeWrapper>,
     /// Optional. This contains the parent-identifier. `IdToken`    
-    #[validate(length(min = 1, max = 20))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parent_id_tag: Option<String>,
     /// Required. This contains whether the idTag has been accepted or not by the Central System.    
     pub status: GenericStatus,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct AuthorizationData {
     /// Required. The identifier to which this authorization applies.    
-    #[validate(length(min = 1, max = 20))]
     pub id_tag: String,
     /// Optional. (Required when `UpdateType` is Full) This contains information about authorization status,    
     /// expiry and parent id. For a Differential update the following applies: If this element is present,    
@@ -43,8 +41,7 @@ pub struct AuthorizationData {
     pub id_tag_info: Option<IdTagInfo>,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingSchedulePeriod {
     /// Required. Start of the period, in seconds from the start of schedule. The value of `StartPeriod` also defines the stop time of the previous period.    
@@ -56,8 +53,7 @@ pub struct ChargingSchedulePeriod {
     pub number_phases: Option<i32>,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingSchedule {
     /// Optional. Duration of the charging schedule in seconds. If the duration is left empty, the last period will continue indefinitely or until end of the transaction in case startSchedule is absent.    
@@ -79,8 +75,7 @@ pub struct ChargingSchedule {
     pub min_charging_rate: Option<f32>,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct ChargingProfile {
     pub charging_profile_id: i32,
@@ -102,23 +97,19 @@ pub struct ChargingProfile {
     pub charging_schedule: ChargingSchedule,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct KeyValue {
     /// Required.    
-    #[validate(length(min = 1, max = 50))]
     pub key: String,
     /// Required. False if the value can be set with the `ChangeConfiguration` message.    
     pub readonly: bool,
     /// Optional. If key is known but not set, this field may be absent.    
-    #[validate(length(min = 1, max = 500))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub value: Option<String>,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Validate, Eq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct SampledValue {
     /// Required. Value as a “Raw” (decimal) number or “`SignedData`”. Field Type is “string” to allow for digitally signed data readings.    
@@ -145,8 +136,7 @@ pub struct SampledValue {
     pub unit: Option<UnitOfMeasure>,
 }
 
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct MeterValue {
     /// Required. Timestamp for measured value(s).    
@@ -157,26 +147,23 @@ pub struct MeterValue {
 }
 
 // Not standard 1.6
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CertificateHashData {
     /// Required. Used algorithms for the hashes provided.    
     pub hash_algorithm: HashAlgorithm,
     /// Required. Hashed value of the Issuer DN (Distinguished Name).    
-    #[validate(length(min = 0, max = 128))]
     pub issuer_name_hash: String,
     /// Required. Hashed value of the issuers public key    
-    #[validate(length(min = 0, max = 128))]
     pub issuer_key_hash: String,
     /// Required. The serial number of the certificate.    
-    #[validate(length(min = 0, max = 40))]
     pub serial_number: String,
 }
 
 // Not standard 1.6
-#[derive(Arbitrary)]
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Validate)]
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Firmware {
     pub location: String,
@@ -193,7 +180,7 @@ pub struct Firmware {
 }
 
 // Not standard 1.6
-#[derive(Arbitrary)]
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LogParameters {
