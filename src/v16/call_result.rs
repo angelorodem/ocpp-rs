@@ -48,6 +48,7 @@ pub enum ResultPayload {
     StartTransaction(StartTransaction),
     BootNotification(BootNotification),
     Heartbeat(Heartbeat),
+    GetLocalListVersion(GetLocalListVersion),
     PossibleStatusResponse(StatusResponses),
     PossibleEmptyResponse(EmptyResponses),
 }
@@ -278,6 +279,7 @@ impl PossibleEmpty for StopTransaction {
 ///     
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,    
 /// but `CallResult` does not.    
+/// TODO: create a generic and use strict types for each type
 pub struct GenericStatusResponse {
     pub status: GenericStatus,
 }

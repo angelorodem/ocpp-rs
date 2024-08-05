@@ -5,5 +5,6 @@ pub mod enums;
 pub mod data_types;
 pub mod parse;
 pub mod utils;
+pub mod response_trait;
 
 
