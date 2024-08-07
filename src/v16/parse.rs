@@ -35,15 +35,15 @@ pub fn to_message(data: &str) -> Result<Message> {
 
     match call_type {
         2 => {
-            let call: Call = serde_json::from_str(data)?;
+            let call: Call = serde_json::from_str(data).map_err(Error::SerdeJson)?;
             Ok(Message::Call(call))
         }
         3 => {
-            let call_result: CallResult = serde_json::from_str(data)?;
+            let call_result: CallResult = serde_json::from_str(data).map_err(Error::SerdeJson)?;
             Ok(Message::CallResult(call_result))
         }
         4 => {
-            let call_error: CallError = serde_json::from_str(data)?;
+            let call_error: CallError = serde_json::from_str(data).map_err(Error::SerdeJson)?;
             Ok(Message::CallError(call_error))
         }
         _ => Err(Error::InvalidMessageCallType),
@@ -79,21 +79,21 @@ pub fn from_message(message: &Message) -> Result<String> {
             if call.message_id != 2 {
                 return Err(Error::CallTypeMismatch(CallTypeMismatch{expected: 2, found: call.message_id}));
             }            
-            let v = serde_json::to_value(call)?;
+            let v = serde_json::to_value(call).map_err(Error::SerdeJson)?;
             Ok(v.to_string())
         }
         Message::CallResult(call_result) => {
             if call_result.message_id != 3 {
                 return Err(Error::CallTypeMismatch(CallTypeMismatch{expected: 3, found: call_result.message_id}));
             }
-            let v = serde_json::to_value(call_result)?;
+            let v = serde_json::to_value(call_result).map_err(Error::SerdeJson)?;
             Ok(v.to_string())
         }
         Message::CallError(call_error) => {
             if call_error.message_id != 4 {
                 return Err(Error::CallTypeMismatch(CallTypeMismatch{expected: 4, found: call_error.message_id}));
             }
-            let v = serde_json::to_value(call_error)?;
+            let v = serde_json::to_value(call_error).map_err(Error::SerdeJson)?;
             Ok(v.to_string())
         }
     }

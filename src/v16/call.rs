@@ -42,7 +42,6 @@ use serde::{Deserialize, Serialize};
 use serde_tuple::Serialize_tuple;
 
 use crate::alloc::string::ToString;
-use rand::Rng;
 use strum_macros::AsRefStr;
 
 /// Call action enum that contains all the possible actions that can be sent to the Charge Point.    
@@ -103,10 +102,20 @@ pub struct Call {
 
 impl Call {
     #[must_use]
-    pub fn new(unique_id: Option<String>, payload: Action) -> Self {
-        let unique_id = unique_id.unwrap_or_else(|| {
-            let mut rng = rand::thread_rng();
-            rng.gen::<u32>().to_string()
+    /// Create a new Call struct
+    /// # Arguments
+    /// * `unique_id` - A unique positive integer string identifier for the call
+    /// * `payload` - The payload of the call
+    ///
+    /// # Panics
+    /// This method will panic *in debug mode* if the `unique_id` is not a valid positive number
+    pub fn new(unique_id: String, payload: Action) -> Self {
+        #[cfg(debug_assertions)]
+        unique_id.parse::<u32>().unwrap_or_else(|_| {
+            panic!(
+                "unique_id: \"{}\" is not a valid positive number",
+                unique_id
+            )
         });
 
         Self {
@@ -491,304 +500,256 @@ impl<'de> Deserialize<'de> for Call {
                 let action: String = seq
                     .next_element()?
                     .ok_or_else(|| serde::de::Error::invalid_length(2, &self))?;
-                let payload: serde_json::Value = seq
-                    .next_element()?
-                    .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
 
                 match action.as_str() {
                     "Authorize" => {
-                        let data: Authorize =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), Action::Authorize(data)))
+                        let data: Authorize = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::Authorize(data)))
                     }
                     "BootNotification" => {
-                        let data: BootNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::BootNotification(data),
-                        ))
+                        let data: BootNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::BootNotification(data)))
                     }
                     "CancelReservation" => {
-                        let data: CancelReservation =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::CancelReservation(data),
-                        ))
+                        let data: CancelReservation = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::CancelReservation(data)))
                     }
                     "CertificateSigned" => {
-                        let data: CertificateSigned =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::CertificateSigned(data),
-                        ))
+                        let data: CertificateSigned = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::CertificateSigned(data)))
                     }
                     "ChangeAvailability" => {
-                        let data: ChangeAvailability =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::ChangeAvailability(data),
-                        ))
+                        let data: ChangeAvailability = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::ChangeAvailability(data)))
                     }
                     "ChangeConfiguration" => {
-                        let data: ChangeConfiguration =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::ChangeConfiguration(data),
-                        ))
+                        let data: ChangeConfiguration = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::ChangeConfiguration(data)))
                     }
                     "ClearCache" => {
-                        let data: ClearCache =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), Action::ClearCache(data)))
+                        let data: ClearCache = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::ClearCache(data)))
                     }
                     "ClearChargingProfile" => {
-                        let data: ClearChargingProfile =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::ClearChargingProfile(data),
-                        ))
+                        let data: ClearChargingProfile = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::ClearChargingProfile(data)))
                     }
                     "DataTransfer" => {
-                        let data: DataTransfer =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::DataTransfer(data),
-                        ))
+                        let data: DataTransfer = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::DataTransfer(data)))
                     }
                     "DeleteCertificate" => {
-                        let data: DeleteCertificate =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::DeleteCertificate(data),
-                        ))
+                        let data: DeleteCertificate = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::DeleteCertificate(data)))
                     }
                     "DiagnosticsStatusNotification" => {
-                        let data: DiagnosticsStatusNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        let data: DiagnosticsStatusNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
                         Ok(Call::new(
-                            Some(unique_id),
+                            unique_id,
                             Action::DiagnosticsStatusNotification(data),
                         ))
                     }
                     "ExtendedTriggerMessage" => {
-                        let data: ExtendedTriggerMessage =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::ExtendedTriggerMessage(data),
-                        ))
+                        let data: ExtendedTriggerMessage = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::ExtendedTriggerMessage(data)))
                     }
                     "FirmwareStatusNotification" => {
-                        let data: FirmwareStatusNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        let data: FirmwareStatusNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
                         Ok(Call::new(
-                            Some(unique_id),
+                            unique_id,
                             Action::FirmwareStatusNotification(data),
                         ))
                     }
                     "GetCompositeSchedule" => {
-                        let data: GetCompositeSchedule =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::GetCompositeSchedule(data),
-                        ))
+                        let data: GetCompositeSchedule = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::GetCompositeSchedule(data)))
                     }
                     "GetConfiguration" => {
-                        let data: GetConfiguration =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::GetConfiguration(data),
-                        ))
+                        let data: GetConfiguration = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::GetConfiguration(data)))
                     }
                     "GetDiagnostics" => {
-                        let data: GetDiagnostics =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::GetDiagnostics(data),
-                        ))
+                        let data: GetDiagnostics = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::GetDiagnostics(data)))
                     }
                     "GetInstalledCertificateIds" => {
-                        let data: GetInstalledCertificateIds =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        let data: GetInstalledCertificateIds = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
                         Ok(Call::new(
-                            Some(unique_id),
+                            unique_id,
                             Action::GetInstalledCertificateIds(data),
                         ))
                     }
                     "GetLocalListVersion" => {
-                        let data: GetLocalListVersion =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::GetLocalListVersion(data),
-                        ))
+                        let data: GetLocalListVersion = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::GetLocalListVersion(data)))
                     }
                     "GetLog" => {
-                        let data: GetLog =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), Action::GetLog(data)))
+                        let data: GetLog = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::GetLog(data)))
                     }
                     "Heartbeat" => {
-                        let data: Heartbeat =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), Action::Heartbeat(data)))
+                        let data: Heartbeat = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::Heartbeat(data)))
                     }
                     "InstallCertificate" => {
-                        let data: InstallCertificate =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::InstallCertificate(data),
-                        ))
+                        let data: InstallCertificate = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::InstallCertificate(data)))
                     }
                     "LogStatusNotification" => {
-                        let data: LogStatusNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::LogStatusNotification(data),
-                        ))
+                        let data: LogStatusNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::LogStatusNotification(data)))
                     }
                     "MeterValues" => {
-                        let data: MeterValues =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::MeterValues(data),
-                        ))
+                        let data: MeterValues = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::MeterValues(data)))
                     }
                     "RemoteStartTransaction" => {
-                        let data: RemoteStartTransaction =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::RemoteStartTransaction(data),
-                        ))
+                        let data: RemoteStartTransaction = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::RemoteStartTransaction(data)))
                     }
                     "RemoteStopTransaction" => {
-                        let data: RemoteStopTransaction =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::RemoteStopTransaction(data),
-                        ))
+                        let data: RemoteStopTransaction = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::RemoteStopTransaction(data)))
                     }
                     "ReserveNow" => {
-                        let data: ReserveNow =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), Action::ReserveNow(data)))
+                        let data: ReserveNow = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::ReserveNow(data)))
                     }
                     "Reset" => {
-                        let data: Reset =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), Action::Reset(data)))
+                        let data: Reset = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::Reset(data)))
                     }
                     "SecurityEventNotification" => {
-                        let data: SecurityEventNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        let data: SecurityEventNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
                         Ok(Call::new(
-                            Some(unique_id),
+                            unique_id,
                             Action::SecurityEventNotification(data),
                         ))
                     }
                     "SendLocalList" => {
-                        let data: SendLocalList =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::SendLocalList(data),
-                        ))
+                        let data: SendLocalList = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::SendLocalList(data)))
                     }
                     "SetChargingProfile" => {
-                        let data: SetChargingProfile =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::SetChargingProfile(data),
-                        ))
+                        let data: SetChargingProfile = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::SetChargingProfile(data)))
                     }
                     "SignCertificate" => {
-                        let data: SignCertificate =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::SignCertificate(data),
-                        ))
+                        let data: SignCertificate = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::SignCertificate(data)))
                     }
                     "SignedFirmwareStatusNotification" => {
-                        let data: SignedFirmwareStatusNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
+                        let data: SignedFirmwareStatusNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
                         Ok(Call::new(
-                            Some(unique_id),
+                            unique_id,
                             Action::SignedFirmwareStatusNotification(data),
                         ))
                     }
                     "SignedUpdateFirmware" => {
-                        let data: SignedUpdateFirmware =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::SignedUpdateFirmware(data),
-                        ))
+                        let data: SignedUpdateFirmware = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::SignedUpdateFirmware(data)))
                     }
                     "StartTransaction" => {
-                        let data: StartTransaction =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::StartTransaction(data),
-                        ))
+                        let data: StartTransaction = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::StartTransaction(data)))
                     }
                     "StatusNotification" => {
-                        let data: StatusNotification =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::StatusNotification(data),
-                        ))
+                        let data: StatusNotification = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::StatusNotification(data)))
                     }
                     "StopTransaction" => {
-                        let data: StopTransaction =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::StopTransaction(data),
-                        ))
+                        let data: StopTransaction = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::StopTransaction(data)))
                     }
                     "TriggerMessage" => {
-                        let data: TriggerMessage =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::TriggerMessage(data),
-                        ))
+                        let data: TriggerMessage = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::TriggerMessage(data)))
                     }
                     "UnlockConnector" => {
-                        let data: UnlockConnector =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::UnlockConnector(data),
-                        ))
+                        let data: UnlockConnector = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::UnlockConnector(data)))
                     }
                     "UpdateFirmware" => {
-                        let data: UpdateFirmware =
-                            serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(
-                            Some(unique_id),
-                            Action::UpdateFirmware(data),
-                        ))
+                        let data: UpdateFirmware = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+                        Ok(Call::new(unique_id, Action::UpdateFirmware(data)))
                     }
 
                     _ => Err(serde::de::Error::unknown_variant(

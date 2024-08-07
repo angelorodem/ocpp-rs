@@ -17,12 +17,9 @@ exclude = ["doc_imgs/", ".*"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-strum = "0.26"
-strum_macros = "0.26"
-serde = { version = "1.0", features = ["derive"], default-features = false }
-serde_json = "1.0"
-chrono = { version = "0.4", features = ["serde"] }
-validator = { version = "0.18", features = ["derive"] }
-serde_tuple = "0.5"
-derive_more = "0.99"
-rand = "0.8"
+strum = "0.26" # No_std
+strum_macros = "0.26" # No_std
+serde = { version = "1.0", features = ["derive"], default-features = false } # No_std
+serde_tuple = {version = "0.5.0", default-features = false} # No_std
+serde_json = "1.0" # std
+chrono = { version = "0.4", features = ["serde"] } # std

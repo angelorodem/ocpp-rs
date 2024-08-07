@@ -15,7 +15,7 @@ fn test_parse_boot_notification() {
     println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call::new(
-        Some("19223201".to_string()),
+        "19223201".to_string(),
         Action::BootNotification(BootNotification {
             charge_point_vendor: "VendorX".to_string(),
             charge_point_model: "SingleSocketCharger".to_string(),
@@ -39,7 +39,7 @@ fn test_parse_heartbeat() {
     println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call::new(
-        Some("19223201".to_string()),
+        "19223201".to_string(),
         Action::Heartbeat(Heartbeat {}),
     ));
 
@@ -78,7 +78,7 @@ fn test_status_notification() {
     );
 
     let message_eq: Message = Message::Call(Call::new(
-        Some("253356461".to_string()),
+        "253356461".to_string(),
         Action::StatusNotification(action),
     ));
 
