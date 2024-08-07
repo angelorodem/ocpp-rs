@@ -21,5 +21,5 @@ strum = "0.26" # No_std
 strum_macros = "0.26" # No_std
 serde = { version = "1.0", features = ["derive"], default-features = false } # No_std
 serde_tuple = {version = "0.5.0", default-features = false} # No_std
-serde_json = "1.0" # std
-chrono = { version = "0.4", features = ["serde"] } # std
+serde_json = "1.0" # std (due to no_std variants not supporting enums)
+chrono = { version = "0.4", features = ["serde"] } # std (due to iso 8601 format, can be easily replaced, waiting on serde_json to support no_std)
