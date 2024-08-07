@@ -4,6 +4,7 @@ use ocpp_rs::v16::call_result::CallResult;
 use ocpp_rs::v16::call_result::EmptyResponse;
 use ocpp_rs::v16::data_types::*;
 use ocpp_rs::v16::enums::*;
+use ocpp_rs::v16::parse;
 use ocpp_rs::v16::parse::{to_message, Message};
 use ocpp_rs::v16::response_trait::Response;
 
@@ -15,7 +16,6 @@ fn test_parse_boot_notification() {
 
     let message_eq: Message = Message::Call(Call::new(
         Some("19223201".to_string()),
-        "BootNotification".to_string(),
         Action::BootNotification(BootNotification {
             charge_point_vendor: "VendorX".to_string(),
             charge_point_model: "SingleSocketCharger".to_string(),
@@ -27,7 +27,6 @@ fn test_parse_boot_notification() {
     match message {
         ocpp_rs::v16::parse::Message::Call(call) => {
             assert_eq!(call.unique_id, "19223201");
-            assert_eq!(call.action, "BootNotification");
         }
         _ => panic!("Unexpected message type"),
     }
@@ -41,7 +40,6 @@ fn test_parse_heartbeat() {
 
     let message_eq: Message = Message::Call(Call::new(
         Some("19223201".to_string()),
-        "Heartbeat".to_string(),
         Action::Heartbeat(Heartbeat {}),
     ));
 
@@ -49,7 +47,6 @@ fn test_parse_heartbeat() {
     match message {
         ocpp_rs::v16::parse::Message::Call(call) => {
             assert_eq!(call.unique_id, "19223201");
-            assert_eq!(call.action, "Heartbeat");
         }
         _ => panic!("Unexpected message type"),
     }
@@ -82,7 +79,6 @@ fn test_status_notification() {
 
     let message_eq: Message = Message::Call(Call::new(
         Some("253356461".to_string()),
-        "StatusNotification".to_string(),
         Action::StatusNotification(action),
     ));
 
@@ -90,7 +86,6 @@ fn test_status_notification() {
     match &message {
         ocpp_rs::v16::parse::Message::Call(call) => {
             assert_eq!(call.unique_id, "253356461");
-            assert_eq!(call.action, "StatusNotification");
         }
         _ => panic!("Unexpected message type"),
     }
@@ -100,12 +95,12 @@ fn test_status_notification() {
             let response = sn.get_response(ca.unique_id, EmptyResponse {});
             assert_eq!(
                 response,
-                CallResult::new(
+                parse::Message::CallResult(CallResult::new(
                     "253356461".to_string(),
                     ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
                         ocpp_rs::v16::call_result::EmptyResponses::EmptyResponse(EmptyResponse {})
                     )
-                )
+                ))
             );
         }
     } else {
@@ -144,30 +139,16 @@ fn test_authorization_call_result() {
     }
 }
 
-/*
-pub struct GetConfiguration {
-    pub configuration_key: Option<Vec<String>>,
-    pub unknown_key: Option<Vec<String>>,
-}
-*/
-
 #[test]
 fn test_get_configuration_call_result() {
-    let data = "[3, \"253356461\", {\"configurationKey\":{\"status\":\"Accepted\"}}]";
+    let data = "[3, \"253356461\", {\"configurationKey\": [\"key1\", \"key2\"]}]";
     let message = to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
-    let id_tag_info = IdTagInfo {
-        expiry_date: None,
-        parent_id_tag: None,
-        status: GenericStatus::Accepted,
-    };
 
     let auth = ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
-        ocpp_rs::v16::call_result::EmptyResponses::GenericIdTagInfoResponse(
-            ocpp_rs::v16::call_result::GenericIdTagInfo {
-                id_tag_info: Some(id_tag_info),
-            },
+        ocpp_rs::v16::call_result::EmptyResponses::GetConfiguration(
+            ocpp_rs::v16::call_result::GetConfiguration { configuration_key: Some(vec!["key1".to_string(), "key2".to_string()]), unknown_key: None }
         ),
     );
 

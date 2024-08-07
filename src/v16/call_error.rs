@@ -1,4 +1,4 @@
-use alloc::{string::String, vec::Vec};
+use alloc::{collections::btree_map::BTreeMap, string::String, vec::Vec};
 use serde_json::Value;
 use serde_tuple::{Serialize_tuple, Deserialize_tuple};
 
@@ -10,11 +10,11 @@ pub struct CallError {
     pub unique_id: String,
     pub error_code: String,
     pub error_description: String,
-    pub error_details: Vec<Value>
+    pub error_details: BTreeMap<String, String>
 }
 
 impl CallError {
-    #[must_use] pub const fn new(unique_id: String, error_code: String, error_description: String, error_details: Vec<Value>) -> Self {
+    #[must_use] pub const fn new(unique_id: String, error_code: String, error_description: String, error_details: BTreeMap<String, String>) -> Self {
         Self {
             message_id: 4,
             unique_id,

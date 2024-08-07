@@ -9,7 +9,6 @@ it currently supports OCPP 1.6.
 - Full implementation of OCPP 1.6 Protocol
 - Currently most feature complete implementation of OCPP 1.6 in rust
 - Batteries included, check packet [parsing(to_message) serialization(from_message)](https://docs.rs/ocpp_rs/latest/ocpp_rs/v16/parse/index.html)
-- Fuzzed tested (please read the comment on the call_result fuzzing)
 - Inspired by a [python ocpp library](https://github.com/mobilityhouse/ocpp)
 
 
@@ -25,7 +24,7 @@ Since the original OCPP 1.6 protocol does not contain a type field for `CallResu
 Special cases where JSON payloads are ambiguous, like empty objects like: ```{}```, these might get serialized as a `EmptyResponse` instead of the variant
 you are waiting for like `GetConfiguration`.
 
-Look at this file to see how to properly handle `CallResults`: [`valid_call_result.rs`](fuzz/fuzz_targets/valid_call_result.rs)
+Look at this file to see how to properly handle `CallResults`: [`example`](example/src/main.rs)
 
 ## Example
 Receiving a payload from a client:

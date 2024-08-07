@@ -48,7 +48,7 @@ use strum_macros::AsRefStr;
 /// Call action enum that contains all the possible actions that can be sent to the Charge Point.    
 /// Please look at the OCPP 1.6 specification for more information    
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 #[serde(untagged)]
 pub enum Action {
     Authorize(Authorize),
@@ -93,17 +93,17 @@ pub enum Action {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Clone)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Call {
     pub(super) message_id: i32,
     pub unique_id: String,
-    pub action: String,
+    pub(crate) action: String,
     pub payload: Action,
 }
 
 impl Call {
     #[must_use]
-    pub fn new(unique_id: Option<String>, action: String, payload: Action) -> Self {
+    pub fn new(unique_id: Option<String>, payload: Action) -> Self {
         let unique_id = unique_id.unwrap_or_else(|| {
             let mut rng = rand::thread_rng();
             rng.gen::<u32>().to_string()
@@ -112,26 +112,26 @@ impl Call {
         Self {
             message_id: 2,
             unique_id,
-            action,
+            action: payload.as_ref().to_string(),
             payload,
         }
     }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CancelReservation {
     pub reservation_id: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CertificateSigned {
     pub certificate_chain: String,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ChangeAvailability {
     pub connector_id: u32,
     #[serde(rename = "type")]
@@ -139,18 +139,18 @@ pub struct ChangeAvailability {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ChangeConfiguration {
     pub key: String,
     pub value: String,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ClearCache {}
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ClearChargingProfile {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<i32>,
@@ -163,13 +163,13 @@ pub struct ClearChargingProfile {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DeleteCertificate {
     pub certificate_hash_data: BTreeMap<String, String>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ExtendedTriggerMessage {
     pub requested_message: MessageTrigger,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -177,7 +177,7 @@ pub struct ExtendedTriggerMessage {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetCompositeSchedule {
     pub connector_id: u32,
     pub duration: i32,
@@ -186,14 +186,14 @@ pub struct GetCompositeSchedule {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetConfiguration {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub key: Option<Vec<String>>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetDiagnostics {
     pub location: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -211,17 +211,17 @@ pub struct GetDiagnostics {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetInstalledCertificateIds {
     pub certificate_type: CertificateUse,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetLocalListVersion {}
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetLog {
     pub log: BTreeMap<String, String>,
     pub log_type: Log,
@@ -233,14 +233,14 @@ pub struct GetLog {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct InstallCertificate {
     pub certificate_type: CertificateUse,
     pub certificate: String,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct RemoteStartTransaction {
     pub id_tag: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -250,13 +250,13 @@ pub struct RemoteStartTransaction {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct RemoteStopTransaction {
     pub transaction_id: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ReserveNow {
     pub connector_id: u32,
     pub expiry_date: String,
@@ -267,14 +267,14 @@ pub struct ReserveNow {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Reset {
     #[serde(rename = "type")]
     pub reset_type: ResetType,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SendLocalList {
     pub list_version: i32,
     pub update_type: UpdateType,
@@ -282,14 +282,14 @@ pub struct SendLocalList {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SetChargingProfile {
     pub connector_id: u32,
     pub cs_charging_profiles: BTreeMap<String, String>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignedUpdateFirmware {
     pub request_id: i32,
     pub firmware: BTreeMap<String, String>,
@@ -300,7 +300,7 @@ pub struct SignedUpdateFirmware {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct TriggerMessage {
     pub requested_message: MessageTrigger,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -308,13 +308,13 @@ pub struct TriggerMessage {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UnlockConnector {
     pub connector_id: u32,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UpdateFirmware {
     pub location: String,
     pub retrieve_date: String,
@@ -325,13 +325,13 @@ pub struct UpdateFirmware {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Authorize {
     pub id_tag: String,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct BootNotification {
     pub charge_point_model: String,
     pub charge_point_vendor: String,
@@ -352,30 +352,30 @@ pub struct BootNotification {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DiagnosticsStatusNotification {
     pub status: DiagnosticsStatus,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct FirmwareStatusNotification {
     pub status: FirmwareStatus,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Heartbeat {}
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct LogStatusNotification {
     pub status: UploadLogStatus,
     pub request_id: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct MeterValues {
     pub connector_id: u32,
     pub meter_value: Vec<MeterValue>,
@@ -383,7 +383,7 @@ pub struct MeterValues {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SecurityEventNotification {
     #[serde(rename = "type")]
     pub event_type: String,
@@ -394,20 +394,20 @@ pub struct SecurityEventNotification {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignCertificate {
     pub csr: String,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignedFirmwareStatusNotification {
     pub status: FirmwareStatus,
     pub request_id: i32,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct StartTransaction {
     pub connector_id: u32,
     pub id_tag: String,
@@ -419,7 +419,7 @@ pub struct StartTransaction {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct StopTransaction {
     pub meter_stop: u64,
     #[serde(with = "iso8601_date_time")]
@@ -434,7 +434,7 @@ pub struct StopTransaction {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct StatusNotification {
     pub connector_id: u32,
     pub error_code: ChargePointErrorCode,
@@ -452,7 +452,7 @@ pub struct StatusNotification {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DataTransfer {
     pub vendor_id: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -499,14 +499,13 @@ impl<'de> Deserialize<'de> for Call {
                     "Authorize" => {
                         let data: Authorize =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), action, Action::Authorize(data)))
+                        Ok(Call::new(Some(unique_id), Action::Authorize(data)))
                     }
                     "BootNotification" => {
                         let data: BootNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::BootNotification(data),
                         ))
                     }
@@ -515,7 +514,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::CancelReservation(data),
                         ))
                     }
@@ -524,7 +522,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::CertificateSigned(data),
                         ))
                     }
@@ -533,7 +530,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::ChangeAvailability(data),
                         ))
                     }
@@ -542,21 +538,19 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::ChangeConfiguration(data),
                         ))
                     }
                     "ClearCache" => {
                         let data: ClearCache =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), action, Action::ClearCache(data)))
+                        Ok(Call::new(Some(unique_id), Action::ClearCache(data)))
                     }
                     "ClearChargingProfile" => {
                         let data: ClearChargingProfile =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::ClearChargingProfile(data),
                         ))
                     }
@@ -565,7 +559,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::DataTransfer(data),
                         ))
                     }
@@ -574,7 +567,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::DeleteCertificate(data),
                         ))
                     }
@@ -583,7 +575,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::DiagnosticsStatusNotification(data),
                         ))
                     }
@@ -592,7 +583,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::ExtendedTriggerMessage(data),
                         ))
                     }
@@ -601,7 +591,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::FirmwareStatusNotification(data),
                         ))
                     }
@@ -610,7 +599,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::GetCompositeSchedule(data),
                         ))
                     }
@@ -619,7 +607,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::GetConfiguration(data),
                         ))
                     }
@@ -628,7 +615,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::GetDiagnostics(data),
                         ))
                     }
@@ -637,7 +623,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::GetInstalledCertificateIds(data),
                         ))
                     }
@@ -646,26 +631,24 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::GetLocalListVersion(data),
                         ))
                     }
                     "GetLog" => {
                         let data: GetLog =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), action, Action::GetLog(data)))
+                        Ok(Call::new(Some(unique_id), Action::GetLog(data)))
                     }
                     "Heartbeat" => {
                         let data: Heartbeat =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), action, Action::Heartbeat(data)))
+                        Ok(Call::new(Some(unique_id), Action::Heartbeat(data)))
                     }
                     "InstallCertificate" => {
                         let data: InstallCertificate =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::InstallCertificate(data),
                         ))
                     }
@@ -674,7 +657,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::LogStatusNotification(data),
                         ))
                     }
@@ -683,7 +665,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::MeterValues(data),
                         ))
                     }
@@ -692,7 +673,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::RemoteStartTransaction(data),
                         ))
                     }
@@ -701,26 +681,24 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::RemoteStopTransaction(data),
                         ))
                     }
                     "ReserveNow" => {
                         let data: ReserveNow =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), action, Action::ReserveNow(data)))
+                        Ok(Call::new(Some(unique_id), Action::ReserveNow(data)))
                     }
                     "Reset" => {
                         let data: Reset =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
-                        Ok(Call::new(Some(unique_id), action, Action::Reset(data)))
+                        Ok(Call::new(Some(unique_id), Action::Reset(data)))
                     }
                     "SecurityEventNotification" => {
                         let data: SecurityEventNotification =
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::SecurityEventNotification(data),
                         ))
                     }
@@ -729,7 +707,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::SendLocalList(data),
                         ))
                     }
@@ -738,7 +715,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::SetChargingProfile(data),
                         ))
                     }
@@ -747,7 +723,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::SignCertificate(data),
                         ))
                     }
@@ -756,7 +731,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::SignedFirmwareStatusNotification(data),
                         ))
                     }
@@ -765,7 +739,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::SignedUpdateFirmware(data),
                         ))
                     }
@@ -774,7 +747,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::StartTransaction(data),
                         ))
                     }
@@ -783,7 +755,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::StatusNotification(data),
                         ))
                     }
@@ -792,7 +763,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::StopTransaction(data),
                         ))
                     }
@@ -801,7 +771,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::TriggerMessage(data),
                         ))
                     }
@@ -810,7 +779,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::UnlockConnector(data),
                         ))
                     }
@@ -819,7 +787,6 @@ impl<'de> Deserialize<'de> for Call {
                             serde_json::from_value(payload).map_err(serde::de::Error::custom)?;
                         Ok(Call::new(
                             Some(unique_id),
-                            action,
                             Action::UpdateFirmware(data),
                         ))
                     }
