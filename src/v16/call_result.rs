@@ -19,7 +19,7 @@
 //!     ResultPayload::StartTransaction(call_result::StartTransaction {
 //!         transaction_id: 0,
 //!         id_tag_info: IdTagInfo {
-//!             status: ocpp_rs::v16::enums::GenericStatus::Accepted,
+//!             status: ocpp_rs::v16::enums::ParsedGenericStatus::Accepted,
 //!             expiry_date: None,
 //!             parent_id_tag: None,
 //!         },
