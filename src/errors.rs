@@ -10,6 +10,7 @@ pub enum Error {
     ParseInt(ParseIntError),
     Utf8(FromUtf8Error),
     InvalidMessageCallType,
+    InvalidMessageCallTypeParsing,
     CallTypeMismatch(CallTypeMismatch),
     Custom(String),    
 }

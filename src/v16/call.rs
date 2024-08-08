@@ -111,12 +111,7 @@ impl Call {
     /// This method will panic *in debug mode* if the `unique_id` is not a valid positive number
     pub fn new(unique_id: String, payload: Action) -> Self {
         #[cfg(debug_assertions)]
-        unique_id.parse::<u32>().unwrap_or_else(|_| {
-            panic!(
-                "unique_id: \"{}\" is not a valid positive number",
-                unique_id
-            )
-        });
+        assert!(!unique_id.chars().any(|c| !c.is_numeric()));
 
         Self {
             message_id: 2,

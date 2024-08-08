@@ -57,7 +57,7 @@ fn get_call_type(buf: &str) -> Result<u8> {
             break;
         }
         if c.1.is_numeric() {
-            let value = c.1.to_digit(10).unwrap();
+            let value = c.1.to_digit(10).ok_or_else(|| Error::InvalidMessageCallTypeParsing)?;
             if !(2..=4).contains(&value) {
                 break;
             }

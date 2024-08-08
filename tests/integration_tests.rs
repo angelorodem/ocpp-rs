@@ -33,6 +33,34 @@ fn test_parse_boot_notification() {
 }
 
 #[test]
+fn test_parse_boot_notification_formatted() {
+    let data = "[\n 2,\n \"000002202408090409141051003\",\n \"BootNotification\",\n {\n \"chargePointModel\": \"DC\",\n \"chargePointSerialNumber\": \"bbb\",\n \"chargePointVendor\": \"xxx\",\n \"firmwareVersion\": \"230906.0755\",\n \"iccid\": \"\",\n \"meterType\": \"DC\"\n }\n]\n";
+    let message = to_message(data).unwrap();
+    println!("\nParsed: {:?}\n", message);
+
+    let message_eq: Message = Message::Call(Call::new(
+        "000002202408090409141051003".to_string(),
+        Action::BootNotification(BootNotification {
+            charge_point_vendor: "xxx".to_string(),
+            charge_point_model: "DC".to_string(),
+            charge_point_serial_number: Some("bbb".to_string()),
+            firmware_version: Some("230906.0755".to_string()),
+            iccid: Some("".to_string()),
+            meter_type: Some("DC".to_string()),
+            ..Default::default()
+        }),
+    ));
+
+    assert_eq!(message, message_eq);
+    match message {
+        ocpp_rs::v16::parse::Message::Call(call) => {
+            assert_eq!(call.unique_id, "000002202408090409141051003");
+        }
+        _ => panic!("Unexpected message type"),
+    }
+}
+
+#[test]
 fn test_parse_heartbeat() {
     let data = "[2, \"19223201\", \"Heartbeat\", {}]";
     let message = to_message(data).unwrap();
