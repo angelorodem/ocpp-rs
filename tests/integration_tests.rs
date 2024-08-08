@@ -58,7 +58,7 @@ fn test_status_notification() {
     let message = to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
-    let time = DateTimeWrapper(
+    let time = DateTimeWrapper::new(
         DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z")
             .unwrap()
             .with_timezone(&chrono::Utc),

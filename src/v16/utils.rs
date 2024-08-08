@@ -17,7 +17,7 @@ pub(crate) mod iso8601_date_time {
     where
         S: Serializer,
     {
-        let s = format!("{}", date.0.format(FORMAT));
+        let s = format!("{}", date.inner().format(FORMAT));
         serializer.serialize_str(&s)
     }
 
@@ -29,7 +29,7 @@ pub(crate) mod iso8601_date_time {
     {
         let s = String::deserialize(deserializer)?;
         let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
-        Ok(DateTimeWrapper(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc)))
+        Ok(DateTimeWrapper::new(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc)))
     }
 }
 
@@ -50,7 +50,7 @@ pub(crate) mod iso8601_date_time_optional {
     {
         match date {
             Some(date) => {
-                let s = format!("{}", date.0.format(FORMAT));
+                let s = format!("{}", date.inner().format(FORMAT));
                 serializer.serialize_str(&s)
             },
             None => serializer.serialize_none(),
@@ -67,7 +67,7 @@ pub(crate) mod iso8601_date_time_optional {
         match opt {
             Some(s) => {
                 let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
-                Ok(Some(DateTimeWrapper(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc))))
+                Ok(Some(DateTimeWrapper::new(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc))))
             },
             None => Ok(None),
         }       
