@@ -117,7 +117,7 @@ fn test_authorization_call_result() {
     let id_tag_info = IdTagInfo {
         expiry_date: None,
         parent_id_tag: None,
-        status: GenericStatus::Accepted,
+        status: ParsedGenericStatus::Accepted,
     };
 
     let auth = ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(

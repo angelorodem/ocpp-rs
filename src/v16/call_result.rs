@@ -28,7 +28,7 @@
 //!```
 
 use super::enums::{
-    GenericStatus,
+    ParsedGenericStatus,
     UnlockStatus,
 };
 use super::data_types::{DateTimeWrapper, IdTagInfo};
@@ -108,7 +108,7 @@ pub enum StatusResponses {
 
 impl StatusResponses {
     #[must_use]
-    pub const fn get_status(&self) -> &GenericStatus {
+    pub const fn get_status(&self) -> &ParsedGenericStatus {
         match self {
             Self::StatusResponse(generic_status_response) => &generic_status_response.status,
             Self::GetInstalledCertificateIds(get_installed_certificate_ids) => &get_installed_certificate_ids.status,
@@ -167,7 +167,7 @@ pub struct BootNotification {
     pub current_time: DateTimeWrapper,
     /// Interval in seconds    
     pub interval: i32,
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
 }
 
 impl Status for BootNotification {
@@ -241,7 +241,7 @@ impl GenericIdTagInfo {
 /// but `CallResult` does not.    
 /// TODO: create a generic and use strict types for each type
 pub struct GenericStatusResponse {
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
 }
 
 impl Status for GenericStatusResponse {
@@ -262,7 +262,7 @@ impl Status for GenericStatusResponse {
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,    
 /// but `CallResult` does not.    
 pub struct GetInstalledCertificateIds {
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
     pub certificate_hash_data: Option<Vec<String>>,
 }
 
@@ -284,7 +284,7 @@ impl Status for GetInstalledCertificateIds {
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,    
 /// but `CallResult` does not.    
 pub struct GetCompositeSchedule {
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
     pub connector_id: Option<i32>,
     pub schedule_start: Option<String>,
     pub charging_schedule: Option<BTreeMap<String, String>>,
@@ -343,7 +343,7 @@ pub struct GetLocalListVersion {
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,    
 /// but `CallResult` does not.    
 pub struct GetLog {
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
     pub filename: Option<String>,
 }
 
@@ -371,7 +371,7 @@ pub struct UnlockConnector {
 /// This is mostly due to the protocol not being properly projected, because Call does have the type field,    
 /// but `CallResult` does not.    
 pub struct DataTransfer {
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
     pub data: Option<String>,
 }
 

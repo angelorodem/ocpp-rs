@@ -217,7 +217,7 @@ pub enum FirmwareStatus {
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-pub enum GenericStatus {
+pub enum ParsedGenericStatus {
     /// Request has been accepted and will be executed.    
     #[default]
     Accepted,

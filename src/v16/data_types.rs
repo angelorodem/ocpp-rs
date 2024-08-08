@@ -1,5 +1,5 @@
 use super::enums::{
-    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, GenericStatus,
+    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, ParsedGenericStatus,
     HashAlgorithm, Location, Measurand, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure,
     ValueFormat,
 };
@@ -11,7 +11,19 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default, Copy)]
-pub struct DateTimeWrapper(pub DateTime<Utc>);
+pub struct DateTimeWrapper(DateTime<Utc>);
+
+impl DateTimeWrapper {
+    #[must_use]
+    pub const fn new(dt: DateTime<Utc>) -> Self {
+        Self(dt)
+    }
+
+    #[must_use]
+    pub const fn inner(&self) -> DateTime<Utc> {
+        self.0
+    }    
+}
 
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
@@ -25,7 +37,7 @@ pub struct IdTagInfo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parent_id_tag: Option<String>,
     /// Required. This contains whether the idTag has been accepted or not by the Central System.    
-    pub status: GenericStatus,
+    pub status: ParsedGenericStatus,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
