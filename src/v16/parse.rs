@@ -53,7 +53,7 @@ pub fn to_message(data: &str) -> Result<Message> {
 /// Check the initial characters of the message to determine the message type    
 fn get_call_type(buf: &str) -> Result<u8> {
     for c in buf.chars().enumerate().skip(1) {
-        if c.0 > 6 {
+        if c.0 > 6 || c.1 == ',' {
             break;
         }
         if c.1.is_numeric() {
