@@ -27,10 +27,7 @@
 //! ));
 //!```
 
-use super::enums::{
-    ParsedGenericStatus,
-    UnlockStatus,
-};
+use super::enums::ParsedGenericStatus;
 use super::data_types::{DateTimeWrapper, IdTagInfo};
 use alloc::collections::btree_map::BTreeMap;
 use alloc::string::String;
@@ -356,7 +353,7 @@ impl Status for GetLog {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UnlockConnector {
-    pub status: UnlockStatus,
+    pub status: GenericStatusResponse,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]

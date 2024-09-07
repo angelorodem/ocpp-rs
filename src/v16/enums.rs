@@ -283,6 +283,16 @@ pub enum ParsedGenericStatus {
     /// Used for `UpdateStatus`    
     /// Version number in the request for a differential update is less or equal then version number of current list.    
     VersionMismatch,
+    // Used for unlock connector
+    /// # From OCPP Specification    
+    /// Connector has successfully been unlocked.    
+    Unlocked,
+    // Used for unlock connector
+    /// # From OCPP Specification    
+    /// Failed to unlock the connector: The Charge Point has tried to unlock the connector and has    
+    /// detected that the connector is still locked or the unlock mechanism failed.    
+    UnlockFailed,
+
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
@@ -583,21 +593,6 @@ pub enum UnitOfMeasure {
     K,
     /// Percentage.    
     Percent,
-}
-
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-pub enum UnlockStatus {
-    /// # From OCPP Specification    
-    /// Connector has successfully been unlocked.    
-    #[default]
-    Unlocked,
-    /// # From OCPP Specification    
-    /// Failed to unlock the connector: The Charge Point has tried to unlock the connector and has    
-    /// detected that the connector is still locked or the unlock mechanism failed.    
-    UnlockFailed,
-    /// # From OCPP Specification    
-    /// Charge Point has no connector lock, or `ConnectorId` is unknown.    
-    NotSupported,
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
