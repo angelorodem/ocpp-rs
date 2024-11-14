@@ -7,7 +7,7 @@
 //! In Cargo.toml, add the following dependency:
 //! ```toml
 //! [dependencies]
-//! ocpp-rs = "0.1"
+//! ocpp-rs = "^0.2"
 //! ```
 //!
 //! # Particularities
@@ -24,30 +24,24 @@
 //! use ocpp_rs::v16::call::{Action, Call};
 //! 
 //! // Example incoming message
-//! let incoming_json = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-//! let incoming_message = parse::deserialize_to_message(incoming_json);
+//! let incoming_text = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
+//! let incoming_message = parse::deserialize_to_message(incoming_text);
+//! if let Ok(Message::Call(call)) = incoming_message {
 //! 
 //! // Handle incoming message (Check the type of the message)
-//! if let Ok(Message::Call(call)) = incoming_message {
-//!     match call.payload {
-//!         Action::BootNotification(boot_notification) => {
-//!            // Do something with boot_notification
-//!         },
-//!         _ => {
-//!           // Handle other actions
+//! match call.payload {
+//!         Action::BootNotification(_boot_notification) => {
+//!             // Do something with boot_notification
 //!         }
-//!    }
+//!         _ => {
+//!             // Handle other actions
+//!         }
+//!     }
 //! }
 //! ```
 //!
 //! Sending a payload to a client:
 //! ```rust
-//! use ocpp_rs::v16::call::StartTransaction;
-//! use ocpp_rs::v16::call_result::{self, CallResult, ResultPayload};
-//! use ocpp_rs::v16::data_types::IdTagInfo;
-//! use ocpp_rs::v16::enums::ChargePointStatus;
-//! use ocpp_rs::v16::parse::Message;
-//! 
 //! let response = Message::CallResult(CallResult::new(
 //!     "1234".to_string(),
 //!     ResultPayload::StartTransaction(call_result::StartTransaction {
@@ -59,6 +53,9 @@
 //!         },
 //!     }),
 //! ));
+//! 
+//! let json = parse::serialize_message(&response)?;
+//! println!("Sending to client: {}", json);
 //! ```
 //! 
 #![no_std]
