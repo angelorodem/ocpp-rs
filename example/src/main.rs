@@ -2,11 +2,13 @@ use ocpp_rs::v16::{
     call::{self, Action, Call},
     call_error::CallError,
     call_result::{self, CallResult, EmptyResponses, ResultPayload, StatusResponses},
-    parse::{from_message, to_message, Message},
+    parse::{deserialize_to_message, serialize_message, Message},
     response_trait::Response,
 };
+use ocpp_rs::v16::data_types::IdTagInfo;
+use ocpp_rs::v16::parse;
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. Get the data through a WebSocket connection
     // Example call_result message coming from a charge point (GetConfiguration call result)
     let data = "[3, \"253356461\", {\"configurationKey\": [\"key1\", \"key2\"]}]";
@@ -29,15 +31,55 @@ fn main() {
     println!("Parsing and handling message CallError: {}", data);
     parse_and_handle(data);
 
-    // Exapample of a server starting a remote transaction on a charge point
+    // Example of a server starting a remote transaction on a charge point
     println!("Sending new message to server!");
     send_new_message();
+
+    // From the README.md example
+    readme_example_receive()?;
+    readme_example_send()?;
+
+    Ok(())
+}
+
+fn readme_example_receive() -> Result<(), Box<dyn std::error::Error>> {
+    let incoming_text = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
+    let incoming_message = parse::deserialize_to_message(incoming_text);
+    if let Ok(Message::Call(call)) = incoming_message {
+        match call.payload {
+            Action::BootNotification(_boot_notification) => {
+                // Do something with boot_notification
+            }
+            _ => {
+                // Handle other actions
+            }
+        }
+    }
+    Ok(())
+}
+
+fn readme_example_send() -> Result<(), Box<dyn std::error::Error>> {
+    let response = Message::CallResult(CallResult::new(
+        "1234".to_string(),
+        ResultPayload::StartTransaction(call_result::StartTransaction {
+            transaction_id: 0,
+            id_tag_info: IdTagInfo {
+                status: ocpp_rs::v16::enums::ParsedGenericStatus::Accepted,
+                expiry_date: None,
+                parent_id_tag: None,
+            },
+        }),
+    ));
+    
+    let json = parse::serialize_message(&response)?;
+    println!("Sending to client: {}", json);
+    Ok(())
 }
 
 fn send_new_message() {
     // Example new call to start a transaction on a charge point sent from a server
     let call = Call::new(
-        Some("253356461".to_string()), // You can omit for the lib to generate a unique id for you
+        "253356461".to_string(),
         Action::RemoteStartTransaction(call::RemoteStartTransaction {
             id_tag: "123456789".to_string(),
             connector_id: Some(1),
@@ -54,7 +96,7 @@ fn send_new_message() {
 
 fn parse_and_handle(data: &str) {
     // 2. Parse the message
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
 
     // 3. Match the message payload to the appropriate call type
     // if you do not intend to handle all call types, you can use an if-let
@@ -155,6 +197,6 @@ fn receive_call_error(data: CallError) {
 
 fn send_to_websocket(data: Message) {
     // Send the data through a WebSocket connection
-    let json = from_message(&data).unwrap();
+    let json = serialize_message(&data).unwrap();
     println!("Sending to server: {}", json);
 }

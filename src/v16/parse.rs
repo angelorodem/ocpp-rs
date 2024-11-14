@@ -29,7 +29,7 @@ pub enum Message {
 /// # Errors
 /// Will return Err if the message type is not 2, 3, or 4   
 /// and if the JSON deserialization fails   
-pub fn to_message(data: &str) -> Result<Message> {
+pub fn deserialize_to_message(data: &str) -> Result<Message> {
 
     let call_type = get_call_type(data)?;
 
@@ -73,7 +73,7 @@ fn get_call_type(buf: &str) -> Result<u8> {
 ///     
 /// Will return Err if the JSON serialization fails    
 /// or if the message type is not 2, 3, or 4    
-pub fn from_message(message: &Message) -> Result<String> {
+pub fn serialize_message(message: &Message) -> Result<String> {
     match message {
         Message::Call(call) => {
             if call.message_id != 2 {

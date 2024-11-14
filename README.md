@@ -8,7 +8,8 @@ it currently supports OCPP 1.6.
 
 - Full implementation of OCPP 1.6 Protocol
 - Currently most feature complete implementation of OCPP 1.6 in rust
-- Batteries included, check packet [parsing(to_message) serialization(from_message)](https://docs.rs/ocpp_rs/latest/ocpp_rs/v16/parse/index.html)
+- Batteries included, serialization and deserialization is provided [here](https://docs.rs/ocpp_rs/latest/ocpp_rs/v16/parse/index.html)
+- No_std, should work fine on embedded devices that allow heap allocation [with a global allocator](https://docs.rust-embedded.org/book/collections/#using-alloc)
 - Inspired by a [python ocpp library](https://github.com/mobilityhouse/ocpp)
 
 
@@ -16,7 +17,7 @@ it currently supports OCPP 1.6.
 In Cargo.toml, add the following dependency:
 ```toml
 [dependencies]
-ocpp-rs = "0.1"
+ocpp-rs = "^0.1"
 ```
 
 # Particularities
@@ -34,27 +35,21 @@ use ocpp_rs::v16::call::{Action, Call};
 
 // Example incoming message
 let incoming_text = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-let incoming_message = parse::to_message(incoming_text);
+let incoming_message = parse::deserialize_to_message(incoming_text);
 if let Ok(Message::Call(call)) = incoming_message {
     match call.payload {
-        Action::BootNotification(boot_notification) => {
-           // Do something with boot_notification
-        },
-        _ => {
-          // Handle other actions
+        Action::BootNotification(_boot_notification) => {
+            // Do something with boot_notification
         }
-   }
+        _ => {
+            // Handle other actions
+        }
+    }
 }
 ```
 
 Sending a payload to a client:
 ```rust
-use ocpp_rs::v16::call::StartTransaction;
-use ocpp_rs::v16::call_result::{self, CallResult, ResultPayload};
-use ocpp_rs::v16::data_types::IdTagInfo;
-use ocpp_rs::v16::enums::ChargePointStatus;
-use ocpp_rs::v16::parse::Message;
-
 let response = Message::CallResult(CallResult::new(
     "1234".to_string(),
     ResultPayload::StartTransaction(call_result::StartTransaction {
@@ -66,4 +61,7 @@ let response = Message::CallResult(CallResult::new(
         },
     }),
 ));
+
+let json = parse::serialize_message(&response)?;
+println!("Sending to client: {}", json);
 ```

@@ -25,7 +25,7 @@
 //! 
 //! // Example incoming message
 //! let incoming_json = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-//! let incoming_message = parse::to_message(incoming_json);
+//! let incoming_message = parse::deserialize_to_message(incoming_json);
 //! 
 //! // Handle incoming message (Check the type of the message)
 //! if let Ok(Message::Call(call)) = incoming_message {

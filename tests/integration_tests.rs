@@ -5,13 +5,13 @@ use ocpp_rs::v16::call_result::EmptyResponse;
 use ocpp_rs::v16::data_types::*;
 use ocpp_rs::v16::enums::*;
 use ocpp_rs::v16::parse;
-use ocpp_rs::v16::parse::{to_message, Message};
+use ocpp_rs::v16::parse::{deserialize_to_message, Message};
 use ocpp_rs::v16::response_trait::Response;
 
 #[test]
 fn test_parse_boot_notification() {
     let data = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call::new(
@@ -35,7 +35,7 @@ fn test_parse_boot_notification() {
 #[test]
 fn test_parse_boot_notification_formatted() {
     let data = "[\n 2,\n \"000002202408090409141051003\",\n \"BootNotification\",\n {\n \"chargePointModel\": \"DC\",\n \"chargePointSerialNumber\": \"bbb\",\n \"chargePointVendor\": \"xxx\",\n \"firmwareVersion\": \"230906.0755\",\n \"iccid\": \"\",\n \"meterType\": \"DC\"\n }\n]\n";
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call::new(
@@ -63,7 +63,7 @@ fn test_parse_boot_notification_formatted() {
 #[test]
 fn test_parse_heartbeat() {
     let data = "[2, \"19223201\", \"Heartbeat\", {}]";
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let message_eq: Message = Message::Call(Call::new(
@@ -83,7 +83,7 @@ fn test_parse_heartbeat() {
 #[test]
 fn test_status_notification() {
     let data = "[2, \"253356461\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"2024-06-01T19:52:45Z\"}]";
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let time = DateTimeWrapper::new(
@@ -139,7 +139,7 @@ fn test_status_notification() {
 #[test]
 fn test_authorization_call_result() {
     let data = "[3, \"253356461\", {\"idTagInfo\":{\"status\":\"Accepted\"}}]";
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let id_tag_info = IdTagInfo {
@@ -170,7 +170,7 @@ fn test_authorization_call_result() {
 #[test]
 fn test_get_configuration_call_result() {
     let data = "[3, \"253356461\", {\"configurationKey\": [\"key1\", \"key2\"]}]";
-    let message = to_message(data).unwrap();
+    let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
 
