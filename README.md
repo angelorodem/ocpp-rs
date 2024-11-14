@@ -17,7 +17,7 @@ it currently supports OCPP 1.6.
 In Cargo.toml, add the following dependency:
 ```toml
 [dependencies]
-ocpp-rs = "^0.1"
+ocpp-rs = "^0.2"
 ```
 
 # Particularities
