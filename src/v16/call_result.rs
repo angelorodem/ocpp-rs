@@ -52,7 +52,9 @@ pub enum ResultPayload {
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
-/// Since some structs might come as empty due to the optional fields,    
+/// Enum containing all possible empty responses that might come from the server.
+/// 
+///  Since some structs might come as empty due to the optional fields,    
 /// this enum is used to handle those cases, since the serializer has no way    
 /// to know which struct to use when deserializing, since there is no type field    
 /// in the `CallResult` spec.    
@@ -85,7 +87,9 @@ impl EmptyResponses {
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
-/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
+/// Enum containing all possible status responses that might come from the server.
+/// 
+///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when fields are present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of other structs that implement status plus other **optional** fields.    
 /// (cases that contain non optional fields are not affected)    
@@ -226,6 +230,8 @@ impl GenericIdTagInfo {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+/// Generic status response that might come as empty.
+/// 
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when fields are present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of other structs that implement status plus other **optional** fields.    
@@ -249,6 +255,8 @@ impl Status for GenericStatusResponse {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+/// Result including the certificate hash data
+/// 
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
@@ -271,7 +279,9 @@ impl Status for GetInstalledCertificateIds {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
+/// Result including the composite schedule
+/// 
+///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
 ///     
@@ -330,7 +340,9 @@ pub struct GetLocalListVersion {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
+/// Non-standard for returning the filename for the logs
+/// 
+///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
 ///     
@@ -358,7 +370,9 @@ pub struct UnlockConnector {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-/// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
+/// Generic data transfer response
+/// 
+///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
 ///     
