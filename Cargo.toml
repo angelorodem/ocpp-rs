@@ -13,13 +13,14 @@ Protocol implementation for Open Charge Point Protocol (OCPP) in Rust.
 categories = ["data-structures", "algorithms"]
 keywords = ["ocpp", "charger", "oca",  "eletric-vehicle", "ocpp16"]
 exclude = ["doc_imgs/", ".*"]
+resolver = "2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-strum = "^0.26" # No_std
-strum_macros = "^0.26" # No_std
-serde = { version = "^1", features = ["derive"], default-features = false } # No_std
-serde_tuple = {version = "^0.5.0", default-features = false} # No_std
-serde_json = "^1" # std (due to no_std variants not supporting enums)
-chrono = { version = "^0.4", features = ["serde"] } # std (due to iso 8601 format, can be easily replaced, waiting on serde_json to support no_std)
+strum = {version = "^0.26", default-features = false, features = ["derive"]} # No_std
+strum_macros = {version = "^0.26", default-features = false} # No_std
+serde = { version = "^1", features = ["derive", "alloc"], default-features = false } # No_std
+serde_tuple = {path = "../serde_tuple", default-features = false} # it is importing serde with default-features
+serde_json = { version = "^1", default-features = false, features = ["alloc"] } # No_std
+chrono = { version = "^0.4", default-features = false, features = ["serde", "alloc"] } # no_std?
