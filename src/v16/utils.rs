@@ -40,7 +40,8 @@ pub(crate) mod iso8601_date_time_optional {
     use super::DateTimeWrapper;
 
     static FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
-
+    
+    #[allow(clippy::ref_option)]
     pub fn serialize<S>(
         date: &Option<DateTimeWrapper>,
         serializer: S,
