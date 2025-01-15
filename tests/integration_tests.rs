@@ -169,15 +169,28 @@ fn test_authorization_call_result() {
 
 #[test]
 fn test_get_configuration_call_result() {
-    let data = "[3, \"253356461\", {\"configurationKey\": [\"key1\", \"key2\"]}]";
+    let data = "[3, \"253356461\", {\"configurationKey\":[
+        {\"key\":\"key1\", \"readonly\": false, \"value\": \"val1\" },
+        {\"key\":\"key2\", \"readonly\": true, \"value\": \"val2\" }
+    ]}]";
     let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
     let auth = ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
         ocpp_rs::v16::call_result::EmptyResponses::GetConfiguration(
             ocpp_rs::v16::call_result::GetConfiguration {
-                configuration_key: Some(vec!["key1".to_string(), "key2".to_string()]),
-                unknown_key: None,
+                configuration_key: Some(vec![
+                    KeyValue {
+                        key: "key1".to_string(),
+                        readonly: false,
+                        value: Some("val1".to_string()),
+                    },
+                    KeyValue {
+                        key:  "key2".to_string(),
+                        readonly: true,
+                        value: Some("val2".to_string())
+                    }]),
+                unknown_key: None
             },
         ),
     );
