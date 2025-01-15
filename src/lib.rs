@@ -97,7 +97,6 @@
     clippy::rc_buffer,
     clippy::print_stdout,
     clippy::print_stderr,
-    clippy::partial_pub_fields,
     clippy::mutex_atomic,
     clippy::map_with_unused_argument_over_ranges,
     clippy::lossy_float_literal,
