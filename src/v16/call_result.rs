@@ -28,7 +28,7 @@
 //!```
 
 use super::enums::ParsedGenericStatus;
-use super::data_types::{DateTimeWrapper, IdTagInfo};
+use super::data_types::{DateTimeWrapper, IdTagInfo, KeyValue};
 use alloc::collections::btree_map::BTreeMap;
 use alloc::string::String;
 use alloc::vec::Vec;
@@ -308,7 +308,7 @@ impl Status for GetCompositeSchedule {
 /// This struct might come as empty due to the optional fields.    
 /// This might be ill interpreted by the deserializer.    
 pub struct GetConfiguration {
-    pub configuration_key: Option<Vec<String>>,
+    pub configuration_key: Option<Vec<KeyValue>>,
     pub unknown_key: Option<Vec<String>>,
 }
 
