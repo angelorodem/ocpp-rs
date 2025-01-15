@@ -173,10 +173,12 @@ fn test_get_configuration_call_result() {
     let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
-
     let auth = ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
         ocpp_rs::v16::call_result::EmptyResponses::GetConfiguration(
-            ocpp_rs::v16::call_result::GetConfiguration { configuration_key: Some(vec!["key1".to_string(), "key2".to_string()]), unknown_key: None }
+            ocpp_rs::v16::call_result::GetConfiguration {
+                configuration_key: Some(vec!["key1".to_string(), "key2".to_string()]),
+                unknown_key: None,
+            },
         ),
     );
 

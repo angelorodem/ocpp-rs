@@ -1,6 +1,6 @@
 use super::enums::{
-    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, ParsedGenericStatus,
-    HashAlgorithm, Location, Measurand, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure,
+    ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType, HashAlgorithm,
+    Location, Measurand, ParsedGenericStatus, Phase, ReadingContext, RecurrencyKind, UnitOfMeasure,
     ValueFormat,
 };
 
@@ -22,7 +22,7 @@ impl DateTimeWrapper {
     #[must_use]
     pub const fn inner(&self) -> DateTime<Utc> {
         self.0
-    }    
+    }
 }
 
 #[derive(Debug, Eq, PartialEq, Serialize, Deserialize, Clone, Default)]
