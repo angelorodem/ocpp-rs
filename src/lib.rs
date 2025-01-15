@@ -105,7 +105,7 @@
     clippy::format_push_string,
     clippy::float_cmp_const,
     clippy::empty_enum_variants_with_brackets,
-    clippy::else_if_without_else,
+    clippy::else_if_without_else
 )]
 #![allow(clippy::module_name_repetitions)]
 #![deny(
@@ -118,7 +118,7 @@
     clippy::panic,
     clippy::get_unwrap,
     clippy::multiple_crate_versions,
-    unused_must_use,
+    unused_must_use
 )]
 #![recursion_limit = "256"]
 
