@@ -188,7 +188,7 @@ pub struct Heartbeat {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 /// This struct will come as empty.    
 /// This might be ill interpreted by the deserializer.    
-pub struct EmptyResponse;
+pub struct EmptyResponse {}
 
 impl PossibleEmpty for EmptyResponse {
     fn is_empty(&self) -> bool {

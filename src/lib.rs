@@ -105,7 +105,6 @@
     clippy::if_then_some_else_none,
     clippy::format_push_string,
     clippy::float_cmp_const,
-    clippy::empty_structs_with_brackets,
     clippy::empty_enum_variants_with_brackets,
     clippy::else_if_without_else,
 )]
