@@ -1,0 +1,2 @@
+# serde_tuple is still using syn v1
+allowed-duplicate-crates = ["syn"]

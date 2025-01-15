@@ -17,9 +17,7 @@ pub enum CertificateUse {
     ManufacturerRootCertificate,
 }
 
-#[derive(
-    AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, EnumString,
-)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, EnumString)]
 pub enum ChargePointErrorCode {
     /// Failure to lock or unlock connector.    
     ConnectorLockFailure,
@@ -57,9 +55,7 @@ pub enum ChargePointErrorCode {
     WeakSignal,
 }
 
-#[derive(
-    AsRefStr, EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default,
-)]
+#[derive(AsRefStr, EnumString, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ChargePointStatus {
     /// When a Connector becomes available for a new user (Operative)    
     #[default]
@@ -292,7 +288,6 @@ pub enum ParsedGenericStatus {
     /// Failed to unlock the connector: The Charge Point has tried to unlock the connector and has    
     /// detected that the connector is still locked or the unlock mechanism failed.    
     UnlockFailed,
-
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
@@ -493,9 +488,7 @@ pub enum ReadingContext {
     Trigger,
 }
 
-#[derive(
-    AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, Copy,
-)]
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default, Copy)]
 pub enum Reason {
     /// The transaction was stopped because of the authorization status in a StartTransaction.conf    
     DeAuthorized,

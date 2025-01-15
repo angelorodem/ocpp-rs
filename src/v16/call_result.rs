@@ -3,9 +3,9 @@
 //! Note that `CallResult` does not contain a type field, so you need to handle special cases where JSON can be ambiguous.    
 //! These special cases are inside specific enum variants, `PossibleEmptyResponse` and `PossibleStatusResponse`.   
 //! Inside `PossibleEmptyResponse` you will find `PossibleIdTagInfoResponse` that also contain two different cases.   
-//! 
+//!
 //! ## Example
-//! 
+//!
 //! Sending a payload to a client:
 //! ```rust
 //! use ocpp_rs::v16::call::StartTransaction;
@@ -13,7 +13,7 @@
 //! use ocpp_rs::v16::data_types::IdTagInfo;
 //! use ocpp_rs::v16::enums::ChargePointStatus;
 //! use ocpp_rs::v16::parse::Message;
-//! 
+//!
 //! let response = Message::CallResult(CallResult::new(
 //!     "1234".to_string(),
 //!     ResultPayload::StartTransaction(call_result::StartTransaction {
@@ -29,14 +29,13 @@
 
 use super::enums::ParsedGenericStatus;
 use super::data_types::{DateTimeWrapper, IdTagInfo, KeyValue};
+use super::utils::iso8601_date_time;
 use alloc::collections::btree_map::BTreeMap;
 use alloc::string::String;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
+use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 use strum_macros::AsRefStr;
-use serde_tuple::{Serialize_tuple, Deserialize_tuple};
-use super::utils::iso8601_date_time;
-
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
@@ -53,7 +52,7 @@ pub enum ResultPayload {
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 /// Enum containing all possible empty responses that might come from the server.
-/// 
+///
 ///  Since some structs might come as empty due to the optional fields,    
 /// this enum is used to handle those cases, since the serializer has no way    
 /// to know which struct to use when deserializing, since there is no type field    
@@ -82,13 +81,12 @@ impl EmptyResponses {
             Self::GenericIdTagInfoResponse(generic_id_tag_info) => generic_id_tag_info.is_empty(),
         }
     }
-    
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 /// Enum containing all possible status responses that might come from the server.
-/// 
+///
 ///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when fields are present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of other structs that implement status plus other **optional** fields.    
@@ -112,38 +110,45 @@ impl StatusResponses {
     pub const fn get_status(&self) -> &ParsedGenericStatus {
         match self {
             Self::StatusResponse(generic_status_response) => &generic_status_response.status,
-            Self::GetInstalledCertificateIds(get_installed_certificate_ids) => &get_installed_certificate_ids.status,
+            Self::GetInstalledCertificateIds(get_installed_certificate_ids) => {
+                &get_installed_certificate_ids.status
+            }
             Self::GetCompositeSchedule(get_composite_schedule) => &get_composite_schedule.status,
             Self::GetLog(get_log) => &get_log.status,
-            Self::DataTransfer(data_transfer) => &data_transfer.status,            
+            Self::DataTransfer(data_transfer) => &data_transfer.status,
         }
     }
 
     #[must_use]
     pub fn is_only_status(&self) -> bool {
         match self {
-            Self::StatusResponse(generic_status_response) => generic_status_response.is_only_status(),
-            Self::GetInstalledCertificateIds(get_installed_certificate_ids) => get_installed_certificate_ids.is_only_status(),
-            Self::GetCompositeSchedule(get_composite_schedule) => get_composite_schedule.is_only_status(),
+            Self::StatusResponse(generic_status_response) => {
+                generic_status_response.is_only_status()
+            }
+            Self::GetInstalledCertificateIds(get_installed_certificate_ids) => {
+                get_installed_certificate_ids.is_only_status()
+            }
+            Self::GetCompositeSchedule(get_composite_schedule) => {
+                get_composite_schedule.is_only_status()
+            }
             Self::GetLog(get_log) => get_log.is_only_status(),
-            Self::DataTransfer(data_transfer) => data_transfer.is_only_status(),            
+            Self::DataTransfer(data_transfer) => data_transfer.is_only_status(),
         }
     }
 }
 
-
 pub trait Status {
     /// This return true if the type contains only the status field.    
-    fn is_only_status(&self) -> bool;    
+    fn is_only_status(&self) -> bool;
 }
 
 pub trait PossibleEmpty {
-    fn is_empty(&self) -> bool;    
+    fn is_empty(&self) -> bool;
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-pub struct CallResult	 {
+pub struct CallResult {
     pub(super) message_id: i32,
     pub unique_id: String,
     pub payload: ResultPayload,
@@ -174,7 +179,7 @@ pub struct BootNotification {
 impl Status for BootNotification {
     fn is_only_status(&self) -> bool {
         false
-    } 
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -193,7 +198,7 @@ pub struct EmptyResponse {}
 impl PossibleEmpty for EmptyResponse {
     fn is_empty(&self) -> bool {
         true
-    }        
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -214,7 +219,7 @@ pub struct GenericIdTagInfo {
 impl PossibleEmpty for GenericIdTagInfo {
     fn is_empty(&self) -> bool {
         self.id_tag_info.is_none()
-    }    
+    }
 }
 
 impl GenericIdTagInfo {
@@ -225,13 +230,12 @@ impl GenericIdTagInfo {
     pub fn get_id_tag_info(self) -> Option<IdTagInfo> {
         self.id_tag_info
     }
-    
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 /// Generic status response that might come as empty.
-/// 
+///
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when fields are present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of other structs that implement status plus other **optional** fields.    
@@ -256,7 +260,7 @@ impl Status for GenericStatusResponse {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 /// Result including the certificate hash data
-/// 
+///
 /// IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
@@ -274,13 +278,13 @@ pub struct GetInstalledCertificateIds {
 impl Status for GetInstalledCertificateIds {
     fn is_only_status(&self) -> bool {
         self.certificate_hash_data.is_none()
-    }       
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 /// Result including the composite schedule
-/// 
+///
 ///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
@@ -299,8 +303,10 @@ pub struct GetCompositeSchedule {
 
 impl Status for GetCompositeSchedule {
     fn is_only_status(&self) -> bool {
-        self.connector_id.is_none() && self.schedule_start.is_none() && self.charging_schedule.is_none()
-    }      
+        self.connector_id.is_none()
+            && self.schedule_start.is_none()
+            && self.charging_schedule.is_none()
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -315,7 +321,7 @@ pub struct GetConfiguration {
 impl PossibleEmpty for GetConfiguration {
     fn is_empty(&self) -> bool {
         self.configuration_key.is_none() && self.unknown_key.is_none()
-    }        
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -329,7 +335,7 @@ pub struct GetDiagnostics {
 impl PossibleEmpty for GetDiagnostics {
     fn is_empty(&self) -> bool {
         self.file_name.is_none()
-    }        
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -341,7 +347,7 @@ pub struct GetLocalListVersion {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 /// Non-standard for returning the filename for the logs
-/// 
+///
 ///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
@@ -359,7 +365,7 @@ pub struct GetLog {
 impl Status for GetLog {
     fn is_only_status(&self) -> bool {
         self.filename.is_none()
-    }      
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -371,7 +377,7 @@ pub struct UnlockConnector {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 /// Generic data transfer response
-/// 
+///
 ///  IMPORTANT: When deserializing data from JSON, optional fields might not be present,    
 /// even when present and null, the deserializer will transform data with only `status` as    
 /// `GenericStatusResponse` instead of this struct.    
@@ -387,9 +393,7 @@ pub struct DataTransfer {
 }
 
 impl Status for DataTransfer {
-   fn is_only_status(&self) -> bool {
+    fn is_only_status(&self) -> bool {
         self.data.is_none()
-   }       
+    }
 }
-
-
