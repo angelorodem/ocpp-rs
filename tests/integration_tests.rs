@@ -186,11 +186,12 @@ fn test_get_configuration_call_result() {
                         value: Some("val1".to_string()),
                     },
                     KeyValue {
-                        key:  "key2".to_string(),
+                        key: "key2".to_string(),
                         readonly: true,
-                        value: Some("val2".to_string())
-                    }]),
-                unknown_key: None
+                        value: Some("val2".to_string()),
+                    },
+                ]),
+                unknown_key: None,
             },
         ),
     );

@@ -27,8 +27,8 @@
 //! ));
 //!```
 
-use super::enums::ParsedGenericStatus;
 use super::data_types::{DateTimeWrapper, IdTagInfo, KeyValue};
+use super::enums::ParsedGenericStatus;
 use super::utils::iso8601_date_time;
 use alloc::collections::btree_map::BTreeMap;
 use alloc::string::String;
