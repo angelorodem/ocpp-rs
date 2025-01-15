@@ -65,22 +65,64 @@
 //! ```
 //!
 #![no_std]
+#![warn(clippy::pedantic, clippy::nursery)]
 #![warn(
-    clippy::all,
-    clippy::pedantic,
-    clippy::nursery,
     clippy::suspicious,
     clippy::style,
     clippy::complexity,
     clippy::perf,
-    clippy::correctness,
-    clippy::cargo
+    clippy::correctness
 )]
-#![deny(clippy::unwrap_used)]
-#![deny(clippy::expect_used)]
-#![deny(clippy::panic)]
-#![deny(unused_must_use)]
-#![deny(clippy::multiple_crate_versions)]
+#![warn(
+    clippy::unseparated_literal_suffix,
+    clippy::unreachable,
+    clippy::unneeded_field_pattern,
+    clippy::unnecessary_self_imports,
+    clippy::unimplemented,
+    clippy::try_err,
+    clippy::todo,
+    clippy::tests_outside_test_module,
+    clippy::suspicious_xor_used_as_pow,
+    clippy::string_to_string,
+    clippy::string_slice,
+    clippy::string_lit_chars_any,
+    clippy::string_add,
+    clippy::std_instead_of_core,
+    clippy::std_instead_of_alloc,
+    clippy::shadow_unrelated,
+    clippy::rest_pat_in_fully_bound_structs,
+    clippy::renamed_function_params,
+    clippy::ref_patterns,
+    clippy::rc_mutex,
+    clippy::rc_buffer,
+    clippy::print_stdout,
+    clippy::print_stderr,
+    clippy::partial_pub_fields,
+    clippy::mutex_atomic,
+    clippy::map_with_unused_argument_over_ranges,
+    clippy::lossy_float_literal,
+    clippy::integer_division,
+    clippy::if_then_some_else_none,
+    clippy::format_push_string,
+    clippy::float_cmp_const,
+    clippy::empty_structs_with_brackets,
+    clippy::empty_enum_variants_with_brackets,
+    clippy::else_if_without_else,
+)]
+#![allow(clippy::module_name_repetitions)]
+#![deny(
+    clippy::unwrap_used,
+    clippy::undocumented_unsafe_blocks,
+    clippy::expect_used,
+    clippy::panic_in_result_fn,
+    clippy::unwrap_in_result,
+    clippy::unused_result_ok,
+    clippy::panic,
+    clippy::get_unwrap,
+    clippy::multiple_crate_versions,
+    unused_must_use,
+)]
+#![recursion_limit = "256"]
 
 extern crate alloc;
 pub mod errors;

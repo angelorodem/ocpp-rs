@@ -1,7 +1,7 @@
 use alloc::string::String;
 
-use super::call::{self};
-use super::call_result::{self};
+use super::call;
+use super::call_result;
 use super::parse;
 
 /// Trait to define what response should be for a given Call Payload.
