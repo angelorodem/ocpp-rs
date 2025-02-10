@@ -65,3 +65,15 @@ let response = Message::CallResult(CallResult::new(
 let json = parse::serialize_message(&response)?;
 println!("Sending to client: {}", json);
 ```
+
+## Contributing
+Contributions are welcome! Common steps to contribute:
+- Fork the repository and create a new branch.
+- Make your changes or improvements.
+- Open a pull request with a clear description.
+- When adding/changing code, add/modify tests for what you have worked on. 
+
+Help is wanted to add more tests and fuzzing tests (e.g., using OSS-Fuzz), so feel free to jump in!
+
+## Roadmap
+- OCPP 2.1 implementation is planned, no ETA, help needed.
