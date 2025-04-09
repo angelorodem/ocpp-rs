@@ -321,7 +321,7 @@ pub struct UnlockConnector {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UpdateFirmware {
     pub location: String,
-    pub retrieve_date: String,
+    pub retrieve_date: DateTimeWrapper,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub retries: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
