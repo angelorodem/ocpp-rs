@@ -1,6 +1,6 @@
 //!# OCPP-RS
 //!
-//! OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP) in Rust.   
+//! OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP) in Rust.\ 
 //! it currently only supports OCPP 1.6.
 //!
 //! ## Usage

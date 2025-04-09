@@ -44,7 +44,7 @@ use serde_tuple::Serialize_tuple;
 use crate::alloc::string::ToString;
 use strum_macros::AsRefStr;
 
-/// Call action enum that contains all the possible actions that can be sent to the Charge Point.    
+/// Call action enum that contains all the possible actions that can be sent to the Charge Point.\\
 /// Please look at the OCPP 1.6 specification for more information    
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -466,7 +466,7 @@ pub struct DataTransfer {
 }
 
 impl<'de> Deserialize<'de> for Call {
-    /// We need to manually implement the deserialization of the Call struct because the payload    
+    /// We need to manually implement the deserialization of the Call struct because the payload\\
     /// which has some variant types cannot be deserialized automatically, like `Heartbeat` and `ClearCache` which are empty structs.    
     #[allow(clippy::too_many_lines)]
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

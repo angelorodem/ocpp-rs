@@ -21,7 +21,7 @@ pub enum CertificateUse {
 pub enum ChargePointErrorCode {
     /// Failure to lock or unlock connector.    
     ConnectorLockFailure,
-    /// Communication failure with the vehicle, might be Mode 3 or other communication protocol problem.    
+    /// Communication failure with the vehicle, might be Mode 3 or other communication protocol problem.\\
     /// This is not a real error in the sense that the Charge Point doesn’t need to go to the faulted state. Instead, it should go to the `SuspendedEVSE` state.    
     EVCommunicationError,
     /// Ground fault circuit interrupter has been activated.    
@@ -60,12 +60,12 @@ pub enum ChargePointStatus {
     /// When a Connector becomes available for a new user (Operative)    
     #[default]
     Available,
-    /// When a Connector becomes no longer available for a new user but there is no ongoing Transaction (yet).    
+    /// When a Connector becomes no longer available for a new user but there is no ongoing Transaction (yet).\\
     ///  Typically a Connector is in preparing state when a user presents a tag, inserts a cable or a vehicle occupies the parking bay 6 (Operative)    
     Preparing,
     /// When the contactor of a Connector closes, allowing the vehicle to charge (Operative)    
     Charging,
-    /// When the EV is connected to the EVSE but the EVSE is not offering energy to the EV, e.g. due to a smart charging restriction,    
+    /// When the EV is connected to the EVSE but the EVSE is not offering energy to the EV, e.g. due to a smart charging restriction,\\
     ///  local supply power constraints, or as the result of StartTransaction.conf indicating that charging is not allowed etc. (Operative)    
     SuspendedEVSE,
     /// When the EV is connected to the EVSE and the EVSE is offering energy but the EV is not taking any energy. (Operative)    
@@ -74,8 +74,8 @@ pub enum ChargePointStatus {
     Finishing,
     /// When a Connector becomes reserved as a result of a Reserve Now command (Operative)    
     Reserved,
-    /// When a Connector becomes unavailable as the result of a Change Availability command or an event upon which the Charge Point transitions to unavailable at its discretion.    
-    /// Upon receipt of a Change Availability command, the status MAY change immediately or the change MAY be scheduled.    
+    /// When a Connector becomes unavailable as the result of a Change Availability command or an event upon which the Charge Point transitions to unavailable at its discretion.\\
+    /// Upon receipt of a Change Availability command, the status MAY change immediately or the change MAY be scheduled.\\
     ///  When scheduled, the Status Notification shall be send when the availability change becomes effective (Inoperative).    
     Unavailable,
     /// When a Charge Point or connector has reported an error and is not available for energy delivery, (Inoperative)    
@@ -98,10 +98,10 @@ pub enum ChargingProfilePurposeType {
     /// Configuration for the maximum power or current available for an entire Charge Point.    
     #[default]
     ChargePointMaxProfile,
-    /// Default profile *that can be configured in the Charge Point.    
+    /// Default profile *that can be configured in the Charge Point.\\
     /// When a new transaction is started, this profile SHALL be used, unless it was a transaction that was started by a RemoteStartTransaction.req with a `ChargeProfile` that is accepted by the Charge Point.    
     TxDefaultProfile,
-    /// Profile with constraints to be imposed by the Charge Point on the current transaction, or on a new transaction when this is started via a RemoteStartTransaction.req with a `ChargeProfile`.    
+    /// Profile with constraints to be imposed by the Charge Point on the current transaction, or on a new transaction when this is started via a RemoteStartTransaction.req with a `ChargeProfile`.\\
     ///  A profile with this purpose SHALL cease to be valid when the transaction terminates.    
     TxProfile,
 }
@@ -219,64 +219,64 @@ pub enum ParsedGenericStatus {
     Accepted,
     /// Request has not been accepted and will not be executed.    
     Rejected,
-    /// Used for `AvailabilityStatus`, `CertificateStatus`    
+    /// Used for `AvailabilityStatus`, `CertificateStatus`\\
     /// Request has been accepted and will be executed when transaction(s) in progress have finished.    
     Scheduled,
-    /// Used for `AuthorizationStatus`    
+    /// Used for `AuthorizationStatus`\\
     /// Identifier has been blocked. Not allowed for charging.    
     Blocked,
-    /// Used for `AuthorizationStatus`    
+    /// Used for `AuthorizationStatus`\\
     /// Identifier has expired. Not allowed for charging.    
     Expired,
-    /// Used for `AuthorizationStatus`    
+    /// Used for `AuthorizationStatus`\\
     /// Identifier is unknown. Not allowed for charging.    
     Invalid,
-    /// Used for `AuthorizationStatus`    
+    /// Used for `AuthorizationStatus`\\
     /// Identifier is already involved in another transaction and multiple transactions are not allowed. (Only relevant for a StartTransaction.req.)    
     ConcurrentTx,
     /// Used for `CertificateStatus`    
     Failed,
-    /// Used for `ChargingProfileStatus`    
+    /// Used for `ChargingProfileStatus`\\
     /// Charge Point indicates that the request is not supported.    
     NotSupported,
-    /// Used for `ClearChargingProfileStatus`, `ConfigurationStatus`    
+    /// Used for `ClearChargingProfileStatus`, `ConfigurationStatus`\\
     /// No Charging Profile(s) were found matching the request.    
     Unknown,
-    /// Used for `ConfigurationStatus`    
+    /// Used for `ConfigurationStatus`\\
     /// Configuration key is supported and setting has been changed, but change will be available after reboot (Charge Point will not reboot itself)    
     RebootRequired,
-    /// Used for `DataTransferStatus`    
+    /// Used for `DataTransferStatus`\\
     /// Message could not be interpreted due to unknown messageId string.    
     UnknownMessageId,
-    /// Used for `DataTransferStatus`    
+    /// Used for `DataTransferStatus`\\
     /// Message could not be interpreted due to unknown vendorId string.    
     UnknownVendorId,
-    /// Used for `DeleteCertificateStatus`    
+    /// Used for `DeleteCertificateStatus`\\
     /// Certificate was not found    
     NotFound,
     /// Used for `LogStatus`    
     AcceptedCanceled,
-    /// Used for `RegistrationStatus`, `AcceptedCanceled`    
-    /// Central System is not yet ready to accept the Charge Point. Central System may send    
+    /// Used for `RegistrationStatus`, `AcceptedCanceled`\\
+    /// Central System is not yet ready to accept the Charge Point. Central System may send\\
     /// messages to retrieve information or prepare the Charge Point.    
     Pending,
-    /// Used for `ReservationStatus`    
+    /// Used for `ReservationStatus`\\
     /// Reservation has not been made, because connectors or specified connector are in an unavailable state.    
     Unavailable,
-    /// Used for `ReservationStatus`    
+    /// Used for `ReservationStatus`\\
     /// Reservation has not been made, because connectors or specified connector are in a faulted state.    
     Faulted,
-    /// Used for `ReservationStatus`    
+    /// Used for `ReservationStatus`\\
     /// Reservation has not been made. All connectors or the specified connector are occupied.    
     Occupied,
-    /// Used for `TriggerMessageStatus`    
+    /// Used for `TriggerMessageStatus`\\
     /// Requested notification cannot be sent because it is either not implemented or unknown.    
     NotImplemented,
     /// Used for `UpdateFirmwareStatus`    
     InvalidCertificate,
     /// Used for `UpdateFirmwareStatus`    
     RevokedCertificate,
-    /// Used for `UpdateStatus`    
+    /// Used for `UpdateStatus`\\
     /// Version number in the request for a differential update is less or equal then version number of current list.    
     VersionMismatch,
     // Used for unlock connector
@@ -285,7 +285,7 @@ pub enum ParsedGenericStatus {
     Unlocked,
     // Used for unlock connector
     /// # From OCPP Specification    
-    /// Failed to unlock the connector: The Charge Point has tried to unlock the connector and has    
+    /// Failed to unlock the connector: The Charge Point has tried to unlock the connector and has\\
     /// detected that the connector is still locked or the unlock mechanism failed.    
     UnlockFailed,
 }
@@ -352,27 +352,27 @@ pub enum Measurand {
     #[strum(serialize = "Energy.Reactive.Import.Register")]
     #[serde(rename = "Energy.Reactive.Import.Register")]
     EnergyReactiveImportRegister,
-    /// Absolute amount of "active electrical energy" (Wh or kWh) exported (to the grid) during an associated time "interval",    
+    /// Absolute amount of "active electrical energy" (Wh or kWh) exported (to the grid) during an associated time "interval",\\
     ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".    
     #[strum(serialize = "Energy.Active.Export.Interval")]
     #[serde(rename = "Energy.Active.Export.Interval")]
     EnergyActiveExportInterval,
-    /// Absolute amount of "active electrical energy" (Wh or kWh) imported (from the grid supply) during an associated time "interval",    
+    /// Absolute amount of "active electrical energy" (Wh or kWh) imported (from the grid supply) during an associated time "interval",\\
     ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".    
     #[strum(serialize = "Energy.Active.Import.Interval")]
     #[serde(rename = "Energy.Active.Import.Interval")]
     EnergyActiveImportInterval,
-    /// Absolute amount of "reactive electrical energy" (`VARh` or kVARh) exported (to the grid) during an associated time "interval",    
+    /// Absolute amount of "reactive electrical energy" (`VARh` or kVARh) exported (to the grid) during an associated time "interval",\\
     ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".    
     #[strum(serialize = "Energy.Reactive.Export.Interval")]
     #[serde(rename = "Energy.Reactive.Export.Interval")]
     EnergyReactiveExportInterval,
-    ///  Absolute amount of "reactive electrical energy" (`VARh` or kVARh) imported (from the grid supply) during an associated time "interval",    
+    ///  Absolute amount of "reactive electrical energy" (`VARh` or kVARh) imported (from the grid supply) during an associated time "interval",\\
     ///  specified by a Metervalues `ReadingContext`, and applicable interval duration configuration values (in seconds) for "`ClockAlignedDataInterval`" and "`MeterValueSampleInterval`".    
     #[strum(serialize = "Energy.Reactive.Import.Interval")]
     #[serde(rename = "Energy.Reactive.Import.Interval")]
     EnergyReactiveImportInterval,
-    /// Instantaneous reading of powerline frequency. NOTE: OCPP 1.6 does not have a `UnitOfMeasure` for frequency,    
+    /// Instantaneous reading of powerline frequency. NOTE: OCPP 1.6 does not have a `UnitOfMeasure` for frequency,\\
     ///  the `UnitOfMeasure` for any `SampledValue` with measurand: Frequency is Hertz.    
     Frequency,
     /// Instantaneous active power exported by EV. (W or kW)    
@@ -526,8 +526,8 @@ pub enum RecurrencyKind {
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum ResetType {
-    /// Restart (all) the hardware, the Charge Point is not required to gracefully stop ongoing transaction.    
-    ///  If possible the Charge Point sends a StopTransaction.req for previously ongoing transactions after having restarted and having been accepted by the Central System via a BootNotification.conf.    
+    /// Restart (all) the hardware, the Charge Point is not required to gracefully stop ongoing transaction.\\
+    ///  If possible the Charge Point sends a StopTransaction.req for previously ongoing transactions after having restarted and having been accepted by the Central System via a BootNotification.conf.\\
     ///  This is a last resort solution for a not correctly functioning Charge Point, by sending a "hard" reset, (queued) information might get lost.    
     Hard,
     /// Stop ongoing transactions gracefully and sending StopTransaction.req for every ongoing transaction. It should then restart the application software (if possible, otherwise restart the processor/controller).    
