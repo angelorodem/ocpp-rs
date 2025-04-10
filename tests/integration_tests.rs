@@ -5,7 +5,7 @@ use ocpp_rs::v16::call_result::EmptyResponse;
 use ocpp_rs::v16::data_types::*;
 use ocpp_rs::v16::enums::*;
 use ocpp_rs::v16::parse;
-use ocpp_rs::v16::parse::{deserialize_to_message, Message};
+use ocpp_rs::v16::parse::{Message, deserialize_to_message};
 use ocpp_rs::v16::response_trait::Response;
 
 #[test]

@@ -1,7 +1,7 @@
 //! # Call Result    
 //! This module contains all response messages to a given `Call` message.\\
 //! Note that `CallResult` does not contain a type field, so you need to handle special cases where JSON can be ambiguous.\\
-//! These special cases are inside specific enum variants, `PossibleEmptyResponse` and `PossibleStatusResponse`.\ 
+//! These special cases are inside specific enum variants, `PossibleEmptyResponse` and `PossibleStatusResponse`.\
 //! Inside `PossibleEmptyResponse` you will find `PossibleIdTagInfoResponse` that also contain two different cases.   
 //!
 //! ## Example

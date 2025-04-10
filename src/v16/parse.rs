@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
-/// Message is a container for `Call`, `CallResult`, and `CallError`\ 
+/// Message is a container for `Call`, `CallResult`, and `CallError`\
 /// The message type is determined by the `message_id` field
 /// These enum variants contains all OCPP messages
 pub enum Message {
@@ -22,12 +22,12 @@ pub enum Message {
     CallError(CallError),
 }
 
-/// Parses a JSON string into a Message struct\ 
-/// Message is a container for `Call`, `CallResult`, and `CallError`\ 
+/// Parses a JSON string into a Message struct\
+/// Message is a container for `Call`, `CallResult`, and `CallError`\
 /// The message type is determined by the `message_id` field   
 ///
 /// # Errors
-/// Will return Err if the message type is not 2, 3, or 4\ 
+/// Will return Err if the message type is not 2, 3, or 4\
 /// and if the JSON deserialization fails   
 pub fn deserialize_to_message(data: &str) -> Result<Message> {
     let call_type = get_call_type(data)?;
