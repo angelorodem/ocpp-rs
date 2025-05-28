@@ -29,7 +29,7 @@
 
 use super::data_types::{DateTimeWrapper, IdTagInfo, KeyValue};
 use super::enums::ParsedGenericStatus;
-use super::utils::iso8601_date_time;
+use super::utils::{iso8601_date_time, iso8601_date_time_optional};
 use alloc::collections::btree_map::BTreeMap;
 use alloc::string::String;
 use alloc::vec::Vec;
@@ -213,6 +213,7 @@ pub struct StartTransaction {
 /// This struct might come as empty due to the optional fields.\\
 /// This might be ill interpreted by the deserializer.    
 pub struct GenericIdTagInfo {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub id_tag_info: Option<IdTagInfo>,
 }
 
@@ -297,7 +298,10 @@ impl Status for GetInstalledCertificateIds {
 pub struct GetCompositeSchedule {
     pub status: ParsedGenericStatus,
     pub connector_id: Option<i32>,
-    pub schedule_start: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(with = "iso8601_date_time_optional")]
+    pub schedule_start: Option<DateTimeWrapper>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub charging_schedule: Option<BTreeMap<String, String>>,
 }
 
@@ -314,7 +318,9 @@ impl Status for GetCompositeSchedule {
 /// This struct might come as empty due to the optional fields.\\
 /// This might be ill interpreted by the deserializer.    
 pub struct GetConfiguration {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub configuration_key: Option<Vec<KeyValue>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub unknown_key: Option<Vec<String>>,
 }
 
@@ -329,6 +335,7 @@ impl PossibleEmpty for GetConfiguration {
 /// This struct might come as empty due to the optional fields.\\
 /// This might be ill interpreted by the deserializer.    
 pub struct GetDiagnostics {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_name: Option<String>,
 }
 
@@ -359,6 +366,7 @@ pub struct GetLocalListVersion {
 /// but `CallResult` does not.    
 pub struct GetLog {
     pub status: ParsedGenericStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub filename: Option<String>,
 }
 
@@ -389,6 +397,7 @@ pub struct UnlockConnector {
 /// but `CallResult` does not.    
 pub struct DataTransfer {
     pub status: ParsedGenericStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
 }
 

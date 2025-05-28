@@ -107,8 +107,6 @@ impl Call {
     /// * `unique_id` - A unique positive integer string identifier for the call
     /// * `payload` - The payload of the call
     ///
-    /// # Panics
-    /// This method will panic *in debug mode* if the `unique_id` is not a valid positive number
     pub fn new(unique_id: String, payload: Action) -> Self {
         Self {
             message_id: 2,
@@ -260,7 +258,8 @@ pub struct RemoteStopTransaction {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ReserveNow {
     pub connector_id: u32,
-    pub expiry_date: String,
+    #[serde(with = "iso8601_date_time")]
+    pub expiry_date: DateTimeWrapper,
     pub id_tag: String,
     pub reservation_id: i32,
     #[serde(skip_serializing_if = "Option::is_none")]
