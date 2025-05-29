@@ -22,3 +22,6 @@ serde = { version = "^1", features = ["derive", "alloc"], default-features = fal
 serde_tuple = { version = "^1", default-features = false} # No_std
 serde_json = { version = "^1", default-features = false, features = ["alloc"] } # No_std
 chrono = { version = "^0.4", default-features = false, features = ["serde", "alloc"] } # No_std
+
+[dev-dependencies]
+chrono = { version = "^0.4", default-features = true, features = ["serde"] }

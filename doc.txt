@@ -1,0 +1,1465 @@
+Open Charge Point Protocol JSON 1.6 (OCPP-J 1.6) Specification Summary
+
+1. Introduction
+OCPP-J is a protocol for communication between Charge Points and Central Systems using JSON over WebSocket. The Central System acts as a WebSocket server, and the Charge Point acts as a client.
+
+2. Connection
+- The Charge Point connects to the Central System using a WebSocket URL derived by appending its unique identity to the endpoint URL.
+  Example: ws://centralsystem/ocpp/CP001
+- The OCPP version must be specified in the Sec-WebSocket-Protocol header (e.g., "ocpp1.6").
+- If the Central System does not recognize the identity or subprotocol, it should reject the connection.
+
+3. Message Framework (RPC)
+- All messages are JSON arrays encoded in UTF-8.
+- Three message types:
+  - CALL (2): Client-to-Server request
+  - CALLRESULT (3): Server-to-Client response
+  - CALLERROR (4): Server-to-Client error
+
+Message Structures:
+- CALL: [2, "<UniqueId>", "<Action>", {<Payload>}]
+- CALLRESULT: [3, "<UniqueId>", {<Payload>}]
+- CALLERROR: [4, "<UniqueId>", "<errorCode>", "<errorDescription>", {<errorDetails>}]
+
+- UniqueId: string, max 36 chars, used to match requests and responses.
+- Action: case-sensitive string, the name of the remote procedure.
+- Payload: JSON object with arguments or results. Use {} for empty payloads.
+
+Error Codes (for CALLERROR):
+- NotImplemented, NotSupported, InternalError, ProtocolError, SecurityError, FormationViolation, PropertyConstraintViolation, OccurenceConstraintViolation, TypeConstraintViolation, GenericError
+
+4. Security
+- Use either network-level security or OCPP-J over TLS.
+- For TLS: Use an RSA certificate (max 2048 bytes).
+- Charge Point authentication uses HTTP Basic Auth over TLS:
+  - Username: Charge Point identity
+  - Password: 20-byte key stored on the Charge Point
+- The Central System can set the Charge Point's authorization key using ChangeConfiguration.req with key "AuthorizationKey".
+
+5. Configuration
+- WebSocketPingInterval: integer, controls client-side WebSocket Ping/Pong interval (0 disables client ping).
+
+This summary omits implementation details, references, and extended explanations, focusing on the protocol essentials for OCPP 1.6 JSON/WebSocket.
+
+6. Messages
+6.1. Authorize.req
+This contains the field definition of the Authorize.req PDU sent by the Charge Point to the Central System. See
+also Authorize
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+idTag IdToken 1..1 Required. This contains the identifier that needs to be authorized.
+6.2. Authorize.conf
+This contains the field definition of the Authorize.conf PDU sent by the Central System to the Charge Point in
+response to a Authorize.req PDU. See also Authorize
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+idTagInfo IdTagInfo 1..1 Required. This contains information about authorization status, expiry and
+parent id.
+6.3. BootNotification.req
+This contains the field definition of the BootNotification.req PDU sent by the Charge Point to the Central System.
+See also Boot Notification
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+chargeBoxSerialNumber CiString25Type 0..1 Optional. This contains a value that identifies the serial number of
+the Charge Box inside the Charge Point. Deprecated, will be
+removed in future version
+chargePointModel CiString20Type 1..1 Required. This contains a value that identifies the model of the
+ChargePoint.
+chargePointSerialNumber CiString25Type 0..1 Optional. This contains a value that identifies the serial number of
+the Charge Point.
+chargePointVendor CiString20Type 1..1 Required. This contains a value that identifies the vendor of the
+ChargePoint.
+firmwareVersion CiString50Type 0..1 Optional. This contains the firmware version of the Charge Point.
+iccid CiString20Type 0..1 Optional. This contains the ICCID of the modem’s SIM card.
+imsi CiString20Type 0..1 Optional. This contains the IMSI of the modem’s SIM card.
+meterSerialNumber CiString25Type 0..1 Optional. This contains the serial number of the main electrical
+meter of the Charge Point.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+meterType CiString25Type 0..1 Optional. This contains the type of the main electrical meter of
+the Charge Point.
+6.4. BootNotification.conf
+This contains the field definition of the BootNotification.conf PDU sent by the Central System to the Charge Point
+in response to a BootNotification.req PDU. See also Boot Notification
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+currentTime dateTime 1..1 Required. This contains the Central System’s current time.
+interval integer 1..1 Required. When RegistrationStatus is Accepted, this contains the heartbeat
+interval in seconds. If the Central System returns something other than
+Accepted, the value of the interval field indicates the minimum wait time before
+sending a next BootNotification request.
+status RegistrationStatus 1..1 Required. This contains whether the Charge Point has been registered within the
+System Central.
+6.5. CancelReservation.req
+This contains the field definition of the CancelReservation.req PDU sent by the Central System to the Charge
+Point. See also Cancel Reservation
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+reservationId integer 1..1 Required. Id of the reservation to cancel.
+6.6. CancelReservation.conf
+This contains the field definition of the CancelReservation.conf PDU sent by the Charge Point to the Central
+System in response to a CancelReservation.req PDU. See also Cancel Reservation
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status CancelReservationStatus 1..1 Required. This indicates the success or failure of the cancelling of
+a reservation by Central System.
+6.7. ChangeAvailability.req
+This contains the field definition of the ChangeAvailability.req PDU sent by the Central System to the Charge
+Point. See also Change Availability
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer
+connectorId >= 0
+1..1 Required. The id of the connector for which availability needs to change. Id '0'
+(zero) is used if the availability of the Charge Point and all its connectors needs
+to change.
+type AvailabilityType 1..1 Required. This contains the type of availability change that the Charge Point
+should perform.
+6.8. ChangeAvailability.conf
+This contains the field definition of the ChangeAvailability.conf PDU return by Charge Point to Central System.
+See also Change Availability
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status AvailabilityStatus 1..1 Required. This indicates whether the Charge Point is able to perform the
+availability change.
+6.9. ChangeConfiguration.req
+This contains the field definition of the ChangeConfiguration.req PDU sent by Central System to Charge Point. It
+is RECOMMENDED that the content and meaning of the 'key' and 'value' fields is agreed upon between Charge
+Point and Central System. See also Change Configuration
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+key CiString50Type 1..1 Required. The name of the configuration setting to change.
+See for standard configuration key names and associated values
+value CiString500Type 1..1 Required. The new value as string for the setting.
+See for standard configuration key names and associated values
+6.10. ChangeConfiguration.conf
+This contains the field definition of the ChangeConfiguration.conf PDU returned from Charge Point to Central
+System. See also Change Configuration
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status ConfigurationStatus 1..1 Required. Returns whether configuration change has been accepted.
+6.11. ClearCache.req
+This contains the field definition of the ClearCache.req PDU sent by the Central System to the Charge Point. See
+also Clear Cache
+No fields are defined.
+6.12. ClearCache.conf
+This contains the field definition of the ClearCache.conf PDU sent by the Charge Point to the Central System in
+response to a ClearCache.req PDU. See also Clear Cache
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status ClearCacheStatus 1..1 Required. Accepted if the Charge Point has executed the request, otherwise
+rejected.
+6.13. ClearChargingProfile.req
+This contains the field definition of the ClearChargingProfile.req PDU sent by the Central System to the Charge
+Point.
+The Central System can use this message to clear (remove) either a specific charging profile (denoted by id) or a
+selection of charging profiles that match with the values of the optional connectorId, stackLevel and
+chargingProfilePurpose fields. See also Clear Charging Profile
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+id integer 0..1 Optional. The ID of the charging profile to clear.
+connectorId integer 0..1 Optional. Specifies the ID of the connector for which to clear
+charging profiles. A connectorId of zero (0) specifies the charging
+profile for the overall Charge Point. Absence of this parameter
+means the clearing applies to all charging profiles that match the
+other criteria in the request.
+chargingProfilePurpose ChargingProfilePurposeType 0..1 Optional. Specifies to purpose of the charging profiles that will be
+cleared, if they meet the other criteria in the request.
+stackLevel integer 0..1 Optional. specifies the stackLevel for which charging profiles will
+be cleared, if they meet the other criteria in the request
+6.14. ClearChargingProfile.conf
+This contains the field definition of the ClearChargingProfile.conf PDU sent by the Charge Point to the Central
+System in response to a ClearChargingProfile.req PDU. See also Clear Charging Profile
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status ClearChargingProfileStatus 1..1 Required. Indicates if the Charge Point was able to execute the
+request.
+6.15. DataTransfer.req
+This contains the field definition of the DataTransfer.req PDU sent either by the Central System to the Charge
+Point or vice versa. See also Data Transfer
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+vendorId CiString255Type 1..1 Required. This identifies the Vendor specific implementation
+messageId CiString50Type 0..1 Optional. Additional identification field
+data Text
+Length undefined
+0..1 Optional. Data without specified length or format.
+6.16. DataTransfer.conf
+This contains the field definition of the DataTransfer.conf PDU sent by the Charge Point to the Central System or
+vice versa in response to a DataTransfer.req PDU. See also Data Transfer
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status DataTransferStatus 1..1 Required. This indicates the success or failure of the data transfer.
+data Text
+Length undefined
+0..1 Optional. Data in response to request.
+6.17. DiagnosticsStatusNotification.req
+This contains the field definition of the DiagnosticsStatusNotification.req PDU sent by the Charge Point to the
+Central System. See also Diagnostics Status Notification
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status DiagnosticsStatus 1..1 Required. This contains the status of the diagnostics upload.
+6.18. DiagnosticsStatusNotification.conf
+This contains the field definition of the DiagnosticsStatusNotification.conf PDU sent by the Central System to the
+Charge Point in response to a DiagnosticsStatusNotification.req PDU. See also Diagnostics Status Notification
+No fields are defined.
+6.19. FirmwareStatusNotification.req
+This contains the field definition of the FirmwareStatusNotifitacion.req PDU sent by the Charge Point to the
+Central System. See also Firmware Status Notification
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status FirmwareStatus 1..1 Required. This contains the progress status of the firmware installation.
+6.20. FirmwareStatusNotification.conf
+This contains the field definition of the FirmwareStatusNotification.conf PDU sent by the Central System to the
+Charge Point in response to a FirmwareStatusNotification.req PDU. See also Firmware Status Notification
+No fields are defined.
+6.21. GetCompositeSchedule.req
+This contains the field definition of the GetCompositeSchedule.req PDU sent by the Central System to the Charge
+Point. See also Get Composite Schedule
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer 1..1 Required. The ID of the Connector for which the schedule is
+requested. When ConnectorId=0, the Charge Point will calculate
+the expected consumption for the grid connection.
+duration integer 1..1 Required. Time in seconds. length of requested schedule
+chargingRateUnit ChargingRateUnitType 0..1 Optional. Can be used to force a power or current profile
+6.22. GetCompositeSchedule.conf
+This contains the field definition of the GetCompositeSchedule.conf PDU sent by the Charge Point to the Central
+System in response to a GetCompositeSchedule.req PDU. See also Get Composite Schedule
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status GetCompositeScheduleStatus 1..1 Required. Status of the request. The Charge Point will indicate if it
+was able to process the request
+connectorId integer 0..1 Optional. The charging schedule contained in this notification
+applies to a Connector.
+scheduleStart dateTime 0..1 Optional. Time. Periods contained in the charging profile are
+relative to this point in time.
+If status is "Rejected", this field may be absent.
+chargingSchedule ChargingSchedule 0..1 Optional. Planned Composite Charging Schedule, the energy
+consumption over time. Always relative to ScheduleStart.
+If status is "Rejected", this field may be absent.
+6.23. GetConfiguration.req
+This contains the field definition of the GetConfiguration.req PDU sent by the Central System to the Charge
+Point. See also Get Configuration
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+key CiString50Type 0..* Optional. List of keys for which the configuration value is requested.
+6.24. GetConfiguration.conf
+This contains the field definition of the GetConfiguration.conf PDU sent by Charge Point the to the Central
+System in response to a GetConfiguration.req. See also Get Configuration
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+configurationKey KeyValue 0..* Optional. List of requested or known keys
+unknownKey CiString50Type 0..* Optional. Requested keys that are unknown
+6.25. GetDiagnostics.req
+This contains the field definition of the GetDiagnostics.req PDU sent by the Central System to the Charge Point.
+See also Get Diagnostics
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+location anyURI 1..1 Required. This contains the location (directory) where the diagnostics file shall
+be uploaded to.
+retries integer 0..1 Optional. This specifies how many times Charge Point must try to upload the
+diagnostics before giving up. If this field is not present, it is left to Charge Point
+to decide how many times it wants to retry.
+retryInterval integer 0..1 Optional. The interval in seconds after which a retry may be attempted. If this
+field is not present, it is left to Charge Point to decide how long to wait between
+attempts.
+startTime dateTime 0..1 Optional. This contains the date and time of the oldest logging information to
+include in the diagnostics.
+stopTime dateTime 0..1 Optional. This contains the date and time of the latest logging information to
+include in the diagnostics.
+6.26. GetDiagnostics.conf
+This contains the field definition of the GetDiagnostics.conf PDU sent by the Charge Point to the Central System
+in response to a GetDiagnostics.req PDU. See also Get Diagnostics
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+fileName CiString255Type 0..1 Optional. This contains the name of the file with diagnostic information that will
+be uploaded. This field is not present when no diagnostic information is
+available.
+6.27. GetLocalListVersion.req
+This contains the field definition of the GetLocalListVersion.req PDU sent by the Central System to the Charge
+Point. See also Get Local List Version
+No fields are defined.
+6.28. GetLocalListVersion.conf
+This contains the field definition of the GetLocalListVersion.conf PDU sent by the Charge Point to Central System
+in response to a GetLocalListVersion.req PDU. See also Get Local List Version
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+listVersion integer 1..1 Required. This contains the current version number of the local authorization list
+in the Charge Point.
+6.29. Heartbeat.req
+This contains the field definition of the Heartbeat.req PDU sent by the Charge Point to the Central System. See
+also Heartbeat
+No fields are defined.
+6.30. Heartbeat.conf
+This contains the field definition of the Heartbeat.conf PDU sent by the Central System to the Charge Point in
+response to a Heartbeat.req PDU. See also Heartbeat
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+currentTime dateTime 1..1 Required. This contains the current time of the Central System.
+6.31. MeterValues.req
+This contains the field definition of the MeterValues.req PDU sent by the Charge Point to the Central System. See
+also Meter Values
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer
+connectorId >= 0
+1..1 Required. This contains a number (>0) designating a connector of the Charge
+Point.‘0’ (zero) is used to designate the main powermeter.
+transactionId integer 0..1 Optional. The transaction to which these meter samples are related.
+meterValue MeterValue 1..* Required. The sampled meter values with timestamps.
+6.32. MeterValues.conf
+This contains the field definition of the MeterValues.conf PDU sent by the Central System to the Charge Point in
+response to a MeterValues.req PDU. See also Meter Values
+No fields are defined.
+6.33. RemoteStartTransaction.req
+This contains the field definitions of the RemoteStartTransaction.req PDU sent to Charge Point by Central
+System. See also Remote Start Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer 0..1 Optional. Number of the connector on which to start the transaction.
+connectorId SHALL be > 0
+idTag IdToken 1..1 Required. The identifier that Charge Point must use to start a transaction.
+chargingProfile ChargingProfile 0..1 Optional. Charging Profile to be used by the Charge Point for the requested
+transaction. ChargingProfilePurpose MUST be set to TxProfile
+6.34. RemoteStartTransaction.conf
+This contains the field definitions of the RemoteStartTransaction.conf PDU sent from Charge Point to Central
+System. See also Remote Start Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status RemoteStartStopStatus 1..1 Required. Status indicating whether Charge Point accepts the
+request to start a transaction.
+6.35. RemoteStopTransaction.req
+This contains the field definitions of the RemoteStopTransaction.req PDU sent to Charge Point by Central
+System. See also Remote Stop Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+transactionId integer 1..1 Required. The identifier of the transaction which Charge Point is requested to
+stop.
+6.36. RemoteStopTransaction.conf
+This contains the field definitions of the RemoteStopTransaction.conf PDU sent from Charge Point to Central
+System. See also Remote Stop Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status RemoteStartStopStatus 1..1 Required. Status indicating whether Charge Point accepts the
+request to stop a transaction.
+6.37. ReserveNow.req
+This contains the field definition of the ReserveNow.req PDU sent by the Central System to the Charge Point. See
+also Reserve Now
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer
+connectorId >= 0
+1..1 Required. This contains the id of the connector to be reserved. A value of 0
+means that the reservation is not for a specific connector.
+expiryDate dateTime 1..1 Required. This contains the date and time when the reservation ends.
+idTag IdToken 1..1 Required. The identifier for which the Charge Point has to reserve a connector.
+parentIdTag IdToken 0..1 Optional. The parent idTag.
+reservationId integer 1..1 Required. Unique id for this reservation.
+6.38. ReserveNow.conf
+This contains the field definition of the ReserveNow.conf PDU sent by the Charge Point to the Central System in
+response to a ReserveNow.req PDU. See also Reserve Now
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status ReservationStatus 1..1 Required. This indicates the success or failure of the reservation.
+6.39. Reset.req
+This contains the field definition of the Reset.req PDU sent by the Central System to the Charge Point. See also
+Reset
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+type ResetType 1..1 Required. This contains the type of reset that the Charge Point should perform.
+6.40. Reset.conf
+This contains the field definition of the Reset.conf PDU sent by the Charge Point to the Central System in
+response to a Reset.req PDU. See also Reset
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status ResetStatus 1..1 Required. This indicates whether the Charge Point is able to perform the reset.
+6.41. SendLocalList.req
+This contains the field definition of the SendLocalList.req PDU sent by the Central System to the Charge Point.
+If no (empty) localAuthorizationList is given and the updateType is Full, all identifications are removed from the
+list. Requesting a Differential update without (empty) localAuthorizationList will have no effect on the list. All
+idTags in the localAuthorizationList MUST be unique, no duplicate values are allowed. See also Send Local List
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+listVersion integer 1..1 Required. In case of a full update this is the version number of the
+full list. In case of a differential update it is the version number of
+the list after the update has been applied.
+localAuthorizationList AuthorizationData 0..* Optional. In case of a full update this contains the list of values
+that form the new local authorization list. In case of a differential
+update it contains the changes to be applied to the local
+authorization list in the Charge Point. Maximum number of
+AuthorizationData elements is available in the configuration key:
+SendLocalListMaxLength
+updateType UpdateType 1..1 Required. This contains the type of update (full or differential) of
+this request.
+6.42. SendLocalList.conf
+This contains the field definition of the SendLocalList.conf PDU sent by the Charge Point to the Central System in
+response to a SendLocalList.req PDU. See also Send Local List
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status UpdateStatus 1..1 Required. This indicates whether the Charge Point has successfully received and
+applied the update of the local authorization list.
+6.43. SetChargingProfile.req
+This contains the field definition of the SetChargingProfile.req PDU sent by the Central System to the Charge
+Point.
+The Central System uses this message to send charging profiles to a Charge Point. See also Set Charging Profile
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer 1..1 Required. The connector to which the charging profile applies. If connectorId = 0,
+the message contains an overall limit for the Charge Point.
+csChargingProfiles ChargingProfile 1..1 Required. The charging profile to be set at the Charge Point.
+6.44. SetChargingProfile.conf
+This contains the field definition of the SetChargingProfile.conf PDU sent by the Charge Point to the Central
+System in response to a SetChargingProfile.req PDU. See also Set Charging Profile
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status ChargingProfileStatus 1..1 Required. Returns whether the Charge Point has been able to process the
+message successfully. This does not guarantee the schedule will be followed to
+the letter. There might be other constraints the Charge Point may need to take
+into account.
+6.45. StartTransaction.req
+This section contains the field definition of the StartTransaction.req PDU sent by the Charge Point to the Central
+System. See also Start Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer
+connectorId > 0
+1..1 Required. This identifies which connector of the Charge Point is used.
+idTag IdToken 1..1 Required. This contains the identifier for which a transaction has to be started.
+meterStart integer 1..1 Required. This contains the meter value in Wh for the connector at start of the
+transaction.
+reservationId integer 0..1 Optional. This contains the id of the reservation that terminates as a result of
+this transaction.
+timestamp dateTime 1..1 Required. This contains the date and time on which the transaction is started.
+6.46. StartTransaction.conf
+This contains the field definition of the StartTransaction.conf PDU sent by the Central System to the Charge Point
+in response to a StartTransaction.req PDU. See also Start Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+idTagInfo IdTagInfo 1..1 Required. This contains information about authorization status, expiry and
+parent id.
+transactionId integer 1..1 Required. This contains the transaction id supplied by the Central System.
+6.47. StatusNotification.req
+This contains the field definition of the StatusNotification.req PDU sent by the Charge Point to the Central
+System. See also Status Notification
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer
+connectorId >= 0
+1..1 Required. The id of the connector for which the status is reported.
+Id '0' (zero) is used if the status is for the Charge Point main
+controller.
+errorCode ChargePointErrorCode 1..1 Required. This contains the error code reported by the Charge
+Point.
+info CiString50Type 0..1 Optional. Additional free format information related to the error.
+status ChargePointStatus 1..1 Required. This contains the current status of the Charge Point.
+timestamp dateTime 0..1 Optional. The time for which the status is reported. If absent time
+of receipt of the message will be assumed.
+vendorId CiString255Type 0..1 Optional. This identifies the vendor-specific implementation.
+vendorErrorCode CiString50Type 0..1 Optional. This contains the vendor-specific error code.
+6.48. StatusNotification.conf
+This contains the field definition of the StatusNotification.conf PDU sent by the Central System to the Charge
+Point in response to an StatusNotification.req PDU. See also Status Notification
+No fields are defined.
+6.49. StopTransaction.req
+This contains the field definition of the StopTransaction.req PDU sent by the Charge Point to the Central System.
+See also Stop Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+idTag IdToken 0..1 Optional. This contains the identifier which requested to stop the charging. It is
+optional because a Charge Point may terminate charging without the presence
+of an idTag, e.g. in case of a reset. A Charge Point SHALL send the idTag if known.
+meterStop integer 1..1 Required. This contains the meter value in Wh for the connector at end of the
+transaction.
+timestamp dateTime 1..1 Required. This contains the date and time on which the transaction is stopped.
+transactionId integer 1..1 Required. This contains the transaction-id as received by the
+StartTransaction.conf.
+reason Reason 0..1 Optional. This contains the reason why the transaction was stopped. MAY only
+be omitted when the Reason is "Local".
+transactionData MeterValue 0..* Optional. This contains transaction usage details relevant for billing purposes.
+6.50. StopTransaction.conf
+This contains the field definition of the StopTransaction.conf PDU sent by the Central System to the Charge Point
+in response to a StopTransaction.req PDU. See also Stop Transaction
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+idTagInfo IdTagInfo 0..1 Optional. This contains information about authorization status, expiry and
+parent id. It is optional, because a transaction may have been stopped without
+an identifier.
+6.51. TriggerMessage.req
+This contains the field definition of the TriggerMessage.req PDU sent by the Central System to the Charge Point.
+See also Trigger Message
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+requestedMessage MessageTrigger 1..1 Required.
+connectorId integer
+connectorId > 0
+0..1 Optional. Only filled in when request applies to a specific connector.
+6.52. TriggerMessage.conf
+This contains the field definition of the TriggerMessage.conf PDU sent by the Charge Point to the Central System
+in response to a TriggerMessage.req PDU. See also Trigger Message
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status TriggerMessageStatus 1..1 Required. Indicates whether the Charge Point will send the requested
+notification or not.
+6.53. UnlockConnector.req
+This contains the field definition of the UnlockConnector.req PDU sent by the Central System to the Charge
+Point. See also Unlock Connector
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+connectorId integer
+connectorId > 0
+1..1 Required. This contains the identifier of the connector to be unlocked.
+6.54. UnlockConnector.conf
+This contains the field definition of the UnlockConnector.conf PDU sent by the Charge Point to the Central
+System in response to an UnlockConnector.req PDU. See also Unlock Connector
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+status UnlockStatus 1..1 Required. This indicates whether the Charge Point has unlocked the connector.
+6.55. UpdateFirmware.req
+This contains the field definition of the UpdateFirmware.req PDU sent by the Central System to the Charge Point.
+See also Update Firmware
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+location anyURI 1..1 Required. This contains a string containing a URI pointing to a location from which to retrieve the firmware.
+retries integer 0..1 Optional. This specifies how many times Charge Point must try to download the firmware before giving up. If this field is not present, it is left to Charge Point to decide how many times it wants to retry.
+retrieveDate dateTime 1..1 Required. This contains the date and time after which the Charge Point is allowed to retrieve the (new) firmware.
+retryInterval integer 0..1 Optional. The interval in seconds after which a retry may be attempted. If this field is not present, it is left to Charge Point to decide how long to wait between attempts.
+6.56. UpdateFirmware.conf
+This contains the field definition of the UpdateFirmware.conf PDU sent by the Charge Point to the Central
+System in response to a UpdateFirmware.req PDU. See also Update Firmware
+No fields are defined.
+7. Types
+7.1. AuthorizationData
+Class
+Elements that constitute an entry of a Local Authorization List update.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+idTag IdToken 1..1 Required. The identifier to which this authorization applies.
+idTagInfo IdTagInfo 0..1 Optional. (Required when UpdateType is Full) This contains information about
+authorization status, expiry and parent id. For a Differential update the following
+applies: If this element is present, then this entry SHALL be added or updated in
+the Local Authorization List. If this element is absent, than the entry for this
+idtag in the Local Authorization List SHALL be deleted.
+7.2. AuthorizationStatus
+Enumeration
+Status in a response to an Authorize.req.
+VALUE DESCRIPTION
+Accepted Identifier is allowed for charging.
+Blocked Identifier has been blocked. Not allowed for charging.
+Expired Identifier has expired. Not allowed for charging.
+Invalid Identifier is unknown. Not allowed for charging.
+ConcurrentTx Identifier is already involved in another transaction and multiple transactions are not allowed. (Only relevant for a
+StartTransaction.req.)
+7.3. AvailabilityStatus
+Enumeration
+Status returned in response to ChangeAvailability.req.
+VALUE DESCRIPTION
+Accepted Request has been accepted and will be executed.
+Rejected Request has not been accepted and will not be executed.
+Scheduled Request has been accepted and will be executed when transaction(s) in progress have finished.
+7.4. AvailabilityType
+Enumeration
+Requested availability change in ChangeAvailability.req.
+VALUE DESCRIPTION
+Inoperative Charge point is not available for charging.
+Operative Charge point is available for charging.
+7.5. CancelReservationStatus
+Enumeration
+Status in CancelReservation.conf.
+VALUE DESCRIPTION
+Accepted Reservation for the identifier has been cancelled.
+Rejected Reservation could not be cancelled, because there is no reservation active for the identifier.
+7.6. ChargePointErrorCode
+Enumeration
+Charge Point status reported in StatusNotification.req.
+VALUE DESCRIPTION
+ConnectorLockFailure Failure to lock or unlock connector.
+EVCommunicationError Communication failure with the vehicle, might be Mode 3 or other communication protocol problem. This is
+not a real error in the sense that the Charge Point doesn’t need to go to the faulted state. Instead, it should go
+to the SuspendedEVSE state.
+GroundFailure Ground fault circuit interrupter has been activated.
+HighTemperature Temperature inside Charge Point is too high.
+InternalError Error in internal hard- or software component.
+LocalListConflict The authorization information received from the Central System is in conflict with the LocalAuthorizationList.
+NoError No error to report.
+OtherError Other type of error. More information in vendorErrorCode.
+OverCurrentFailure Over current protection device has tripped.
+OverVoltage Voltage has risen above an acceptable level.
+PowerMeterFailure Failure to read electrical/energy/power meter.
+PowerSwitchFailure Failure to control power switch.
+ReaderFailure Failure with idTag reader.
+ResetFailure Unable to perform a reset.
+UnderVoltage Voltage has dropped below an acceptable level.
+WeakSignal Wireless communication device reports a weak signal.
+7.7. ChargePointStatus
+Enumeration
+Status reported in StatusNotification.req. A status can be reported for the Charge Point main controller
+(connectorId = 0) or for a specific connector. Status for the Charge Point main controller is a subset of the
+enumeration: Available, Unavailable or Faulted.
+States considered Operative are: Available, Preparing, Charging, SuspendedEVSE, SuspendedEV, Finishing, Reserved.
+States considered Inoperative are: Unavailable, Faulted.
+STATUS CONDITION
+Available When a Connector becomes available for a new user (Operative)
+Preparing When a Connector becomes no longer available for a new user but there is no ongoing Transaction (yet). Typically a Connector
+is in preparing state when a user presents a tag, inserts a cable or a vehicle occupies the parking bay
+(Operative)
+Charging When the contactor of a Connector closes, allowing the vehicle to charge
+(Operative)
+SuspendedEVSE When the EV is connected to the EVSE but the EVSE is not offering energy to the EV, e.g. due to a smart charging restriction,
+local supply power constraints, or as the result of StartTransaction.conf indicating that charging is not allowed etc.
+(Operative)
+SuspendedEV When the EV is connected to the EVSE and the EVSE is offering energy but the EV is not taking any energy.
+(Operative)
+Finishing When a Transaction has stopped at a Connector, but the Connector is not yet available for a new user, e.g. the cable has not
+been removed or the vehicle has not left the parking bay
+(Operative)
+Reserved When a Connector becomes reserved as a result of a Reserve Now command
+(Operative)
+Unavailable When a Connector becomes unavailable as the result of a Change Availability command or an event upon which the Charge
+Point transitions to unavailable at its discretion. Upon receipt of a Change Availability command, the status MAY change
+immediately or the change MAY be scheduled. When scheduled, the Status Notification shall be send when the availability
+change becomes effective
+(Inoperative)
+Faulted When a Charge Point or connector has reported an error and is not available for energy delivery . (Inoperative).
+7.8. ChargingProfile
+Class
+A ChargingProfile consists of a ChargingSchedule, describing the amount of power or current that can be
+delivered per time interval.
+ChargingProfile
+chargingProfileId: int [1..1]
+transactionId: int [0..1]
+stackLevel: int [1..1]
+chargingProfilePurpose: ChargingProfilePurposeType 1..1
+chargingProfileKind: ChargingProfileKindType [1..1]
+recurrencyKind: RecurrencyKindType 0..1
+validFrom: DateTime 0..1
+validTo: DateTime 0..1
+chargingSchedule: ChargingSchedule [1..1]
+ChargingSchedule
+duration: int [0..1]
+startSchedule: DateTime [0..1]
+schedulingUnit: SchedulingUnitType [1..1]
+chargingSchedulePeriod: ChargingSchedulepPeriod [1..*]
+minChargingRate: decimal [0..1]
+ChargingSchedulePeriod
+startPeriod: int [1..1]
+limit: int [1..1]
+numberPhases: int [0..1]
+ChargingProfilePurposeType
+ChargePointMaxProfile
+TxDefaultProfile
+TxProfile
+ChargingProfileKindType
+Absolute
+Recurring
+Relative
+RecurrencyKindType
+Daily
+Weekly
+1
+1
+1
+*
+Figure 42. Class Diagram: ChargingProfile
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+chargingProfileId integer 1..1 Required. Unique identifier for this profile.
+transactionId integer 0..1 Optional. Only valid if ChargingProfilePurpose is set to TxProfile,
+the transactionId MAY be used to match the profile to a specific
+transaction.
+stackLevel integer >=0 1..1 Required. Value determining level in hierarchy stack of profiles.
+Higher values have precedence over lower values. Lowest level is
+0.
+chargingProfilePurpose ChargingProfilePurposeType 1..1 Required. Defines the purpose of the schedule transferred by this
+message.
+chargingProfileKind ChargingProfileKindType 1..1 Required. Indicates the kind of schedule.
+recurrencyKind RecurrencyKindType 0..1 Optional. Indicates the start point of a recurrence.
+validFrom dateTime 0..1 Optional. Point in time at which the profile starts to be valid. If
+absent, the profile is valid as soon as it is received by the Charge
+Point.
+validTo dateTime 0..1 Optional. Point in time at which the profile stops to be valid. If
+absent, the profile is valid until it is replaced by another profile.
+chargingSchedule ChargingSchedule 1..1 Required. Contains limits for the available power or current over
+time.
+7.9. ChargingProfileKindType
+Enumeration
+Kind of charging profile, as used in: ChargingProfile.
+VALUE DESCRIPTION
+Absolute Schedule periods are relative to a fixed point in time defined in the schedule.
+Recurring The schedule restarts periodically at the first schedule period.
+Relative Schedule periods are relative to a situation-specific start point (such as the start of a Transaction) that is determined by the
+charge point.
+7.10. ChargingProfilePurposeType
+Enumeration
+Purpose of the charging profile, as used in: ChargingProfile.
+VALUE DESCRIPTION
+ChargePointMaxProfile Configuration for the maximum power or current available for an entire Charge Point.
+TxDefaultProfile Default profile *that can be configured in the Charge Point. When a new transaction is started, this profile
+SHALL be used, unless it was a transaction that was started by a RemoteStartTransaction.req with a
+ChargeProfile that is accepted by the Charge Point.
+79
+VALUE DESCRIPTION
+TxProfile Profile with constraints to be imposed by the Charge Point on the current transaction, or on a new transaction
+when this is started via a RemoteStartTransaction.req with a ChargeProfile. A profile with this purpose SHALL
+cease to be valid when the transaction terminates.
+7.11. ChargingProfileStatus
+Enumeration
+Status returned in response to SetChargingProfile.req.
+VALUE DESCRIPTION
+Accepted Request has been accepted and will be executed.
+Rejected Request has not been accepted and will not be executed.
+NotSupported Charge Point indicates that the request is not supported.
+7.12. ChargingRateUnitType
+Enumeration
+Unit in which a charging schedule is defined, as used in: GetCompositeSchedule.req and ChargingSchedule
+VALUE DESCRIPTION
+W Watts (power).
+This is the TOTAL allowed charging power.
+If used for AC Charging, the phase current should be calculated via: Current per phase = Power / (Line Voltage * Number of
+Phases). The "Line Voltage" used in the calculation is not the measured voltage, but the set voltage for the area (hence, 230 of
+110 volt). The "Number of Phases" is the numberPhases from the ChargingSchedulePeriod.
+It is usually more convenient to use this for DC charging.
+Note that if numberPhases in a ChargingSchedulePeriod is absent, 3 SHALL be assumed.
+A Amperes (current).
+The amount of Ampere per phase, not the sum of all phases.
+It is usually more convenient to use this for AC charging.
+7.13. ChargingSchedule
+Class
+Charging schedule structure defines a list of charging periods, as used in: GetCompositeSchedule.conf and
+ChargingProfile.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+duration integer 0..1 Optional. Duration of the charging schedule in seconds. If the
+duration is left empty, the last period will continue indefinitely or
+until end of the transaction in case startSchedule is absent.
+startSchedule dateTime 0..1 Optional. Starting point of an absolute schedule. If absent the
+schedule will be relative to start of charging.
+chargingRateUnit ChargingRateUnitType 1..1 Required. The unit of measure Limit is expressed in.
+chargingSchedulePeriod ChargingSchedulePeriod 1..* Required. List of ChargingSchedulePeriod elements defining
+maximum power or current usage over time. The startSchedule of
+the first ChargingSchedulePeriod SHALL always be 0.
+minChargingRate decimal 0..1 Optional. Minimum charging rate supported by the electric
+vehicle. The unit of measure is defined by the chargingRateUnit.
+This parameter is intended to be used by a local smart charging
+algorithm to optimize the power allocation for in the case a
+charging process is inefficient at lower charging rates. Accepts at
+most one digit fraction (e.g. 8.1)
+7.14. ChargingSchedulePeriod
+Class
+Charging schedule period structure defines a time period in a charging schedule, as used in: ChargingSchedule.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+startPeriod integer 1..1 Required. Start of the period, in seconds from the start of schedule. The value of
+StartPeriod also defines the stop time of the previous period.
+limit decimal 1..1 Required. Charging rate limit during the schedule period, in the applicable
+chargingRateUnit, for example in Amperes or Watts. Accepts at most one digit
+fraction (e.g. 8.1).
+numberPhases integer 0..1 Optional. The number of phases that can be used for charging. If a number of
+phases is needed, numberPhases=3 will be assumed unless another number is
+given.
+7.15. CiString20Type
+Type
+Generic used case insensitive string of 20 characters.
+FIELD TYPE DESCRIPTION
+CiString[20] String is case insensitive.
+7.16. CiString25Type
+Type
+Generic used case insensitive string of 25 characters.
+FIELD TYPE DESCRIPTION
+CiString[25] String is case insensitive.
+7.17. CiString50Type
+Type
+Generic used case insensitive string of 50 characters.
+FIELD TYPE DESCRIPTION
+CiString[50] String is case insensitive.
+7.18. CiString255Type
+Type
+Generic used case insensitive string of 255 characters.
+FIELD TYPE DESCRIPTION
+CiString[255] String is case insensitive.
+7.19. CiString500Type
+Type
+Generic used case insensitive string of 500 characters.
+FIELD TYPE DESCRIPTION
+CiString[500] String is case insensitive.
+7.20. ClearCacheStatus
+Enumeration
+Status returned in response to ClearCache.req.
+VALUE DESCRIPTION
+Accepted Command has been executed.
+82
+VALUE DESCRIPTION
+Rejected Command has not been executed.
+7.21. ClearChargingProfileStatus
+Enumeration
+Status returned in response to ClearChargingProfile.req.
+VALUE DESCRIPTION
+Accepted Request has been accepted and will be executed.
+Unknown No Charging Profile(s) were found matching the request.
+7.22. ConfigurationStatus
+Enumeration
+Status in ChangeConfiguration.conf.
+VALUE DESCRIPTION
+Accepted Configuration key is supported and setting has been changed.
+Rejected Configuration key is supported, but setting could not be changed.
+RebootRequired Configuration key is supported and setting has been changed, but change will be available after reboot (Charge Point will not reboot itself)
+NotSupported Configuration key is not supported.
+7.23. DataTransferStatus
+Enumeration
+Status in DataTransfer.conf.
+VALUE DESCRIPTION
+Accepted Message has been accepted and the contained request is accepted.
+Rejected Message has been accepted but the contained request is rejected.
+UnknownMessageId Message could not be interpreted due to unknown messageId string.
+83
+VALUE DESCRIPTION
+UnknownVendorId Message could not be interpreted due to unknown vendorId string.
+7.24. DiagnosticsStatus
+Enumeration
+Status in DiagnosticsStatusNotification.req.
+VALUE DESCRIPTION
+Idle Charge Point is not performing diagnostics related tasks. Status Idle SHALL only be used as in a
+DiagnosticsStatusNotification.req that was triggered by a TriggerMessage.req
+Uploaded Diagnostics information has been uploaded.
+UploadFailed Uploading of diagnostics failed.
+Uploading File is being uploaded.
+7.25. FirmwareStatus
+Enumeration
+Status of a firmware download as reported in FirmwareStatusNotification.req.
+VALUE DESCRIPTION
+Downloaded New firmware has been downloaded by Charge Point.
+DownloadFailed Charge point failed to download firmware.
+Downloading Firmware is being downloaded.
+Idle Charge Point is not performing firmware update related tasks. Status Idle SHALL only be used as in a
+FirmwareStatusNotification.req that was triggered by a TriggerMessage.req
+InstallationFailed Installation of new firmware has failed.
+Installing Firmware is being installed.
+Installed New firmware has successfully been installed in charge point.
+7.26. GetCompositeScheduleStatus
+Enumeration
+Status returned in response to GetCompositeSchedule.req.
+VALUE DESCRIPTION
+Accepted Request has been accepted and will be executed.
+Rejected Request has not been accepted and will not be executed.
+7.27. IdTagInfo
+Class
+Contains status information about an identifier. It is returned in Authorize, Start Transaction and Stop
+Transaction responses.
+If expiryDate is not given, the status has no end date.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+expiryDate dateTime 0..1 Optional. This contains the date at which idTag should be removed from the
+Authorization Cache.
+parentIdTag IdToken 0..1 Optional. This contains the parent-identifier.
+status AuthorizationStatus 1..1 Required. This contains whether the idTag has been accepted or not by the
+Central System.
+7.28. IdToken
+Type
+Contains the identifier to use for authorization. It is a case insensitive string. In future releases this may become
+a complex type to support multiple forms of identifiers.
+FIELD TYPE DESCRIPTION
+CiString20Type IdToken is case insensitive.
+7.29. KeyValue
+Class
+Contains information about a specific configuration key. It is returned in GetConfiguration.conf.
+NAME FIELD TYPE CARD. DESCRIPTION
+key CiString50Type 1..1 Required.
+85
+NAME FIELD TYPE CARD. DESCRIPTION
+readonly boolean 1..1 Required. False if the value can be set with the ChangeConfiguration message.
+value CiString500Type 0..1 Optional. If key is known but not set, this field may be absent.
+7.30. Location
+Enumeration
+Allowable values of the optional "location" field of a value element in SampledValue.
+VALUE DESCRIPTION
+Body Measurement inside body of Charge Point (e.g. Temperature)
+Cable Measurement taken from cable between EV and Charge Point
+EV Measurement taken by EV
+Inlet Measurement at network (“grid”) inlet connection
+Outlet Measurement at a Connector. Default value
+7.31. Measurand
+Enumeration
+Allowable values of the optional "measurand" field of a Value element, as used in MeterValues.req and
+StopTransaction.req messages. Default value of "measurand" is always "Energy.Active.Import.Register"
+ Import is energy flow from the Grid to the Charge Point, EV or other load. Export is energy flow
+from the EV to the Charge Point and/or from the Charge Point to the Grid.
+VALUE DESCRIPTION
+Current.Export Instantaneous current flow from EV
+Current.Import Instantaneous current flow to EV
+Current.Offered Maximum current offered to EV
+Energy.Active.Export.Register Numerical value read from the "active electrical energy" (Wh or kWh) register of the (most authoritative)
+electrical meter measuring energy exported (to the grid).
+Energy.Active.Import.Register Numerical value read from the "active electrical energy" (Wh or kWh) register of the (most authoritative)
+electrical meter measuring energy imported (from the grid supply).
+86
+VALUE DESCRIPTION
+Energy.Reactive.Export.Register Numerical value read from the "reactive electrical energy" (VARh or kVARh) register of the (most
+authoritative) electrical meter measuring energy exported (to the grid).
+Energy.Reactive.Import.Register Numerical value read from the "reactive electrical energy" (VARh or kVARh) register of the (most
+authoritative) electrical meter measuring energy imported (from the grid supply).
+Energy.Active.Export.Interval Absolute amount of "active electrical energy" (Wh or kWh) exported (to the grid) during an associated time
+"interval", specified by a Metervalues ReadingContext, and applicable interval duration configuration values
+(in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+Energy.Active.Import.Interval Absolute amount of "active electrical energy" (Wh or kWh) imported (from the grid supply) during an
+associated time "interval", specified by a Metervalues ReadingContext, and applicable interval duration
+configuration values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+Energy.Reactive.Export.Interval Absolute amount of "reactive electrical energy" (VARh or kVARh) exported (to the grid) during an associated
+time "interval", specified by a Metervalues ReadingContext, and applicable interval duration configuration
+values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+Energy.Reactive.Import.Interval Absolute amount of "reactive electrical energy" (VARh or kVARh) imported (from the grid supply) during an associated time "interval", specified by a Metervalues ReadingContext, and applicable interval duration configuration values (in seconds) for "ClockAlignedDataInterval" and "MeterValueSampleInterval".
+Frequency Instantaneous reading of powerline frequency. NOTE: OCPP 1.6 does not have a UnitOfMeasure for
+frequency, the UnitOfMeasure for any SampledValue with measurand: Frequency is Hertz.
+Power.Active.Export Instantaneous active power exported by EV. (W or kW)
+Power.Active.Import Instantaneous active power imported by EV. (W or kW)
+Power.Factor Instantaneous power factor of total energy flow
+Power.Offered Maximum power offered to EV
+Power.Reactive.Export Instantaneous reactive power exported by EV. (var or kvar)
+Power.Reactive.Import Instantaneous reactive power imported by EV. (var or kvar)
+RPM Fan speed in RPM
+SoC State of charge of charging vehicle in percentage
+Temperature Temperature reading inside Charge Point.
+Voltage Instantaneous AC RMS supply voltage
+87
+
+All "Register" values relating to a single charging transaction, or a non-transactional consumer
+(e.g. charge point internal power supply, overall supply) MUST be monotonically increasing in
+time.
+The actual quantity of energy corresponding to a reported ".Register" value is computed as
+the register value in question minus the register value recorded/reported at the start of the
+transaction or other relevant starting reference point in time. For improved auditability,
+".Register" values SHOULD reported exactly as they are directly read from a non-volatile
+register in the electrical metering hardware, and SHOULD NOT be re-based to zero at the start
+of transactions. This allows any "missing energy" between sequential transactions, due to
+hardware fault, mis-wiring, fraud, etc. to be identified, by allowing the Central System to
+confirm that the starting register value of any transaction is identical to the finishing register
+value of the preceding transaction on the same connector.
+7.32. MessageTrigger
+Enumeration
+Type of request to be triggered in a TriggerMessage.req.
+VALUE DESCRIPTION
+BootNotification To trigger a BootNotification request
+DiagnosticsStatusNotification To trigger a DiagnosticsStatusNotification request
+FirmwareStatusNotification To trigger a FirmwareStatusNotification request
+Heartbeat To trigger a Heartbeat request
+MeterValues To trigger a MeterValues request
+StatusNotification To trigger a StatusNotification request
+7.33. MeterValue
+Class
+Collection of one or more sampled values in MeterValues.req and StopTransaction.req. All sampled values in a
+MeterValue are sampled at the same point in time.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+timestamp dateTime 1..1 Required. Timestamp for measured value(s).
+sampledValue SampledValue 1..* Required. One or more measured values
+88
+7.34. Phase
+Enumeration
+Phase as used in SampledValue. Phase specifies how a measured value is to be interpreted. Please note that not
+all values of Phase are applicable to all Measurands.
+VALUE DESCRIPTION
+L1 Measured on L1
+L2 Measured on L2
+L3 Measured on L3
+N Measured on Neutral
+L1-N Measured on L1 with respect to Neutral conductor
+L2-N Measured on L2 with respect to Neutral conductor
+L3-N Measured on L3 with respect to Neutral conductor
+L1-L2 Measured between L1 and L2
+L2-L3 Measured between L2 and L3
+L3-L1 Measured between L3 and L1
+7.35. ReadingContext
+Enumeration
+Values of the context field of a value in SampledValue.
+VALUE DESCRIPTION
+Interruption.Begin Value taken at start of interruption.
+Interruption.End Value taken when resuming after interruption.
+Other Value for any other situations.
+Sample.Clock Value taken at clock aligned interval.
+Sample.Periodic Value taken as periodic sample relative to start time of transaction.
+Transaction.Begin Value taken at start of transaction.
+Transaction.End Value taken at end of transaction.
+Trigger Value taken in response to a TriggerMessage.req
+7.36. Reason
+Enumeration
+Reason for stopping a transaction in StopTransaction.req.
+VALUE DESCRIPTION
+DeAuthorized The transaction was stopped because of the authorization status in a StartTransaction.conf
+EmergencyStop Emergency stop button was used.
+EVDisconnected disconnecting of cable, vehicle moved away from inductive charge unit.
+HardReset A hard reset command was received.
+Local Stopped locally on request of the user at the Charge Point. This is a regular termination of a transaction. Examples: presenting
+an RFID tag, pressing a button to stop.
+Other Any other reason.
+PowerLoss Complete loss of power.
+Reboot A locally initiated reset/reboot occurred. (for instance watchdog kicked in)
+Remote Stopped remotely on request of the user. This is a regular termination of a transaction. Examples: termination using a
+smartphone app, exceeding a (non local) prepaid credit.
+SoftReset A soft reset command was received.
+UnlockCommand Central System sent an Unlock Connector command.
+7.37. RecurrencyKindType
+Enumeration
+Type of recurrence of a charging profile, as used in ChargingProfile.
+VALUE DESCRIPTION
+Daily The schedule restarts every 24 hours, at the same time as in the startSchedule.
+90
+VALUE DESCRIPTION
+Weekly The schedule restarts every 7 days, at the same time and day-of-the-week as in the startSchedule.
+7.38. RegistrationStatus
+Enumeration
+Result of registration in response to BootNotification.req.
+VALUE DESCRIPTION
+Accepted Charge point is accepted by Central System.
+Pending Central System is not yet ready to accept the Charge Point. Central System may send messages to retrieve information or
+prepare the Charge Point.
+Rejected Charge point is not accepted by Central System. This may happen when the Charge Point id is not known by Central System.
+7.39. RemoteStartStopStatus
+Enumeration
+The result of a RemoteStartTransaction.req or RemoteStopTransaction.req request.
+VALUE DESCRIPTION
+Accepted Command will be executed.
+Rejected Command will not be executed.
+7.40. ReservationStatus
+Enumeration
+Status in ReserveNow.conf.
+VALUE DESCRIPTION
+Accepted Reservation has been made.
+Faulted Reservation has not been made, because connectors or specified connector are in a faulted state.
+Occupied Reservation has not been made. All connectors or the specified connector are occupied.
+Rejected Reservation has not been made. Charge Point is not configured to accept reservations.
+91
+VALUE DESCRIPTION
+Unavailable Reservation has not been made, because connectors or specified connector are in an unavailable state.
+7.41. ResetStatus
+Enumeration
+Result of Reset.req.
+VALUE DESCRIPTION
+Accepted Command will be executed.
+Rejected Command will not be executed.
+7.42. ResetType
+Enumeration
+Type of reset requested by Reset.req.
+VALUE DESCRIPTION
+Hard Restart (all) the hardware, the Charge Point is not required to gracefully stop ongoing transaction. If possible the Charge Point
+sends a StopTransaction.req for previously ongoing transactions after having restarted and having been accepted by the
+Central System via a BootNotification.conf. This is a last resort solution for a not correctly functioning Charge Point, by sending
+a "hard" reset, (queued) information might get lost.
+Soft Stop ongoing transactions gracefully and sending StopTransaction.req for every ongoing transaction. It should then restart the
+application software (if possible, otherwise restart the processor/controller).
+7.43. SampledValue
+Class
+Single sampled value in MeterValues. Each value can be accompanied by optional fields.
+FIELD NAME FIELD TYPE CARD. DESCRIPTION
+value String 1..1 Required. Value as a “Raw” (decimal) number or “SignedData”. Field Type is
+“string” to allow for digitally signed data readings. Decimal numeric values are
+also acceptable to allow fractional values for measurands such as Temperature
+and Current.
+context ReadingContext 0..1 Optional. Type of detail value: start, end or sample. Default = “Sample.Periodic”
+format ValueFormat 0..1 Optional. Raw or signed data. Default = “Raw”
+measurand Measurand 0..1 Optional. Type of measurement. Default = “Energy.Active.Import.Register”
+phase Phase 0..1 Optional. indicates how the measured value is to be interpreted. For instance
+between L1 and neutral (L1-N) Please note that not all values of phase are
+applicable to all Measurands. When phase is absent, the measured value is
+interpreted as an overall value.
+location Location 0..1 Optional. Location of measurement. Default=”Outlet”
+unit UnitOfMeasure 0..1 Optional. Unit of the value. Default = “Wh” if the (default) measurand is an
+“Energy” type.
+7.44. TriggerMessageStatus
+Enumeration
+Status in TriggerMessage.conf.
+VALUE DESCRIPTION
+Accepted Requested notification will be sent.
+Rejected Requested notification will not be sent.
+NotImplemented Requested notification cannot be sent because it is either not implemented or unknown.
+7.45. UnitOfMeasure
+Enumeration
+Allowable values of the optional "unit" field of a Value element, as used in SampledValue. Default value of "unit"
+is always "Wh".
+VALUE DESCRIPTION
+Wh Watt-hours (energy). Default.
+kWh kiloWatt-hours (energy).
+varh Var-hours (reactive energy).
+kvarh kilovar-hours (reactive energy).
+W Watts (power).
+kW kilowatts (power).
+VA VoltAmpere (apparent power).
+93
+VALUE DESCRIPTION
+kVA kiloVolt Ampere (apparent power).
+var Vars (reactive power).
+kvar kilovars (reactive power).
+A Amperes (current).
+V Voltage (r.m.s. AC).
+Celsius Degrees (temperature).
+Fahrenheit Degrees (temperature).
+K Degrees Kelvin (temperature).
+Percent Percentage.
+7.46. UnlockStatus
+Enumeration
+Status in response to UnlockConnector.req.
+VALUE DESCRIPTION
+Unlocked Connector has successfully been unlocked.
+UnlockFailed Failed to unlock the connector: The Charge Point has tried to unlock the connector and has detected that the connector is still
+locked or the unlock mechanism failed.
+NotSupported Charge Point has no connector lock, or ConnectorId is unknown.
+7.47. UpdateStatus
+Enumeration
+Type of update for a SendLocalList.req.
+VALUE DESCRIPTION
+Accepted Local Authorization List successfully updated.
+Failed Failed to update the Local Authorization List.
+94
+VALUE DESCRIPTION
+NotSupported Update of Local Authorization List is not supported by Charge Point.
+VersionMismatch Version number in the request for a differential update is less or equal then version number of current list.
+7.48. UpdateType
+Enumeration
+Type of update for a SendLocalList.req.
+VALUE DESCRIPTION
+Differential Indicates that the current Local Authorization List must be updated with the values in this message.
+Full Indicates that the current Local Authorization List must be replaced by the values in this message.
+7.49. ValueFormat
+Enumeration
+Format that specifies how the value element in SampledValue is to be interpreted.
+VALUE DESCRIPTION
+Raw Data is to be interpreted as integer/decimal numeric data.
+SignedData Data is represented as a signed binary data block, encoded as hex data.
+75
+8. Firmware and Diagnostics File Transfer
+This section is normative.
+The supported transfer protocols are controlled by the configuration key SupportedFileTransferProtocols. FTP,
+FTPS, HTTP, HTTPS (CSL)
+8.1. Download Firmware
+When a Charge Point is notified about new firmware, it needs to be able to download this firmware. The Central
+System supplies in the request an URL where the firmware can be downloaded. The URL also contains the
+protocol which must be used to download the firmware.
+It is recommended that the firmware is downloaded via FTP or FTPS. FTP(S) is better optimized for large binary
+data than HTTP. Also FTP(S) has the ability to resume downloads. In case a download is interrupted, the Charge
+Point can resume downloading after the part it already has downloaded. The FTP URL is of format: ftp://user
+:password@host:port/path in which the parts user:password@, :password or :port may be excluded.
+To ensure that the correct firmware is downloaded, it is RECOMMENDED that the firmware is also digitally
+signed.
+8.2. Upload Diagnostics
+When a Charge Point is requested to upload a diagnostics file, the Central System supplies in the request an URL
+where the Charge Point should upload the file. The URL also contains the protocol which must be used to upload
+the file.
+It is recommended that the diagnostics file is downloaded via FTP or FTPS. FTP(S) is better optimized for large
+binary data than HTTP. Also FTP(S) has the ability to resume uploads. In case an upload is interrupted, the
+Charge Point can resume uploading after the part it already has uploaded. The FTP URL is of format: ftp://user
+:password@host:port/path in which the parts user:password@, :password or :port may be excluded.
+96
+9. Standard Configuration Key Names & Values
+Below follows a list of all configuration keys with a role standardized in this specification. The list is separated by
+Feature Profiles. A required configuration key mentioned under a particular profile only has to be supported by
+the Charge Point if it supports that profile.
+For optional Configuration Keys with a boolean type, the following rules apply for the configuration key in the
+response to a GetConfiguration.req without a list of keys:
+• If the key is present, the Charge Point provides the functionality that is configured by the key, and it can be
+enabled or disabled by setting the value for the key.
+• If the key is not present, the Charge Point does not provide the functionality that can be configured by the
+key.
+The "Accessibility" property shows if the value for a certain configuration key is read-only ("R") or read-write
+("RW"). In case the key is read-only, the Central System can read the value for the key using GetConfiguration, but
+not write it. In case the accessibility is read-write, the Central System can also write the value for the key using
+ChangeConfiguration.
+9.1. Core Profile
+9.1.1. AllowOfflineTxForUnknownId
+Required/optional optional
+Accessibility RW
+Type boolean
+Description If this key exists, the Charge Point supports Unknown Offline Authorization. If this key reports a value of true, Unknown Offline
+Authorization is enabled.
+9.1.2. AuthorizationCacheEnabled
+Required/optional optional
+Accessibility RW
+Type boolean
+Description If this key exists, the Charge Point supports an Authorization Cache. If this key reports a value of true, the Authorization Cache
+is enabled.
+9.1.3. AuthorizeRemoteTxRequests
+Required/optional required
+Accessibility R or RW. Choice is up to Charge Point implementation.
+Type boolean
+Description Whether a remote request to start a transaction in the form of a RemoteStartTransaction.req message should be authorized
+beforehand like a local action to start a transaction.
+9.1.4. BlinkRepeat
+Required/optional optional
+Accessibility RW
+Type integer
+Unit times
+Description Number of times to blink Charge Point lighting when signalling
+9.1.5. ClockAlignedDataInterval
+Required/optional required
+Accessibility RW
+Type integer
+Unit seconds
+Description Size (in seconds) of the clock-aligned data interval. This is the size (in seconds) of the set of evenly spaced aggregation intervals
+per day, starting at 00:00:00 (midnight). For example, a value of 900 (15 minutes) indicates that every day should be broken into
+96 15-minute intervals.
+When clock aligned data is being transmitted, the interval in question is identified by the start time and (optional) duration
+interval value, represented according to the ISO8601 standard. All "per-period" data (e.g. energy readings) should be
+accumulated (for "flow" type measurands such as energy), or averaged (for other values) across the entire interval (or partial
+interval, at the beginning or end of a Transaction), and transmitted (if so enabled) at the end of each interval, bearing the
+interval start time timestamp.
+A value of "0" (numeric zero), by convention, is to be interpreted to mean that no clock-aligned data should be transmitted.
+9.1.6. ConnectionTimeOut
+Required/optional required
+Accessibility RW
+Type integer
+Unit seconds
+Description Interval *from beginning of status: 'Preparing' until incipient Transaction is automatically canceled, due to failure of EV driver to
+(correctly) insert the charging cable connector(s) into the appropriate socket(s). The Charge Point SHALL go back to the original
+state, probably: 'Available'.
+9.1.7. ConnectorPhaseRotation
+Required/optional required
+Accessibility RW
+Type CSL
+Description The phase rotation per connector in respect to the connector’s electrical meter (or if absent, the grid connection). Possible
+values per connector are:
+NotApplicable (for Single phase or DC Charge Points)
+Unknown (not (yet) known)
+RST (Standard Reference Phasing)
+RTS (Reversed Reference Phasing)
+SRT (Reversed 240 degree rotation)
+STR (Standard 120 degree rotation)
+TRS (Standard 240 degree rotation)
+TSR (Reversed 120 degree rotation)
+R can be identified as phase 1 (L1), S as phase 2 (L2), T as phase 3 (L3).
+If known, the Charge Point MAY also report the phase rotation between the grid connection and the main energymeter by
+using index number Zero (0).
+Values are reported in CSL, formatted: 0.RST, 1.RST, 2.RTS
+9.1.8. ConnectorPhaseRotationMaxLength
+Required/optional optional
+Accessibility R
+Type integer
+Description Maximum number of items in a ConnectorPhaseRotation Configuration Key.
+9.1.9. GetConfigurationMaxKeys
+Required/optional required
+Accessibility R
+Type integer
+Description Maximum number of requested configuration keys in a GetConfiguration.req PDU.
+9.1.10. HeartbeatInterval
+Required/optional required
+Accessibility RW
+Type integer
+Unit seconds
+Description Interval of inactivity (no OCPP exchanges) with central system after which the Charge Point should send a Heartbeat.req PDU
+9.1.11. LightIntensity
+Required/optional optional
+Accessibility RW
+Type integer
+Unit %
+Description Percentage of maximum intensity at which to illuminate Charge Point lighting
+9.1.12. LocalAuthorizeOffline
+Required/optional required
+Accessibility RW
+Type boolean
+Description whether the Charge Point, when offline, will start a transaction for locally-authorized identifiers.
+9.1.13. LocalPreAuthorize
+Required/optional required
+Accessibility RW
+Type boolean
+Description whether the Charge Point, when online, will start a transaction for locally-authorized identifiers without waiting for or
+requesting an Authorize.conf from the Central System
+9.1.14. MaxEnergyOnInvalidId
+Required/optional optional
+Accessibility RW
+Type integer
+Unit Wh
+Description Maximum energy in Wh delivered when an identifier is invalidated by the Central System after start of a transaction.
+9.1.15. MeterValuesAlignedData
+Required/optional required
+Accessibility RW
+Type CSL
+Description Clock-aligned measurand(s) to be included in a MeterValues.req PDU, every ClockAlignedDataInterval seconds
+9.1.16. MeterValuesAlignedDataMaxLength
+Required/optional optional
+Accessibility R
+Type integer
+Description Maximum number of items in a MeterValuesAlignedData Configuration Key.
+9.1.17. MeterValuesSampledData
+Required/optional required
+Accessibility RW
+Type CSL
+Description Sampled measurands to be included in a MeterValues.req PDU, every MeterValueSampleInterval seconds. Where
+applicable, the Measurand is combined with the optional phase; for instance: Voltage.L1
+Default: "Energy.Active.Import.Register"
+9.1.18. MeterValuesSampledDataMaxLength
+Required/optional optional
+Accessibility R
+Type integer
+Description Maximum number of items in a MeterValuesSampledData Configuration Key.
+9.1.19. MeterValueSampleInterval
+Required/optional required
+Accessibility RW
+Type integer
+Unit seconds
+Description Interval between sampling of metering (or other) data, intended to be transmitted by "MeterValues" PDUs. For charging
+session data (ConnectorId>0), samples are acquired and transmitted periodically at this interval from the start of the charging
+transaction.
+A value of "0" (numeric zero), by convention, is to be interpreted to mean that no sampled data should be transmitted.
+9.1.20. MinimumStatusDuration
+Required/optional optional
+Accessibility RW
+Type integer
+Unit seconds
+Description The minimum duration that a Charge Point or Connector status is stable before a StatusNotification.req PDU is sent to the
+Central System.
+9.1.21. NumberOfConnectors
+Required/optional required
+Accessibility R
+Type integer
+Description The number of physical charging connectors of this Charge Point.
+9.1.22. ResetRetries
+Required/optional required
+Accessibility RW
+Type integer
+Unit times
+Description Number of times to retry an unsuccessful reset of the Charge Point.
+9.1.23. StopTransactionOnEVSideDisconnect
+Required/optional required
+Accessibility RW
+Type boolean
+Description When set to true, the Charge Point SHALL administratively stop the transaction when the cable is unplugged from the EV.
+9.1.24. StopTransactionOnInvalidId
+Required/optional required
+Accessibility RW
+Type boolean
+Description whether the Charge Point will stop an ongoing transaction when it receives a non- Accepted authorization status in a
+StartTransaction.conf for this transaction
+9.1.25. StopTxnAlignedData
+Required/optional required
+Accessibility RW
+Type CSL
+Description Clock-aligned periodic measurand(s) to be included in the TransactionData element of StopTransaction.req MeterValues.req
+PDU for every ClockAlignedDataInterval of the Transaction
+9.1.26. StopTxnAlignedDataMaxLength
+Required/optional optional
+Accessibility R
+Type integer
+Description Maximum number of items in a StopTxnAlignedData Configuration Key.
+9.1.27. StopTxnSampledData
+Required/optional required
+Accessibility RW
+Type CSL
+Description Sampled measurands to be included in the TransactionData element of StopTransaction.req PDU, every
+MeterValueSampleInterval seconds from the start of the charging session
+9.1.28. StopTxnSampledDataMaxLength
+Required/optional optional
+Accessibility R
+Type integer
+Description Maximum number of items in a StopTxnSampledData Configuration Key.
+9.1.29. SupportedFeatureProfiles
+Required/optional required
+Accessibility R
+Type CSL
+Description A list of supported Feature Profiles. Possible profile identifiers: Core, FirmwareManagement, LocalAuthListManagement,
+Reservation, SmartCharging and RemoteTrigger.
+9.1.30. SupportedFeatureProfilesMaxLength
+Required/optional optional
+Accessibility R
+Type integer
+Description Maximum number of items in a SupportedFeatureProfiles Configuration Key.
+9.1.31. TransactionMessageAttempts
+Required/optional required
+Accessibility RW
+Type integer
+Unit times
+Description How often the Charge Point should try to submit a transaction-related message when the Central System fails to process it.
+9.1.32. TransactionMessageRetryInterval
+Required/optional required
+Accessibility RW
+Type integer
+Unit seconds
+Description How long the Charge Point should wait before resubmitting a transaction-related message that the Central System failed to
+process.
+9.1.33. UnlockConnectorOnEVSideDisconnect
+Required/optional required
+Accessibility RW
+Type boolean
+Description When set to true, the Charge Point SHALL unlock the cable on Charge Point side when the cable is unplugged at the EV.
+9.1.34. WebSocketPingInterval
+Required/optional optional
+Accessibility RW
+Type integer
+Unit seconds
+Description Only relevant for websocket implementations. 0 disables client side websocket Ping/Pong. In this case there is either no
+ping/pong or the server initiates the ping and client responds with Pong. Positive values are interpreted as number of seconds
+between pings. Negative values are not allowed. ChangeConfiguration is expected to return a REJECTED result.
+9.2. Local Auth List Management Profile
+9.2.1. LocalAuthListEnabled
+Required/optional required
+Accessibility RW
+Type boolean
+Description whether the Local Authorization List is enabled
+9.2.2. LocalAuthListMaxLength
+Required/optional required
+Accessibility R
+Type integer
+Description Maximum number of identifications that can be stored in the Local Authorization List
+9.2.3. SendLocalListMaxLength
+Required/optional required
+Accessibility R
+Type integer
+Description Maximum number of identifications that can be send in a single SendLocalList.req
+9.3. Reservation Profile
+9.3.1. ReserveConnectorZeroSupported
+Required/optional optional
+Accessibility R
+Type boolean
+Description If this configuration key is present and set to true: Charge Point support reservations on connector 0.
+9.4. Smart Charging Profile
+9.4.1. ChargeProfileMaxStackLevel
+Required/optional required
+Accessibility R
+Type integer
+Description Max StackLevel of a ChargingProfile. The number defined also indicates the max allowed number of installed charging
+schedules per Charging Profile Purposes.
+9.4.2. ChargingScheduleAllowedChargingRateUnit
+Required/optional required
+Accessibility R
+Type CSL
+Description A list of supported quantities for use in a ChargingSchedule. Allowed values: 'Current' and 'Power'
+9.4.3. ChargingScheduleMaxPeriods
+Required/optional required
+Accessibility R
+Type integer
+Description Maximum number of periods that may be defined per ChargingSchedule.
+9.4.4. ConnectorSwitch3to1PhaseSupported
+Required/optional optional
+Accessibility R
+Type boolean
+Description If defined and true, this Charge Point support switching from 3 to 1 phase during a Transaction.
+9.4.5. MaxChargingProfilesInstalled
+Required/optional required
+Accessibility R
+Type integer
+Description Maximum number of Charging profiles installed at a time
+109
+Appendix A: New in OCPP 1.6
+The following changes are made in OCPP 1.6 compared to OCPP 1.5 [OCPP1.5]:
+• Smart Charging is added
+• A binding to JSON over WebSocket as a transport protocol is added, reducing data usage and enabling
+OCPP communication through NAT routers, see: OCPP JSON Specification
+• Extra statuses are added to the ChargePointStatus enumeration, giving the CPO and ultimately end-users
+more information about the current status of a Charge Point
+• Structure of MeterValues.req is changed to eliminate use of XML Attributes, this is needed for support of
+JSON (no attribute support in JSON).
+• Extra values are added to the Measurand enumeration, giving Charge Point manufacturers the possibility
+to send new information to a Central System, such as the State of Charge of an EV
+• The TriggerMessage message is added, giving the Central System the possibility to request information
+from the Charge Point
+• A new Pending member is added to the RegistrationStatus enumeration used in BootNotification.conf
+• More and clearer configuration keys are added, making it clearer to the CPO how to configure the
+different business cases in a Charge Point
+• The messages and configuration keys are split into profiles, making it easier to implement OCPP gradually
+or only in part
+• Known ambiguities are removed (e.g. when to use UnlockConnector.req, how to respond to RemoteStart
+/Stop, Connector numbering)
+A.1. Updated/New Messages:
+• BootNotification.req
+• Change IccId and Imsi to CiString[] to enforce maximum lengths.
+• BootNotification.conf
+• heartbeatInterval to interval, interval now also used for other purposes than heartbeat, need to fix
+in spec
+• Added status Pending
+• ChargePointErrorCode
+• Added enumvalues: InternalError, LocalListConfict and UnderVoltage
+• Renamed enum value Mode3Error to EVCommunicationError
+• ChargePointStatus
+• Replaced enum value Occupied with the more detailed values: Preparing, Charging,
+SuspendedEVSE, SuspendedEV and Finishing
+• ChargingRateUnitType
+• New
+110
+• ConfigurationStatus
+• Added enum RebootRequired
+• ClearChargingProfile.req
+• New
+• ClearChargingProfile.conf
+• New
+• DiagnosticsStatus
+• Added enum Uploading and Idle
+• FirmwareStatus
+• Added enum Downloading, Installing and Idle
+• GetCompositeSchedule.req
+• New
+• GetCompositeSchedule.conf
+• New
+• Location
+• Added enum Cable and EV
+• Measurand
+• Added enum Current.Offered, Frequency, Power.Factor, Power.Offered, RPM and SoC
+• MeterValues.req
+• overhaul of complex data structures
+• Added 'phase' field
+• ReadingContext
+• Added enum Trigger and Other
+• RemoteStartTransaction.req
+• Added ChargingProfile optional
+• SendLocalList.req
+• removed hash
+• SendLocalList.conf
+• removed hash
+• SetChargingProfile.req
+• New
+• SetChargingProfile.conf
+• New
+• StatusNotification.req
+• Overhaul of states
+• New error codes
+• Connector id 0 can only have status: Available, Unavailable and Faulted.
+• StopTransaction.req
+• added explicit and required stop reason
+• TriggerMessage.req
+• New
+• TriggerMessage.conf
+• New
+• UnlockConnector.conf
+• overhaul of UnlockStatus enum
+• UnitOfMeasure
+• Added Fahrenheit, K, Percent, VA, kVA
+• Rename Volt to V, Amp to A
