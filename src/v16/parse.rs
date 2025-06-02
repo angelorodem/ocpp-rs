@@ -7,8 +7,9 @@ use super::call_result::CallResult;
 use crate::alloc::string::ToString;
 use alloc::string::String;
 use serde::{Deserialize, Serialize};
+use strum::AsRefStr;
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, AsRefStr)]
 #[serde(untagged)]
 /// Message is a container for `Call`, `CallResult`, and `CallError`\
 /// The message type is determined by the `message_id` field

@@ -11,7 +11,7 @@ use ocpp_rs::v16::parse;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. Get the data through a WebSocket connection
     // Example call_result message coming from a charge point (GetConfiguration call result)
-    let data = "[3, \"253356461\", {\"configurationKey\": [\"key1\", \"key2\"]}]";
+    let data = "[3, \"253356461\", {\"configurationKey\": [{\"key\": \"key1\", \"readonly\": true}, {\"key\": \"key2\", \"readonly\": false}]}]";
 
     // Parse the message and handle it
     println!("Parsing and handling message CallResult: {}", data);
@@ -96,7 +96,10 @@ fn send_new_message() {
 
 fn parse_and_handle(data: &str) {
     // 2. Parse the message
+    println!("Parsing message: {}", data);
     let message = deserialize_to_message(data).unwrap();
+
+    println!("Message type: {:?}", message.as_ref());
 
     // 3. Match the message payload to the appropriate call type
     // if you do not intend to handle all call types, you can use an if-let
@@ -116,6 +119,7 @@ fn parse_and_handle(data: &str) {
 // Simulates a charger device receiving a call message
 // from a server
 fn receive_call(data: Call) {
+    println!("Received Call type: {:?}", data.payload.as_ref());
     match data.payload {
         Action::StatusNotification(payload) => {
             // Handle the payload
