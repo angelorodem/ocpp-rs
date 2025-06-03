@@ -4,6 +4,7 @@ use ocpp_rs::v16::{
     call_result::{self, CallResult, EmptyResponses, ResultPayload, StatusResponses},
     parse::{deserialize_to_message, serialize_message, Message},
     response_trait::Response,
+    log_helper::MessageLogLine,
 };
 use ocpp_rs::v16::data_types::IdTagInfo;
 use ocpp_rs::v16::parse;
@@ -100,6 +101,9 @@ fn parse_and_handle(data: &str) {
     let message = deserialize_to_message(data).unwrap();
 
     println!("Message type: {:?}", message.as_ref());
+
+    let line = MessageLogLine::from_message(&message);
+    println!("Log message: {:?}", line);
 
     // 3. Match the message payload to the appropriate call type
     // if you do not intend to handle all call types, you can use an if-let
