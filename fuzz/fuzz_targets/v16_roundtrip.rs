@@ -16,9 +16,17 @@ fuzz_target!(|data: &[u8]| {
     let Ok(again) = deserialize_to_message(&wire) else {
         panic!("reparse failed after successful parse: {wire}");
     };
-    // Idempotent serialize — do not use PartialEq on `Value`/`f64` (JSON number precision).
+    // Pathological f64 JSON may shift once under serde_json/ryu; the form after
+    // one parse→serialize cycle must then be a fixed point. Avoid PartialEq on
+    // typed f64 / Value for the same reason.
     let Ok(wire2) = serialize_message(&again) else {
         return;
     };
-    assert_eq!(wire, wire2, "serialize not idempotent after reparse");
+    let Ok(again2) = deserialize_to_message(&wire2) else {
+        panic!("reparse failed for canonical wire: {wire2}");
+    };
+    let Ok(wire3) = serialize_message(&again2) else {
+        return;
+    };
+    assert_eq!(wire2, wire3, "canonical serialize not idempotent");
 });

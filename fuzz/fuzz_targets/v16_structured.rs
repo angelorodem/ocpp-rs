@@ -1,8 +1,8 @@
 #![no_main]
 
 use libfuzzer_sys::fuzz_target;
-use ocpp_rs_fuzz::StructuredFrame;
 use ocpp_rs::v16::parse::{deserialize_to_message, serialize_message};
+use ocpp_rs_fuzz::StructuredFrame;
 
 fuzz_target!(|data: &[u8]| {
     let mut u = arbitrary::Unstructured::new(data);
@@ -21,5 +21,11 @@ fuzz_target!(|data: &[u8]| {
     let Ok(wire2) = serialize_message(&again) else {
         return;
     };
-    assert_eq!(wire, wire2, "serialize not idempotent after reparse");
+    let Ok(again2) = deserialize_to_message(&wire2) else {
+        panic!("reparse failed for canonical wire: {wire2}");
+    };
+    let Ok(wire3) = serialize_message(&again2) else {
+        return;
+    };
+    assert_eq!(wire2, wire3, "canonical serialize not idempotent");
 });
