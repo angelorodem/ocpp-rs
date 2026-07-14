@@ -9,8 +9,8 @@ Supports **OCPP 1.6** (JSON) and **OCPP 2.1** (additive / 2.0.1-compatible schem
 ## Features
 
 - Full OCPP 1.6 and 2.1 message payloads + OCPP-J parse/serialize
-- CallResult typing via `PendingCalls` / action-name correlation (no untagged guessing)
-- Typed RPC framework error codes; MessageId length ≤ 36
+- CallResult typing via `PendingCalls` / action-name correlation
+- Typed RPC framework error codes
 - Optional payload length/bounds checks (`schema_validate`) and device-model catalogs
 - **`#![no_std]` + `alloc`** — zero `std` in library code (global allocator required on baremetal)
 
