@@ -6,7 +6,7 @@ use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::GenericStatusEnumType;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct OpenPeriodicEventStreamRequest {
     pub constant_stream_data: ConstantStreamDataType,
@@ -15,7 +15,7 @@ pub struct OpenPeriodicEventStreamRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct OpenPeriodicEventStreamResponse {
     pub status: GenericStatusEnumType,

@@ -24,7 +24,7 @@ pub enum DisplayMessageStatusEnumType {
     LanguageNotSupported,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SetDisplayMessageRequest {
     pub message: MessageInfoType,
@@ -33,7 +33,7 @@ pub struct SetDisplayMessageRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SetDisplayMessageResponse {
     pub status: DisplayMessageStatusEnumType,

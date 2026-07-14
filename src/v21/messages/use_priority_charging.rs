@@ -26,7 +26,7 @@ pub struct UsePriorityChargingRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UsePriorityChargingResponse {
     pub status: PriorityChargingStatusEnumType,

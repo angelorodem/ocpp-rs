@@ -21,7 +21,7 @@ pub enum CertificateStatusEnumType {
     Failed,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CertificateStatusRequestInfoType {
     pub certificate_hash_data: CertificateHashDataType,
@@ -32,7 +32,7 @@ pub struct CertificateStatusRequestInfoType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CertificateStatusType {
     pub certificate_hash_data: CertificateHashDataType,
@@ -45,7 +45,7 @@ pub struct CertificateStatusType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetCertificateChainStatusRequest {
     pub certificate_status_requests: Vec<CertificateStatusRequestInfoType>,
@@ -54,7 +54,7 @@ pub struct GetCertificateChainStatusRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetCertificateChainStatusResponse {
     pub certificate_status: Vec<CertificateStatusType>,

@@ -22,7 +22,7 @@ pub enum ReserveNowStatusEnumType {
     Unavailable,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ReserveNowRequest {
     pub id: i32,
@@ -43,7 +43,7 @@ pub struct ReserveNowRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ReserveNowResponse {
     pub status: ReserveNowStatusEnumType,

@@ -8,7 +8,7 @@ use crate::v21::enumerations::GenericStatusEnumType;
 use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignCertificateRequest {
     pub csr: String,
@@ -26,7 +26,7 @@ pub struct SignCertificateRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignCertificateResponse {
     pub status: GenericStatusEnumType,

@@ -34,7 +34,7 @@ impl CallResultError {
     }
 
     #[must_use]
-    pub fn generic_error(unique_id: String, error_description: String) -> Self {
+    pub const fn generic_error(unique_id: String, error_description: String) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::GenericError,

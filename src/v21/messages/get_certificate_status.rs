@@ -15,7 +15,7 @@ pub enum GetCertificateStatusEnumType {
     Failed,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetCertificateStatusRequest {
     pub ocsp_request_data: OCSPRequestDataType,
@@ -24,7 +24,7 @@ pub struct GetCertificateStatusRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetCertificateStatusResponse {
     pub status: GetCertificateStatusEnumType,

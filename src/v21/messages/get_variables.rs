@@ -9,7 +9,7 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetVariableDataType {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -37,7 +37,7 @@ pub enum GetVariableStatusEnumType {
     NotSupportedAttributeType,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetVariableResultType {
     pub attribute_status: GetVariableStatusEnumType,
@@ -57,7 +57,7 @@ pub struct GetVariableResultType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetVariablesRequest {
     pub get_variable_data: Vec<GetVariableDataType>,
@@ -66,7 +66,7 @@ pub struct GetVariablesRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetVariablesResponse {
     pub get_variable_result: Vec<GetVariableResultType>,

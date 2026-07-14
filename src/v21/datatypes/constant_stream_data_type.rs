@@ -3,7 +3,7 @@ use super::CustomDataType;
 use super::PeriodicEventStreamParamsType;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ConstantStreamDataType {
     pub id: i32,

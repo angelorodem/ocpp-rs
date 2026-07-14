@@ -45,7 +45,7 @@ pub enum LogStatusEnumType {
     AcceptedCanceled,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetLogRequest {
     pub log: LogParametersType,
@@ -62,7 +62,7 @@ pub struct GetLogRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetLogResponse {
     pub status: LogStatusEnumType,

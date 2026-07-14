@@ -20,7 +20,7 @@ pub enum EventTriggerEnumType {
     Periodic,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct EventDataType {
     pub event_id: i32,
@@ -57,7 +57,7 @@ pub struct EventDataType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct NotifyEventRequest {
     #[serde(with = "crate::v21::utils::rfc3339_date_time")]

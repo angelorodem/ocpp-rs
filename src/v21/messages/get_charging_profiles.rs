@@ -36,7 +36,7 @@ pub enum GetChargingProfileStatusEnumType {
     NoProfiles,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetChargingProfilesRequest {
     pub request_id: i32,
@@ -49,7 +49,7 @@ pub struct GetChargingProfilesRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetChargingProfilesResponse {
     pub status: GetChargingProfileStatusEnumType,

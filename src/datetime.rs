@@ -55,6 +55,8 @@ pub mod date_time {
     use alloc::string::String;
     use serde::{self, Deserialize, Deserializer, Serializer};
 
+    /// # Errors
+    /// Returns a serializer error if writing the formatted datetime string fails.
     pub fn serialize<S>(date: &DateTimeWrapper, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -62,6 +64,8 @@ pub mod date_time {
         serialize_utc(date.inner(), serializer)
     }
 
+    /// # Errors
+    /// Returns a deserializer error if the input is not a valid RFC3339 datetime.
     pub fn deserialize<'de, D>(deserializer: D) -> Result<DateTimeWrapper, D::Error>
     where
         D: Deserializer<'de>,
@@ -79,6 +83,8 @@ pub mod date_time_optional {
     use alloc::string::String;
     use serde::{self, Deserialize, Deserializer, Serializer};
 
+    /// # Errors
+    /// Returns a serializer error if writing the formatted datetime string fails.
     #[allow(clippy::ref_option)]
     pub fn serialize<S>(date: &Option<DateTimeWrapper>, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -90,16 +96,20 @@ pub mod date_time_optional {
         }
     }
 
+    /// # Errors
+    /// Returns a deserializer error if the value is present but not a valid RFC3339 datetime.
     pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<DateTimeWrapper>, D::Error>
     where
         D: Deserializer<'de>,
     {
         let opt: Option<String> = Option::deserialize(deserializer)?;
-        match opt {
-            Some(s) => parse_utc(&s)
-                .map(|dt| Some(DateTimeWrapper::new(dt)))
-                .map_err(serde::de::Error::custom),
-            None => Ok(None),
-        }
+        opt.map_or_else(
+            || Ok(None),
+            |s| {
+                parse_utc(&s)
+                    .map(|dt| Some(DateTimeWrapper::new(dt)))
+                    .map_err(serde::de::Error::custom)
+            },
+        )
     }
 }

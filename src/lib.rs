@@ -123,7 +123,17 @@
     clippy::empty_enum_variants_with_brackets,
     clippy::else_if_without_else
 )]
-#![allow(clippy::module_name_repetitions)]
+#![allow(
+    clippy::module_name_repetitions,
+    // OCPP action/result dispatch is inherently large match tables.
+    clippy::too_many_lines,
+    // CALL/SEND payload sizes vary widely by message; boxing would change the public API.
+    clippy::large_enum_variant,
+    // Some OCPP datatypes expose more than three booleans by schema.
+    clippy::struct_excessive_bools,
+    // Adjacent `CallResult<T>` arms share bodies but cannot use `|` across different `T`.
+    clippy::match_same_arms
+)]
 #![deny(
     clippy::unwrap_used,
     clippy::undocumented_unsafe_blocks,

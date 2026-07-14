@@ -7,7 +7,7 @@ use crate::v21::enumerations::GetCertificateIdUseEnumType;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CertificateHashDataChainType {
     pub certificate_hash_data: CertificateHashDataType,
@@ -40,7 +40,7 @@ pub struct GetInstalledCertificateIdsRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetInstalledCertificateIdsResponse {
     pub status: GetInstalledCertificateStatusEnumType,

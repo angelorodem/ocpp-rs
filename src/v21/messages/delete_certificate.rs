@@ -16,7 +16,7 @@ pub enum DeleteCertificateStatusEnumType {
     NotFound,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DeleteCertificateRequest {
     pub certificate_hash_data: CertificateHashDataType,
@@ -25,7 +25,7 @@ pub struct DeleteCertificateRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DeleteCertificateResponse {
     pub status: DeleteCertificateStatusEnumType,
