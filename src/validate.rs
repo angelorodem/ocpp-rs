@@ -93,25 +93,13 @@ impl fmt::Display for ConstraintViolation {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.kind {
             ConstraintKind::MaxLength { max, actual } => {
-                write!(
-                    f,
-                    "maxLength at {}: max {max}, actual {actual}",
-                    self.path
-                )
+                write!(f, "maxLength at {}: max {max}, actual {actual}", self.path)
             }
             ConstraintKind::MinItems { min, actual } => {
-                write!(
-                    f,
-                    "minItems at {}: min {min}, actual {actual}",
-                    self.path
-                )
+                write!(f, "minItems at {}: min {min}, actual {actual}", self.path)
             }
             ConstraintKind::MaxItems { max, actual } => {
-                write!(
-                    f,
-                    "maxItems at {}: max {max}, actual {actual}",
-                    self.path
-                )
+                write!(f, "maxItems at {}: max {max}, actual {actual}", self.path)
             }
             ConstraintKind::Minimum { min, actual } => {
                 write!(f, "minimum at {}: min {min}, actual {actual}", self.path)

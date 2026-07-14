@@ -1,5 +1,5 @@
 //! AUTO-generated exhaustive v16 CALL round-trips. Regenerate: python tools/gen_exhaust_tests.py
-use ocpp_rs::v16::parse::{deserialize_to_message, serialize_message, Message};
+use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};
 
 fn assert_call_roundtrip(wire: &str) {
     let msg = deserialize_to_message(wire).unwrap_or_else(|e| panic!("parse {wire}: {e}"));
@@ -16,7 +16,9 @@ fn roundtrip_authorize() {
 
 #[test]
 fn roundtrip_boot_notification() {
-    assert_call_roundtrip(r#"[2,"t","BootNotification",{"chargePointVendor":"x","chargePointModel":"x"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","BootNotification",{"chargePointVendor":"x","chargePointModel":"x"}]"#,
+    );
 }
 
 #[test]
@@ -101,7 +103,9 @@ fn roundtrip_remote_stop_transaction() {
 
 #[test]
 fn roundtrip_reserve_now() {
-    assert_call_roundtrip(r#"[2,"t","ReserveNow",{"connectorId":0,"expiryDate":"2024-01-01T00:00:00.000Z","idTag":"x","reservationId":0}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","ReserveNow",{"connectorId":0,"expiryDate":"2024-01-01T00:00:00.000Z","idTag":"x","reservationId":0}]"#,
+    );
 }
 
 #[test]
@@ -111,27 +115,37 @@ fn roundtrip_reset() {
 
 #[test]
 fn roundtrip_send_local_list() {
-    assert_call_roundtrip(r#"[2,"t","SendLocalList",{"listVersion":0,"updateType":"Differential"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","SendLocalList",{"listVersion":0,"updateType":"Differential"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_set_charging_profile() {
-    assert_call_roundtrip(r#"[2,"t","SetChargingProfile",{"connectorId":0,"csChargingProfiles":{"chargingProfileId":0,"stackLevel":0,"chargingProfilePurpose":"ChargePointMaxProfile","chargingProfileKind":"Absolute","chargingSchedule":{"chargingRateUnit":"A","chargingSchedulePeriod":[]}}}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","SetChargingProfile",{"connectorId":0,"csChargingProfiles":{"chargingProfileId":0,"stackLevel":0,"chargingProfilePurpose":"ChargePointMaxProfile","chargingProfileKind":"Absolute","chargingSchedule":{"chargingRateUnit":"A","chargingSchedulePeriod":[]}}}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_start_transaction() {
-    assert_call_roundtrip(r#"[2,"t","StartTransaction",{"connectorId":0,"idTag":"x","meterStart":0,"timestamp":"2024-01-01T00:00:00.000Z"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","StartTransaction",{"connectorId":0,"idTag":"x","meterStart":0,"timestamp":"2024-01-01T00:00:00.000Z"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_status_notification() {
-    assert_call_roundtrip(r#"[2,"t","StatusNotification",{"connectorId":0,"errorCode":"ConnectorLockFailure","status":"Available"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","StatusNotification",{"connectorId":0,"errorCode":"ConnectorLockFailure","status":"Available"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_stop_transaction() {
-    assert_call_roundtrip(r#"[2,"t","StopTransaction",{"meterStop":0,"timestamp":"2024-01-01T00:00:00.000Z","transactionId":0}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","StopTransaction",{"meterStop":0,"timestamp":"2024-01-01T00:00:00.000Z","transactionId":0}]"#,
+    );
 }
 
 #[test]
@@ -146,42 +160,58 @@ fn roundtrip_unlock_connector() {
 
 #[test]
 fn roundtrip_update_firmware() {
-    assert_call_roundtrip(r#"[2,"t","UpdateFirmware",{"location":"x","retrieveDate":"2024-01-01T00:00:00.000Z"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","UpdateFirmware",{"location":"x","retrieveDate":"2024-01-01T00:00:00.000Z"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_get_log() {
-    assert_call_roundtrip(r#"[2,"t","GetLog",{"logType":"DiagnosticsLog","requestId":1,"log":{"remoteLocation":"ftp://x"}}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","GetLog",{"logType":"DiagnosticsLog","requestId":1,"log":{"remoteLocation":"ftp://x"}}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_delete_certificate() {
-    assert_call_roundtrip(r#"[2,"t","DeleteCertificate",{"certificateHashData":{"hashAlgorithm":"SHA256","issuerNameHash":"a","issuerKeyHash":"b","serialNumber":"1"}}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","DeleteCertificate",{"certificateHashData":{"hashAlgorithm":"SHA256","issuerNameHash":"a","issuerKeyHash":"b","serialNumber":"1"}}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_install_certificate() {
-    assert_call_roundtrip(r#"[2,"t","InstallCertificate",{"certificateType":"CentralSystemRootCertificate","certificate":"PEM"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","InstallCertificate",{"certificateType":"CentralSystemRootCertificate","certificate":"PEM"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_get_installed_certificate_ids() {
-    assert_call_roundtrip(r#"[2,"t","GetInstalledCertificateIds",{"certificateType":"ManufacturerRootCertificate"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","GetInstalledCertificateIds",{"certificateType":"ManufacturerRootCertificate"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_signed_update_firmware() {
-    assert_call_roundtrip(r#"[2,"t","SignedUpdateFirmware",{"requestId":1,"firmware":{"location":"https://x","retrieveDateTime":"2024-01-01T00:00:00.000Z","signingCertificate":"C","signature":"S"}}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","SignedUpdateFirmware",{"requestId":1,"firmware":{"location":"https://x","retrieveDateTime":"2024-01-01T00:00:00.000Z","signingCertificate":"C","signature":"S"}}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_security_event_notification() {
-    assert_call_roundtrip(r#"[2,"t","SecurityEventNotification",{"type":"FirmwareUpdated","timestamp":"2024-01-01T00:00:00.000Z"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","SecurityEventNotification",{"type":"FirmwareUpdated","timestamp":"2024-01-01T00:00:00.000Z"}]"#,
+    );
 }
 
 #[test]
 fn roundtrip_security_extended_trigger_message() {
-    assert_call_roundtrip(r#"[2,"t","ExtendedTriggerMessage",{"requestedMessage":"BootNotification"}]"#);
+    assert_call_roundtrip(
+        r#"[2,"t","ExtendedTriggerMessage",{"requestedMessage":"BootNotification"}]"#,
+    );
 }
 
 #[test]

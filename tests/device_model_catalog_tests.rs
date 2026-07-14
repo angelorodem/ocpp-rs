@@ -3,8 +3,8 @@
 #![cfg(feature = "device_model_catalog")]
 
 use ocpp_rs::v21::device_model::{
-    is_standard_component, is_standard_variable, rows_for_component, STANDARD_COMPONENTS,
-    STANDARD_VARIABLES,
+    STANDARD_COMPONENTS, STANDARD_VARIABLES, is_standard_component, is_standard_variable,
+    rows_for_component,
 };
 
 #[test]

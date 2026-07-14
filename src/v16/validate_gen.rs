@@ -47,7 +47,6 @@ fn check_num_max(path: &str, n: f64, max: f64) -> ValidateResult<()> {
     Ok(())
 }
 
-
 mod authorize {
     use super::*;
 
@@ -75,8 +74,7 @@ mod authorize_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("idTagInfo") {
-        }
+        if let Some(v) = obj.get("idTagInfo") {}
         let _ = obj;
         Ok(())
     }
@@ -159,12 +157,9 @@ mod boot_notification_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
-        if let Some(v) = obj.get("currentTime") {
-        }
-        if let Some(v) = obj.get("interval") {
-        }
+        if let Some(v) = obj.get("status") {}
+        if let Some(v) = obj.get("currentTime") {}
+        if let Some(v) = obj.get("interval") {}
         let _ = obj;
         Ok(())
     }
@@ -179,8 +174,7 @@ mod cancel_reservation {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("reservationId") {
-        }
+        if let Some(v) = obj.get("reservationId") {}
         let _ = obj;
         Ok(())
     }
@@ -195,8 +189,7 @@ mod cancel_reservation_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -211,10 +204,8 @@ mod change_availability {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("type") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("type") {}
         let _ = obj;
         Ok(())
     }
@@ -229,8 +220,7 @@ mod change_availability_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -271,8 +261,7 @@ mod change_configuration_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -301,8 +290,7 @@ mod clear_cache_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -317,14 +305,10 @@ mod clear_charging_profile {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {
-        }
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("chargingProfilePurpose") {
-        }
-        if let Some(v) = obj.get("stackLevel") {
-        }
+        if let Some(v) = obj.get("id") {}
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("chargingProfilePurpose") {}
+        if let Some(v) = obj.get("stackLevel") {}
         let _ = obj;
         Ok(())
     }
@@ -335,12 +319,14 @@ mod clear_charging_profile {
 mod clear_charging_profile_response {
     use super::*;
 
-    pub fn validate_clear_charging_profile_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -367,8 +353,7 @@ mod data_transfer {
                 check_str_max(&child, s, 50)?;
             }
         }
-        if let Some(v) = obj.get("data") {
-        }
+        if let Some(v) = obj.get("data") {}
         let _ = obj;
         Ok(())
     }
@@ -383,10 +368,8 @@ mod data_transfer_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
-        if let Some(v) = obj.get("data") {
-        }
+        if let Some(v) = obj.get("status") {}
+        if let Some(v) = obj.get("data") {}
         let _ = obj;
         Ok(())
     }
@@ -397,12 +380,14 @@ mod data_transfer_response {
 mod diagnostics_status_notification {
     use super::*;
 
-    pub fn validate_diagnostics_status_notification(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_diagnostics_status_notification(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -413,7 +398,10 @@ mod diagnostics_status_notification {
 mod diagnostics_status_notification_response {
     use super::*;
 
-    pub fn validate_diagnostics_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_diagnostics_status_notification_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -431,8 +419,7 @@ mod firmware_status_notification {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -443,7 +430,10 @@ mod firmware_status_notification {
 mod firmware_status_notification_response {
     use super::*;
 
-    pub fn validate_firmware_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_firmware_status_notification_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -461,12 +451,9 @@ mod get_composite_schedule {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("duration") {
-        }
-        if let Some(v) = obj.get("chargingRateUnit") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("duration") {}
+        if let Some(v) = obj.get("chargingRateUnit") {}
         let _ = obj;
         Ok(())
     }
@@ -477,18 +464,17 @@ mod get_composite_schedule {
 mod get_composite_schedule_response {
     use super::*;
 
-    pub fn validate_get_composite_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_composite_schedule_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("scheduleStart") {
-        }
-        if let Some(v) = obj.get("chargingSchedule") {
-        }
+        if let Some(v) = obj.get("status") {}
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("scheduleStart") {}
+        if let Some(v) = obj.get("chargingSchedule") {}
         let _ = obj;
         Ok(())
     }
@@ -558,16 +544,11 @@ mod get_diagnostics {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("location") {
-        }
-        if let Some(v) = obj.get("retries") {
-        }
-        if let Some(v) = obj.get("retryInterval") {
-        }
-        if let Some(v) = obj.get("startTime") {
-        }
-        if let Some(v) = obj.get("stopTime") {
-        }
+        if let Some(v) = obj.get("location") {}
+        if let Some(v) = obj.get("retries") {}
+        if let Some(v) = obj.get("retryInterval") {}
+        if let Some(v) = obj.get("startTime") {}
+        if let Some(v) = obj.get("stopTime") {}
         let _ = obj;
         Ok(())
     }
@@ -612,12 +593,14 @@ mod get_local_list_version {
 mod get_local_list_version_response {
     use super::*;
 
-    pub fn validate_get_local_list_version_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_local_list_version_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("listVersion") {
-        }
+        if let Some(v) = obj.get("listVersion") {}
         let _ = obj;
         Ok(())
     }
@@ -646,8 +629,7 @@ mod heartbeat_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("currentTime") {
-        }
+        if let Some(v) = obj.get("currentTime") {}
         let _ = obj;
         Ok(())
     }
@@ -662,10 +644,8 @@ mod meter_values {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("transactionId") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("transactionId") {}
         if let Some(v) = obj.get("meterValue") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.meterValue");
@@ -699,16 +679,14 @@ mod remote_start_transaction {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
         if let Some(v) = obj.get("idTag") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.idTag");
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("chargingProfile") {
-        }
+        if let Some(v) = obj.get("chargingProfile") {}
         let _ = obj;
         Ok(())
     }
@@ -719,12 +697,14 @@ mod remote_start_transaction {
 mod remote_start_transaction_response {
     use super::*;
 
-    pub fn validate_remote_start_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_remote_start_transaction_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -739,8 +719,7 @@ mod remote_stop_transaction {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("transactionId") {
-        }
+        if let Some(v) = obj.get("transactionId") {}
         let _ = obj;
         Ok(())
     }
@@ -751,12 +730,14 @@ mod remote_stop_transaction {
 mod remote_stop_transaction_response {
     use super::*;
 
-    pub fn validate_remote_stop_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_remote_stop_transaction_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -771,10 +752,8 @@ mod reserve_now {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("expiryDate") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("expiryDate") {}
         if let Some(v) = obj.get("idTag") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.idTag");
@@ -787,8 +766,7 @@ mod reserve_now {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("reservationId") {
-        }
+        if let Some(v) = obj.get("reservationId") {}
         let _ = obj;
         Ok(())
     }
@@ -803,8 +781,7 @@ mod reserve_now_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -819,8 +796,7 @@ mod reset {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("type") {
-        }
+        if let Some(v) = obj.get("type") {}
         let _ = obj;
         Ok(())
     }
@@ -835,8 +811,7 @@ mod reset_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -851,15 +826,13 @@ mod send_local_list {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("listVersion") {
-        }
+        if let Some(v) = obj.get("listVersion") {}
         if let Some(v) = obj.get("localAuthorizationList") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.localAuthorizationList");
             }
         }
-        if let Some(v) = obj.get("updateType") {
-        }
+        if let Some(v) = obj.get("updateType") {}
         let _ = obj;
         Ok(())
     }
@@ -874,8 +847,7 @@ mod send_local_list_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -890,10 +862,8 @@ mod set_charging_profile {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("csChargingProfiles") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("csChargingProfiles") {}
         let _ = obj;
         Ok(())
     }
@@ -908,8 +878,7 @@ mod set_charging_profile_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -924,20 +893,16 @@ mod start_transaction {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
         if let Some(v) = obj.get("idTag") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.idTag");
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("meterStart") {
-        }
-        if let Some(v) = obj.get("reservationId") {
-        }
-        if let Some(v) = obj.get("timestamp") {
-        }
+        if let Some(v) = obj.get("meterStart") {}
+        if let Some(v) = obj.get("reservationId") {}
+        if let Some(v) = obj.get("timestamp") {}
         let _ = obj;
         Ok(())
     }
@@ -952,10 +917,8 @@ mod start_transaction_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("idTagInfo") {
-        }
-        if let Some(v) = obj.get("transactionId") {
-        }
+        if let Some(v) = obj.get("idTagInfo") {}
+        if let Some(v) = obj.get("transactionId") {}
         let _ = obj;
         Ok(())
     }
@@ -970,20 +933,16 @@ mod status_notification {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
-        if let Some(v) = obj.get("errorCode") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
+        if let Some(v) = obj.get("errorCode") {}
         if let Some(v) = obj.get("info") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.info");
                 check_str_max(&child, s, 50)?;
             }
         }
-        if let Some(v) = obj.get("status") {
-        }
-        if let Some(v) = obj.get("timestamp") {
-        }
+        if let Some(v) = obj.get("status") {}
+        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("vendorId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.vendorId");
@@ -1030,14 +989,10 @@ mod stop_transaction {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("meterStop") {
-        }
-        if let Some(v) = obj.get("timestamp") {
-        }
-        if let Some(v) = obj.get("transactionId") {
-        }
-        if let Some(v) = obj.get("reason") {
-        }
+        if let Some(v) = obj.get("meterStop") {}
+        if let Some(v) = obj.get("timestamp") {}
+        if let Some(v) = obj.get("transactionId") {}
+        if let Some(v) = obj.get("reason") {}
         if let Some(v) = obj.get("transactionData") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.transactionData");
@@ -1057,8 +1012,7 @@ mod stop_transaction_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("idTagInfo") {
-        }
+        if let Some(v) = obj.get("idTagInfo") {}
         let _ = obj;
         Ok(())
     }
@@ -1073,10 +1027,8 @@ mod trigger_message {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("requestedMessage") {
-        }
-        if let Some(v) = obj.get("connectorId") {
-        }
+        if let Some(v) = obj.get("requestedMessage") {}
+        if let Some(v) = obj.get("connectorId") {}
         let _ = obj;
         Ok(())
     }
@@ -1091,8 +1043,7 @@ mod trigger_message_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -1107,8 +1058,7 @@ mod unlock_connector {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {
-        }
+        if let Some(v) = obj.get("connectorId") {}
         let _ = obj;
         Ok(())
     }
@@ -1123,8 +1073,7 @@ mod unlock_connector_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("status") {
-        }
+        if let Some(v) = obj.get("status") {}
         let _ = obj;
         Ok(())
     }
@@ -1139,14 +1088,10 @@ mod update_firmware {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("location") {
-        }
-        if let Some(v) = obj.get("retries") {
-        }
-        if let Some(v) = obj.get("retrieveDate") {
-        }
-        if let Some(v) = obj.get("retryInterval") {
-        }
+        if let Some(v) = obj.get("location") {}
+        if let Some(v) = obj.get("retries") {}
+        if let Some(v) = obj.get("retrieveDate") {}
+        if let Some(v) = obj.get("retryInterval") {}
         let _ = obj;
         Ok(())
     }
@@ -1214,8 +1159,12 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "ClearCache" => clear_cache_response::root(payload, action),
         "ClearChargingProfile" => clear_charging_profile_response::root(payload, action),
         "DataTransfer" => data_transfer_response::root(payload, action),
-        "DiagnosticsStatusNotification" => diagnostics_status_notification_response::root(payload, action),
-        "FirmwareStatusNotification" => firmware_status_notification_response::root(payload, action),
+        "DiagnosticsStatusNotification" => {
+            diagnostics_status_notification_response::root(payload, action)
+        }
+        "FirmwareStatusNotification" => {
+            firmware_status_notification_response::root(payload, action)
+        }
         "GetCompositeSchedule" => get_composite_schedule_response::root(payload, action),
         "GetConfiguration" => get_configuration_response::root(payload, action),
         "GetDiagnostics" => get_diagnostics_response::root(payload, action),

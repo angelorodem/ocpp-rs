@@ -2,7 +2,7 @@
 
 use ocpp_rs::errors::Error;
 use ocpp_rs::v21::parse::deserialize_to_message;
-use ocpp_rs::validate::{check_message_id_len, MESSAGE_ID_MAX_LEN};
+use ocpp_rs::validate::{MESSAGE_ID_MAX_LEN, check_message_id_len};
 
 #[test]
 fn message_id_helper() {

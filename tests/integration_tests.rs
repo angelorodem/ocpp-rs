@@ -273,7 +273,10 @@ fn test_call_error_scenarios() {
     match message {
         Message::CallError(call_error) => {
             assert_eq!(call_error.unique_id, "12345");
-            assert_eq!(call_error.error_code, ocpp_rs::v16::rpc_error_code::RpcErrorCode::GenericError);
+            assert_eq!(
+                call_error.error_code,
+                ocpp_rs::v16::rpc_error_code::RpcErrorCode::GenericError
+            );
             assert_eq!(call_error.error_description, "Generic error description");
         }
         _ => panic!("Expected CallError"),

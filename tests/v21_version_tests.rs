@@ -1,7 +1,7 @@
 //! Version gating helpers.
 
 use ocpp_rs::v21::version::{
-    allows_action, allows_message_type, is_ocpp21_only_action, NegotiatedVersion,
+    NegotiatedVersion, allows_action, allows_message_type, is_ocpp21_only_action,
 };
 
 #[test]
