@@ -1,14 +1,15 @@
 use alloc::{collections::btree_map::BTreeMap, string::String};
+use serde_json::Value;
 use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 
-#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CallError {
     pub(super) message_id: i32,
     pub unique_id: String,
     pub error_code: String,
     pub error_description: String,
-    pub error_details: BTreeMap<String, String>,
+    pub error_details: BTreeMap<String, Value>,
 }
 
 impl CallError {
@@ -17,7 +18,7 @@ impl CallError {
         unique_id: String,
         error_code: String,
         error_description: String,
-        error_details: BTreeMap<String, String>,
+        error_details: BTreeMap<String, Value>,
     ) -> Self {
         Self {
             message_id: 4,

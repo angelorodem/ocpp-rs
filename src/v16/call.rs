@@ -25,7 +25,10 @@
 //! ```
 use core::fmt::Formatter;
 
-use super::data_types::{DateTimeWrapper, MeterValue};
+use super::data_types::{
+    AuthorizationData, CertificateHashData, ChargingProfile, DateTimeWrapper, Firmware,
+    LogParameters, MeterValue,
+};
 use super::enums::{
     AvailabilityType, CertificateUse, ChargePointErrorCode, ChargePointStatus,
     ChargingProfilePurposeType, ChargingRateUnitType, DiagnosticsStatus, FirmwareStatus, Log,
@@ -33,7 +36,6 @@ use super::enums::{
 };
 
 use super::utils::{iso8601_date_time, iso8601_date_time_optional};
-use alloc::collections::btree_map::BTreeMap;
 use alloc::string::String;
 use alloc::vec::Vec;
 use serde::Deserializer;
@@ -46,7 +48,7 @@ use strum_macros::AsRefStr;
 
 /// Call action enum that contains all the possible actions that can be sent to the Charge Point.\\
 /// Please look at the OCPP 1.6 specification for more information    
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
+#[derive(AsRefStr, Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 #[serde(untagged)]
 pub enum Action {
@@ -91,7 +93,7 @@ pub enum Action {
     UpdateFirmware(UpdateFirmware),
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Serialize_tuple, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Call {
     pub(super) message_id: i32,
@@ -161,10 +163,10 @@ pub struct ClearChargingProfile {
     pub stack_level: Option<i32>,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct DeleteCertificate {
-    pub certificate_hash_data: BTreeMap<String, String>,
+    pub certificate_hash_data: CertificateHashData,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -219,10 +221,10 @@ pub struct GetInstalledCertificateIds {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetLocalListVersion {}
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetLog {
-    pub log: BTreeMap<String, String>,
+    pub log: LogParameters,
     pub log_type: Log,
     pub request_id: i32,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -238,14 +240,14 @@ pub struct InstallCertificate {
     pub certificate: String,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct RemoteStartTransaction {
     pub id_tag: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub connector_id: Option<u32>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub charging_profile: Option<BTreeMap<String, String>>,
+    pub charging_profile: Option<ChargingProfile>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -278,21 +280,23 @@ pub struct Reset {
 pub struct SendLocalList {
     pub list_version: i32,
     pub update_type: UpdateType,
-    pub local_authorization_list: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub local_authorization_list: Option<Vec<AuthorizationData>>,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SetChargingProfile {
     pub connector_id: u32,
-    pub cs_charging_profiles: BTreeMap<String, String>,
+    pub cs_charging_profiles: ChargingProfile,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignedUpdateFirmware {
     pub request_id: i32,
-    pub firmware: BTreeMap<String, String>,
+    pub firmware: Firmware,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub retries: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -380,6 +384,7 @@ pub struct LogStatusNotification {
 pub struct MeterValues {
     pub connector_id: u32,
     pub meter_value: Vec<MeterValue>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub transaction_id: Option<i32>,
 }
 
@@ -404,7 +409,9 @@ pub struct SignCertificate {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SignedFirmwareStatusNotification {
     pub status: FirmwareStatus,
-    pub request_id: i32,
+    /// Optional. Same `requestId` as the corresponding `SignedUpdateFirmware` request.    
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub request_id: Option<i32>,
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]

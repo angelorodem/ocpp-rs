@@ -1,17 +1,18 @@
-use chrono::{DateTime, Timelike};
+use chrono::{DateTime, TimeZone, Timelike, Utc};
 use ocpp_rs::v16::call::*;
-use ocpp_rs::v16::call_result::CallResult;
+use ocpp_rs::v16::call_result::CallResultRaw;
 use ocpp_rs::v16::call_result::EmptyResponse;
 use ocpp_rs::v16::data_types::*;
 use ocpp_rs::v16::enums::*;
 use ocpp_rs::v16::parse;
 use ocpp_rs::v16::parse::{Message, deserialize_to_message};
+use ocpp_rs::v16::pending::PendingCalls;
 use ocpp_rs::v16::response_trait::Response;
+use ocpp_rs::v16::typed_call_result::TypedCallResult;
 
-// Helper function to create datetime with millisecond precision for consistent testing
+// Fixed instant (no chrono `clock` / `std`) with millisecond precision for wire round-trips.
 fn now_with_millis() -> DateTimeWrapper {
-    let now = chrono::Utc::now();
-    // Truncate to millisecond precision to match serialization format
+    let now = Utc.with_ymd_and_hms(2024, 6, 1, 12, 0, 0).unwrap();
     let truncated = now
         .with_nanosecond((now.nanosecond() / 1_000_000) * 1_000_000)
         .unwrap();
@@ -130,16 +131,12 @@ fn test_status_notification() {
 
     if let Message::Call(ca) = message {
         if let Action::StatusNotification(sn) = ca.payload {
-            let response = sn.get_response(ca.unique_id, EmptyResponse {});
-            assert_eq!(
-                response,
-                parse::Message::CallResult(CallResult::new(
-                    "253356461".to_string(),
-                    ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
-                        ocpp_rs::v16::call_result::EmptyResponses::EmptyResponse(EmptyResponse {})
-                    )
-                ))
-            );
+            let response = sn.get_response(ca.unique_id, EmptyResponse {}).expect("serialize response");
+            let expected = parse::Message::CallResult(CallResultRaw::new(
+                "253356461".to_string(),
+                serde_json::json!({}),
+            ));
+            assert_eq!(response, expected);
         }
     } else {
         panic!("Unexpected message type");
@@ -155,18 +152,16 @@ fn test_authorization_call_result() {
     let id_tag_info = IdTagInfo {
         expiry_date: None,
         parent_id_tag: None,
-        status: ParsedGenericStatus::Accepted,
+        status: AuthorizationStatus::Accepted,
     };
 
-    let auth = ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
-        ocpp_rs::v16::call_result::EmptyResponses::GenericIdTagInfoResponse(
-            ocpp_rs::v16::call_result::GenericIdTagInfo {
-                id_tag_info: Some(id_tag_info),
-            },
-        ),
-    );
-
-    let message_eq: Message = Message::CallResult(CallResult::new("253356461".to_string(), auth));
+    let message_eq: Message = Message::CallResult(CallResultRaw::new(
+        "253356461".to_string(),
+        serde_json::to_value(ocpp_rs::v16::call_result::Authorize {
+            id_tag_info,
+        })
+        .unwrap(),
+    ));
 
     assert_eq!(message, message_eq);
     match message {
@@ -186,27 +181,26 @@ fn test_get_configuration_call_result() {
     let message = deserialize_to_message(data).unwrap();
     println!("\nParsed: {:?}\n", message);
 
-    let auth = ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
-        ocpp_rs::v16::call_result::EmptyResponses::GetConfiguration(
-            ocpp_rs::v16::call_result::GetConfiguration {
-                configuration_key: Some(vec![
-                    KeyValue {
-                        key: "key1".to_string(),
-                        readonly: false,
-                        value: Some("val1".to_string()),
-                    },
-                    KeyValue {
-                        key: "key2".to_string(),
-                        readonly: true,
-                        value: Some("val2".to_string()),
-                    },
-                ]),
-                unknown_key: None,
+    let config = ocpp_rs::v16::call_result::GetConfiguration {
+        configuration_key: Some(vec![
+            KeyValue {
+                key: "key1".to_string(),
+                readonly: false,
+                value: Some("val1".to_string()),
             },
-        ),
-    );
+            KeyValue {
+                key: "key2".to_string(),
+                readonly: true,
+                value: Some("val2".to_string()),
+            },
+        ]),
+        unknown_key: None,
+    };
 
-    let message_eq: Message = Message::CallResult(CallResult::new("253356461".to_string(), auth));
+    let message_eq: Message = Message::CallResult(CallResultRaw::new(
+        "253356461".to_string(),
+        serde_json::to_value(config).unwrap(),
+    ));
 
     assert_eq!(message, message_eq);
     match message {
@@ -256,18 +250,18 @@ fn test_malformed_json_handling() {
 
 #[test]
 fn test_datetime_edge_cases() {
-    // Test with milliseconds
+    // Millisecond Z form
     let data = "[2, \"12345\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"2024-06-01T19:52:45.123Z\"}]";
     let message = deserialize_to_message(data).unwrap();
     assert!(matches!(message, Message::Call(_)));
 
-    // Test without milliseconds
+    // RFC3339 without fractional seconds
     let data = "[2, \"12346\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"2024-06-01T19:52:45Z\"}]";
     let message = deserialize_to_message(data).unwrap();
     assert!(matches!(message, Message::Call(_)));
 
-    // Test future date
-    let data = "[2, \"12347\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"2030-12-31T23:59:59Z\"}]";
+    // Future date with millis
+    let data = "[2, \"12347\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"2030-12-31T23:59:59.000Z\"}]";
     let message = deserialize_to_message(data).unwrap();
     assert!(matches!(message, Message::Call(_)));
 }
@@ -386,10 +380,10 @@ fn test_response_generation_for_all_call_types() {
     let response_payload = ocpp_rs::v16::call_result::BootNotification {
         current_time: now_with_millis(),
         interval: 60,
-        status: ParsedGenericStatus::Accepted,
+        status: RegistrationStatus::Accepted,
     };
 
-    let response = boot.get_response("test_id".to_string(), response_payload);
+    let response = boot.get_response("test_id".to_string(), response_payload).expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test Heartbeat response
@@ -398,7 +392,7 @@ fn test_response_generation_for_all_call_types() {
         current_time: now_with_millis(),
     };
 
-    let response = heartbeat.get_response("test_id".to_string(), heartbeat_response);
+    let response = heartbeat.get_response("test_id".to_string(), heartbeat_response).expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test Authorize response
@@ -406,15 +400,15 @@ fn test_response_generation_for_all_call_types() {
         id_tag: "RFID123".to_string(),
     };
 
-    let auth_response = ocpp_rs::v16::call_result::GenericIdTagInfo {
-        id_tag_info: Some(IdTagInfo {
-            status: ParsedGenericStatus::Accepted,
+    let auth_response = ocpp_rs::v16::call_result::Authorize {
+        id_tag_info: IdTagInfo {
+            status: AuthorizationStatus::Accepted,
             expiry_date: None,
             parent_id_tag: None,
-        }),
+        },
     };
 
-    let response = authorize.get_response("test_id".to_string(), auth_response);
+    let response = authorize.get_response("test_id".to_string(), auth_response).expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 }
 
@@ -465,13 +459,13 @@ fn test_start_stop_transaction_flow() {
                 let response_payload = ocpp_rs::v16::call_result::StartTransaction {
                     transaction_id: 789,
                     id_tag_info: IdTagInfo {
-                        status: ParsedGenericStatus::Accepted,
+                        status: AuthorizationStatus::Accepted,
                         expiry_date: None,
                         parent_id_tag: None,
                     },
                 };
 
-                let response = start_tx.get_response(call.unique_id, response_payload);
+                let response = start_tx.get_response(call.unique_id, response_payload).expect("serialize response");
                 assert!(matches!(response, parse::Message::CallResult(_)));
             } else {
                 panic!("Expected StartTransaction");
@@ -549,24 +543,32 @@ fn test_configuration_management() {
 
 #[test]
 fn test_call_result_ambiguous_deserialization() {
-    // Test empty response that could be interpreted as EmptyResponse
+    // Same `{}` must resolve differently based on pending Action — never untagged guess.
     let empty_response_data = "[3, \"test_001\", {}]";
-    let message = deserialize_to_message(empty_response_data).unwrap();
 
-    match message {
-        Message::CallResult(call_result) => {
-            assert_eq!(call_result.unique_id, "test_001");
-            // Should deserialize as EmptyResponse in the PossibleEmptyResponse enum
-            if let ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(empty_resp) =
-                call_result.payload
-            {
-                assert!(empty_resp.is_empty());
-            } else {
-                panic!("Expected PossibleEmptyResponse");
-            }
+    let mut pending = PendingCalls::new();
+    pending.register(
+        "test_001",
+        Action::StatusNotification(StatusNotification {
+            connector_id: 1,
+            error_code: ChargePointErrorCode::NoError,
+            status: ChargePointStatus::Available,
+            ..Default::default()
+        }),
+    );
+    match pending.deserialize_typed(empty_response_data).unwrap() {
+        ocpp_rs::v16::parse::TypedMessage::CallResult(TypedCallResult::StatusNotification(cr)) => {
+            assert_eq!(cr.unique_id, "test_001");
+            let _: EmptyResponse = cr.payload;
         }
-        _ => panic!("Expected CallResult"),
+        other => panic!("Expected StatusNotification EmptyResponse, got {other:?}"),
     }
+
+    let mut pending = PendingCalls::new();
+    pending.register("test_001", Action::Heartbeat(Heartbeat {}));
+    // Heartbeat.conf requires currentTime — empty must fail, not become EmptyResponse
+    let err = pending.deserialize_typed(empty_response_data).unwrap_err();
+    assert!(matches!(err, ocpp_rs::errors::Error::SerdeJson(_)));
 }
 
 #[test]
@@ -714,15 +716,14 @@ fn test_serialization_roundtrip_all_message_types() {
     assert_eq!(boot_call, deserialized);
 
     // Test CallResult messages
-    let boot_result = Message::CallResult(CallResult::new(
+    let boot_payload = ocpp_rs::v16::call_result::BootNotification {
+        current_time: now_with_millis(),
+        interval: 300,
+        status: RegistrationStatus::Accepted,
+    };
+    let boot_result = Message::CallResult(CallResultRaw::new(
         "test_001".to_string(),
-        ocpp_rs::v16::call_result::ResultPayload::BootNotification(
-            ocpp_rs::v16::call_result::BootNotification {
-                current_time: now_with_millis(),
-                interval: 300,
-                status: ParsedGenericStatus::Accepted,
-            },
-        ),
+        serde_json::to_value(&boot_payload).unwrap(),
     ));
 
     let serialized = parse::serialize_message(&boot_result).unwrap();
@@ -1201,13 +1202,9 @@ fn test_message_id_consistency() {
     let serialized = parse::serialize_message(&call_msg).unwrap();
     assert!(serialized.starts_with("[2,"));
 
-    let call_result = Message::CallResult(CallResult::new(
+    let call_result = Message::CallResult(CallResultRaw::new(
         "test".to_string(),
-        ocpp_rs::v16::call_result::ResultPayload::PossibleEmptyResponse(
-            ocpp_rs::v16::call_result::EmptyResponses::EmptyResponse(
-                ocpp_rs::v16::call_result::EmptyResponse {},
-            ),
-        ),
+        serde_json::json!({}),
     ));
     let serialized = parse::serialize_message(&call_result).unwrap();
     assert!(serialized.starts_with("[3,"));
@@ -1255,10 +1252,10 @@ fn test_response_trait_coverage() {
     let clear_cache = ClearCache {};
     let response = clear_cache.get_response(
         "test_clear".to_string(),
-        ocpp_rs::v16::call_result::GenericStatusResponse {
-            status: ParsedGenericStatus::Accepted,
+        ocpp_rs::v16::call_result::ClearCache {
+            status: ClearCacheStatus::Accepted,
         },
-    );
+    ).expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test ChangeConfiguration response
@@ -1268,10 +1265,10 @@ fn test_response_trait_coverage() {
     };
     let response = change_config.get_response(
         "test_config".to_string(),
-        ocpp_rs::v16::call_result::GenericStatusResponse {
-            status: ParsedGenericStatus::Accepted,
+        ocpp_rs::v16::call_result::ChangeConfiguration {
+            status: ConfigurationStatus::Accepted,
         },
-    );
+    ).expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test GetLocalListVersion response
@@ -1279,7 +1276,7 @@ fn test_response_trait_coverage() {
     let response = get_version.get_response(
         "test_version".to_string(),
         ocpp_rs::v16::call_result::GetLocalListVersion { list_version: 42 },
-    );
+    ).expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 }
 

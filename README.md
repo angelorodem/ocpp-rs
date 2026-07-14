@@ -1,79 +1,125 @@
 # OCPP-RS
 
-OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP) in Rust.    
-    
-it currently supports OCPP 1.6.    
+OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP) in Rust.
+
+It supports **OCPP 1.6** and **OCPP 2.1** (2.0.1-compatible additive schemas).
 
 [Documentation](https://docs.rs/ocpp_rs/latest/ocpp_rs/)
 
-- Full implementation of OCPP 1.6 Protocol
-- Currently most feature complete implementation of OCPP 1.6 in rust
-- Batteries included, serialization and deserialization is provided [here](https://docs.rs/ocpp_rs/latest/ocpp_rs/v16/parse/index.html)
-- No_std, should work fine on embedded devices that allow heap allocation [with a global allocator](https://docs.rust-embedded.org/book/collections/#using-alloc)
-- Inspired by a [python ocpp library](https://github.com/mobilityhouse/ocpp)
+- Full implementation of OCPP 1.6 and OCPP 2.1 message payloads
+- Batteries included: OCPP-J parse/serialize for both versions
+- CallResult typing via `PendingCalls` / action-name correlation (no untagged guessing)
+- **`#![no_std]` + `alloc`** — library code never uses `std` (baremetal-friendly). You must provide a global allocator (e.g. `embedded-alloc`, `linked_list_allocator`, or your RTOS heap).
+- Inspired by a [python ocpp library](https://github.com/mobilityhouse/ocpp); 2.1 layout inspired by [rust-ocpp](https://github.com/tommymalmqvist/rust-ocpp)
 
+## `no_std` / firmware
 
-## Usage
-In Cargo.toml, add the following dependency:
+The published library (`src/`) is `#![no_std]` + `alloc` end-to-end: zero `std::` usage, and dependencies are built with `default-features = false` (chrono without `clock`/`std`). Integration tests and `example/` may use `std` for host runners only — that does not leak into firmware consumers.
+
+You must provide a **global allocator** on baremetal (e.g. `embedded-alloc`, `linked_list_allocator`, or your RTOS heap).
+
 ```toml
+# Typical embedded consumer
 [dependencies]
-ocpp-rs = "^0.2"
+ocpp_rs = { version = "0.3", default-features = false }
+# plus your allocator crate / #[global_allocator]
 ```
 
+Sanity checks:
+
+```bash
+# Library must build under #![no_std] (host is enough to catch std usage in src/)
+cargo build --lib
+
+# Optional: freestanding target (requires rustup target)
+cargo build --lib --target thumbv7em-none-eabi
+
+# Chrono must not enable std/clock via feature unification
+cargo tree -p chrono -f '{p} {f}' | head -5
+# expect: chrono … alloc,serde   (not std/clock)
+```
+
+## Usage
+
+```toml
+[dependencies]
+ocpp-rs = "^0.3"
+```
+
+Upgrading from 0.2.x: see [guides/migration-0.3.md](guides/migration-0.3.md).
+
 # Particularities
-Since the original OCPP 1.6 protocol does not contain a type field for `CallResult`, when parsing `CallResult`lt, you need to handle
-Special cases where JSON payloads are ambiguous, like empty objects like: ```{}```, these might get serialized as a `EmptyResponse` instead of the variant
-you are waiting for like `GetConfiguration`.
 
-Look at this file to see how to properly handle `CallResults`: [`example`](example/src/main.rs)
+## OCPP 1.6 CallResult
 
-## Example
-Receiving a payload from a client:
+CALLRESULT has no action on the wire. Blind parse yields `CallResultRaw`. Correlate with `PendingCalls` (same idea as 2.1):
+
+```rust
+use ocpp_rs::v16::call::{Action, Call, Heartbeat};
+use ocpp_rs::v16::parse::TypedMessage;
+use ocpp_rs::v16::pending::PendingCalls;
+use ocpp_rs::v16::typed_call_result::TypedCallResult;
+
+let mut pending = PendingCalls::new();
+let _wire = pending.send_call(Call::new("1".into(), Action::Heartbeat(Heartbeat {})))?;
+let typed = pending.deserialize_typed(r#"[3, "1", {"currentTime": "2024-01-01T00:00:00.000Z"}]"#)?;
+assert!(matches!(typed, TypedMessage::CallResult(TypedCallResult::Heartbeat(_))));
+```
+
+- **Sticky sessions** or **Redis `messageId → action name`** + `resolve_with_action_name` for load-balanced deploys
+- **Datetime**: always parse RFC3339; serialize defaults to `%.3fZ` (optional `datetime_serialize_rfc3339`) — [guides/datetime-features.md](guides/datetime-features.md)
+- Last resort: `try_resolve_unique` / `probe_candidates` (often ambiguous for `{}`)
+
+Details: [`v16::pending`](src/v16/pending.rs), [migration guide](guides/migration-0.3.md).
+
+## OCPP 2.1
+
+Same CallResult model under `v21::pending`. Framing includes types 2–6 (CALLRESULTERROR, SEND). See README sections in crate docs / `v21` module.
+
+### Load-balanced example (2.1)
+
+```rust
+use ocpp_rs::v21::pending::resolve_with_action_name;
+use ocpp_rs::v21::parse::{deserialize_to_message, Message};
+
+let Message::CallResult(raw) = deserialize_to_message(wire)? else { /* … */ };
+let typed = resolve_with_action_name(raw, &redis_getdel(&raw.unique_id)?)?;
+```
+
+## Example (1.6 CALL)
+
 ```rust
 use ocpp_rs::v16::parse::{self, Message};
-use ocpp_rs::v16::call::{Action, Call};
+use ocpp_rs::v16::call::Action;
 
-// Example incoming message
 let incoming_text = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
 let incoming_message = parse::deserialize_to_message(incoming_text);
 if let Ok(Message::Call(call)) = incoming_message {
     match call.payload {
-        Action::BootNotification(_boot_notification) => {
-            // Do something with boot_notification
-        }
-        _ => {
-            // Handle other actions
-        }
+        Action::BootNotification(_boot_notification) => { /* … */ }
+        _ => {}
     }
 }
 ```
 
-Sending a payload to a client:
-```rust
-let response = Message::CallResult(CallResult::new(
-    "1234".to_string(),
-    ResultPayload::StartTransaction(call_result::StartTransaction {
-        transaction_id: 0,
-        id_tag_info: IdTagInfo {
-            status: ocpp_rs::v16::enums::ParsedGenericStatus::Accepted,
-            expiry_date: None,
-            parent_id_tag: None,
-        },
-    }),
-));
+Sending a CALLRESULT:
 
+```rust
+use ocpp_rs::v16::call_result::CallResultRaw;
+use ocpp_rs::v16::parse::{self, Message};
+
+let response = Message::CallResult(CallResultRaw::new(
+    "1234".into(),
+    serde_json::to_value(/* your *Response struct */)?,
+));
 let json = parse::serialize_message(&response)?;
-println!("Sending to client: {}", json);
 ```
 
 ## Contributing
-Contributions are welcome! Common steps to contribute:
-- Fork the repository and create a new branch.
-- Make your changes or improvements.
-- Open a pull request with a clear description.
-- When adding/changing code, add/modify tests for what you have worked on. 
 
-Help is wanted to add more tests and fuzzing tests (e.g., using OSS-Fuzz), so feel free to jump in!
+Contributions are welcome. Please add/update tests with behavior changes.
 
 ## Roadmap
-- OCPP 2.1 implementation is planned, no ETA, help needed.
+
+- Harden OCPP 2.1 field coverage against Part 3 schemas / errata
+- Fuzzing for v16 and v21 wire parsers

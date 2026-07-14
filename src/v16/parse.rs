@@ -1,35 +1,36 @@
+//! Message container and parse/serialize for OCPP 1.6 OCPP-J.
+
 use crate::errors::{CallTypeMismatch, Error, Result};
-
-use super::call::Call;
-use super::call_error::CallError;
-use super::call_result::CallResult;
-
-use crate::alloc::string::ToString;
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use serde::{Deserialize, Serialize};
 use strum::AsRefStr;
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone, AsRefStr)]
+use super::call::Call;
+use super::call_error::CallError;
+use super::call_result::CallResultRaw;
+use super::typed_call_result::TypedCallResult;
+
+/// Blind parse result. CALLRESULT payloads stay untyped until resolved via [`crate::v16::pending`].
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, AsRefStr)]
 #[serde(untagged)]
-/// Message is a container for `Call`, `CallResult`, and `CallError`\
-/// The message type is determined by the `message_id` field
-/// These enum variants contains all OCPP messages
 pub enum Message {
-    /// Used to Send a commands (mostly used by the server)
     Call(Call),
-    /// Used to send a response to a command (mostly used by the client)
-    CallResult(CallResult),
-    /// Used to send an error response to a command (mostly used by the client)
+    CallResult(CallResultRaw),
     CallError(CallError),
 }
 
-/// Parses a JSON string into a Message struct\
-/// Message is a container for `Call`, `CallResult`, and `CallError`\
-/// The message type is determined by the `message_id` field   
+/// Fully typed message after CALLRESULT resolution.
+#[derive(Debug, PartialEq, Clone)]
+pub enum TypedMessage {
+    Call(Call),
+    CallResult(TypedCallResult),
+    CallError(CallError),
+}
+
+/// Parses a JSON string into a [`Message`].
 ///
 /// # Errors
-/// Will return Err if the message type is not 2, 3, or 4\
-/// and if the JSON deserialization fails   
+/// Message type not in 2..=4 or JSON failure.
 pub fn deserialize_to_message(data: &str) -> Result<Message> {
     let call_type = get_call_type(data)?;
 
@@ -39,7 +40,8 @@ pub fn deserialize_to_message(data: &str) -> Result<Message> {
             Ok(Message::Call(call))
         }
         3 => {
-            let call_result: CallResult = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            let call_result: CallResultRaw =
+                serde_json::from_str(data).map_err(Error::SerdeJson)?;
             Ok(Message::CallResult(call_result))
         }
         4 => {
@@ -50,16 +52,16 @@ pub fn deserialize_to_message(data: &str) -> Result<Message> {
     }
 }
 
-/// Check the initial characters of the message to determine the message type    
 fn get_call_type(buf: &str) -> Result<u8> {
     for c in buf.chars().enumerate().skip(1) {
         if c.0 > 6 || c.1 == ',' {
             break;
         }
         if c.1.is_numeric() {
-            let value =
-                c.1.to_digit(10)
-                    .ok_or(Error::InvalidMessageCallTypeParsing)?;
+            let value = c
+                .1
+                .to_digit(10)
+                .ok_or(Error::InvalidMessageCallTypeParsing)?;
             if !(2..=4).contains(&value) {
                 break;
             }
@@ -70,11 +72,8 @@ fn get_call_type(buf: &str) -> Result<u8> {
     Err(Error::InvalidMessageCallType)
 }
 
-/// Convert message into a string by serializing it into JSON    
-/// # Errors    
-///     
-/// Will return Err if the JSON serialization fails\\
-/// or if the message type is not 2, 3, or 4    
+/// # Errors
+/// Serialization failure or wrong stored message type id.
 pub fn serialize_message(message: &Message) -> Result<String> {
     match message {
         Message::Call(call) => {
@@ -108,4 +107,10 @@ pub fn serialize_message(message: &Message) -> Result<String> {
             Ok(v.to_string())
         }
     }
+}
+
+/// # Errors
+/// [`Error::SerdeJson`]
+pub fn serialize_typed_call_result(typed: &TypedCallResult) -> Result<String> {
+    Ok(typed.to_value()?.to_string())
 }

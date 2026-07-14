@@ -210,84 +210,278 @@ pub enum FirmwareStatus {
     Installing,
     /// New firmware has successfully been installed in charge point.    
     Installed,
+    // --- OCPP 1.6 Security Whitepaper (SignedFirmwareStatusNotification) ---
+    /// Download of the signed firmware has been scheduled.    
+    DownloadScheduled,
+    /// Download of the signed firmware has been paused.    
+    DownloadPaused,
+    /// Charge Point is about to reboot to activate firmware.    
+    InstallRebooting,
+    /// Installation of the signed firmware has been scheduled.    
+    InstallScheduled,
+    /// Verification of the installed firmware failed.    
+    InstallVerificationFailed,
+    /// Signature of firmware failed verification.    
+    InvalidSignature,
+    /// Signature of firmware successfully verified.    
+    SignatureVerified,
 }
 
-#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
-pub enum ParsedGenericStatus {
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum AuthorizationStatus {
+    /// Identifier is allowed for charging.    
+    #[default]
+    Accepted,
+    /// Identifier has been blocked. Not allowed for charging.    
+    Blocked,
+    /// Identifier has expired. Not allowed for charging.    
+    Expired,
+    /// Identifier is unknown. Not allowed for charging.    
+    Invalid,
+    /// Identifier is already involved in another transaction and multiple transactions are not allowed. (Only relevant for a StartTransaction.req.)    
+    ConcurrentTx,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum RegistrationStatus {
+    /// Charge Point is accepted by Central System.    
+    #[default]
+    Accepted,
+    /// Central System is not yet ready to accept the Charge Point. Central System may send\\
+    /// messages to retrieve information or prepare the Charge Point.    
+    Pending,
+    /// Charge Point is not accepted by Central System.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum AvailabilityStatus {
     /// Request has been accepted and will be executed.    
     #[default]
     Accepted,
     /// Request has not been accepted and will not be executed.    
     Rejected,
-    /// Used for `AvailabilityStatus`, `CertificateStatus`\\
     /// Request has been accepted and will be executed when transaction(s) in progress have finished.    
     Scheduled,
-    /// Used for `AuthorizationStatus`\\
-    /// Identifier has been blocked. Not allowed for charging.    
-    Blocked,
-    /// Used for `AuthorizationStatus`\\
-    /// Identifier has expired. Not allowed for charging.    
-    Expired,
-    /// Used for `AuthorizationStatus`\\
-    /// Identifier is unknown. Not allowed for charging.    
-    Invalid,
-    /// Used for `AuthorizationStatus`\\
-    /// Identifier is already involved in another transaction and multiple transactions are not allowed. (Only relevant for a StartTransaction.req.)    
-    ConcurrentTx,
-    /// Used for `CertificateStatus`    
-    Failed,
-    /// Used for `ChargingProfileStatus`\\
-    /// Charge Point indicates that the request is not supported.    
-    NotSupported,
-    /// Used for `ClearChargingProfileStatus`, `ConfigurationStatus`\\
-    /// No Charging Profile(s) were found matching the request.    
-    Unknown,
-    /// Used for `ConfigurationStatus`\\
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum ConfigurationStatus {
+    /// Configuration key is supported and setting has been changed.    
+    #[default]
+    Accepted,
+    /// Configuration key is supported, but setting could not be changed.    
+    Rejected,
     /// Configuration key is supported and setting has been changed, but change will be available after reboot (Charge Point will not reboot itself)    
     RebootRequired,
-    /// Used for `DataTransferStatus`\\
+    /// Configuration key is not supported.    
+    NotSupported,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum ClearCacheStatus {
+    /// Request has been accepted and will be executed.    
+    #[default]
+    Accepted,
+    /// Request has not been accepted and will not be executed.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum ClearChargingProfileStatus {
+    /// Request has been accepted and will be executed.    
+    #[default]
+    Accepted,
+    /// No Charging Profile(s) were found matching the request.    
+    Unknown,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum ChargingProfileStatus {
+    /// Request has been accepted and will be executed.    
+    #[default]
+    Accepted,
+    /// Request has not been accepted and will not be executed.    
+    Rejected,
+    /// Charge Point indicates that the request is not supported.    
+    NotSupported,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum DataTransferStatus {
+    /// Message has been accepted and the contained request is accepted.    
+    #[default]
+    Accepted,
+    /// Message has been accepted and the contained request is rejected.    
+    Rejected,
     /// Message could not be interpreted due to unknown messageId string.    
     UnknownMessageId,
-    /// Used for `DataTransferStatus`\\
     /// Message could not be interpreted due to unknown vendorId string.    
     UnknownVendorId,
-    /// Used for `DeleteCertificateStatus`\\
-    /// Certificate was not found    
-    NotFound,
-    /// Used for `LogStatus`    
-    AcceptedCanceled,
-    /// Used for `RegistrationStatus`, `AcceptedCanceled`\\
-    /// Central System is not yet ready to accept the Charge Point. Central System may send\\
-    /// messages to retrieve information or prepare the Charge Point.    
-    Pending,
-    /// Used for `ReservationStatus`\\
-    /// Reservation has not been made, because connectors or specified connector are in an unavailable state.    
-    Unavailable,
-    /// Used for `ReservationStatus`\\
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum CancelReservationStatus {
+    /// Reservation for the identifier has been cancelled.    
+    #[default]
+    Accepted,
+    /// Reservation could not be cancelled, because there is no reservation active for the identifier.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum ReservationStatus {
+    /// Reservation has been made.    
+    #[default]
+    Accepted,
     /// Reservation has not been made, because connectors or specified connector are in a faulted state.    
     Faulted,
-    /// Used for `ReservationStatus`\\
     /// Reservation has not been made. All connectors or the specified connector are occupied.    
     Occupied,
-    /// Used for `TriggerMessageStatus`\\
-    /// Requested notification cannot be sent because it is either not implemented or unknown.    
-    NotImplemented,
-    /// Used for `UpdateFirmwareStatus`    
-    InvalidCertificate,
-    /// Used for `UpdateFirmwareStatus`    
-    RevokedCertificate,
-    /// Used for `UpdateStatus`\\
+    /// Reservation has not been made. Charge Point is not configured to accept reservations.    
+    Rejected,
+    /// Reservation has not been made, because connectors or specified connector are in an unavailable state.    
+    Unavailable,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum RemoteStartStopStatus {
+    /// Command will be executed.    
+    #[default]
+    Accepted,
+    /// Command will not be executed.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum ResetStatus {
+    /// Command will be executed.    
+    #[default]
+    Accepted,
+    /// Command will not be executed.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum UpdateStatus {
+    /// Local Authorization List successfully updated.    
+    #[default]
+    Accepted,
+    /// Failed to update the Local Authorization List.    
+    Failed,
+    /// Update of Local Authorization List is not supported by Charge Point.    
+    NotSupported,
     /// Version number in the request for a differential update is less or equal then version number of current list.    
     VersionMismatch,
-    // Used for unlock connector
-    /// # From OCPP Specification    
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum TriggerMessageStatus {
+    /// Requested notification will be sent.    
+    #[default]
+    Accepted,
+    /// Requested notification will not be sent.    
+    Rejected,
+    /// Requested notification cannot be sent because it is either not implemented or unknown.    
+    NotImplemented,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum UnlockStatus {
     /// Connector has successfully been unlocked.    
+    #[default]
     Unlocked,
-    // Used for unlock connector
-    /// # From OCPP Specification    
     /// Failed to unlock the connector: The Charge Point has tried to unlock the connector and has\\
     /// detected that the connector is still locked or the unlock mechanism failed.    
     UnlockFailed,
+    /// Charge Point has no connector lock.    
+    NotSupported,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum GetCompositeScheduleStatus {
+    /// Request has been accepted and will be executed.    
+    #[default]
+    Accepted,
+    /// Request has not been accepted and will not be executed.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum CertificateSignedStatus {
+    /// Signed certificate is valid.    
+    #[default]
+    Accepted,
+    /// Signed certificate is invalid.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum DeleteCertificateStatus {
+    /// Normal successful completion (no errors).    
+    #[default]
+    Accepted,
+    /// Processing failure.    
+    Failed,
+    /// Requested resource not found.    
+    NotFound,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum GenericCertificateStatus {
+    /// Request has been accepted and will be executed.    
+    #[default]
+    Accepted,
+    /// Processing failure.    
+    Failed,
+    /// Request has not been accepted and will not be executed.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum LogStatus {
+    /// Accepted this log upload. This does not mean the log file is uploaded is complete, and the\\
+    /// Charge Point can still request another log upload.    
+    #[default]
+    Accepted,
+    /// Request has not been accepted and will not be executed.    
+    Rejected,
+    /// Accepted this log upload, but in doing this has cancelled an ongoing log file upload.    
+    AcceptedCanceled,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum UpdateFirmwareStatus {
+    /// Accepted this firmware update request. This does not mean the firmware update is complete,\\
+    /// and the Charge Point can still request another firmware update.    
+    #[default]
+    Accepted,
+    /// Firmware update request has not been accepted and will not be executed.    
+    Rejected,
+    /// Accepted this firmware update request, but in doing this has cancelled an ongoing firmware update.    
+    AcceptedCanceled,
+    /// The certificate is invalid.    
+    InvalidCertificate,
+    /// Failure end state. The Firmware signature is valid.    
+    RevokedCertificate,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
+pub enum GenericAcceptedRejected {
+    /// Request has been accepted and will be executed.    
+    #[default]
+    Accepted,
+    /// Request has not been accepted and will not be executed.    
+    Rejected,
+}
+
+#[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Copy, Default)]
+pub enum GetInstalledCertificateStatus {
+    /// Normal successful completion (no errors).    
+    #[default]
+    Accepted,
+    /// Requested resource not found.    
+    NotFound,
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
@@ -300,7 +494,6 @@ pub enum HashAlgorithm {
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum Location {
     /// Measurement inside body of Charge Point (e.g. Temperature)    
-    #[default]
     Body,
     ///Measurement taken from cable between EV and Charge Point    
     Cable,
@@ -311,6 +504,7 @@ pub enum Location {
     ///Measurement at network (“grid”) inlet connection    
     Inlet,
     ///Measurement at a Connector. Default value    
+    #[default]
     Outlet,
 }
 
@@ -326,7 +520,6 @@ pub enum Measurand {
     ///Instantaneous current flow from EV    
     #[strum(serialize = "Current.Export")]
     #[serde(rename = "Current.Export")]
-    #[default]
     CurrentExport,
     /// Instantaneous current flow to EV    
     #[strum(serialize = "Current.Import")]
@@ -343,6 +536,7 @@ pub enum Measurand {
     /// Numerical value read from the "active electrical energy" (Wh or kWh) register of the (most authoritative) electrical meter measuring energy imported (from the grid supply).    
     #[strum(serialize = "Energy.Active.Import.Register")]
     #[serde(rename = "Energy.Active.Import.Register")]
+    #[default]
     EnergyActiveImportRegister,
     ///  Numerical value read from the "reactive electrical energy" (`VARh` or kVARh) register of the (most authoritative) electrical meter measuring energy exported (to the grid).    
     #[strum(serialize = "Energy.Reactive.Export.Register")]
@@ -426,6 +620,11 @@ pub enum MessageTrigger {
     MeterValues,
     ///  To trigger a `StatusNotification` request    
     StatusNotification,
+    // --- OCPP 1.6 Security Whitepaper (`ExtendedTriggerMessage`) ---
+    /// To trigger a `LogStatusNotification` request    
+    LogStatusNotification,
+    /// To trigger a `SignCertificate` request (charge point CSR)    
+    SignChargePointCertificate,
 }
 
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
@@ -466,7 +665,6 @@ pub enum ReadingContext {
     #[serde(rename = "Interruption.End")]
     InterruptionEnd,
     /// Value for any other situations.    
-    #[default]
     Other,
     /// Value taken at clock aligned interval.    
     #[strum(serialize = "Sample.Clock")]
@@ -475,6 +673,7 @@ pub enum ReadingContext {
     /// Value taken as periodic sample relative to start time of transaction.    
     #[strum(serialize = "Sample.Periodic")]
     #[serde(rename = "Sample.Periodic")]
+    #[default]
     SamplePeriodic,
     /// Value taken at start of transaction.    
     #[strum(serialize = "Transaction.Begin")]
@@ -538,9 +737,9 @@ pub enum ResetType {
 #[derive(AsRefStr, Debug, PartialEq, Eq, Serialize, Deserialize, Clone, Default)]
 pub enum UnitOfMeasure {
     /// Watt-hours (energy). Default.    
+    #[default]
     Wh,
     /// kiloWatt-hours (energy).    
-    #[default]
     #[serde(rename = "kWh")]
     #[strum(serialize = "kWh")]
     KWh,
@@ -579,6 +778,7 @@ pub enum UnitOfMeasure {
     /// Voltage (r.m.s. AC).    
     V,
     /// Degrees (temperature).    
+    #[serde(alias = "Celcius")]
     Celsius,
     /// Degrees (temperature).    
     Fahrenheit,

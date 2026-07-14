@@ -1,8 +1,9 @@
 [package]
 authors = ["Angelo L. B. Rodem"]
 name = "ocpp_rs"
-version = "0.2.5"
+version = "0.3.0"
 edition = "2024"
+rust-version = "1.85"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/angelorodem/ocpp-rs"
@@ -10,18 +11,23 @@ homepage = "https://github.com/angelorodem/ocpp-rs"
 description = """
 Protocol implementation for Open Charge Point Protocol (OCPP) in Rust.
 """
-categories = ["data-structures", "algorithms"]
-keywords = ["ocpp", "charger", "oca",  "eletric-vehicle", "ocpp16"]
+categories = ["data-structures", "algorithms", "no-std", "embedded"]
+keywords = ["ocpp", "charger", "oca", "electric-vehicle", "ocpp16", "ocpp21"]
 exclude = ["doc_imgs/", ".*"]
 resolver = "2"
 
+[features]
+default = []
+datetime_serialize_rfc3339 = []
+
 [dependencies]
-strum = { version = "^0.27", default-features = false, features = ["derive"] } # No_std
-strum_macros = {version = "^0.27", default-features = false } # No_std
+strum = { version = "^0.28.0", default-features = false, features = ["derive"] } # No_std
+strum_macros = {version = "^0.28.0", default-features = false } # No_std
 serde = { version = "^1", features = ["derive", "alloc"], default-features = false } # No_std
 serde_tuple = { version = "^1", default-features = false} # No_std
 serde_json = { version = "^1", default-features = false, features = ["alloc"] } # No_std
 chrono = { version = "^0.4", default-features = false, features = ["serde", "alloc"] } # No_std
 
 [dev-dependencies]
-chrono = { version = "^0.4", default-features = true, features = ["serde"] }
+# Keep feature-unified with the lib dep (no std/clock) so `cargo tree` stays no_std-clean.
+chrono = { version = "^0.4", default-features = false, features = ["alloc", "serde"] }
