@@ -14,7 +14,10 @@ fuzz_target!(|data: &[u8]| {
         return;
     };
     let Ok(again) = deserialize_to_message(&wire) else {
+        panic!("reparse failed after successful parse: {wire}");
+    };
+    let Ok(wire2) = serialize_message(&again) else {
         return;
     };
-    assert_eq!(msg, again);
+    assert_eq!(wire, wire2, "serialize not idempotent after reparse");
 });

@@ -21,6 +21,8 @@ pub enum Error {
     /// CallResult payload matched multiple response schemas and no single action was supplied.
     AmbiguousCallResult(String),
     CallTypeMismatch(CallTypeMismatch),
+    /// OCPP-J requires CALLRESULT / CALLERROR details payloads to be JSON objects.
+    InvalidPayloadShape(&'static str),
     /// OCPP-J MessageId length or Part 3 schema constraint failure.
     ConstraintViolation(ConstraintViolation),
     Custom(String),
@@ -59,6 +61,7 @@ impl Display for Error {
             Self::UnknownActionName(name) => write!(f, "UnknownActionName: {name}"),
             Self::AmbiguousCallResult(detail) => write!(f, "AmbiguousCallResult: {detail}"),
             Self::CallTypeMismatch(e) => write!(f, "CallTypeMismatch: {e:?}"),
+            Self::InvalidPayloadShape(msg) => write!(f, "InvalidPayloadShape: {msg}"),
             Self::ConstraintViolation(e) => write!(f, "ConstraintViolation: {e}"),
             Self::Custom(e) => write!(f, "{e}"),
         }

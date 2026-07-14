@@ -1,13 +1,15 @@
 #![no_main]
 
 use libfuzzer_sys::fuzz_target;
-use ocpp_rs::v16::parse::{deserialize_to_message, serialize_message};
+use ocpp_rs_fuzz::StructuredFrame;
+use ocpp_rs::v21::parse::{deserialize_to_message, serialize_message};
 
 fuzz_target!(|data: &[u8]| {
-    let Ok(s) = core::str::from_utf8(data) else {
+    let mut u = arbitrary::Unstructured::new(data);
+    let Ok(frame) = StructuredFrame::arbitrary_v21(&mut u) else {
         return;
     };
-    let Ok(msg) = deserialize_to_message(s) else {
+    let Ok(msg) = deserialize_to_message(&frame.wire) else {
         return;
     };
     let Ok(wire) = serialize_message(&msg) else {
@@ -16,7 +18,6 @@ fuzz_target!(|data: &[u8]| {
     let Ok(again) = deserialize_to_message(&wire) else {
         panic!("reparse failed after successful parse: {wire}");
     };
-    // Idempotent serialize — do not use PartialEq on `Value`/`f64` (JSON number precision).
     let Ok(wire2) = serialize_message(&again) else {
         return;
     };

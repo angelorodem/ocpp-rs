@@ -8,14 +8,20 @@ publish = false
 cargo-fuzz = true
 
 [dependencies]
-libfuzzer-sys = "0.4"
+arbitrary = { version = "1", features = ["derive"] }
+libfuzzer-sys = { version = "0.4", features = ["arbitrary-derive"] }
 ocpp_rs = { path = ".." }
+serde_json = { version = "1", default-features = false, features = ["alloc", "std"] }
 
 [profile.release]
 debug = 1
 
 [workspace]
 members = ["."]
+
+[lib]
+name = "ocpp_rs_fuzz"
+path = "src/lib.rs"
 
 [[bin]]
 name = "v16_deserialize"
@@ -41,6 +47,34 @@ test = false
 [[bin]]
 name = "v21_roundtrip"
 path = "fuzz_targets/v21_roundtrip.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v16_structured"
+path = "fuzz_targets/v16_structured.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v21_structured"
+path = "fuzz_targets/v21_structured.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v16_corrupt"
+path = "fuzz_targets/v16_corrupt.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v21_corrupt"
+path = "fuzz_targets/v21_corrupt.rs"
 doc = false
 bench = false
 test = false

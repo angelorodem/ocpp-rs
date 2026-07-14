@@ -134,11 +134,34 @@ This is a **protocol wire crate**, not a full stack:
 
 ## Contributing
 
-Add or update tests with behavior changes. Fuzz (optional, nightly):
+Add or update tests with behavior changes.
+
+### Fuzzing
+
+Requires nightly + [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz):
 
 ```bash
-cargo install cargo-fuzz
-cargo +nightly fuzz run v21_deserialize --fuzz-dir fuzz
+rustup toolchain install nightly -c rust-src
+cargo +nightly install cargo-fuzz
 ```
+
+| Target | What it feeds the parser |
+|--------|---------------------------|
+| `v16_deserialize` / `v21_deserialize` | Raw bytes as UTF-8 |
+| `v16_roundtrip` / `v21_roundtrip` | Raw bytes; if parse OK, serialize → reparse |
+| `v16_structured` / `v21_structured` | Valid-looking OCPP-J frames (real actions, RPC codes, bounded JSON) |
+| `v16_corrupt` / `v21_corrupt` | Seed / structured frames + truncations, bit flips, bad UTF-8, wrong arity, … |
+
+```bash
+# One target, 5 minutes, 8 workers
+cargo +nightly fuzz run v21_corrupt --fuzz-dir fuzz -- -max_total_time=300 -jobs=8 -workers=8
+
+# Several targets in parallel
+cargo +nightly fuzz run v21_structured --fuzz-dir fuzz -- -max_total_time=300 &
+cargo +nightly fuzz run v21_corrupt    --fuzz-dir fuzz -- -max_total_time=300 &
+wait
+```
+
+Discovered corpus inputs under `fuzz/corpus/` are gitignored (seed `*.json` only).
 
 License: MIT.

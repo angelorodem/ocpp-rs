@@ -662,6 +662,16 @@ fn test_reset_and_unlock_operations() {
 }
 
 #[test]
+fn test_call_result_rejects_non_object_payload() {
+    let data = r#"[3, "1", 999999999999999999999999999999999999999999999999]"#;
+    let err = deserialize_to_message(data).unwrap_err();
+    assert!(matches!(
+        err,
+        ocpp_rs::errors::Error::InvalidPayloadShape(_)
+    ));
+}
+
+#[test]
 fn test_message_id_max_length() {
     let ok_id = "a".repeat(36);
     let data = format!("[2, \"{ok_id}\", \"Heartbeat\", {{}}]");

@@ -52,6 +52,11 @@ pub fn deserialize_to_message(data: &str) -> Result<Message> {
             let call_result: CallResultRaw =
                 serde_json::from_str(data).map_err(Error::SerdeJson)?;
             crate::validate::check_message_id_len(&call_result.unique_id)?;
+            if !call_result.payload.is_object() {
+                return Err(Error::InvalidPayloadShape(
+                    "CALLRESULT payload must be a JSON object",
+                ));
+            }
             Ok(Message::CallResult(call_result))
         }
         4 => {
