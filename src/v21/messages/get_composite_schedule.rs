@@ -1,12 +1,12 @@
 //! OCPP 2.1 GetCompositeSchedule request/response payloads.
 
-use alloc::vec::Vec;
 use crate::v21::datatypes::ChargingSchedulePeriodType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::ChargingRateUnitEnumType;
 use crate::v21::enumerations::GenericStatusEnumType;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

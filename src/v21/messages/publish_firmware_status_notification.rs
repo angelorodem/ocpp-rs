@@ -1,9 +1,9 @@
 //! OCPP 2.1 PublishFirmwareStatusNotification request/response payloads.
 
-use alloc::string::String;
-use alloc::vec::Vec;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

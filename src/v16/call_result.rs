@@ -61,7 +61,9 @@ impl CallResultRaw {
 
     /// Try every known response schema. Often ambiguous for `{}` / status-only.
     #[must_use]
-    pub fn probe_candidates(&self) -> alloc::vec::Vec<crate::v16::typed_call_result::TypedCallResult> {
+    pub fn probe_candidates(
+        &self,
+    ) -> alloc::vec::Vec<crate::v16::typed_call_result::TypedCallResult> {
         crate::v16::typed_call_result::TypedCallResult::probe_from_raw(self)
     }
 }

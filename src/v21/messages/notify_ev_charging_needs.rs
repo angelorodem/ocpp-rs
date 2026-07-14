@@ -1,12 +1,12 @@
 //! OCPP 2.1 NotifyEVChargingNeeds request/response payloads.
 
-use alloc::string::String;
-use alloc::vec::Vec;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::DERControlEnumType;
 use crate::v21::enumerations::EnergyTransferModeEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

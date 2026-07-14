@@ -1,8 +1,8 @@
 //! OCPP 2.1 GetPeriodicEventStream request/response payloads.
 
-use alloc::vec::Vec;
 use crate::v21::datatypes::ConstantStreamDataType;
 use crate::v21::datatypes::CustomDataType;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

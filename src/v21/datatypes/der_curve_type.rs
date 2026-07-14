@@ -1,13 +1,13 @@
 //! DERCurveType
-use alloc::vec::Vec;
-use crate::v21::enumerations::DERUnitEnumType;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
 use super::DERCurvePointsType;
 use super::DateTimeWrapper;
 use super::HysteresisType;
 use super::ReactivePowerParamsType;
 use super::VoltageParamsType;
+use crate::v21::enumerations::DERUnitEnumType;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

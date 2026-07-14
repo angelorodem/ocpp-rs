@@ -1,10 +1,10 @@
 //! ChargingSchedulePeriodType
-use alloc::vec::Vec;
-use crate::v21::enumerations::OperationModeEnumType;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
 use super::V2XFreqWattPointType;
 use super::V2XSignalWattPointType;
+use crate::v21::enumerations::OperationModeEnumType;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

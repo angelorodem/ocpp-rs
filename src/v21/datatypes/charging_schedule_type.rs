@@ -1,8 +1,4 @@
 //! ChargingScheduleType
-use alloc::string::String;
-use alloc::vec::Vec;
-use crate::v21::enumerations::ChargingRateUnitEnumType;
-use serde::{Deserialize, Serialize};
 use super::AbsolutePriceScheduleType;
 use super::ChargingSchedulePeriodType;
 use super::CustomDataType;
@@ -10,6 +6,10 @@ use super::DateTimeWrapper;
 use super::LimitAtSoCType;
 use super::PriceLevelScheduleType;
 use super::SalesTariffType;
+use crate::v21::enumerations::ChargingRateUnitEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

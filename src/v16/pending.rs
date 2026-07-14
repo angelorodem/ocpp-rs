@@ -189,7 +189,10 @@ pub fn try_resolve_unique(raw: &CallResultRaw) -> Result<TypedCallResult> {
             "payload matched no known OCPP 1.6 response schema".to_string(),
         )),
         n => {
-            let names: Vec<&str> = candidates.iter().map(TypedCallResult::action_name).collect();
+            let names: Vec<&str> = candidates
+                .iter()
+                .map(TypedCallResult::action_name)
+                .collect();
             Err(Error::AmbiguousCallResult(format!(
                 "payload matched {n} response schemas: {names:?}"
             )))

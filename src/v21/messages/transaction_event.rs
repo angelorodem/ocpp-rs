@@ -1,7 +1,5 @@
 //! OCPP 2.1 TransactionEvent request/response payloads.
 
-use alloc::string::String;
-use alloc::vec::Vec;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use crate::v21::datatypes::EVSEType;
@@ -12,6 +10,8 @@ use crate::v21::datatypes::MeterValueType;
 use crate::v21::datatypes::PriceType;
 use crate::v21::datatypes::TransactionLimitType;
 use crate::v21::enumerations::OperationModeEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

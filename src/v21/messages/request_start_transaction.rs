@@ -1,11 +1,11 @@
 //! OCPP 2.1 RequestStartTransaction request/response payloads.
 
-use alloc::string::String;
 use crate::v21::datatypes::ChargingProfileType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::IdTokenType;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::RequestStartStopStatusEnumType;
+use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

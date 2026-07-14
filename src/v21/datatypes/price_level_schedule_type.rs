@@ -1,10 +1,10 @@
 //! PriceLevelScheduleType
-use alloc::string::String;
-use alloc::vec::Vec;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::PriceLevelScheduleEntryType;
+use alloc::string::String;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

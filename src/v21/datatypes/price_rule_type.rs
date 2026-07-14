@@ -1,7 +1,7 @@
 //! PriceRuleType
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
 use super::RationalNumberType;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

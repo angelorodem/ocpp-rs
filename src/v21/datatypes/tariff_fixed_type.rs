@@ -1,9 +1,9 @@
 //! TariffFixedType
-use alloc::vec::Vec;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
 use super::TariffFixedPriceType;
 use super::TaxRateType;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

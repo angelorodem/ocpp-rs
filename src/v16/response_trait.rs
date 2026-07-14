@@ -16,7 +16,11 @@ pub trait Response {
     ///
     /// # Errors
     /// Returns [`Error::SerdeJson`] if the payload cannot be serialized.
-    fn get_response(&self, unique_id: String, payload: Self::ResponseType) -> Result<parse::Message> {
+    fn get_response(
+        &self,
+        unique_id: String,
+        payload: Self::ResponseType,
+    ) -> Result<parse::Message> {
         let value = serde_json::to_value(&payload).map_err(Error::SerdeJson)?;
         Ok(parse::Message::CallResult(call_result::CallResultRaw::new(
             unique_id, value,

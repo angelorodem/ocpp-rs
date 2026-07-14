@@ -1,12 +1,12 @@
 //! OCPP 2.1 NotifyMonitoringReport request/response payloads.
 
-use alloc::vec::Vec;
 use crate::v21::datatypes::ComponentType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use crate::v21::datatypes::VariableType;
 use crate::v21::enumerations::EventNotificationEnumType;
 use crate::v21::enumerations::MonitorEnumType;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

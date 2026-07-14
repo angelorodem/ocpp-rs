@@ -3,6 +3,7 @@
 use chrono::{TimeZone, Utc};
 use ocpp_rs::v21::call::{Action, Call};
 use ocpp_rs::v21::call_error::CallError;
+use ocpp_rs::v21::call_result::CallResultRaw;
 use ocpp_rs::v21::call_result_error::CallResultError;
 use ocpp_rs::v21::datatypes::{CustomDataType, DateTimeWrapper};
 use ocpp_rs::v21::messages::boot_notification::ChargingStationType;
@@ -14,7 +15,6 @@ use ocpp_rs::v21::messages::clear_cache::ClearCacheRequest;
 use ocpp_rs::v21::messages::clear_cache::ClearCacheStatusEnumType;
 use ocpp_rs::v21::messages::heartbeat::{HeartbeatRequest, HeartbeatResponse};
 use ocpp_rs::v21::messages::status_notification::StatusNotificationResponse;
-use ocpp_rs::v21::call_result::CallResultRaw;
 use ocpp_rs::v21::parse::{self, Message, TypedMessage};
 use ocpp_rs::v21::pending::PendingCalls;
 use ocpp_rs::v21::response_trait::Response;
@@ -74,14 +74,16 @@ fn call_result_empty_is_not_ambiguous_with_pending() {
     let mut pending = PendingCalls::new();
     pending.register(
         "id-1",
-        Action::StatusNotification(ocpp_rs::v21::messages::status_notification::StatusNotificationRequest {
-            timestamp: DateTimeWrapper::new(Utc.with_ymd_and_hms(2024, 1, 1, 0, 0, 0).unwrap()),
-            connector_status:
-                ocpp_rs::v21::messages::status_notification::ConnectorStatusEnumType::Available,
-            evse_id: 1,
-            connector_id: 1,
-            custom_data: None,
-        }),
+        Action::StatusNotification(
+            ocpp_rs::v21::messages::status_notification::StatusNotificationRequest {
+                timestamp: DateTimeWrapper::new(Utc.with_ymd_and_hms(2024, 1, 1, 0, 0, 0).unwrap()),
+                connector_status:
+                    ocpp_rs::v21::messages::status_notification::ConnectorStatusEnumType::Available,
+                evse_id: 1,
+                connector_id: 1,
+                custom_data: None,
+            },
+        ),
     );
     let typed = pending.deserialize_typed(empty).unwrap();
     match typed {
@@ -95,9 +97,7 @@ fn call_result_empty_is_not_ambiguous_with_pending() {
     let mut pending = PendingCalls::new();
     pending.register(
         "id-1",
-        Action::Heartbeat(HeartbeatRequest {
-            custom_data: None,
-        }),
+        Action::Heartbeat(HeartbeatRequest { custom_data: None }),
     );
     // HeartbeatResponse requires currentTime — empty object must fail, not silently become another type
     let err = pending.deserialize_typed(empty).unwrap_err();
@@ -108,7 +108,10 @@ fn call_result_empty_is_not_ambiguous_with_pending() {
 fn clear_cache_status_only_resolves_via_pending() {
     let wire = r#"[3, "cc-1", {"status": "Accepted"}]"#;
     let mut pending = PendingCalls::new();
-    pending.register("cc-1", Action::ClearCache(ClearCacheRequest { custom_data: None }));
+    pending.register(
+        "cc-1",
+        Action::ClearCache(ClearCacheRequest { custom_data: None }),
+    );
     match pending.deserialize_typed(wire).unwrap() {
         TypedMessage::CallResult(TypedCallResult::ClearCache(cr)) => {
             assert_eq!(cr.payload.status, ClearCacheStatusEnumType::Accepted);
@@ -149,7 +152,9 @@ fn response_trait_builds_call_result() {
         status_info: None,
         custom_data: None,
     };
-    let msg = req.get_response("19223201".into(), resp).expect("serialize response");
+    let msg = req
+        .get_response("19223201".into(), resp)
+        .expect("serialize response");
     let json = parse::serialize_message(&msg).unwrap();
     assert!(json.starts_with("[3,"));
     assert!(json.contains("Accepted"));
@@ -250,7 +255,7 @@ fn unsupported_message_type() {
 
 #[test]
 fn pending_action_names_and_resolve_with_action_name() {
-    use ocpp_rs::v21::pending::{resolve_with_action_name, PendingActionNames};
+    use ocpp_rs::v21::pending::{PendingActionNames, resolve_with_action_name};
 
     let mut names = PendingActionNames::new();
     names
@@ -306,5 +311,8 @@ fn probe_and_try_resolve_unique_when_type_unknown() {
         candidates.len()
     );
     let err = try_resolve_unique(&empty).unwrap_err();
-    assert!(matches!(err, ocpp_rs::errors::Error::AmbiguousCallResult(_)));
+    assert!(matches!(
+        err,
+        ocpp_rs::errors::Error::AmbiguousCallResult(_)
+    ));
 }

@@ -322,7 +322,10 @@ impl TypedCallResult {
             }
             "AdjustPeriodicEventStream" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::AdjustPeriodicEventStream(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::AdjustPeriodicEventStream(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "Authorize" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -334,23 +337,38 @@ impl TypedCallResult {
             }
             "BootNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::BootNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::BootNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "CancelReservation" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::CancelReservation(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::CancelReservation(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "CertificateSigned" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::CertificateSigned(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::CertificateSigned(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ChangeAvailability" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ChangeAvailability(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ChangeAvailability(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ChangeTransactionTariff" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ChangeTransactionTariff(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ChangeTransactionTariff(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClearCache" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -358,15 +376,24 @@ impl TypedCallResult {
             }
             "ClearChargingProfile" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClearChargingProfile(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClearChargingProfile(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClearDERControl" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClearDERControl(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClearDERControl(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClearDisplayMessage" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClearDisplayMessage(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClearDisplayMessage(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClearTariffs" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -374,15 +401,24 @@ impl TypedCallResult {
             }
             "ClearVariableMonitoring" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClearVariableMonitoring(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClearVariableMonitoring(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClearedChargingLimit" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClearedChargingLimit(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClearedChargingLimit(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClosePeriodicEventStream" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClosePeriodicEventStream(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClosePeriodicEventStream(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "CostUpdated" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -390,7 +426,10 @@ impl TypedCallResult {
             }
             "CustomerInformation" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::CustomerInformation(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::CustomerInformation(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "DataTransfer" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -398,15 +437,24 @@ impl TypedCallResult {
             }
             "DeleteCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::DeleteCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::DeleteCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "FirmwareStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::FirmwareStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::FirmwareStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "Get15118EVCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::Get15118EVCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::Get15118EVCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetBaseReport" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -414,19 +462,31 @@ impl TypedCallResult {
             }
             "GetCertificateChainStatus" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetCertificateChainStatus(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetCertificateChainStatus(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetCertificateStatus" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetCertificateStatus(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetCertificateStatus(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetChargingProfiles" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetChargingProfiles(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetChargingProfiles(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetCompositeSchedule" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetCompositeSchedule(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetCompositeSchedule(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetDERControl" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -434,15 +494,24 @@ impl TypedCallResult {
             }
             "GetDisplayMessages" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetDisplayMessages(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetDisplayMessages(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetInstalledCertificateIds" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetInstalledCertificateIds(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetInstalledCertificateIds(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetLocalListVersion" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetLocalListVersion(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetLocalListVersion(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetLog" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -450,11 +519,17 @@ impl TypedCallResult {
             }
             "GetMonitoringReport" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetMonitoringReport(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetMonitoringReport(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetPeriodicEventStream" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetPeriodicEventStream(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetPeriodicEventStream(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetReport" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -466,7 +541,10 @@ impl TypedCallResult {
             }
             "GetTransactionStatus" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetTransactionStatus(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetTransactionStatus(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetVariables" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -478,11 +556,17 @@ impl TypedCallResult {
             }
             "InstallCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::InstallCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::InstallCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "LogStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::LogStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::LogStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "MeterValues" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -490,35 +574,59 @@ impl TypedCallResult {
             }
             "NotifyAllowedEnergyTransfer" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyAllowedEnergyTransfer(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyAllowedEnergyTransfer(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyChargingLimit" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyChargingLimit(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyChargingLimit(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyCustomerInformation" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyCustomerInformation(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyCustomerInformation(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyDERAlarm" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyDERAlarm(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyDERAlarm(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyDERStartStop" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyDERStartStop(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyDERStartStop(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyDisplayMessages" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyDisplayMessages(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyDisplayMessages(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyEVChargingNeeds" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyEVChargingNeeds(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyEVChargingNeeds(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyEVChargingSchedule" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyEVChargingSchedule(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyEVChargingSchedule(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyEvent" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -526,11 +634,17 @@ impl TypedCallResult {
             }
             "NotifyMonitoringReport" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyMonitoringReport(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyMonitoringReport(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyPriorityCharging" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyPriorityCharging(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyPriorityCharging(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyReport" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -538,51 +652,87 @@ impl TypedCallResult {
             }
             "NotifySettlement" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifySettlement(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifySettlement(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "NotifyWebPaymentStarted" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::NotifyWebPaymentStarted(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::NotifyWebPaymentStarted(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "OpenPeriodicEventStream" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::OpenPeriodicEventStream(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::OpenPeriodicEventStream(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "PublishFirmware" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::PublishFirmware(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::PublishFirmware(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "PublishFirmwareStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::PublishFirmwareStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::PublishFirmwareStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "PullDynamicScheduleUpdate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::PullDynamicScheduleUpdate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::PullDynamicScheduleUpdate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ReportChargingProfiles" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ReportChargingProfiles(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ReportChargingProfiles(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ReportDERControl" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ReportDERControl(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ReportDERControl(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "RequestBatterySwap" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::RequestBatterySwap(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::RequestBatterySwap(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "RequestStartTransaction" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::RequestStartTransaction(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::RequestStartTransaction(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "RequestStopTransaction" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::RequestStopTransaction(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::RequestStopTransaction(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ReservationStatusUpdate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ReservationStatusUpdate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ReservationStatusUpdate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ReserveNow" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -594,7 +744,10 @@ impl TypedCallResult {
             }
             "SecurityEventNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SecurityEventNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SecurityEventNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SendLocalList" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -602,7 +755,10 @@ impl TypedCallResult {
             }
             "SetChargingProfile" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetChargingProfile(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetChargingProfile(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetDERControl" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -610,27 +766,45 @@ impl TypedCallResult {
             }
             "SetDefaultTariff" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetDefaultTariff(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetDefaultTariff(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetDisplayMessage" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetDisplayMessage(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetDisplayMessage(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetMonitoringBase" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetMonitoringBase(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetMonitoringBase(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetMonitoringLevel" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetMonitoringLevel(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetMonitoringLevel(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetNetworkProfile" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetNetworkProfile(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetNetworkProfile(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetVariableMonitoring" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetVariableMonitoring(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetVariableMonitoring(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SetVariables" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -638,45 +812,77 @@ impl TypedCallResult {
             }
             "SignCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SignCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SignCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "StatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::StatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::StatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "TransactionEvent" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::TransactionEvent(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::TransactionEvent(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "TriggerMessage" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::TriggerMessage(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::TriggerMessage(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UnlockConnector" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UnlockConnector(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UnlockConnector(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UnpublishFirmware" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UnpublishFirmware(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UnpublishFirmware(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UpdateDynamicSchedule" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UpdateDynamicSchedule(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UpdateDynamicSchedule(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UpdateFirmware" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UpdateFirmware(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UpdateFirmware(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UsePriorityCharging" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UsePriorityCharging(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UsePriorityCharging(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "VatNumberValidation" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::VatNumberValidation(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::VatNumberValidation(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
-            other => Err(Error::UnknownActionName(alloc::string::ToString::to_string(other))),
+            other => Err(Error::UnknownActionName(
+                alloc::string::ToString::to_string(other),
+            )),
         }
     }
 

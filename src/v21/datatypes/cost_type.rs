@@ -1,7 +1,7 @@
 //! CostType
+use super::CustomDataType;
 use crate::v21::enumerations::CostKindEnumType;
 use serde::{Deserialize, Serialize};
-use super::CustomDataType;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

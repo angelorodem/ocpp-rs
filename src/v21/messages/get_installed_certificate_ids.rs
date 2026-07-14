@@ -1,10 +1,10 @@
 //! OCPP 2.1 GetInstalledCertificateIds request/response payloads.
 
-use alloc::vec::Vec;
 use crate::v21::datatypes::CertificateHashDataType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::GetCertificateIdUseEnumType;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

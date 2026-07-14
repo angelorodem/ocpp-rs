@@ -131,7 +131,9 @@ fn test_status_notification() {
 
     if let Message::Call(ca) = message {
         if let Action::StatusNotification(sn) = ca.payload {
-            let response = sn.get_response(ca.unique_id, EmptyResponse {}).expect("serialize response");
+            let response = sn
+                .get_response(ca.unique_id, EmptyResponse {})
+                .expect("serialize response");
             let expected = parse::Message::CallResult(CallResultRaw::new(
                 "253356461".to_string(),
                 serde_json::json!({}),
@@ -157,10 +159,7 @@ fn test_authorization_call_result() {
 
     let message_eq: Message = Message::CallResult(CallResultRaw::new(
         "253356461".to_string(),
-        serde_json::to_value(ocpp_rs::v16::call_result::Authorize {
-            id_tag_info,
-        })
-        .unwrap(),
+        serde_json::to_value(ocpp_rs::v16::call_result::Authorize { id_tag_info }).unwrap(),
     ));
 
     assert_eq!(message, message_eq);
@@ -383,7 +382,9 @@ fn test_response_generation_for_all_call_types() {
         status: RegistrationStatus::Accepted,
     };
 
-    let response = boot.get_response("test_id".to_string(), response_payload).expect("serialize response");
+    let response = boot
+        .get_response("test_id".to_string(), response_payload)
+        .expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test Heartbeat response
@@ -392,7 +393,9 @@ fn test_response_generation_for_all_call_types() {
         current_time: now_with_millis(),
     };
 
-    let response = heartbeat.get_response("test_id".to_string(), heartbeat_response).expect("serialize response");
+    let response = heartbeat
+        .get_response("test_id".to_string(), heartbeat_response)
+        .expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test Authorize response
@@ -408,7 +411,9 @@ fn test_response_generation_for_all_call_types() {
         },
     };
 
-    let response = authorize.get_response("test_id".to_string(), auth_response).expect("serialize response");
+    let response = authorize
+        .get_response("test_id".to_string(), auth_response)
+        .expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 }
 
@@ -465,7 +470,9 @@ fn test_start_stop_transaction_flow() {
                     },
                 };
 
-                let response = start_tx.get_response(call.unique_id, response_payload).expect("serialize response");
+                let response = start_tx
+                    .get_response(call.unique_id, response_payload)
+                    .expect("serialize response");
                 assert!(matches!(response, parse::Message::CallResult(_)));
             } else {
                 panic!("Expected StartTransaction");
@@ -1250,12 +1257,14 @@ fn test_response_trait_coverage() {
 
     // Test ClearCache response
     let clear_cache = ClearCache {};
-    let response = clear_cache.get_response(
-        "test_clear".to_string(),
-        ocpp_rs::v16::call_result::ClearCache {
-            status: ClearCacheStatus::Accepted,
-        },
-    ).expect("serialize response");
+    let response = clear_cache
+        .get_response(
+            "test_clear".to_string(),
+            ocpp_rs::v16::call_result::ClearCache {
+                status: ClearCacheStatus::Accepted,
+            },
+        )
+        .expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test ChangeConfiguration response
@@ -1263,20 +1272,24 @@ fn test_response_trait_coverage() {
         key: "HeartbeatInterval".to_string(),
         value: "60".to_string(),
     };
-    let response = change_config.get_response(
-        "test_config".to_string(),
-        ocpp_rs::v16::call_result::ChangeConfiguration {
-            status: ConfigurationStatus::Accepted,
-        },
-    ).expect("serialize response");
+    let response = change_config
+        .get_response(
+            "test_config".to_string(),
+            ocpp_rs::v16::call_result::ChangeConfiguration {
+                status: ConfigurationStatus::Accepted,
+            },
+        )
+        .expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 
     // Test GetLocalListVersion response
     let get_version = GetLocalListVersion {};
-    let response = get_version.get_response(
-        "test_version".to_string(),
-        ocpp_rs::v16::call_result::GetLocalListVersion { list_version: 42 },
-    ).expect("serialize response");
+    let response = get_version
+        .get_response(
+            "test_version".to_string(),
+            ocpp_rs::v16::call_result::GetLocalListVersion { list_version: 42 },
+        )
+        .expect("serialize response");
     assert!(matches!(response, parse::Message::CallResult(_)));
 }
 

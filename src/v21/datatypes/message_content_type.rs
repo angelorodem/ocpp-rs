@@ -1,8 +1,8 @@
 //! MessageContentType
-use alloc::string::String;
-use crate::v21::enumerations::MessageFormatEnumType;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
+use crate::v21::enumerations::MessageFormatEnumType;
+use alloc::string::String;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

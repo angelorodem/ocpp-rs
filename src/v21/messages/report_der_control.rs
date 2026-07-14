@@ -1,7 +1,5 @@
 //! OCPP 2.1 ReportDERControl request/response payloads.
 
-use alloc::string::String;
-use alloc::vec::Vec;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DERCurveType;
 use crate::v21::datatypes::EnterServiceType;
@@ -11,6 +9,8 @@ use crate::v21::datatypes::FreqDroopType;
 use crate::v21::datatypes::GradientType;
 use crate::v21::datatypes::LimitMaxDischargeType;
 use crate::v21::enumerations::DERControlEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

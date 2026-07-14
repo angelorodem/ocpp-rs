@@ -1,10 +1,10 @@
 //! OCPP 2.1 GetReport request/response payloads.
 
-use alloc::vec::Vec;
 use crate::v21::datatypes::ComponentVariableType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::GenericDeviceModelStatusEnumType;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

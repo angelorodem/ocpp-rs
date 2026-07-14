@@ -15,7 +15,11 @@ pub trait Response {
     ///
     /// # Errors
     /// Returns [`Error::SerdeJson`] if the payload cannot be serialized.
-    fn get_response(&self, unique_id: String, payload: Self::ResponseType) -> Result<parse::Message> {
+    fn get_response(
+        &self,
+        unique_id: String,
+        payload: Self::ResponseType,
+    ) -> Result<parse::Message> {
         let value = serde_json::to_value(&payload).map_err(Error::SerdeJson)?;
         Ok(parse::Message::CallResult(call_result::CallResultRaw::new(
             unique_id, value,
@@ -26,8 +30,11 @@ pub trait Response {
 impl Response for crate::v21::messages::afrr_signal::AFRRSignalRequest {
     type ResponseType = crate::v21::messages::afrr_signal::AFRRSignalResponse;
 }
-impl Response for crate::v21::messages::adjust_periodic_event_stream::AdjustPeriodicEventStreamRequest {
-    type ResponseType = crate::v21::messages::adjust_periodic_event_stream::AdjustPeriodicEventStreamResponse;
+impl Response
+    for crate::v21::messages::adjust_periodic_event_stream::AdjustPeriodicEventStreamRequest
+{
+    type ResponseType =
+        crate::v21::messages::adjust_periodic_event_stream::AdjustPeriodicEventStreamResponse;
 }
 impl Response for crate::v21::messages::authorize::AuthorizeRequest {
     type ResponseType = crate::v21::messages::authorize::AuthorizeResponse;
@@ -48,7 +55,8 @@ impl Response for crate::v21::messages::change_availability::ChangeAvailabilityR
     type ResponseType = crate::v21::messages::change_availability::ChangeAvailabilityResponse;
 }
 impl Response for crate::v21::messages::change_transaction_tariff::ChangeTransactionTariffRequest {
-    type ResponseType = crate::v21::messages::change_transaction_tariff::ChangeTransactionTariffResponse;
+    type ResponseType =
+        crate::v21::messages::change_transaction_tariff::ChangeTransactionTariffResponse;
 }
 impl Response for crate::v21::messages::clear_cache::ClearCacheRequest {
     type ResponseType = crate::v21::messages::clear_cache::ClearCacheResponse;
@@ -66,13 +74,17 @@ impl Response for crate::v21::messages::clear_tariffs::ClearTariffsRequest {
     type ResponseType = crate::v21::messages::clear_tariffs::ClearTariffsResponse;
 }
 impl Response for crate::v21::messages::clear_variable_monitoring::ClearVariableMonitoringRequest {
-    type ResponseType = crate::v21::messages::clear_variable_monitoring::ClearVariableMonitoringResponse;
+    type ResponseType =
+        crate::v21::messages::clear_variable_monitoring::ClearVariableMonitoringResponse;
 }
 impl Response for crate::v21::messages::cleared_charging_limit::ClearedChargingLimitRequest {
     type ResponseType = crate::v21::messages::cleared_charging_limit::ClearedChargingLimitResponse;
 }
-impl Response for crate::v21::messages::close_periodic_event_stream::ClosePeriodicEventStreamRequest {
-    type ResponseType = crate::v21::messages::close_periodic_event_stream::ClosePeriodicEventStreamResponse;
+impl Response
+    for crate::v21::messages::close_periodic_event_stream::ClosePeriodicEventStreamRequest
+{
+    type ResponseType =
+        crate::v21::messages::close_periodic_event_stream::ClosePeriodicEventStreamResponse;
 }
 impl Response for crate::v21::messages::cost_updated::CostUpdatedRequest {
     type ResponseType = crate::v21::messages::cost_updated::CostUpdatedResponse;
@@ -86,17 +98,24 @@ impl Response for crate::v21::messages::data_transfer::DataTransferRequest {
 impl Response for crate::v21::messages::delete_certificate::DeleteCertificateRequest {
     type ResponseType = crate::v21::messages::delete_certificate::DeleteCertificateResponse;
 }
-impl Response for crate::v21::messages::firmware_status_notification::FirmwareStatusNotificationRequest {
-    type ResponseType = crate::v21::messages::firmware_status_notification::FirmwareStatusNotificationResponse;
+impl Response
+    for crate::v21::messages::firmware_status_notification::FirmwareStatusNotificationRequest
+{
+    type ResponseType =
+        crate::v21::messages::firmware_status_notification::FirmwareStatusNotificationResponse;
 }
 impl Response for crate::v21::messages::get15118_ev_certificate::Get15118EVCertificateRequest {
-    type ResponseType = crate::v21::messages::get15118_ev_certificate::Get15118EVCertificateResponse;
+    type ResponseType =
+        crate::v21::messages::get15118_ev_certificate::Get15118EVCertificateResponse;
 }
 impl Response for crate::v21::messages::get_base_report::GetBaseReportRequest {
     type ResponseType = crate::v21::messages::get_base_report::GetBaseReportResponse;
 }
-impl Response for crate::v21::messages::get_certificate_chain_status::GetCertificateChainStatusRequest {
-    type ResponseType = crate::v21::messages::get_certificate_chain_status::GetCertificateChainStatusResponse;
+impl Response
+    for crate::v21::messages::get_certificate_chain_status::GetCertificateChainStatusRequest
+{
+    type ResponseType =
+        crate::v21::messages::get_certificate_chain_status::GetCertificateChainStatusResponse;
 }
 impl Response for crate::v21::messages::get_certificate_status::GetCertificateStatusRequest {
     type ResponseType = crate::v21::messages::get_certificate_status::GetCertificateStatusResponse;
@@ -113,8 +132,11 @@ impl Response for crate::v21::messages::get_der_control::GetDERControlRequest {
 impl Response for crate::v21::messages::get_display_messages::GetDisplayMessagesRequest {
     type ResponseType = crate::v21::messages::get_display_messages::GetDisplayMessagesResponse;
 }
-impl Response for crate::v21::messages::get_installed_certificate_ids::GetInstalledCertificateIdsRequest {
-    type ResponseType = crate::v21::messages::get_installed_certificate_ids::GetInstalledCertificateIdsResponse;
+impl Response
+    for crate::v21::messages::get_installed_certificate_ids::GetInstalledCertificateIdsRequest
+{
+    type ResponseType =
+        crate::v21::messages::get_installed_certificate_ids::GetInstalledCertificateIdsResponse;
 }
 impl Response for crate::v21::messages::get_local_list_version::GetLocalListVersionRequest {
     type ResponseType = crate::v21::messages::get_local_list_version::GetLocalListVersionResponse;
@@ -126,7 +148,8 @@ impl Response for crate::v21::messages::get_monitoring_report::GetMonitoringRepo
     type ResponseType = crate::v21::messages::get_monitoring_report::GetMonitoringReportResponse;
 }
 impl Response for crate::v21::messages::get_periodic_event_stream::GetPeriodicEventStreamRequest {
-    type ResponseType = crate::v21::messages::get_periodic_event_stream::GetPeriodicEventStreamResponse;
+    type ResponseType =
+        crate::v21::messages::get_periodic_event_stream::GetPeriodicEventStreamResponse;
 }
 impl Response for crate::v21::messages::get_report::GetReportRequest {
     type ResponseType = crate::v21::messages::get_report::GetReportResponse;
@@ -147,19 +170,26 @@ impl Response for crate::v21::messages::install_certificate::InstallCertificateR
     type ResponseType = crate::v21::messages::install_certificate::InstallCertificateResponse;
 }
 impl Response for crate::v21::messages::log_status_notification::LogStatusNotificationRequest {
-    type ResponseType = crate::v21::messages::log_status_notification::LogStatusNotificationResponse;
+    type ResponseType =
+        crate::v21::messages::log_status_notification::LogStatusNotificationResponse;
 }
 impl Response for crate::v21::messages::meter_values::MeterValuesRequest {
     type ResponseType = crate::v21::messages::meter_values::MeterValuesResponse;
 }
-impl Response for crate::v21::messages::notify_allowed_energy_transfer::NotifyAllowedEnergyTransferRequest {
-    type ResponseType = crate::v21::messages::notify_allowed_energy_transfer::NotifyAllowedEnergyTransferResponse;
+impl Response
+    for crate::v21::messages::notify_allowed_energy_transfer::NotifyAllowedEnergyTransferRequest
+{
+    type ResponseType =
+        crate::v21::messages::notify_allowed_energy_transfer::NotifyAllowedEnergyTransferResponse;
 }
 impl Response for crate::v21::messages::notify_charging_limit::NotifyChargingLimitRequest {
     type ResponseType = crate::v21::messages::notify_charging_limit::NotifyChargingLimitResponse;
 }
-impl Response for crate::v21::messages::notify_customer_information::NotifyCustomerInformationRequest {
-    type ResponseType = crate::v21::messages::notify_customer_information::NotifyCustomerInformationResponse;
+impl Response
+    for crate::v21::messages::notify_customer_information::NotifyCustomerInformationRequest
+{
+    type ResponseType =
+        crate::v21::messages::notify_customer_information::NotifyCustomerInformationResponse;
 }
 impl Response for crate::v21::messages::notify_der_alarm::NotifyDERAlarmRequest {
     type ResponseType = crate::v21::messages::notify_der_alarm::NotifyDERAlarmResponse;
@@ -168,22 +198,29 @@ impl Response for crate::v21::messages::notify_der_start_stop::NotifyDERStartSto
     type ResponseType = crate::v21::messages::notify_der_start_stop::NotifyDERStartStopResponse;
 }
 impl Response for crate::v21::messages::notify_display_messages::NotifyDisplayMessagesRequest {
-    type ResponseType = crate::v21::messages::notify_display_messages::NotifyDisplayMessagesResponse;
+    type ResponseType =
+        crate::v21::messages::notify_display_messages::NotifyDisplayMessagesResponse;
 }
 impl Response for crate::v21::messages::notify_ev_charging_needs::NotifyEVChargingNeedsRequest {
-    type ResponseType = crate::v21::messages::notify_ev_charging_needs::NotifyEVChargingNeedsResponse;
+    type ResponseType =
+        crate::v21::messages::notify_ev_charging_needs::NotifyEVChargingNeedsResponse;
 }
-impl Response for crate::v21::messages::notify_ev_charging_schedule::NotifyEVChargingScheduleRequest {
-    type ResponseType = crate::v21::messages::notify_ev_charging_schedule::NotifyEVChargingScheduleResponse;
+impl Response
+    for crate::v21::messages::notify_ev_charging_schedule::NotifyEVChargingScheduleRequest
+{
+    type ResponseType =
+        crate::v21::messages::notify_ev_charging_schedule::NotifyEVChargingScheduleResponse;
 }
 impl Response for crate::v21::messages::notify_event::NotifyEventRequest {
     type ResponseType = crate::v21::messages::notify_event::NotifyEventResponse;
 }
 impl Response for crate::v21::messages::notify_monitoring_report::NotifyMonitoringReportRequest {
-    type ResponseType = crate::v21::messages::notify_monitoring_report::NotifyMonitoringReportResponse;
+    type ResponseType =
+        crate::v21::messages::notify_monitoring_report::NotifyMonitoringReportResponse;
 }
 impl Response for crate::v21::messages::notify_priority_charging::NotifyPriorityChargingRequest {
-    type ResponseType = crate::v21::messages::notify_priority_charging::NotifyPriorityChargingResponse;
+    type ResponseType =
+        crate::v21::messages::notify_priority_charging::NotifyPriorityChargingResponse;
 }
 impl Response for crate::v21::messages::notify_report::NotifyReportRequest {
     type ResponseType = crate::v21::messages::notify_report::NotifyReportResponse;
@@ -192,10 +229,12 @@ impl Response for crate::v21::messages::notify_settlement::NotifySettlementReque
     type ResponseType = crate::v21::messages::notify_settlement::NotifySettlementResponse;
 }
 impl Response for crate::v21::messages::notify_web_payment_started::NotifyWebPaymentStartedRequest {
-    type ResponseType = crate::v21::messages::notify_web_payment_started::NotifyWebPaymentStartedResponse;
+    type ResponseType =
+        crate::v21::messages::notify_web_payment_started::NotifyWebPaymentStartedResponse;
 }
 impl Response for crate::v21::messages::open_periodic_event_stream::OpenPeriodicEventStreamRequest {
-    type ResponseType = crate::v21::messages::open_periodic_event_stream::OpenPeriodicEventStreamResponse;
+    type ResponseType =
+        crate::v21::messages::open_periodic_event_stream::OpenPeriodicEventStreamResponse;
 }
 impl Response for crate::v21::messages::publish_firmware::PublishFirmwareRequest {
     type ResponseType = crate::v21::messages::publish_firmware::PublishFirmwareResponse;
@@ -203,11 +242,15 @@ impl Response for crate::v21::messages::publish_firmware::PublishFirmwareRequest
 impl Response for crate::v21::messages::publish_firmware_status_notification::PublishFirmwareStatusNotificationRequest {
     type ResponseType = crate::v21::messages::publish_firmware_status_notification::PublishFirmwareStatusNotificationResponse;
 }
-impl Response for crate::v21::messages::pull_dynamic_schedule_update::PullDynamicScheduleUpdateRequest {
-    type ResponseType = crate::v21::messages::pull_dynamic_schedule_update::PullDynamicScheduleUpdateResponse;
+impl Response
+    for crate::v21::messages::pull_dynamic_schedule_update::PullDynamicScheduleUpdateRequest
+{
+    type ResponseType =
+        crate::v21::messages::pull_dynamic_schedule_update::PullDynamicScheduleUpdateResponse;
 }
 impl Response for crate::v21::messages::report_charging_profiles::ReportChargingProfilesRequest {
-    type ResponseType = crate::v21::messages::report_charging_profiles::ReportChargingProfilesResponse;
+    type ResponseType =
+        crate::v21::messages::report_charging_profiles::ReportChargingProfilesResponse;
 }
 impl Response for crate::v21::messages::report_der_control::ReportDERControlRequest {
     type ResponseType = crate::v21::messages::report_der_control::ReportDERControlResponse;
@@ -216,13 +259,16 @@ impl Response for crate::v21::messages::request_battery_swap::RequestBatterySwap
     type ResponseType = crate::v21::messages::request_battery_swap::RequestBatterySwapResponse;
 }
 impl Response for crate::v21::messages::request_start_transaction::RequestStartTransactionRequest {
-    type ResponseType = crate::v21::messages::request_start_transaction::RequestStartTransactionResponse;
+    type ResponseType =
+        crate::v21::messages::request_start_transaction::RequestStartTransactionResponse;
 }
 impl Response for crate::v21::messages::request_stop_transaction::RequestStopTransactionRequest {
-    type ResponseType = crate::v21::messages::request_stop_transaction::RequestStopTransactionResponse;
+    type ResponseType =
+        crate::v21::messages::request_stop_transaction::RequestStopTransactionResponse;
 }
 impl Response for crate::v21::messages::reservation_status_update::ReservationStatusUpdateRequest {
-    type ResponseType = crate::v21::messages::reservation_status_update::ReservationStatusUpdateResponse;
+    type ResponseType =
+        crate::v21::messages::reservation_status_update::ReservationStatusUpdateResponse;
 }
 impl Response for crate::v21::messages::reserve_now::ReserveNowRequest {
     type ResponseType = crate::v21::messages::reserve_now::ReserveNowResponse;
@@ -230,8 +276,11 @@ impl Response for crate::v21::messages::reserve_now::ReserveNowRequest {
 impl Response for crate::v21::messages::reset::ResetRequest {
     type ResponseType = crate::v21::messages::reset::ResetResponse;
 }
-impl Response for crate::v21::messages::security_event_notification::SecurityEventNotificationRequest {
-    type ResponseType = crate::v21::messages::security_event_notification::SecurityEventNotificationResponse;
+impl Response
+    for crate::v21::messages::security_event_notification::SecurityEventNotificationRequest
+{
+    type ResponseType =
+        crate::v21::messages::security_event_notification::SecurityEventNotificationResponse;
 }
 impl Response for crate::v21::messages::send_local_list::SendLocalListRequest {
     type ResponseType = crate::v21::messages::send_local_list::SendLocalListResponse;
@@ -258,7 +307,8 @@ impl Response for crate::v21::messages::set_network_profile::SetNetworkProfileRe
     type ResponseType = crate::v21::messages::set_network_profile::SetNetworkProfileResponse;
 }
 impl Response for crate::v21::messages::set_variable_monitoring::SetVariableMonitoringRequest {
-    type ResponseType = crate::v21::messages::set_variable_monitoring::SetVariableMonitoringResponse;
+    type ResponseType =
+        crate::v21::messages::set_variable_monitoring::SetVariableMonitoringResponse;
 }
 impl Response for crate::v21::messages::set_variables::SetVariablesRequest {
     type ResponseType = crate::v21::messages::set_variables::SetVariablesResponse;
@@ -282,7 +332,8 @@ impl Response for crate::v21::messages::unpublish_firmware::UnpublishFirmwareReq
     type ResponseType = crate::v21::messages::unpublish_firmware::UnpublishFirmwareResponse;
 }
 impl Response for crate::v21::messages::update_dynamic_schedule::UpdateDynamicScheduleRequest {
-    type ResponseType = crate::v21::messages::update_dynamic_schedule::UpdateDynamicScheduleResponse;
+    type ResponseType =
+        crate::v21::messages::update_dynamic_schedule::UpdateDynamicScheduleResponse;
 }
 impl Response for crate::v21::messages::update_firmware::UpdateFirmwareRequest {
     type ResponseType = crate::v21::messages::update_firmware::UpdateFirmwareResponse;

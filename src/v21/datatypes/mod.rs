@@ -1,7 +1,5 @@
 //! OCPP 2.1 shared datatypes.
 
-pub mod custom_data;
-pub mod date_time;
 pub mod absolute_price_schedule_type;
 pub mod additional_info_type;
 pub mod additional_selected_services_type;
@@ -16,6 +14,8 @@ pub mod component_variable_type;
 pub mod constant_stream_data_type;
 pub mod consumption_cost_type;
 pub mod cost_type;
+pub mod custom_data;
+pub mod date_time;
 pub mod der_curve_points_type;
 pub mod der_curve_type;
 pub mod enter_service_type;
@@ -67,8 +67,6 @@ pub mod v2_x_signal_watt_point_type;
 pub mod variable_type;
 pub mod voltage_params_type;
 
-pub use custom_data::CustomDataType;
-pub use date_time::DateTimeWrapper;
 pub use absolute_price_schedule_type::AbsolutePriceScheduleType;
 pub use additional_info_type::AdditionalInfoType;
 pub use additional_selected_services_type::AdditionalSelectedServicesType;
@@ -83,6 +81,8 @@ pub use component_variable_type::ComponentVariableType;
 pub use constant_stream_data_type::ConstantStreamDataType;
 pub use consumption_cost_type::ConsumptionCostType;
 pub use cost_type::CostType;
+pub use custom_data::CustomDataType;
+pub use date_time::DateTimeWrapper;
 pub use der_curve_points_type::DERCurvePointsType;
 pub use der_curve_type::DERCurveType;
 pub use enter_service_type::EnterServiceType;

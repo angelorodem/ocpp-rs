@@ -46,7 +46,9 @@ use ocpp_rs::v21::messages::request_start_transaction::{
 use ocpp_rs::v21::messages::request_stop_transaction::{
     RequestStopTransactionRequest, RequestStopTransactionResponse,
 };
-use ocpp_rs::v21::messages::reset::{ResetEnumType, ResetRequest, ResetResponse, ResetStatusEnumType};
+use ocpp_rs::v21::messages::reset::{
+    ResetEnumType, ResetRequest, ResetResponse, ResetStatusEnumType,
+};
 use ocpp_rs::v21::messages::status_notification::{
     ConnectorStatusEnumType, StatusNotificationRequest, StatusNotificationResponse,
 };
@@ -91,7 +93,11 @@ fn roundtrip_call(call: Call) -> Call {
     }
 }
 
-fn assert_pending_result(pending: &mut PendingCalls, wire: &str, check: impl FnOnce(TypedCallResult)) {
+fn assert_pending_result(
+    pending: &mut PendingCalls,
+    wire: &str,
+    check: impl FnOnce(TypedCallResult),
+) {
     match pending.deserialize_typed(wire).expect("typed result") {
         TypedMessage::CallResult(t) => check(t),
         other => panic!("expected CallResult, got {other:?}"),
@@ -117,7 +123,10 @@ fn framing_all_message_types_roundtrip() {
     ));
 
     // Type 3 (raw)
-    let raw = CallResultRaw::new("m3".into(), serde_json::json!({"currentTime": "2024-01-01T00:00:00.000Z"}));
+    let raw = CallResultRaw::new(
+        "m3".into(),
+        serde_json::json!({"currentTime": "2024-01-01T00:00:00.000Z"}),
+    );
     let j = parse::serialize_message(&Message::CallResult(raw)).unwrap();
     assert!(j.starts_with("[3,"));
 
@@ -229,17 +238,17 @@ fn tc_b_01_cold_boot_accepted_workflow() {
                 status_info: None,
                 custom_data: None,
             };
-            let resp_msg = req.get_response(unique_id, conf).expect("serialize response");
+            let resp_msg = req
+                .get_response(unique_id, conf)
+                .expect("serialize response");
             let resp_wire = parse::serialize_message(&resp_msg).unwrap();
 
-            assert_pending_result(&mut cs_pending, &resp_wire, |t| {
-                match t {
-                    TypedCallResult::BootNotification(cr) => {
-                        assert_eq!(cr.payload.status, RegistrationStatusEnumType::Accepted);
-                        assert_eq!(cr.payload.interval, 300);
-                    }
-                    other => panic!("{other:?}"),
+            assert_pending_result(&mut cs_pending, &resp_wire, |t| match t {
+                TypedCallResult::BootNotification(cr) => {
+                    assert_eq!(cr.payload.status, RegistrationStatusEnumType::Accepted);
+                    assert_eq!(cr.payload.interval, 300);
                 }
+                other => panic!("{other:?}"),
             });
         }
         other => panic!("{other:?}"),
@@ -269,13 +278,15 @@ fn tc_b_01_cold_boot_accepted_workflow() {
         ))
         .unwrap();
     assert!(hb_wire.contains("Heartbeat"));
-    let hb_resp = HeartbeatRequest { custom_data: None }.get_response(
-        "hb-1".into(),
-        HeartbeatResponse {
-            current_time: now_ms(),
-            custom_data: None,
-        },
-    ).expect("serialize response");
+    let hb_resp = HeartbeatRequest { custom_data: None }
+        .get_response(
+            "hb-1".into(),
+            HeartbeatResponse {
+                current_time: now_ms(),
+                custom_data: None,
+            },
+        )
+        .expect("serialize response");
     let hb_resp_wire = parse::serialize_message(&hb_resp).unwrap();
     assert_pending_result(&mut hb_pending, &hb_resp_wire, |t| {
         assert!(matches!(t, TypedCallResult::Heartbeat(_)));
@@ -305,16 +316,18 @@ fn tc_b_02_b_03_boot_pending_and_rejected() {
         pending
             .send_call(Call::new("b".into(), Action::BootNotification(req.clone())))
             .unwrap();
-        let msg = req.get_response(
-            "b".into(),
-            BootNotificationResponse {
-                current_time: now_ms(),
-                interval,
-                status: status.clone(),
-                status_info: None,
-                custom_data: None,
-            },
-        ).expect("serialize response");
+        let msg = req
+            .get_response(
+                "b".into(),
+                BootNotificationResponse {
+                    current_time: now_ms(),
+                    interval,
+                    status: status.clone(),
+                    status_info: None,
+                    custom_data: None,
+                },
+            )
+            .expect("serialize response");
         let wire = parse::serialize_message(&msg).unwrap();
         assert_pending_result(&mut pending, &wire, |t| match t {
             TypedCallResult::BootNotification(cr) => {
@@ -364,7 +377,11 @@ fn tc_b_06_get_variables_single() {
         }],
         custom_data: None,
     };
-    let wire = parse::serialize_message(&req.get_response("gv-1".into(), resp).expect("serialize response")).unwrap();
+    let wire = parse::serialize_message(
+        &req.get_response("gv-1".into(), resp)
+            .expect("serialize response"),
+    )
+    .unwrap();
     assert_pending_result(&mut pending, &wire, |t| match t {
         TypedCallResult::GetVariables(cr) => {
             assert_eq!(cr.payload.get_variable_result.len(), 1);
@@ -417,7 +434,8 @@ fn tc_b_provisioning_control_messages_roundtrip() {
                 status_info: None,
                 custom_data: None,
             },
-        ).expect("serialize response"),
+        )
+        .expect("serialize response"),
     )
     .unwrap();
     assert_pending_result(&mut pending, &wire, |t| {
@@ -448,7 +466,8 @@ fn tc_b_provisioning_control_messages_roundtrip() {
                 status_info: None,
                 custom_data: None,
             },
-        ).expect("serialize response"),
+        )
+        .expect("serialize response"),
     )
     .unwrap();
     assert_pending_result(&mut pending, &wire, |t| match t {
@@ -492,7 +511,11 @@ fn block_c_authorize_accepted_roundtrip() {
         tariff: None,
         custom_data: None,
     };
-    let wire = parse::serialize_message(&req.get_response("auth-1".into(), resp).expect("serialize response")).unwrap();
+    let wire = parse::serialize_message(
+        &req.get_response("auth-1".into(), resp)
+            .expect("serialize response"),
+    )
+    .unwrap();
     assert_pending_result(&mut pending, &wire, |t| match t {
         TypedCallResult::Authorize(cr) => {
             assert_eq!(
@@ -609,15 +632,17 @@ fn block_f_remote_start_stop() {
         ))
         .unwrap();
     let wire = parse::serialize_message(
-        &start.get_response(
-            "rs".into(),
-            RequestStartTransactionResponse {
-                status: RequestStartStopStatusEnumType::Accepted,
-                status_info: None,
-                transaction_id: Some("tx-remote".into()),
-                custom_data: None,
-            },
-        ).expect("serialize response"),
+        &start
+            .get_response(
+                "rs".into(),
+                RequestStartTransactionResponse {
+                    status: RequestStartStopStatusEnumType::Accepted,
+                    status_info: None,
+                    transaction_id: Some("tx-remote".into()),
+                    custom_data: None,
+                },
+            )
+            .expect("serialize response"),
     )
     .unwrap();
     assert_pending_result(&mut pending, &wire, |t| match t {
@@ -640,14 +665,16 @@ fn block_f_remote_start_stop() {
         ))
         .unwrap();
     let wire = parse::serialize_message(
-        &stop.get_response(
-            "rst".into(),
-            RequestStopTransactionResponse {
-                status: RequestStartStopStatusEnumType::Accepted,
-                status_info: None,
-                custom_data: None,
-            },
-        ).expect("serialize response"),
+        &stop
+            .get_response(
+                "rst".into(),
+                RequestStopTransactionResponse {
+                    status: RequestStartStopStatusEnumType::Accepted,
+                    status_info: None,
+                    custom_data: None,
+                },
+            )
+            .expect("serialize response"),
     )
     .unwrap();
     assert_pending_result(&mut pending, &wire, |t| {
@@ -715,7 +742,10 @@ fn block_g_status_and_change_availability() {
     );
     assert_pending_result(&mut p, status_only, |t| match t {
         TypedCallResult::ChangeAvailability(cr) => {
-            assert_eq!(cr.payload.status, ChangeAvailabilityStatusEnumType::Accepted);
+            assert_eq!(
+                cr.payload.status,
+                ChangeAvailabilityStatusEnumType::Accepted
+            );
             let _: ChangeAvailabilityResponse = cr.payload;
         }
         other => panic!("{other:?}"),
@@ -747,12 +777,16 @@ fn block_p_data_transfer_unknown_vendor() {
                 data: None,
                 custom_data: None,
             },
-        ).expect("serialize response"),
+        )
+        .expect("serialize response"),
     )
     .unwrap();
     assert_pending_result(&mut pending, &wire, |t| match t {
         TypedCallResult::DataTransfer(cr) => {
-            assert_eq!(cr.payload.status, DataTransferStatusEnumType::UnknownVendorId);
+            assert_eq!(
+                cr.payload.status,
+                DataTransferStatusEnumType::UnknownVendorId
+            );
         }
         other => panic!("{other:?}"),
     });
@@ -786,16 +820,20 @@ fn production_like_session_boot_auth_transaction() {
             Action::BootNotification(boot_req.clone()),
         ))
         .unwrap();
-    let boot_conf = parse::serialize_message(&boot_req.get_response(
-        "1".into(),
-        BootNotificationResponse {
-            current_time: now_ms(),
-            interval: 60,
-            status: RegistrationStatusEnumType::Accepted,
-            status_info: None,
-            custom_data: None,
-        },
-    ).expect("serialize response"))
+    let boot_conf = parse::serialize_message(
+        &boot_req
+            .get_response(
+                "1".into(),
+                BootNotificationResponse {
+                    current_time: now_ms(),
+                    interval: 60,
+                    status: RegistrationStatusEnumType::Accepted,
+                    status_info: None,
+                    custom_data: None,
+                },
+            )
+            .expect("serialize response"),
+    )
     .unwrap();
     assert_pending_result(&mut boot_pending, &boot_conf, |_| {});
 
@@ -810,26 +848,30 @@ fn production_like_session_boot_auth_transaction() {
     auth_pending
         .send_call(Call::new("2".into(), Action::Authorize(auth_req.clone())))
         .unwrap();
-    let auth_conf = parse::serialize_message(&auth_req.get_response(
-        "2".into(),
-        AuthorizeResponse {
-            id_token_info: IdTokenInfoType {
-                status: AuthorizationStatusEnumType::Accepted,
-                cache_expiry_date_time: None,
-                charging_priority: Some(0),
-                group_id_token: None,
-                language1: None,
-                language2: None,
-                evse_id: Some(vec![1]),
-                personal_message: None,
-                custom_data: None,
-            },
-            certificate_status: None,
-            allowed_energy_transfer: None,
-            tariff: None,
-            custom_data: None,
-        },
-    ).expect("serialize response"))
+    let auth_conf = parse::serialize_message(
+        &auth_req
+            .get_response(
+                "2".into(),
+                AuthorizeResponse {
+                    id_token_info: IdTokenInfoType {
+                        status: AuthorizationStatusEnumType::Accepted,
+                        cache_expiry_date_time: None,
+                        charging_priority: Some(0),
+                        group_id_token: None,
+                        language1: None,
+                        language2: None,
+                        evse_id: Some(vec![1]),
+                        personal_message: None,
+                        custom_data: None,
+                    },
+                    certificate_status: None,
+                    allowed_energy_transfer: None,
+                    tariff: None,
+                    custom_data: None,
+                },
+            )
+            .expect("serialize response"),
+    )
     .unwrap();
     assert_pending_result(&mut auth_pending, &auth_conf, |_| {});
 
@@ -867,10 +909,7 @@ fn production_like_session_boot_auth_transaction() {
         custom_data: None,
     };
     let te_call = roundtrip_call(Call::new("3".into(), Action::TransactionEvent(te)));
-    assert!(matches!(
-        te_call.payload,
-        Action::TransactionEvent(_)
-    ));
+    assert!(matches!(te_call.payload, Action::TransactionEvent(_)));
 
     // 4) Status Occupied
     let sn = roundtrip_call(Call::new(

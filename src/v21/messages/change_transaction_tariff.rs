@@ -1,9 +1,9 @@
 //! OCPP 2.1 ChangeTransactionTariff request/response payloads.
 
-use alloc::string::String;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::datatypes::TariffType;
+use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

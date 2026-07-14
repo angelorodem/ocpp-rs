@@ -1,8 +1,6 @@
 //! Schema-shaped round-trips for nested OCPP 1.6 types fixed in 0.3.
 
-use ocpp_rs::v16::call::{
-    Action, RemoteStartTransaction, SendLocalList, SetChargingProfile,
-};
+use ocpp_rs::v16::call::{Action, RemoteStartTransaction, SendLocalList, SetChargingProfile};
 use ocpp_rs::v16::call_result::{self, CallResultRaw};
 use ocpp_rs::v16::data_types::{
     AuthorizationData, ChargingProfile, ChargingSchedule, ChargingSchedulePeriod, IdTagInfo,
@@ -11,7 +9,7 @@ use ocpp_rs::v16::enums::{
     AuthorizationStatus, ChargingProfileKindType, ChargingProfilePurposeType, ChargingRateUnitType,
     GetCompositeScheduleStatus, UnitOfMeasure, UpdateType,
 };
-use ocpp_rs::v16::parse::{deserialize_to_message, serialize_message, Message};
+use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};
 use ocpp_rs::v16::pending::resolve_with_action_name;
 
 #[test]
@@ -38,10 +36,7 @@ fn send_local_list_with_authorization_data() {
                 assert_eq!(list.len(), 2);
                 assert_eq!(list[0].id_tag, "TAG1");
                 assert_eq!(
-                    list[0]
-                        .id_tag_info
-                        .as_ref()
-                        .map(|i| &i.status),
+                    list[0].id_tag_info.as_ref().map(|i| &i.status),
                     Some(&AuthorizationStatus::Accepted)
                 );
                 assert_eq!(list[1].id_tag, "TAG2");
@@ -105,7 +100,10 @@ fn set_charging_profile_nested_object() {
                     ChargingRateUnitType::A
                 );
                 assert_eq!(
-                    cs_charging_profiles.charging_schedule.charging_schedule_period[0].limit,
+                    cs_charging_profiles
+                        .charging_schedule
+                        .charging_schedule_period[0]
+                        .limit,
                     16.0
                 );
             }
@@ -154,8 +152,14 @@ fn remote_start_with_charging_profile_roundtrip() {
                 charging_profile: Some(p),
                 ..
             }) => {
-                assert_eq!(p.charging_profile_purpose, ChargingProfilePurposeType::TxProfile);
-                assert_eq!(p.charging_schedule.charging_schedule_period[0].start_period, 0);
+                assert_eq!(
+                    p.charging_profile_purpose,
+                    ChargingProfilePurposeType::TxProfile
+                );
+                assert_eq!(
+                    p.charging_schedule.charging_schedule_period[0].start_period,
+                    0
+                );
             }
             other => panic!("unexpected: {other:?}"),
         },
@@ -266,9 +270,9 @@ fn stop_transaction_conf_allows_empty() {
 
 #[test]
 fn call_error_accepts_nested_json_details() {
-    use std::collections::BTreeMap;
     use ocpp_rs::v16::call_error::CallError;
-    use ocpp_rs::v16::parse::{deserialize_to_message, serialize_message, Message};
+    use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};
+    use std::collections::BTreeMap;
 
     let mut details = BTreeMap::new();
     details.insert("nested".into(), serde_json::json!({"code": 42, "ok": true}));

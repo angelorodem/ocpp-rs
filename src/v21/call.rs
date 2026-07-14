@@ -258,906 +258,996 @@ impl<'de> Deserialize<'de> for Call {
                     .ok_or_else(|| de::Error::custom("missing action"))?;
 
                 match action_name.as_str() {
-            "AFRRSignal" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::AFRRSignal(payload),
-                })
-            }
-            "AdjustPeriodicEventStream" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::AdjustPeriodicEventStream(payload),
-                })
-            }
-            "Authorize" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::Authorize(payload),
-                })
-            }
-            "BatterySwap" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::BatterySwap(payload),
-                })
-            }
-            "BootNotification" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::BootNotification(payload),
-                })
-            }
-            "CancelReservation" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::CancelReservation(payload),
-                })
-            }
-            "CertificateSigned" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::CertificateSigned(payload),
-                })
-            }
-            "ChangeAvailability" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ChangeAvailability(payload),
-                })
-            }
-            "ChangeTransactionTariff" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ChangeTransactionTariff(payload),
-                })
-            }
-            "ClearCache" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearCache(payload),
-                })
-            }
-            "ClearChargingProfile" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearChargingProfile(payload),
-                })
-            }
-            "ClearDERControl" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearDERControl(payload),
-                })
-            }
-            "ClearDisplayMessage" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearDisplayMessage(payload),
-                })
-            }
-            "ClearTariffs" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearTariffs(payload),
-                })
-            }
-            "ClearVariableMonitoring" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearVariableMonitoring(payload),
-                })
-            }
-            "ClearedChargingLimit" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClearedChargingLimit(payload),
-                })
-            }
-            "ClosePeriodicEventStream" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ClosePeriodicEventStream(payload),
-                })
-            }
-            "CostUpdated" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::CostUpdated(payload),
-                })
-            }
-            "CustomerInformation" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::CustomerInformation(payload),
-                })
-            }
-            "DataTransfer" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::DataTransfer(payload),
-                })
-            }
-            "DeleteCertificate" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::DeleteCertificate(payload),
-                })
-            }
-            "FirmwareStatusNotification" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::FirmwareStatusNotification(payload),
-                })
-            }
-            "Get15118EVCertificate" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::Get15118EVCertificate(payload),
-                })
-            }
-            "GetBaseReport" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetBaseReport(payload),
-                })
-            }
-            "GetCertificateChainStatus" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetCertificateChainStatus(payload),
-                })
-            }
-            "GetCertificateStatus" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetCertificateStatus(payload),
-                })
-            }
-            "GetChargingProfiles" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetChargingProfiles(payload),
-                })
-            }
-            "GetCompositeSchedule" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetCompositeSchedule(payload),
-                })
-            }
-            "GetDERControl" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetDERControl(payload),
-                })
-            }
-            "GetDisplayMessages" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetDisplayMessages(payload),
-                })
-            }
-            "GetInstalledCertificateIds" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetInstalledCertificateIds(payload),
-                })
-            }
-            "GetLocalListVersion" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetLocalListVersion(payload),
-                })
-            }
-            "GetLog" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetLog(payload),
-                })
-            }
-            "GetMonitoringReport" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetMonitoringReport(payload),
-                })
-            }
-            "GetPeriodicEventStream" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetPeriodicEventStream(payload),
-                })
-            }
-            "GetReport" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetReport(payload),
-                })
-            }
-            "GetTariffs" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetTariffs(payload),
-                })
-            }
-            "GetTransactionStatus" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetTransactionStatus(payload),
-                })
-            }
-            "GetVariables" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::GetVariables(payload),
-                })
-            }
-            "Heartbeat" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::Heartbeat(payload),
-                })
-            }
-            "InstallCertificate" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::InstallCertificate(payload),
-                })
-            }
-            "LogStatusNotification" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::LogStatusNotification(payload),
-                })
-            }
-            "MeterValues" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::MeterValues(payload),
-                })
-            }
-            "NotifyAllowedEnergyTransfer" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyAllowedEnergyTransfer(payload),
-                })
-            }
-            "NotifyChargingLimit" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyChargingLimit(payload),
-                })
-            }
-            "NotifyCustomerInformation" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyCustomerInformation(payload),
-                })
-            }
-            "NotifyDERAlarm" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyDERAlarm(payload),
-                })
-            }
-            "NotifyDERStartStop" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyDERStartStop(payload),
-                })
-            }
-            "NotifyDisplayMessages" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyDisplayMessages(payload),
-                })
-            }
-            "NotifyEVChargingNeeds" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyEVChargingNeeds(payload),
-                })
-            }
-            "NotifyEVChargingSchedule" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyEVChargingSchedule(payload),
-                })
-            }
-            "NotifyEvent" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyEvent(payload),
-                })
-            }
-            "NotifyMonitoringReport" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyMonitoringReport(payload),
-                })
-            }
-            "NotifyPriorityCharging" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyPriorityCharging(payload),
-                })
-            }
-            "NotifyReport" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyReport(payload),
-                })
-            }
-            "NotifySettlement" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifySettlement(payload),
-                })
-            }
-            "NotifyWebPaymentStarted" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::NotifyWebPaymentStarted(payload),
-                })
-            }
-            "OpenPeriodicEventStream" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::OpenPeriodicEventStream(payload),
-                })
-            }
-            "PublishFirmware" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::PublishFirmware(payload),
-                })
-            }
-            "PublishFirmwareStatusNotification" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::PublishFirmwareStatusNotification(payload),
-                })
-            }
-            "PullDynamicScheduleUpdate" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::PullDynamicScheduleUpdate(payload),
-                })
-            }
-            "ReportChargingProfiles" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ReportChargingProfiles(payload),
-                })
-            }
-            "ReportDERControl" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ReportDERControl(payload),
-                })
-            }
-            "RequestBatterySwap" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::RequestBatterySwap(payload),
-                })
-            }
-            "RequestStartTransaction" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::RequestStartTransaction(payload),
-                })
-            }
-            "RequestStopTransaction" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::RequestStopTransaction(payload),
-                })
-            }
-            "ReservationStatusUpdate" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ReservationStatusUpdate(payload),
-                })
-            }
-            "ReserveNow" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::ReserveNow(payload),
-                })
-            }
-            "Reset" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::Reset(payload),
-                })
-            }
-            "SecurityEventNotification" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SecurityEventNotification(payload),
-                })
-            }
-            "SendLocalList" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SendLocalList(payload),
-                })
-            }
-            "SetChargingProfile" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetChargingProfile(payload),
-                })
-            }
-            "SetDERControl" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetDERControl(payload),
-                })
-            }
-            "SetDefaultTariff" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetDefaultTariff(payload),
-                })
-            }
-            "SetDisplayMessage" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetDisplayMessage(payload),
-                })
-            }
-            "SetMonitoringBase" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetMonitoringBase(payload),
-                })
-            }
-            "SetMonitoringLevel" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetMonitoringLevel(payload),
-                })
-            }
-            "SetNetworkProfile" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetNetworkProfile(payload),
-                })
-            }
-            "SetVariableMonitoring" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetVariableMonitoring(payload),
-                })
-            }
-            "SetVariables" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SetVariables(payload),
-                })
-            }
-            "SignCertificate" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::SignCertificate(payload),
-                })
-            }
-            "StatusNotification" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::StatusNotification(payload),
-                })
-            }
-            "TransactionEvent" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::TransactionEvent(payload),
-                })
-            }
-            "TriggerMessage" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::TriggerMessage(payload),
-                })
-            }
-            "UnlockConnector" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::UnlockConnector(payload),
-                })
-            }
-            "UnpublishFirmware" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::UnpublishFirmware(payload),
-                })
-            }
-            "UpdateDynamicSchedule" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::UpdateDynamicSchedule(payload),
-                })
-            }
-            "UpdateFirmware" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::UpdateFirmware(payload),
-                })
-            }
-            "UsePriorityCharging" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::UsePriorityCharging(payload),
-                })
-            }
-            "VatNumberValidation" => {
-                let payload = seq.next_element()?
-                    .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
-                Ok(Call {
-                    message_id: 2,
-                    unique_id,
-                    action: action_name,
-                    payload: Action::VatNumberValidation(payload),
-                })
-            }
+                    "AFRRSignal" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::AFRRSignal(payload),
+                        })
+                    }
+                    "AdjustPeriodicEventStream" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::AdjustPeriodicEventStream(payload),
+                        })
+                    }
+                    "Authorize" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::Authorize(payload),
+                        })
+                    }
+                    "BatterySwap" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::BatterySwap(payload),
+                        })
+                    }
+                    "BootNotification" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::BootNotification(payload),
+                        })
+                    }
+                    "CancelReservation" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::CancelReservation(payload),
+                        })
+                    }
+                    "CertificateSigned" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::CertificateSigned(payload),
+                        })
+                    }
+                    "ChangeAvailability" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ChangeAvailability(payload),
+                        })
+                    }
+                    "ChangeTransactionTariff" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ChangeTransactionTariff(payload),
+                        })
+                    }
+                    "ClearCache" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearCache(payload),
+                        })
+                    }
+                    "ClearChargingProfile" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearChargingProfile(payload),
+                        })
+                    }
+                    "ClearDERControl" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearDERControl(payload),
+                        })
+                    }
+                    "ClearDisplayMessage" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearDisplayMessage(payload),
+                        })
+                    }
+                    "ClearTariffs" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearTariffs(payload),
+                        })
+                    }
+                    "ClearVariableMonitoring" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearVariableMonitoring(payload),
+                        })
+                    }
+                    "ClearedChargingLimit" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClearedChargingLimit(payload),
+                        })
+                    }
+                    "ClosePeriodicEventStream" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ClosePeriodicEventStream(payload),
+                        })
+                    }
+                    "CostUpdated" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::CostUpdated(payload),
+                        })
+                    }
+                    "CustomerInformation" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::CustomerInformation(payload),
+                        })
+                    }
+                    "DataTransfer" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::DataTransfer(payload),
+                        })
+                    }
+                    "DeleteCertificate" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::DeleteCertificate(payload),
+                        })
+                    }
+                    "FirmwareStatusNotification" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::FirmwareStatusNotification(payload),
+                        })
+                    }
+                    "Get15118EVCertificate" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::Get15118EVCertificate(payload),
+                        })
+                    }
+                    "GetBaseReport" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetBaseReport(payload),
+                        })
+                    }
+                    "GetCertificateChainStatus" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetCertificateChainStatus(payload),
+                        })
+                    }
+                    "GetCertificateStatus" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetCertificateStatus(payload),
+                        })
+                    }
+                    "GetChargingProfiles" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetChargingProfiles(payload),
+                        })
+                    }
+                    "GetCompositeSchedule" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetCompositeSchedule(payload),
+                        })
+                    }
+                    "GetDERControl" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetDERControl(payload),
+                        })
+                    }
+                    "GetDisplayMessages" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetDisplayMessages(payload),
+                        })
+                    }
+                    "GetInstalledCertificateIds" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetInstalledCertificateIds(payload),
+                        })
+                    }
+                    "GetLocalListVersion" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetLocalListVersion(payload),
+                        })
+                    }
+                    "GetLog" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetLog(payload),
+                        })
+                    }
+                    "GetMonitoringReport" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetMonitoringReport(payload),
+                        })
+                    }
+                    "GetPeriodicEventStream" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetPeriodicEventStream(payload),
+                        })
+                    }
+                    "GetReport" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetReport(payload),
+                        })
+                    }
+                    "GetTariffs" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetTariffs(payload),
+                        })
+                    }
+                    "GetTransactionStatus" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetTransactionStatus(payload),
+                        })
+                    }
+                    "GetVariables" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::GetVariables(payload),
+                        })
+                    }
+                    "Heartbeat" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::Heartbeat(payload),
+                        })
+                    }
+                    "InstallCertificate" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::InstallCertificate(payload),
+                        })
+                    }
+                    "LogStatusNotification" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::LogStatusNotification(payload),
+                        })
+                    }
+                    "MeterValues" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::MeterValues(payload),
+                        })
+                    }
+                    "NotifyAllowedEnergyTransfer" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyAllowedEnergyTransfer(payload),
+                        })
+                    }
+                    "NotifyChargingLimit" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyChargingLimit(payload),
+                        })
+                    }
+                    "NotifyCustomerInformation" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyCustomerInformation(payload),
+                        })
+                    }
+                    "NotifyDERAlarm" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyDERAlarm(payload),
+                        })
+                    }
+                    "NotifyDERStartStop" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyDERStartStop(payload),
+                        })
+                    }
+                    "NotifyDisplayMessages" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyDisplayMessages(payload),
+                        })
+                    }
+                    "NotifyEVChargingNeeds" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyEVChargingNeeds(payload),
+                        })
+                    }
+                    "NotifyEVChargingSchedule" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyEVChargingSchedule(payload),
+                        })
+                    }
+                    "NotifyEvent" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyEvent(payload),
+                        })
+                    }
+                    "NotifyMonitoringReport" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyMonitoringReport(payload),
+                        })
+                    }
+                    "NotifyPriorityCharging" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyPriorityCharging(payload),
+                        })
+                    }
+                    "NotifyReport" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyReport(payload),
+                        })
+                    }
+                    "NotifySettlement" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifySettlement(payload),
+                        })
+                    }
+                    "NotifyWebPaymentStarted" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::NotifyWebPaymentStarted(payload),
+                        })
+                    }
+                    "OpenPeriodicEventStream" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::OpenPeriodicEventStream(payload),
+                        })
+                    }
+                    "PublishFirmware" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::PublishFirmware(payload),
+                        })
+                    }
+                    "PublishFirmwareStatusNotification" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::PublishFirmwareStatusNotification(payload),
+                        })
+                    }
+                    "PullDynamicScheduleUpdate" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::PullDynamicScheduleUpdate(payload),
+                        })
+                    }
+                    "ReportChargingProfiles" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ReportChargingProfiles(payload),
+                        })
+                    }
+                    "ReportDERControl" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ReportDERControl(payload),
+                        })
+                    }
+                    "RequestBatterySwap" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::RequestBatterySwap(payload),
+                        })
+                    }
+                    "RequestStartTransaction" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::RequestStartTransaction(payload),
+                        })
+                    }
+                    "RequestStopTransaction" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::RequestStopTransaction(payload),
+                        })
+                    }
+                    "ReservationStatusUpdate" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ReservationStatusUpdate(payload),
+                        })
+                    }
+                    "ReserveNow" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::ReserveNow(payload),
+                        })
+                    }
+                    "Reset" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::Reset(payload),
+                        })
+                    }
+                    "SecurityEventNotification" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SecurityEventNotification(payload),
+                        })
+                    }
+                    "SendLocalList" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SendLocalList(payload),
+                        })
+                    }
+                    "SetChargingProfile" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetChargingProfile(payload),
+                        })
+                    }
+                    "SetDERControl" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetDERControl(payload),
+                        })
+                    }
+                    "SetDefaultTariff" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetDefaultTariff(payload),
+                        })
+                    }
+                    "SetDisplayMessage" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetDisplayMessage(payload),
+                        })
+                    }
+                    "SetMonitoringBase" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetMonitoringBase(payload),
+                        })
+                    }
+                    "SetMonitoringLevel" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetMonitoringLevel(payload),
+                        })
+                    }
+                    "SetNetworkProfile" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetNetworkProfile(payload),
+                        })
+                    }
+                    "SetVariableMonitoring" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetVariableMonitoring(payload),
+                        })
+                    }
+                    "SetVariables" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SetVariables(payload),
+                        })
+                    }
+                    "SignCertificate" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::SignCertificate(payload),
+                        })
+                    }
+                    "StatusNotification" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::StatusNotification(payload),
+                        })
+                    }
+                    "TransactionEvent" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::TransactionEvent(payload),
+                        })
+                    }
+                    "TriggerMessage" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::TriggerMessage(payload),
+                        })
+                    }
+                    "UnlockConnector" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::UnlockConnector(payload),
+                        })
+                    }
+                    "UnpublishFirmware" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::UnpublishFirmware(payload),
+                        })
+                    }
+                    "UpdateDynamicSchedule" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::UpdateDynamicSchedule(payload),
+                        })
+                    }
+                    "UpdateFirmware" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::UpdateFirmware(payload),
+                        })
+                    }
+                    "UsePriorityCharging" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::UsePriorityCharging(payload),
+                        })
+                    }
+                    "VatNumberValidation" => {
+                        let payload = seq
+                            .next_element()?
+                            .ok_or_else(|| serde::de::Error::custom("missing payload"))?;
+                        Ok(Call {
+                            message_id: 2,
+                            unique_id,
+                            action: action_name,
+                            payload: Action::VatNumberValidation(payload),
+                        })
+                    }
                     other => Err(de::Error::custom(alloc::format!(
                         "unknown OCPP 2.1 action: {other}"
                     ))),

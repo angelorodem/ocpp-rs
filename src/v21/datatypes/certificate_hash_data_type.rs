@@ -1,8 +1,8 @@
 //! CertificateHashDataType
-use alloc::string::String;
-use crate::v21::enumerations::HashAlgorithmEnumType;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
+use crate::v21::enumerations::HashAlgorithmEnumType;
+use alloc::string::String;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

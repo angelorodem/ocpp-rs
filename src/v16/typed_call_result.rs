@@ -16,34 +16,60 @@ pub enum TypedCallResult {
     CancelReservation(super::call_result::CallResult<crate::v16::call_result::CancelReservation>),
     CertificateSigned(super::call_result::CallResult<crate::v16::call_result::CertificateSigned>),
     ChangeAvailability(super::call_result::CallResult<crate::v16::call_result::ChangeAvailability>),
-    ChangeConfiguration(super::call_result::CallResult<crate::v16::call_result::ChangeConfiguration>),
+    ChangeConfiguration(
+        super::call_result::CallResult<crate::v16::call_result::ChangeConfiguration>,
+    ),
     ClearCache(super::call_result::CallResult<crate::v16::call_result::ClearCache>),
-    ClearChargingProfile(super::call_result::CallResult<crate::v16::call_result::ClearChargingProfile>),
+    ClearChargingProfile(
+        super::call_result::CallResult<crate::v16::call_result::ClearChargingProfile>,
+    ),
     DataTransfer(super::call_result::CallResult<crate::v16::call_result::DataTransfer>),
     DeleteCertificate(super::call_result::CallResult<crate::v16::call_result::DeleteCertificate>),
-    DiagnosticsStatusNotification(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
-    ExtendedTriggerMessage(super::call_result::CallResult<crate::v16::call_result::ExtendedTriggerMessage>),
-    FirmwareStatusNotification(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
-    GetCompositeSchedule(super::call_result::CallResult<crate::v16::call_result::GetCompositeSchedule>),
+    DiagnosticsStatusNotification(
+        super::call_result::CallResult<crate::v16::call_result::EmptyResponse>,
+    ),
+    ExtendedTriggerMessage(
+        super::call_result::CallResult<crate::v16::call_result::ExtendedTriggerMessage>,
+    ),
+    FirmwareStatusNotification(
+        super::call_result::CallResult<crate::v16::call_result::EmptyResponse>,
+    ),
+    GetCompositeSchedule(
+        super::call_result::CallResult<crate::v16::call_result::GetCompositeSchedule>,
+    ),
     GetConfiguration(super::call_result::CallResult<crate::v16::call_result::GetConfiguration>),
     GetDiagnostics(super::call_result::CallResult<crate::v16::call_result::GetDiagnostics>),
-    GetInstalledCertificateIds(super::call_result::CallResult<crate::v16::call_result::GetInstalledCertificateIds>),
-    GetLocalListVersion(super::call_result::CallResult<crate::v16::call_result::GetLocalListVersion>),
+    GetInstalledCertificateIds(
+        super::call_result::CallResult<crate::v16::call_result::GetInstalledCertificateIds>,
+    ),
+    GetLocalListVersion(
+        super::call_result::CallResult<crate::v16::call_result::GetLocalListVersion>,
+    ),
     GetLog(super::call_result::CallResult<crate::v16::call_result::GetLog>),
     Heartbeat(super::call_result::CallResult<crate::v16::call_result::Heartbeat>),
     InstallCertificate(super::call_result::CallResult<crate::v16::call_result::InstallCertificate>),
     LogStatusNotification(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
     MeterValues(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
-    RemoteStartTransaction(super::call_result::CallResult<crate::v16::call_result::RemoteStartTransaction>),
-    RemoteStopTransaction(super::call_result::CallResult<crate::v16::call_result::RemoteStopTransaction>),
+    RemoteStartTransaction(
+        super::call_result::CallResult<crate::v16::call_result::RemoteStartTransaction>,
+    ),
+    RemoteStopTransaction(
+        super::call_result::CallResult<crate::v16::call_result::RemoteStopTransaction>,
+    ),
     ReserveNow(super::call_result::CallResult<crate::v16::call_result::ReserveNow>),
     Reset(super::call_result::CallResult<crate::v16::call_result::Reset>),
-    SecurityEventNotification(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
+    SecurityEventNotification(
+        super::call_result::CallResult<crate::v16::call_result::EmptyResponse>,
+    ),
     SendLocalList(super::call_result::CallResult<crate::v16::call_result::SendLocalList>),
     SetChargingProfile(super::call_result::CallResult<crate::v16::call_result::SetChargingProfile>),
     SignCertificate(super::call_result::CallResult<crate::v16::call_result::SignCertificate>),
-    SignedFirmwareStatusNotification(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
-    SignedUpdateFirmware(super::call_result::CallResult<crate::v16::call_result::SignedUpdateFirmware>),
+    SignedFirmwareStatusNotification(
+        super::call_result::CallResult<crate::v16::call_result::EmptyResponse>,
+    ),
+    SignedUpdateFirmware(
+        super::call_result::CallResult<crate::v16::call_result::SignedUpdateFirmware>,
+    ),
     StartTransaction(super::call_result::CallResult<crate::v16::call_result::StartTransaction>),
     StatusNotification(super::call_result::CallResult<crate::v16::call_result::EmptyResponse>),
     StopTransaction(super::call_result::CallResult<crate::v16::call_result::StopTransaction>),
@@ -161,23 +187,38 @@ impl TypedCallResult {
             }
             "BootNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::BootNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::BootNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "CancelReservation" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::CancelReservation(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::CancelReservation(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "CertificateSigned" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::CertificateSigned(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::CertificateSigned(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ChangeAvailability" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ChangeAvailability(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ChangeAvailability(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ChangeConfiguration" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ChangeConfiguration(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ChangeConfiguration(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ClearCache" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -185,7 +226,10 @@ impl TypedCallResult {
             }
             "ClearChargingProfile" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ClearChargingProfile(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ClearChargingProfile(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "DataTransfer" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -193,39 +237,66 @@ impl TypedCallResult {
             }
             "DeleteCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::DeleteCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::DeleteCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "DiagnosticsStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::DiagnosticsStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::DiagnosticsStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ExtendedTriggerMessage" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::ExtendedTriggerMessage(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::ExtendedTriggerMessage(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "FirmwareStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::FirmwareStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::FirmwareStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetCompositeSchedule" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetCompositeSchedule(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetCompositeSchedule(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetConfiguration" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetConfiguration(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetConfiguration(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetDiagnostics" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetDiagnostics(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetDiagnostics(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetInstalledCertificateIds" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetInstalledCertificateIds(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetInstalledCertificateIds(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetLocalListVersion" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::GetLocalListVersion(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::GetLocalListVersion(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "GetLog" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -237,11 +308,17 @@ impl TypedCallResult {
             }
             "InstallCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::InstallCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::InstallCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "LogStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::LogStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::LogStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "MeterValues" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -249,11 +326,17 @@ impl TypedCallResult {
             }
             "RemoteStartTransaction" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::RemoteStartTransaction(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::RemoteStartTransaction(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "RemoteStopTransaction" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::RemoteStopTransaction(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::RemoteStopTransaction(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "ReserveNow" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -265,7 +348,10 @@ impl TypedCallResult {
             }
             "SecurityEventNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SecurityEventNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SecurityEventNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SendLocalList" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
@@ -273,43 +359,73 @@ impl TypedCallResult {
             }
             "SetChargingProfile" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SetChargingProfile(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SetChargingProfile(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SignCertificate" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SignCertificate(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SignCertificate(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SignedFirmwareStatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SignedFirmwareStatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SignedFirmwareStatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "SignedUpdateFirmware" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::SignedUpdateFirmware(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::SignedUpdateFirmware(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "StartTransaction" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::StartTransaction(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::StartTransaction(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "StatusNotification" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::StatusNotification(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::StatusNotification(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "StopTransaction" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::StopTransaction(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::StopTransaction(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "TriggerMessage" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::TriggerMessage(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::TriggerMessage(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UnlockConnector" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UnlockConnector(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UnlockConnector(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             "UpdateFirmware" => {
                 let payload = serde_json::from_value(raw.payload).map_err(Error::SerdeJson)?;
-                Ok(Self::UpdateFirmware(CallResult::new(raw.unique_id, payload)))
+                Ok(Self::UpdateFirmware(CallResult::new(
+                    raw.unique_id,
+                    payload,
+                )))
             }
             other => Err(Error::UnknownActionName(other.to_string())),
         }

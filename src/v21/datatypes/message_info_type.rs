@@ -1,13 +1,13 @@
 //! MessageInfoType
-use alloc::string::String;
-use alloc::vec::Vec;
-use crate::v21::enumerations::MessagePriorityEnumType;
-use crate::v21::enumerations::MessageStateEnumType;
-use serde::{Deserialize, Serialize};
 use super::ComponentType;
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::MessageContentType;
+use crate::v21::enumerations::MessagePriorityEnumType;
+use crate::v21::enumerations::MessageStateEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

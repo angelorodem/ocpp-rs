@@ -1,9 +1,9 @@
 //! IdTokenType
+use super::AdditionalInfoType;
+use super::CustomDataType;
 use alloc::string::String;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
-use super::AdditionalInfoType;
-use super::CustomDataType;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

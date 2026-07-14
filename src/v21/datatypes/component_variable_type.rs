@@ -1,8 +1,8 @@
 //! ComponentVariableType
-use serde::{Deserialize, Serialize};
 use super::ComponentType;
 use super::CustomDataType;
 use super::VariableType;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

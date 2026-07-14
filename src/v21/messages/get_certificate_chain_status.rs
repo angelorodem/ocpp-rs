@@ -1,11 +1,11 @@
 //! OCPP 2.1 GetCertificateChainStatus request/response payloads.
 
-use alloc::string::String;
-use alloc::vec::Vec;
 use crate::v21::datatypes::CertificateHashDataType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use crate::v21::enumerations::CertificateStatusSourceEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

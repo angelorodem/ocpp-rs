@@ -1,11 +1,11 @@
 //! OCPP 2.1 SignCertificate request/response payloads.
 
-use alloc::string::String;
 use crate::v21::datatypes::CertificateHashDataType;
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
 use crate::v21::enumerations::CertificateSigningUseEnumType;
 use crate::v21::enumerations::GenericStatusEnumType;
+use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

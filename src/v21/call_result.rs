@@ -48,7 +48,9 @@ impl CallResultRaw {
     /// Prefer correlating via action name ([`crate::v21::pending`]) in multi-node deploys.
     /// See also [`crate::v21::pending::try_resolve_unique`].
     #[must_use]
-    pub fn probe_candidates(&self) -> alloc::vec::Vec<crate::v21::typed_call_result::TypedCallResult> {
+    pub fn probe_candidates(
+        &self,
+    ) -> alloc::vec::Vec<crate::v21::typed_call_result::TypedCallResult> {
         crate::v21::typed_call_result::TypedCallResult::probe_from_raw(self)
     }
 }

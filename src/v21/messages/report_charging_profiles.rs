@@ -1,9 +1,9 @@
 //! OCPP 2.1 ReportChargingProfiles request/response payloads.
 
-use alloc::string::String;
-use alloc::vec::Vec;
 use crate::v21::datatypes::ChargingProfileType;
 use crate::v21::datatypes::CustomDataType;
+use alloc::string::String;
+use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

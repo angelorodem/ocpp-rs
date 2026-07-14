@@ -1,12 +1,12 @@
 //! IdTokenInfoType
-use alloc::string::String;
-use alloc::vec::Vec;
-use crate::v21::enumerations::AuthorizationStatusEnumType;
-use serde::{Deserialize, Serialize};
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::IdTokenType;
 use super::MessageContentType;
+use crate::v21::enumerations::AuthorizationStatusEnumType;
+use alloc::string::String;
+use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
