@@ -12,7 +12,7 @@ description = """
 Protocol implementation for Open Charge Point Protocol (OCPP) in Rust.
 """
 categories = ["data-structures", "algorithms", "no-std", "embedded"]
-keywords = ["ocpp", "charger", "oca", "electric-vehicle", "ocpp16", "ocpp21"]
+keywords = ["ocpp", "charger", "oca", "electric-vehicle"]
 exclude = ["doc_imgs/", ".*"]
 resolver = "2"
 
