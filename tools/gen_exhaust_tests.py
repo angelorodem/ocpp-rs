@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Generate exhaustive CALL round-trip integration tests from JSON schemas."""
+"""Generate exhaustive CALL round-trip integration tests from JSON schemas.
+
+After regenerating tests, also refresh fuzz seeds:
+  python3 tools/gen_fuzz_corpus.py
+"""
 from __future__ import annotations
 
 import json

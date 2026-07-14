@@ -1,0 +1,1 @@
+[2,"t","GetCertificateStatus",{"ocspRequestData":{"hashAlgorithm":"SHA256","issuerNameHash":"x","issuerKeyHash":"x","serialNumber":"x","responderURL":"x"}}]

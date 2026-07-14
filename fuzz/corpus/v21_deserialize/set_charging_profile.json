@@ -1,0 +1,1 @@
+[2,"t","SetChargingProfile",{"evseId":0,"chargingProfile":{"id":0,"stackLevel":0,"chargingProfilePurpose":"ChargingStationExternalConstraints","chargingProfileKind":"Absolute","chargingSchedule":[{"id":0,"chargingRateUnit":"W","chargingSchedulePeriod":[{"startPeriod":0}]}]}}]

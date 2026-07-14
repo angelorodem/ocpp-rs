@@ -1,0 +1,1 @@
+[2,"t","NotifyEvent",{"generatedAt":"2024-01-01T00:00:00.000Z","seqNo":0,"eventData":[{"eventId":0,"timestamp":"2024-01-01T00:00:00.000Z","trigger":"Alerting","actualValue":"x","component":{"name":"x"},"eventNotificationType":"HardWiredNotification","variable":{"name":"x"}}]}]

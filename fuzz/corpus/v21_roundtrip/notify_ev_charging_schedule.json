@@ -1,0 +1,1 @@
+[2,"t","NotifyEVChargingSchedule",{"timeBase":"2024-01-01T00:00:00.000Z","chargingSchedule":{"id":0,"chargingRateUnit":"W","chargingSchedulePeriod":[{"startPeriod":0}]},"evseId":1}]

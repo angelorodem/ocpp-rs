@@ -1367,3 +1367,14 @@ fn test_backwards_compatibility() {
         assert_eq!(parsed, roundtrip);
     }
 }
+
+#[test]
+fn call_result_large_integer_value_roundtrip_v21() {
+    let s = r#"[3, "1", {"oveunrI+d":111111111111111122222}]"#;
+    let msg = ocpp_rs::v21::parse::deserialize_to_message(s).unwrap();
+    let wire = ocpp_rs::v21::parse::serialize_message(&msg).unwrap();
+    let again = ocpp_rs::v21::parse::deserialize_to_message(&wire).unwrap();
+    let wire2 = ocpp_rs::v21::parse::serialize_message(&again).unwrap();
+    assert_eq!(wire, wire2);
+    assert!(wire.contains("111111111111111122222"), "wire={wire}");
+}

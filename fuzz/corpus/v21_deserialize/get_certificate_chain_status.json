@@ -1,0 +1,1 @@
+[2,"t","GetCertificateChainStatus",{"certificateStatusRequests":[{"certificateHashData":{"hashAlgorithm":"SHA256","issuerNameHash":"x","issuerKeyHash":"x","serialNumber":"x"},"source":"CRL","urls":["x"]}]}]

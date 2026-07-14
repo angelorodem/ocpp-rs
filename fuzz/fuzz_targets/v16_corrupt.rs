@@ -1,10 +1,14 @@
 #![no_main]
 
 use libfuzzer_sys::fuzz_target;
-use ocpp_rs_fuzz::CorruptInput;
 use ocpp_rs::v16::parse::deserialize_to_message;
+use ocpp_rs_fuzz::CorruptInput;
 
-fuzz_target!(|input: CorruptInput| {
+fuzz_target!(|data: &[u8]| {
+    let mut u = arbitrary::Unstructured::new(data);
+    let Ok(input) = CorruptInput::arbitrary_v16(&mut u) else {
+        return;
+    };
     let Ok(s) = std::str::from_utf8(&input.bytes) else {
         // Invalid UTF-8 is a valid fuzz case for the outer entrypoint.
         return;

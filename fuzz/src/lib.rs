@@ -46,28 +46,99 @@ pub const V16_ACTIONS: &[&str] = &[
     "UpdateFirmware",
 ];
 
-/// Representative OCPP 2.1 CALL / SEND actions (not exhaustive — fuzzer still invents junk).
+/// All OCPP 2.1 CALL actions + SEND NotifyPeriodicEventStream (fuzzer still invents junk).
 pub const V21_ACTIONS: &[&str] = &[
+    "AFRRSignal",
+    "AdjustPeriodicEventStream",
     "Authorize",
+    "BatterySwap",
     "BootNotification",
+    "CancelReservation",
+    "CertificateSigned",
+    "ChangeAvailability",
+    "ChangeTransactionTariff",
     "ClearCache",
+    "ClearChargingProfile",
+    "ClearDERControl",
+    "ClearDisplayMessage",
+    "ClearTariffs",
+    "ClearVariableMonitoring",
+    "ClearedChargingLimit",
+    "ClosePeriodicEventStream",
+    "CostUpdated",
+    "CustomerInformation",
     "DataTransfer",
+    "DeleteCertificate",
+    "FirmwareStatusNotification",
+    "Get15118EVCertificate",
+    "GetBaseReport",
+    "GetCertificateChainStatus",
+    "GetCertificateStatus",
+    "GetChargingProfiles",
+    "GetCompositeSchedule",
+    "GetDERControl",
+    "GetDisplayMessages",
+    "GetInstalledCertificateIds",
+    "GetLocalListVersion",
+    "GetLog",
+    "GetMonitoringReport",
+    "GetPeriodicEventStream",
+    "GetReport",
+    "GetTariffs",
+    "GetTransactionStatus",
     "GetVariables",
     "Heartbeat",
+    "InstallCertificate",
+    "LogStatusNotification",
     "MeterValues",
+    "NotifyAllowedEnergyTransfer",
+    "NotifyChargingLimit",
+    "NotifyCustomerInformation",
+    "NotifyDERAlarm",
+    "NotifyDERStartStop",
+    "NotifyDisplayMessages",
+    "NotifyEVChargingNeeds",
+    "NotifyEVChargingSchedule",
     "NotifyEvent",
+    "NotifyMonitoringReport",
     "NotifyPeriodicEventStream",
+    "NotifyPriorityCharging",
+    "NotifyReport",
+    "NotifySettlement",
+    "NotifyWebPaymentStarted",
+    "OpenPeriodicEventStream",
+    "PublishFirmware",
+    "PublishFirmwareStatusNotification",
+    "PullDynamicScheduleUpdate",
+    "ReportChargingProfiles",
+    "ReportDERControl",
+    "RequestBatterySwap",
     "RequestStartTransaction",
+    "RequestStopTransaction",
+    "ReservationStatusUpdate",
+    "ReserveNow",
     "Reset",
+    "SecurityEventNotification",
+    "SendLocalList",
     "SetChargingProfile",
+    "SetDERControl",
+    "SetDefaultTariff",
+    "SetDisplayMessage",
+    "SetMonitoringBase",
+    "SetMonitoringLevel",
+    "SetNetworkProfile",
+    "SetVariableMonitoring",
     "SetVariables",
+    "SignCertificate",
     "StatusNotification",
     "TransactionEvent",
     "TriggerMessage",
     "UnlockConnector",
+    "UnpublishFirmware",
+    "UpdateDynamicSchedule",
     "UpdateFirmware",
-    "SetDERControl",
-    "GetTariffs",
+    "UsePriorityCharging",
+    "VatNumberValidation",
 ];
 
 pub const V16_RPC_CODES: &[&str] = &[
@@ -458,22 +529,41 @@ fn uppercase_action_field(s: &str) -> Option<String> {
     Some(format!("{},{},{},{}", parts[0], parts[1], action, parts.get(3).unwrap_or(&"")))
 }
 
-/// Valid seed templates used as corruption bases.
+/// Valid seed templates used as corruption bases (from exhaust / common paths).
 pub const V16_SEEDS: &[&str] = &[
-    r#"[2, "1", "Heartbeat", {}]"#,
-    r#"[2, "19223201", "BootNotification", {"chargePointVendor":"VendorX","chargePointModel":"SingleSocketCharger"}]"#,
-    r#"[3, "1", {"currentTime":"2024-01-01T00:00:00.000Z"}]"#,
-    r#"[4, "1", "GenericError", "x", {}]"#,
-    r#"[2, "1", "StatusNotification", {"connectorId":1,"errorCode":"NoError","status":"Available"}]"#,
+    r#"[2,"1","Heartbeat",{}]"#,
+    r#"[2,"1","BootNotification",{"chargePointVendor":"x","chargePointModel":"x"}]"#,
+    r#"[2,"1","Authorize",{"idTag":"x"}]"#,
+    r#"[2,"1","StatusNotification",{"connectorId":0,"errorCode":"NoError","status":"Available"}]"#,
+    r#"[2,"1","MeterValues",{"connectorId":0,"meterValue":[]}]"#,
+    r#"[2,"1","StartTransaction",{"connectorId":0,"idTag":"x","meterStart":0,"timestamp":"2024-01-01T00:00:00.000Z"}]"#,
+    r#"[2,"1","StopTransaction",{"meterStop":0,"timestamp":"2024-01-01T00:00:00.000Z","transactionId":0}]"#,
+    r#"[2,"1","SetChargingProfile",{"connectorId":0,"csChargingProfiles":{"chargingProfileId":0,"stackLevel":0,"chargingProfilePurpose":"ChargePointMaxProfile","chargingProfileKind":"Absolute","chargingSchedule":{"chargingRateUnit":"A","chargingSchedulePeriod":[]}}}]"#,
+    r#"[2,"1","SecurityEventNotification",{"type":"FirmwareUpdated","timestamp":"2024-01-01T00:00:00.000Z"}]"#,
+    r#"[2,"1","GetLog",{"logType":"DiagnosticsLog","requestId":1,"log":{"remoteLocation":"ftp://x"}}]"#,
+    r#"[3,"1",{"currentTime":"2024-01-01T00:00:00.000Z"}]"#,
+    r#"[4,"1","GenericError","x",{}]"#,
+    r#"[4,"1","FormationViolation","x",{"nested":{"code":42}}]"#,
 ];
 
 pub const V21_SEEDS: &[&str] = &[
-    r#"[2, "1", "Heartbeat", {}]"#,
-    r#"[2, "19223201", "BootNotification", {"reason":"PowerUp","chargingStation":{"model":"M","vendorName":"V"}}]"#,
-    r#"[3, "1", {"currentTime":"2024-01-01T00:00:00.000Z"}]"#,
-    r#"[4, "1", "NotSupported", "x", {}]"#,
-    r#"[5, "1", "GenericError", "x", {}]"#,
-    r#"[2, "1", "StatusNotification", {"timestamp":"2024-01-01T00:00:00.000Z","connectorStatus":"Available","evseId":1,"connectorId":1}]"#,
+    r#"[2,"1","Heartbeat",{}]"#,
+    r#"[2,"1","BootNotification",{"reason":"PowerUp","chargingStation":{"model":"M","vendorName":"V"}}]"#,
+    r#"[2,"1","Authorize",{"idToken":{"idToken":"x","type":"x"}}]"#,
+    r#"[2,"1","StatusNotification",{"timestamp":"2024-01-01T00:00:00.000Z","connectorStatus":"Available","evseId":0,"connectorId":0}]"#,
+    r#"[2,"1","TransactionEvent",{"eventType":"Ended","timestamp":"2024-01-01T00:00:00.000Z","triggerReason":"AbnormalCondition","seqNo":0,"transactionInfo":{"transactionId":"x"}}]"#,
+    r#"[2,"1","GetVariables",{"getVariableData":[{"component":{"name":"x"},"variable":{"name":"x"}}]}]"#,
+    r#"[2,"1","SetVariables",{"setVariableData":[{"attributeValue":"x","component":{"name":"x"},"variable":{"name":"x"}}]}]"#,
+    r#"[2,"1","NotifyEvent",{"generatedAt":"2024-01-01T00:00:00.000Z","seqNo":0,"eventData":[{"eventId":0,"timestamp":"2024-01-01T00:00:00.000Z","trigger":"Alerting","actualValue":"x","component":{"name":"x"},"eventNotificationType":"HardWiredNotification","variable":{"name":"x"}}]}]"#,
+    r#"[2,"1","RequestStartTransaction",{"idToken":{"idToken":"x","type":"x"},"remoteStartId":0}]"#,
+    r#"[2,"1","MeterValues",{"evseId":0,"meterValue":[{"sampledValue":[{"value":0.0}],"timestamp":"2024-01-01T00:00:00.000Z"}]}]"#,
+    r#"[2,"1","SetDERControl",{"isDefault":false,"controlId":"x","controlType":"EnterService"}]"#,
+    r#"[2,"1","GetTariffs",{"evseId":0}]"#,
+    r#"[6,"1","NotifyPeriodicEventStream",{"data":[{"t":0.0,"v":"x"}],"id":0,"pending":0,"basetime":"2024-01-01T00:00:00.000Z"}]"#,
+    r#"[3,"1",{"currentTime":"2024-01-01T00:00:00.000Z"}]"#,
+    r#"[4,"1","NotSupported","x",{}]"#,
+    r#"[4,"1","FormatViolation","x",{"nested":{"code":42}}]"#,
+    r#"[5,"1","GenericError","x",{}]"#,
 ];
 
 #[derive(Debug)]
@@ -481,13 +571,21 @@ pub struct CorruptInput {
     pub bytes: Vec<u8>,
 }
 
-impl<'a> Arbitrary<'a> for CorruptInput {
-    fn arbitrary(u: &mut Unstructured<'a>) -> ArbitraryResult<Self> {
-        // Prefer mutating a real seed; sometimes start from structured frame.
+impl CorruptInput {
+    pub fn arbitrary_v16(u: &mut Unstructured<'_>) -> ArbitraryResult<Self> {
+        Self::arbitrary_version(u, false)
+    }
+
+    pub fn arbitrary_v21(u: &mut Unstructured<'_>) -> ArbitraryResult<Self> {
+        Self::arbitrary_version(u, true)
+    }
+
+    fn arbitrary_version(u: &mut Unstructured<'_>, v21: bool) -> ArbitraryResult<Self> {
+        // Prefer mutating a real seed; sometimes start from a structured frame.
         let base = if u.ratio(3, 4)? {
-            let seeds = if u.ratio(1, 2)? { V16_SEEDS } else { V21_SEEDS };
+            let seeds = if v21 { V21_SEEDS } else { V16_SEEDS };
             (*u.choose(seeds)?).to_string()
-        } else if u.ratio(1, 2)? {
+        } else if v21 {
             StructuredFrame::arbitrary_v21(u)?.wire
         } else {
             StructuredFrame::arbitrary_v16(u)?.wire
@@ -496,7 +594,6 @@ impl<'a> Arbitrary<'a> for CorruptInput {
         let n = u.int_in_range(1..=4)?;
         let mut bytes = base.into_bytes();
         for _ in 0..n {
-            // Re-parse as utf8 when possible so text corruptions apply; else mutate bytes.
             let corruption = Corruption::arbitrary(u)?;
             if let Ok(s) = std::str::from_utf8(&bytes) {
                 bytes = corruption.apply(s);

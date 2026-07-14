@@ -24,6 +24,7 @@ Migration: [`guides/migration-0.4.md`](guides/migration-0.4.md).
 - `v21::version` helpers for OCPP 2.0.1 vs 2.1 subprotocol gating
 - Per-message 1.6 status enums; nested charging / security wire types
 - Always-on MessageId / UniqueId max length 36
+- `serde_json` **`arbitrary_precision`** so large integers in `Value` (e.g. CallResultRaw) round-trip exactly
 - Exhaustive CALL round-trip tests; `fuzz/` targets with seed corpus
 - Guides under [`guides/`](guides/); CI matrix (OS, MSRV 1.85, features, `no_std` / thumb)
 

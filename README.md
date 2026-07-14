@@ -153,15 +153,24 @@ cargo +nightly install cargo-fuzz
 | `v16_corrupt` / `v21_corrupt` | Seed / structured frames + truncations, bit flips, bad UTF-8, wrong arity, … |
 
 ```bash
+./fuzz/run_all.sh              # all v16 + v21 targets (300s, 4 workers each)
+./fuzz/run_v16.sh              # OCPP 1.6 only
+./fuzz/run_v21.sh              # OCPP 2.1 only
+./fuzz/run_v21.sh 600 8        # longer / more workers
+
+./fuzz/clean.sh                # artifacts, logs, hash corpus, fuzz/target (keeps *.json seeds)
+./fuzz/clean.sh --keep-corpus  # leave discovered hash inputs
+./fuzz/clean.sh --keep-target  # leave fuzz/target build cache
+```
+
+Or run a single target manually:
+
+```bash
 # One target, 5 minutes, 8 workers
 cargo +nightly fuzz run v21_corrupt --fuzz-dir fuzz -- -max_total_time=300 -jobs=8 -workers=8
-
-# Several targets in parallel
-cargo +nightly fuzz run v21_structured --fuzz-dir fuzz -- -max_total_time=300 &
-cargo +nightly fuzz run v21_corrupt    --fuzz-dir fuzz -- -max_total_time=300 &
-wait
 ```
 
 Discovered corpus inputs under `fuzz/corpus/` are gitignored (seed `*.json` only).
+Regenerate action seeds from exhaust tests: `python3 tools/gen_fuzz_corpus.py`.
 
 License: MIT.

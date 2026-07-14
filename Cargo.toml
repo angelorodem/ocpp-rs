@@ -36,7 +36,7 @@ strum = { version = "^0.28.0", default-features = false, features = ["derive"] }
 strum_macros = {version = "^0.28.0", default-features = false } # No_std
 serde = { version = "^1", features = ["derive", "alloc"], default-features = false } # No_std
 serde_tuple = { version = "^1", default-features = false} # No_std
-serde_json = { version = "^1", default-features = false, features = ["alloc"] } # No_std
+serde_json = { version = "^1", default-features = false, features = ["alloc", "arbitrary_precision"] } # No_std; keep large JSON ints exact in Value
 chrono = { version = "^0.4", default-features = false, features = ["serde", "alloc"] } # No_std
 
 [dev-dependencies]

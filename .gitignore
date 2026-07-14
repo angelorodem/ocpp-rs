@@ -24,7 +24,9 @@ afl-fuzz/out/default/cmdline
 fuzz/target/
 fuzz/artifacts/
 fuzz/coverage/
+fuzz/logs/
 fuzz/Cargo.lock
 fuzz/corpus/**
 !fuzz/corpus/**/
 !fuzz/corpus/**/*.json
+fuzz-*.log

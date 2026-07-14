@@ -1,0 +1,1 @@
+[2,"t","ReportChargingProfiles",{"requestId":0,"chargingLimitSource":"x","chargingProfile":[{"id":0,"stackLevel":0,"chargingProfilePurpose":"ChargingStationExternalConstraints","chargingProfileKind":"Absolute","chargingSchedule":[{"id":0,"chargingRateUnit":"W","chargingSchedulePeriod":[{"startPeriod":0}]}]}],"evseId":0}]
