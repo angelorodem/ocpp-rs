@@ -221,7 +221,7 @@ impl Call {
     }
 
     #[must_use]
-    pub fn action_kind(&self) -> &'static str {
+    pub const fn action_kind(&self) -> &'static str {
         self.payload.action_name()
     }
 }

@@ -1,4 +1,4 @@
-//! OCPP 2.1 SignCertificate request/response payloads.
+//! OCPP 2.1 `SignCertificate` request/response payloads.
 
 use crate::v21::datatypes::CertificateHashDataType;
 use crate::v21::datatypes::CustomDataType;

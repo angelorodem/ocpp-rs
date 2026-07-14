@@ -1,4 +1,4 @@
-//! OCPP 2.1 CancelReservation request/response payloads.
+//! OCPP 2.1 `CancelReservation` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -13,7 +13,7 @@ pub enum CancelReservationStatusEnumType {
     Rejected,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CancelReservationRequest {
     pub reservation_id: i32,

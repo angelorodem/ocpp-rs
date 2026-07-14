@@ -1,4 +1,4 @@
-//! OCPP 2.1 PublishFirmware request/response payloads.
+//! OCPP 2.1 `PublishFirmware` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -6,7 +6,7 @@ use crate::v21::enumerations::GenericStatusEnumType;
 use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct PublishFirmwareRequest {
     pub location: String,

@@ -1,4 +1,4 @@
-//! MessageInfoType
+//! `MessageInfoType`
 use super::ComponentType;
 use super::CustomDataType;
 use super::DateTimeWrapper;

@@ -6,7 +6,7 @@ use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 
 use super::rpc_error_code::RpcErrorCode;
 
-#[derive(Debug, PartialEq, Serialize_tuple, Deserialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CallError {
     pub(super) message_id: i32,
@@ -18,7 +18,7 @@ pub struct CallError {
 
 impl CallError {
     #[must_use]
-    pub fn new(
+    pub const fn new(
         unique_id: String,
         error_code: RpcErrorCode,
         error_description: String,

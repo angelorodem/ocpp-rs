@@ -1,4 +1,4 @@
-//! TransactionLimitType
+//! `TransactionLimitType`
 use super::CustomDataType;
 use serde::{Deserialize, Serialize};
 

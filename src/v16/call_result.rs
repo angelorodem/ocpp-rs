@@ -31,7 +31,7 @@ use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 use crate::errors::{Error, Result};
 
 /// Untyped CALLRESULT as received from the wire.
-#[derive(Debug, PartialEq, Serialize_tuple, Deserialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 pub struct CallResultRaw {
     pub(super) message_id: i32,
     pub unique_id: String,
@@ -69,7 +69,7 @@ impl CallResultRaw {
 }
 
 /// Typed CALLRESULT used after resolving a raw result, or when holding a known payload in memory.
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct CallResult<T> {
     pub(super) message_id: i32,
     pub unique_id: String,

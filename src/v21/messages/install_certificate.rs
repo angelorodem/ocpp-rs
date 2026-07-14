@@ -1,4 +1,4 @@
-//! OCPP 2.1 InstallCertificate request/response payloads.
+//! OCPP 2.1 `InstallCertificate` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -31,7 +31,7 @@ pub enum InstallCertificateUseEnumType {
     OEMRootCertificate,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct InstallCertificateRequest {
     pub certificate_type: InstallCertificateUseEnumType,

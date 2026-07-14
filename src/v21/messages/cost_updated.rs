@@ -1,4 +1,4 @@
-//! OCPP 2.1 CostUpdated request/response payloads.
+//! OCPP 2.1 `CostUpdated` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use alloc::string::String;
@@ -14,7 +14,7 @@ pub struct CostUpdatedRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CostUpdatedResponse {
     #[serde(skip_serializing_if = "Option::is_none")]

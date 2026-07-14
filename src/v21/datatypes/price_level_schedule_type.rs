@@ -1,4 +1,4 @@
-//! PriceLevelScheduleType
+//! `PriceLevelScheduleType`
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::PriceLevelScheduleEntryType;

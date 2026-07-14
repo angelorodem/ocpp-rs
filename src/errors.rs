@@ -18,12 +18,12 @@ pub enum Error {
     UnknownPendingMessageId(String),
     /// Action name string is not a known OCPP 1.6 or 2.1 CALL action.
     UnknownActionName(String),
-    /// CallResult payload matched multiple response schemas and no single action was supplied.
+    /// `CallResult` payload matched multiple response schemas and no single action was supplied.
     AmbiguousCallResult(String),
     CallTypeMismatch(CallTypeMismatch),
     /// OCPP-J requires CALLRESULT / CALLERROR details payloads to be JSON objects.
     InvalidPayloadShape(&'static str),
-    /// MessageId longer than 36 characters, or (with `schema_validate`) a payload bounds failure.
+    /// `MessageId` longer than 36 characters, or (with `schema_validate`) a payload bounds failure.
     ConstraintViolation(ConstraintViolation),
     Custom(String),
 }

@@ -1,4 +1,4 @@
-//! DERCurveType
+//! `DERCurveType`
 use super::CustomDataType;
 use super::DERCurvePointsType;
 use super::DateTimeWrapper;

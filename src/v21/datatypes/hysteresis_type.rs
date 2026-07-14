@@ -1,4 +1,4 @@
-//! HysteresisType
+//! `HysteresisType`
 use super::CustomDataType;
 use serde::{Deserialize, Serialize};
 

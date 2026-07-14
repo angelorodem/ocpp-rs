@@ -1,4 +1,4 @@
-//! OCPP 2.1 GetReport request/response payloads.
+//! OCPP 2.1 `GetReport` request/response payloads.
 
 use crate::v21::datatypes::ComponentVariableType;
 use crate::v21::datatypes::CustomDataType;

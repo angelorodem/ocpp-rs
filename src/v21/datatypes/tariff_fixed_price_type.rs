@@ -1,4 +1,4 @@
-//! TariffFixedPriceType
+//! `TariffFixedPriceType`
 use super::CustomDataType;
 use super::TariffConditionsFixedType;
 use serde::{Deserialize, Serialize};

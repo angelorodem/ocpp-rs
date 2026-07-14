@@ -1,4 +1,4 @@
-//! OCPP 2.1 GetDisplayMessages request/response payloads.
+//! OCPP 2.1 `GetDisplayMessages` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -16,7 +16,7 @@ pub enum GetDisplayMessagesStatusEnumType {
     Unknown,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetDisplayMessagesRequest {
     #[serde(skip_serializing_if = "Option::is_none")]

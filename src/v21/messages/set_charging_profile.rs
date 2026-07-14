@@ -1,4 +1,4 @@
-//! OCPP 2.1 SetChargingProfile request/response payloads.
+//! OCPP 2.1 `SetChargingProfile` request/response payloads.
 
 use crate::v21::datatypes::ChargingProfileType;
 use crate::v21::datatypes::CustomDataType;

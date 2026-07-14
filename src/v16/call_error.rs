@@ -4,7 +4,7 @@ use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 
 use super::rpc_error_code::RpcErrorCode;
 
-#[derive(Debug, PartialEq, Serialize_tuple, Deserialize_tuple, Clone)]
+#[derive(Debug, PartialEq, Eq, Serialize_tuple, Deserialize_tuple, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CallError {
     pub(super) message_id: i32,
@@ -32,7 +32,7 @@ impl CallError {
     }
 
     #[must_use]
-    pub fn not_implemented(unique_id: String, error_description: String) -> Self {
+    pub const fn not_implemented(unique_id: String, error_description: String) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::NotImplemented,
@@ -42,7 +42,7 @@ impl CallError {
     }
 
     #[must_use]
-    pub fn formation_violation(unique_id: String, error_description: String) -> Self {
+    pub const fn formation_violation(unique_id: String, error_description: String) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::FormationViolation,
@@ -52,7 +52,7 @@ impl CallError {
     }
 
     #[must_use]
-    pub fn property_constraint_violation(unique_id: String, error_description: String) -> Self {
+    pub const fn property_constraint_violation(unique_id: String, error_description: String) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::PropertyConstraintViolation,
@@ -62,7 +62,7 @@ impl CallError {
     }
 
     #[must_use]
-    pub fn occurence_constraint_violation(unique_id: String, error_description: String) -> Self {
+    pub const fn occurence_constraint_violation(unique_id: String, error_description: String) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::OccurenceConstraintViolation,

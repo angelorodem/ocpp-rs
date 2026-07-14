@@ -1,4 +1,4 @@
-//! OCPP 2.1 Get15118EVCertificate request/response payloads.
+//! OCPP 2.1 `Get15118EVCertificate` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -24,7 +24,7 @@ pub enum Iso15118EVCertificateStatusEnumType {
     Failed,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Get15118EVCertificateRequest {
     pub iso15118_schema_version: String,

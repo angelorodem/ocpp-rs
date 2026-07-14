@@ -1,6 +1,6 @@
 //! OCPP 2.1 protocol types and OCPP-J framing.
 //!
-//! # CallResult typing
+//! # `CallResult` typing
 //!
 //! CALLRESULT frames do not include an action name. Options:
 //!

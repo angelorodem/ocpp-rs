@@ -1,4 +1,4 @@
-//! DayOfWeekEnumType
+//! `DayOfWeekEnumType`
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

@@ -1,4 +1,4 @@
-//! ChargingScheduleType
+//! `ChargingScheduleType`
 use super::AbsolutePriceScheduleType;
 use super::ChargingSchedulePeriodType;
 use super::CustomDataType;

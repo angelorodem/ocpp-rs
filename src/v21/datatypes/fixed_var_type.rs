@@ -1,4 +1,4 @@
-//! FixedVarType
+//! `FixedVarType`
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use crate::v21::enumerations::DERUnitEnumType;

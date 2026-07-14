@@ -1,4 +1,4 @@
-//! OCPP 2.1 NotifyEVChargingSchedule request/response payloads.
+//! OCPP 2.1 `NotifyEVChargingSchedule` request/response payloads.
 
 use crate::v21::datatypes::ChargingScheduleType;
 use crate::v21::datatypes::CustomDataType;

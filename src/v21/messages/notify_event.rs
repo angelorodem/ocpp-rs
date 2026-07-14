@@ -1,4 +1,4 @@
-//! OCPP 2.1 NotifyEvent request/response payloads.
+//! OCPP 2.1 `NotifyEvent` request/response payloads.
 
 use crate::v21::datatypes::ComponentType;
 use crate::v21::datatypes::CustomDataType;
@@ -72,7 +72,7 @@ pub struct NotifyEventRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct NotifyEventResponse {
     #[serde(skip_serializing_if = "Option::is_none")]

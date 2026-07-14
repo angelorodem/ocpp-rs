@@ -437,159 +437,159 @@ impl TypedCallResult {
         match self {
             Self::Authorize(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::BootNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::CancelReservation(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::CertificateSigned(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::ChangeAvailability(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::ChangeConfiguration(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::ClearCache(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::ClearChargingProfile(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::DataTransfer(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::DeleteCertificate(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::DiagnosticsStatusNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::ExtendedTriggerMessage(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::FirmwareStatusNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::GetCompositeSchedule(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::GetConfiguration(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::GetDiagnostics(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::GetInstalledCertificateIds(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::GetLocalListVersion(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::GetLog(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::Heartbeat(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::InstallCertificate(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::LogStatusNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::MeterValues(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::RemoteStartTransaction(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::RemoteStopTransaction(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::ReserveNow(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::Reset(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::SecurityEventNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::SendLocalList(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::SetChargingProfile(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::SignCertificate(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::SignedFirmwareStatusNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::SignedUpdateFirmware(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::StartTransaction(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::StatusNotification(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::StopTransaction(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::TriggerMessage(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::UnlockConnector(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
             Self::UpdateFirmware(cr) => {
                 let payload = serde_json::to_value(&cr.payload).map_err(Error::SerdeJson)?;
-                Ok(CallResultRaw::new(cr.unique_id.clone(), payload))
+                Ok(CallResultRaw::new(cr.unique_id, payload))
             }
         }
     }
@@ -836,7 +836,7 @@ impl TypedCallResult {
             out.push(typed);
         }
         if let Ok(typed) = Self::resolve_from_action_name(
-            CallResultRaw::new(unique_id.clone(), payload.clone()),
+            CallResultRaw::new(unique_id, payload),
             "UpdateFirmware",
         ) {
             out.push(typed);

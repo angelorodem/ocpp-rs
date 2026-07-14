@@ -1,4 +1,4 @@
-//! OCPP 2.1 SetDisplayMessage request/response payloads.
+//! OCPP 2.1 `SetDisplayMessage` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::MessageInfoType;

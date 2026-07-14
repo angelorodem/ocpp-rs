@@ -21,7 +21,7 @@
 //! Migration from 0.2.x: `guides/migration-0.4.md`.
 //!
 //! ## OCPP 2.1
-//! Same CallResult model under [`v21::pending`]. Framing includes types 2–6
+//! Same `CallResult` model under [`v21::pending`]. Framing includes types 2–6
 //! (CALL, CALLRESULT, CALLERROR, CALLRESULTERROR, SEND).
 //! Datetime helpers share [`datetime`] with v16 (RFC3339 parse; `%.3fZ` serialize by default).
 //!
@@ -40,7 +40,7 @@
 //! }
 //! ```
 //!
-//! ## Example (1.6 CallResult with PendingCalls)
+//! ## Example (1.6 `CallResult` with `PendingCalls`)
 //! ```rust
 //! use ocpp_rs::v16::call::{Action, Call, Heartbeat};
 //! use ocpp_rs::v16::parse::TypedMessage;

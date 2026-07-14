@@ -1,4 +1,4 @@
-//! SalesTariffType
+//! `SalesTariffType`
 use super::CustomDataType;
 use super::SalesTariffEntryType;
 use alloc::string::String;

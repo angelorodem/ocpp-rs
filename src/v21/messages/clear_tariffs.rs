@@ -1,4 +1,4 @@
-//! OCPP 2.1 ClearTariffs request/response payloads.
+//! OCPP 2.1 `ClearTariffs` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -32,7 +32,7 @@ pub struct ClearTariffsResultType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ClearTariffsRequest {
     #[serde(skip_serializing_if = "Option::is_none")]

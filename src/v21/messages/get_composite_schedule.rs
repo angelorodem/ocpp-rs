@@ -1,4 +1,4 @@
-//! OCPP 2.1 GetCompositeSchedule request/response payloads.
+//! OCPP 2.1 `GetCompositeSchedule` request/response payloads.
 
 use crate::v21::datatypes::ChargingSchedulePeriodType;
 use crate::v21::datatypes::CustomDataType;
@@ -23,7 +23,7 @@ pub struct CompositeScheduleType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetCompositeScheduleRequest {
     pub duration: i32,

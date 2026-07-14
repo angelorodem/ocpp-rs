@@ -1,4 +1,4 @@
-//! V2XFreqWattPointType
+//! `V2XFreqWattPointType`
 use super::CustomDataType;
 use serde::{Deserialize, Serialize};
 

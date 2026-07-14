@@ -1,4 +1,4 @@
-//! OCPP 2.1 CertificateSigned request/response payloads.
+//! OCPP 2.1 `CertificateSigned` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -15,7 +15,7 @@ pub enum CertificateSignedStatusEnumType {
     Rejected,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CertificateSignedRequest {
     pub certificate_chain: String,

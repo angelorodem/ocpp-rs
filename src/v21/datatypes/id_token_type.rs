@@ -1,4 +1,4 @@
-//! IdTokenType
+//! `IdTokenType`
 use super::AdditionalInfoType;
 use super::CustomDataType;
 use alloc::string::String;

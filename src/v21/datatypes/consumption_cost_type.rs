@@ -1,4 +1,4 @@
-//! ConsumptionCostType
+//! `ConsumptionCostType`
 use super::CostType;
 use super::CustomDataType;
 use alloc::vec::Vec;

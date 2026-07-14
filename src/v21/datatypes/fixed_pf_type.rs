@@ -1,4 +1,4 @@
-//! FixedPFType
+//! `FixedPFType`
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use serde::{Deserialize, Serialize};

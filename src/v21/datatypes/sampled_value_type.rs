@@ -1,4 +1,4 @@
-//! SampledValueType
+//! `SampledValueType`
 use super::CustomDataType;
 use super::SignedMeterValueType;
 use super::UnitOfMeasureType;

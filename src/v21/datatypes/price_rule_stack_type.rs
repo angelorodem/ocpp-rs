@@ -1,4 +1,4 @@
-//! PriceRuleStackType
+//! `PriceRuleStackType`
 use super::CustomDataType;
 use super::PriceRuleType;
 use alloc::vec::Vec;

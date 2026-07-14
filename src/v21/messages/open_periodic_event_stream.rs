@@ -1,4 +1,4 @@
-//! OCPP 2.1 OpenPeriodicEventStream request/response payloads.
+//! OCPP 2.1 `OpenPeriodicEventStream` request/response payloads.
 
 use crate::v21::datatypes::ConstantStreamDataType;
 use crate::v21::datatypes::CustomDataType;

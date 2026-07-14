@@ -1,4 +1,4 @@
-//! TariffConditionsType
+//! `TariffConditionsType`
 use super::CustomDataType;
 use crate::v21::enumerations::DayOfWeekEnumType;
 use crate::v21::enumerations::EvseKindEnumType;

@@ -1,11 +1,11 @@
-//! OCPP 2.1 SecurityEventNotification request/response payloads.
+//! OCPP 2.1 `SecurityEventNotification` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SecurityEventNotificationRequest {
     #[serde(rename = "type")]
@@ -20,7 +20,7 @@ pub struct SecurityEventNotificationRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SecurityEventNotificationResponse {
     #[serde(skip_serializing_if = "Option::is_none")]

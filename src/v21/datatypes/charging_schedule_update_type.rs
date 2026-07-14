@@ -1,4 +1,4 @@
-//! ChargingScheduleUpdateType
+//! `ChargingScheduleUpdateType`
 use super::CustomDataType;
 use serde::{Deserialize, Serialize};
 

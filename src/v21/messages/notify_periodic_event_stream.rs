@@ -1,4 +1,4 @@
-//! OCPP 2.1 SEND payload: NotifyPeriodicEventStream.
+//! OCPP 2.1 SEND payload: `NotifyPeriodicEventStream`.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;

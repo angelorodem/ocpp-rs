@@ -1,4 +1,4 @@
-//! OCPP 2.1 UnpublishFirmware request/response payloads.
+//! OCPP 2.1 `UnpublishFirmware` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use alloc::string::String;
@@ -15,7 +15,7 @@ pub enum UnpublishFirmwareStatusEnumType {
     Unpublished,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UnpublishFirmwareRequest {
     pub checksum: String,
@@ -24,7 +24,7 @@ pub struct UnpublishFirmwareRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UnpublishFirmwareResponse {
     pub status: UnpublishFirmwareStatusEnumType,

@@ -1,4 +1,4 @@
-//! ComponentVariableType
+//! `ComponentVariableType`
 use super::ComponentType;
 use super::CustomDataType;
 use super::VariableType;

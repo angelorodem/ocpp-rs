@@ -1,4 +1,4 @@
-//! OCPP 2.1 RequestBatterySwap request/response payloads.
+//! OCPP 2.1 `RequestBatterySwap` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::IdTokenType;

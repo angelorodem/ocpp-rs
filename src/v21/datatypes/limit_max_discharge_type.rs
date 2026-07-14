@@ -1,4 +1,4 @@
-//! LimitMaxDischargeType
+//! `LimitMaxDischargeType`
 use super::CustomDataType;
 use super::DERCurveType;
 use super::DateTimeWrapper;

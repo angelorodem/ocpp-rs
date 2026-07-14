@@ -1,4 +1,4 @@
-//! OCPP 2.1 ClearVariableMonitoring request/response payloads.
+//! OCPP 2.1 `ClearVariableMonitoring` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -29,7 +29,7 @@ pub struct ClearMonitoringResultType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ClearVariableMonitoringRequest {
     pub id: Vec<i32>,

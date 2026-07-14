@@ -1,4 +1,4 @@
-//! TariffConditionsFixedType
+//! `TariffConditionsFixedType`
 use super::CustomDataType;
 use crate::v21::enumerations::DayOfWeekEnumType;
 use crate::v21::enumerations::EvseKindEnumType;
@@ -6,7 +6,7 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct TariffConditionsFixedType {
     #[serde(skip_serializing_if = "Option::is_none")]

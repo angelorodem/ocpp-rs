@@ -1,4 +1,4 @@
-//! OCPP 2.1 NotifyReport request/response payloads.
+//! OCPP 2.1 `NotifyReport` request/response payloads.
 
 use crate::v21::datatypes::ComponentType;
 use crate::v21::datatypes::CustomDataType;
@@ -41,7 +41,7 @@ pub enum MutabilityEnumType {
     ReadWrite,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct VariableAttributeType {
     #[serde(rename = "type")]
@@ -122,7 +122,7 @@ pub struct NotifyReportRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct NotifyReportResponse {
     #[serde(skip_serializing_if = "Option::is_none")]

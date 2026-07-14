@@ -1,12 +1,15 @@
 //! Regression: pathological f64 JSON is not a fixed point of the *first*
 //! parse→serialize, but the canonical form after one cycle must be stable.
+//!
+//! Uses `CostUpdated.totalCost` (no schema maximum) so this also passes with
+//! `schema_validate` — unlike bounded fields such as `BatterySwap.soC`.
 
 #[test]
 fn v21_canonical_serialize_stable_after_one_cycle() {
     let s = concat!(
-        r#"[2,"t","BatterySwap",{"batteryData":[{"evseId":0,"serialNumber":"x","soC":"#,
+        r#"[2,"t","CostUpdated",{"totalCost":"#,
         "444444444444444444444440.0",
-        r#","soH":0.0}],"eventType":"BatteryIn","idToken":{"idToken":"x","type":"x"},"requestId":0}]"#,
+        r#","transactionId":"x"}]"#,
     );
     let msg = ocpp_rs::v21::parse::deserialize_to_message(s).unwrap();
     let wire = ocpp_rs::v21::parse::serialize_message(&msg).unwrap();

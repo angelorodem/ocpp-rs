@@ -1,4 +1,4 @@
-//! ChargingProfileType
+//! `ChargingProfileType`
 use super::ChargingScheduleType;
 use super::CustomDataType;
 use super::DateTimeWrapper;

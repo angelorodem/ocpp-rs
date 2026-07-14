@@ -1,4 +1,4 @@
-//! ChargingSchedulePeriodType
+//! `ChargingSchedulePeriodType`
 use super::CustomDataType;
 use super::V2XFreqWattPointType;
 use super::V2XSignalWattPointType;

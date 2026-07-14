@@ -1,4 +1,4 @@
-//! OverstayRuleListType
+//! `OverstayRuleListType`
 use super::CustomDataType;
 use super::OverstayRuleType;
 use super::RationalNumberType;

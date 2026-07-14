@@ -1,4 +1,4 @@
-//! PriceRuleType
+//! `PriceRuleType`
 use super::CustomDataType;
 use super::RationalNumberType;
 use serde::{Deserialize, Serialize};

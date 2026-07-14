@@ -1,4 +1,4 @@
-//! OCPP 2.1 GetTariffs request/response payloads.
+//! OCPP 2.1 `GetTariffs` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
@@ -27,7 +27,7 @@ pub enum TariffKindEnumType {
     DriverTariff,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct TariffAssignmentType {
     pub tariff_id: String,
@@ -47,7 +47,7 @@ pub struct TariffAssignmentType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct GetTariffsRequest {
     pub evse_id: i32,

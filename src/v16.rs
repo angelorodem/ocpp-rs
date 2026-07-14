@@ -1,6 +1,6 @@
 //! OCPP 1.6 protocol types and OCPP-J framing.
 //!
-//! # CallResult typing
+//! # `CallResult` typing
 //!
 //! CALLRESULT has no action on the wire. Use [`pending`] (same model as [`crate::v21::pending`]).
 //! Datetime formatting remains the strict v16 ISO8601 helpers in [`utils`].

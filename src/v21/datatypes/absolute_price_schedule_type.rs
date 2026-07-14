@@ -1,4 +1,4 @@
-//! AbsolutePriceScheduleType
+//! `AbsolutePriceScheduleType`
 use super::AdditionalSelectedServicesType;
 use super::CustomDataType;
 use super::DateTimeWrapper;

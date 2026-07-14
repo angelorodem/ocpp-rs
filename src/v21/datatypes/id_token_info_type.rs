@@ -1,4 +1,4 @@
-//! IdTokenInfoType
+//! `IdTokenInfoType`
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::IdTokenType;

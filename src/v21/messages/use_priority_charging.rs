@@ -1,4 +1,4 @@
-//! OCPP 2.1 UsePriorityCharging request/response payloads.
+//! OCPP 2.1 `UsePriorityCharging` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
@@ -16,7 +16,7 @@ pub enum PriorityChargingStatusEnumType {
     NoProfile,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UsePriorityChargingRequest {
     pub transaction_id: String,

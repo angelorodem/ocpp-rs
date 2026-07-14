@@ -68,7 +68,7 @@ pub const OCPP21_ONLY_ACTIONS: &[&str] = &[
 /// Whether `action` is defined only in OCPP 2.1.
 #[must_use]
 pub fn is_ocpp21_only_action(action: &str) -> bool {
-    OCPP21_ONLY_ACTIONS.iter().any(|a| *a == action)
+    OCPP21_ONLY_ACTIONS.contains(&action)
 }
 
 /// Whether an OCPP-J message type number is allowed for the negotiated version.
@@ -77,7 +77,7 @@ pub fn is_ocpp21_only_action(action: &str) -> bool {
 #[must_use]
 pub const fn allows_message_type(version: NegotiatedVersion, type_id: u8) -> bool {
     match type_id {
-        2 | 3 | 4 => true,
+        2..=4 => true,
         5 | 6 => matches!(version, NegotiatedVersion::Ocpp21),
         _ => false,
     }

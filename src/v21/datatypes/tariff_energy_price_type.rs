@@ -1,4 +1,4 @@
-//! TariffEnergyPriceType
+//! `TariffEnergyPriceType`
 use super::CustomDataType;
 use super::TariffConditionsType;
 use serde::{Deserialize, Serialize};

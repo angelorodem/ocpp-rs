@@ -1,4 +1,4 @@
-//! OCPP 2.1 NotifyDERAlarm request/response payloads.
+//! OCPP 2.1 `NotifyDERAlarm` request/response payloads.
 
 use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
@@ -33,7 +33,7 @@ pub enum GridEventFaultEnumType {
     VoltageImbalance,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct NotifyDERAlarmRequest {
     pub control_type: DERControlEnumType,
@@ -53,7 +53,7 @@ pub struct NotifyDERAlarmRequest {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct NotifyDERAlarmResponse {
     #[serde(skip_serializing_if = "Option::is_none")]

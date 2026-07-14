@@ -108,7 +108,7 @@ impl PendingCalls {
 
     /// Deserialize a wire frame and resolve CALLRESULT when a matching pending CALL exists.
     ///
-    /// - **CallResult**: requires a prior [`Self::register`] / [`Self::send_call`]
+    /// - **`CallResult`**: requires a prior [`Self::register`] / [`Self::send_call`]
     /// - Other variants: passed through (inbound CALLs are **not** auto-registered)
     ///
     /// # Errors

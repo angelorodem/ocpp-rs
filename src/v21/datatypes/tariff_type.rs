@@ -1,4 +1,4 @@
-//! TariffType
+//! `TariffType`
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::MessageContentType;

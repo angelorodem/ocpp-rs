@@ -1,4 +1,4 @@
-//! OCPP 2.1 UpdateDynamicSchedule request/response payloads.
+//! OCPP 2.1 `UpdateDynamicSchedule` request/response payloads.
 
 use crate::v21::datatypes::ChargingScheduleUpdateType;
 use crate::v21::datatypes::CustomDataType;

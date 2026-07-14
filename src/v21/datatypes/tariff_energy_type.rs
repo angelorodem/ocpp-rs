@@ -1,4 +1,4 @@
-//! TariffEnergyType
+//! `TariffEnergyType`
 use super::CustomDataType;
 use super::TariffEnergyPriceType;
 use super::TaxRateType;

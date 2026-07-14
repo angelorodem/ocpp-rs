@@ -1,4 +1,4 @@
-//! VoltageParamsType
+//! `VoltageParamsType`
 use super::CustomDataType;
 use crate::v21::enumerations::PowerDuringCessationEnumType;
 use serde::{Deserialize, Serialize};

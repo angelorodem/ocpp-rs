@@ -18,7 +18,7 @@ pub struct CustomDataType {
 
 impl CustomDataType {
     #[must_use]
-    pub fn new(vendor_id: String) -> Self {
+    pub const fn new(vendor_id: String) -> Self {
         Self {
             vendor_id,
             extra: BTreeMap::new(),

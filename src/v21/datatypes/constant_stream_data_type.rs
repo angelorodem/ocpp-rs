@@ -1,4 +1,4 @@
-//! ConstantStreamDataType
+//! `ConstantStreamDataType`
 use super::CustomDataType;
 use super::PeriodicEventStreamParamsType;
 use serde::{Deserialize, Serialize};

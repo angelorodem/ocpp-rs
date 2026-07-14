@@ -1,4 +1,4 @@
-//! PriceType
+//! `PriceType`
 use super::CustomDataType;
 use super::TaxRateType;
 use alloc::vec::Vec;

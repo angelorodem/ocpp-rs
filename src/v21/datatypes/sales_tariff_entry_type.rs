@@ -1,4 +1,4 @@
-//! SalesTariffEntryType
+//! `SalesTariffEntryType`
 use super::ConsumptionCostType;
 use super::CustomDataType;
 use super::RelativeTimeIntervalType;

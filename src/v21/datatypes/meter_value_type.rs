@@ -1,4 +1,4 @@
-//! MeterValueType
+//! `MeterValueType`
 use super::CustomDataType;
 use super::DateTimeWrapper;
 use super::SampledValueType;

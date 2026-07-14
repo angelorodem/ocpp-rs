@@ -1,4 +1,4 @@
-//! TaxRateType
+//! `TaxRateType`
 use super::CustomDataType;
 use alloc::string::String;
 use serde::{Deserialize, Serialize};

@@ -1,4 +1,4 @@
-//! V2XSignalWattPointType
+//! `V2XSignalWattPointType`
 use super::CustomDataType;
 use serde::{Deserialize, Serialize};
 

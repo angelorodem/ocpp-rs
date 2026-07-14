@@ -1,4 +1,4 @@
-//! TariffFixedType
+//! `TariffFixedType`
 use super::CustomDataType;
 use super::TariffFixedPriceType;
 use super::TaxRateType;

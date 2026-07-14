@@ -1,4 +1,4 @@
-//! TariffTimeType
+//! `TariffTimeType`
 use super::CustomDataType;
 use super::TariffTimePriceType;
 use super::TaxRateType;

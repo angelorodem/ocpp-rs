@@ -1,4 +1,4 @@
-//! ComponentType
+//! `ComponentType`
 use super::CustomDataType;
 use super::EVSEType;
 use alloc::string::String;
