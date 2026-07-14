@@ -13,7 +13,6 @@ Supports **OCPP 1.6** (JSON) and **OCPP 2.1** (additive / 2.0.1-compatible schem
 - Typed RPC framework error codes; MessageId length ≤ 36
 - Optional Part 3 schema bounds (`schema_validate`) and device-model catalogs
 - **`#![no_std]` + `alloc`** — zero `std` in library code (global allocator required on baremetal)
-- Inspired by [mobilityhouse/ocpp](https://github.com/mobilityhouse/ocpp); 2.1 layout inspired by [rust-ocpp](https://github.com/tommymalmqvist/rust-ocpp)
 
 ## Install
 
