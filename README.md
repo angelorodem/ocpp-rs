@@ -4,7 +4,7 @@ OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP)
 
 It supports **OCPP 1.6** and **OCPP 2.1** (2.0.1-compatible additive schemas).
 
-[Documentation](https://docs.rs/ocpp_rs/latest/ocpp_rs/)
+[Documentation](https://docs.rs/ocpp_rs/latest/ocpp_rs/) · [Changelog](CHANGELOG.md)
 
 - Full implementation of OCPP 1.6 and OCPP 2.1 message payloads
 - Batteries included: OCPP-J parse/serialize for both versions
@@ -74,7 +74,32 @@ Details: [`v16::pending`](src/v16/pending.rs), [migration guide](guides/migratio
 
 ## OCPP 2.1
 
-Same CallResult model under `v21::pending`. Framing includes types 2–6 (CALLRESULTERROR, SEND). See README sections in crate docs / `v21` module.
+Same CallResult correlation model under `v21::pending`. Framing includes types 2–6
+(CALL, CALLRESULT, CALLERROR, CALLRESULTERROR, SEND).
+
+```rust
+use ocpp_rs::v21::call::{Action, Call};
+use ocpp_rs::v21::messages::heartbeat::HeartbeatRequest;
+use ocpp_rs::v21::parse::TypedMessage;
+use ocpp_rs::v21::pending::PendingCalls;
+use ocpp_rs::v21::typed_call_result::TypedCallResult;
+
+let mut pending = PendingCalls::new();
+let call = Call::new(
+    "1".into(),
+    Action::Heartbeat(HeartbeatRequest { custom_data: None }),
+);
+// For Redis / multi-node: store call.action_kind() (== "Heartbeat") with the message id
+assert_eq!(call.action_kind(), "Heartbeat");
+let _wire = pending.send_call(call)?;
+let typed = pending.deserialize_typed(
+    r#"[3, "1", {"currentTime": "2024-01-01T00:00:00.000Z"}]"#,
+)?;
+assert!(matches!(
+    typed,
+    TypedMessage::CallResult(TypedCallResult::Heartbeat(_))
+));
+```
 
 ### Load-balanced example (2.1)
 

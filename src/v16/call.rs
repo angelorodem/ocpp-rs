@@ -1,7 +1,7 @@
 //! # Call
 //!
 //! This module contains the `Call` struct and its variants, which are the actions that can be sent to the Charge Point.
-//! //! ## Example
+//! ## Example
 //! Receiving a payload from a client:
 //! ```rust
 //! use ocpp_rs::v16::parse::{self, Message};
@@ -36,14 +36,13 @@ use super::enums::{
 };
 
 use super::utils::{iso8601_date_time, iso8601_date_time_optional};
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use alloc::vec::Vec;
 use serde::Deserializer;
 use serde::de::SeqAccess;
 use serde::{Deserialize, Serialize};
 use serde_tuple::Serialize_tuple;
 
-use crate::alloc::string::ToString;
 use strum_macros::AsRefStr;
 
 /// Call action enum that contains all the possible actions that can be sent to the Charge Point.\\
@@ -116,6 +115,12 @@ impl Call {
             action: payload.as_ref().to_string(),
             payload,
         }
+    }
+
+    /// OCPP action name for this CALL (same string as on the wire / Redis correlation).
+    #[must_use]
+    pub fn action_kind(&self) -> &str {
+        self.payload.as_ref()
     }
 }
 

@@ -90,8 +90,8 @@ Persist the action **name** string, then on any node:
 
 | Version | How to get the name on send |
 |---------|-----------------------------|
-| 1.6 | `call.payload.as_ref()` (`Action` is `AsRefStr`) → e.g. `"Heartbeat"` |
-| 2.1 | `call.payload.action_name()` or `call.action_kind()` |
+| 1.6 | `call.action_kind()` or `call.payload.as_ref()` → e.g. `"Heartbeat"` |
+| 2.1 | `call.action_kind()` or `call.payload.action_name()` |
 
 ```rust
 use ocpp_rs::v16::pending::resolve_with_action_name;

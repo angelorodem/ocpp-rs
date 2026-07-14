@@ -311,3 +311,167 @@ fn signed_firmware_status_security_variants() {
         other => panic!("unexpected: {other:?}"),
     }
 }
+
+#[test]
+fn call_action_kind_matches_wire_action() {
+    let call = ocpp_rs::v16::call::Call::new(
+        "1".into(),
+        Action::Heartbeat(ocpp_rs::v16::call::Heartbeat {}),
+    );
+    assert_eq!(call.action_kind(), "Heartbeat");
+}
+
+#[test]
+fn get_log_roundtrip() {
+    let data = r#"[2, "gl1", "GetLog", {
+        "logType": "DiagnosticsLog",
+        "requestId": 7,
+        "retries": 2,
+        "log": {
+            "remoteLocation": "ftp://example/logs",
+            "oldestTimestamp": "2024-01-01T00:00:00.000Z"
+        }
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse");
+    let wire = serialize_message(&message).expect("serialize");
+    let again = deserialize_to_message(&wire).expect("roundtrip");
+    match again {
+        Message::Call(call) => match call.payload {
+            Action::GetLog(log) => {
+                assert_eq!(log.request_id, 7);
+                assert_eq!(log.log.remote_location, "ftp://example/logs");
+                assert!(log.log.oldest_timestamp.is_some());
+            }
+            other => panic!("unexpected: {other:?}"),
+        },
+        other => panic!("unexpected: {other:?}"),
+    }
+}
+
+#[test]
+fn delete_certificate_roundtrip() {
+    let data = r#"[2, "dc1", "DeleteCertificate", {
+        "certificateHashData": {
+            "hashAlgorithm": "SHA256",
+            "issuerNameHash": "aa",
+            "issuerKeyHash": "bb",
+            "serialNumber": "01"
+        }
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse");
+    let wire = serialize_message(&message).expect("serialize");
+    let again = deserialize_to_message(&wire).expect("roundtrip");
+    match again {
+        Message::Call(call) => match call.payload {
+            Action::DeleteCertificate(del) => {
+                assert_eq!(del.certificate_hash_data.serial_number, "01");
+                assert_eq!(
+                    del.certificate_hash_data.hash_algorithm,
+                    ocpp_rs::v16::enums::HashAlgorithm::SHA256
+                );
+            }
+            other => panic!("unexpected: {other:?}"),
+        },
+        other => panic!("unexpected: {other:?}"),
+    }
+}
+
+#[test]
+fn signed_update_firmware_roundtrip() {
+    let data = r#"[2, "suf1", "SignedUpdateFirmware", {
+        "requestId": 3,
+        "firmware": {
+            "location": "https://example/fw.bin",
+            "retrieveDateTime": "2024-06-01T10:00:00.000Z",
+            "signingCertificate": "CERT",
+            "signature": "SIG"
+        }
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse");
+    let wire = serialize_message(&message).expect("serialize");
+    let again = deserialize_to_message(&wire).expect("roundtrip");
+    match again {
+        Message::Call(call) => match call.payload {
+            Action::SignedUpdateFirmware(fw) => {
+                assert_eq!(fw.request_id, 3);
+                assert_eq!(fw.firmware.location, "https://example/fw.bin");
+                assert_eq!(fw.firmware.signature.as_deref(), Some("SIG"));
+            }
+            other => panic!("unexpected: {other:?}"),
+        },
+        other => panic!("unexpected: {other:?}"),
+    }
+}
+
+#[test]
+fn security_event_notification_roundtrip() {
+    let data = r#"[2, "sen1", "SecurityEventNotification", {
+        "type": "FirmwareUpdated",
+        "timestamp": "2024-06-01T12:00:00.000Z",
+        "techInfo": "ok"
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse");
+    let wire = serialize_message(&message).expect("serialize");
+    let again = deserialize_to_message(&wire).expect("roundtrip");
+    match again {
+        Message::Call(call) => match call.payload {
+            Action::SecurityEventNotification(ev) => {
+                assert_eq!(ev.event_type, "FirmwareUpdated");
+                assert_eq!(ev.tech_info.as_deref(), Some("ok"));
+            }
+            other => panic!("unexpected: {other:?}"),
+        },
+        other => panic!("unexpected: {other:?}"),
+    }
+}
+
+#[test]
+fn install_certificate_and_get_installed_ids_roundtrip() {
+    let install = r#"[2, "ic1", "InstallCertificate", {
+        "certificateType": "CentralSystemRootCertificate",
+        "certificate": "PEMDATA"
+    }]"#;
+    let message = deserialize_to_message(install).expect("parse install");
+    let wire = serialize_message(&message).expect("serialize");
+    let _ = deserialize_to_message(&wire).expect("roundtrip install");
+
+    let get_ids = r#"[2, "gi1", "GetInstalledCertificateIds", {
+        "certificateType": "ManufacturerRootCertificate"
+    }]"#;
+    let message = deserialize_to_message(get_ids).expect("parse get ids");
+    match message {
+        Message::Call(call) => {
+            assert_eq!(call.action_kind(), "GetInstalledCertificateIds");
+            match call.payload {
+                Action::GetInstalledCertificateIds(g) => {
+                    assert_eq!(
+                        g.certificate_type,
+                        ocpp_rs::v16::enums::CertificateUse::ManufacturerRootCertificate
+                    );
+                }
+                other => panic!("unexpected: {other:?}"),
+            }
+        }
+        other => panic!("unexpected: {other:?}"),
+    }
+}
+
+#[test]
+fn extended_trigger_message_security_triggers() {
+    let data = r#"[2, "et1", "ExtendedTriggerMessage", {
+        "requestedMessage": "SignChargePointCertificate"
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse");
+    match message {
+        Message::Call(call) => match call.payload {
+            Action::ExtendedTriggerMessage(t) => {
+                assert_eq!(
+                    t.requested_message,
+                    ocpp_rs::v16::enums::MessageTrigger::SignChargePointCertificate
+                );
+            }
+            other => panic!("unexpected: {other:?}"),
+        },
+        other => panic!("unexpected: {other:?}"),
+    }
+}
