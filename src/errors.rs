@@ -1,6 +1,8 @@
 use alloc::string::{FromUtf8Error, String, ToString};
 use core::{fmt::Display, num::ParseIntError};
 
+use crate::validate::ConstraintViolation;
+
 pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug)]
@@ -19,6 +21,8 @@ pub enum Error {
     /// CallResult payload matched multiple response schemas and no single action was supplied.
     AmbiguousCallResult(String),
     CallTypeMismatch(CallTypeMismatch),
+    /// OCPP-J MessageId length or Part 3 schema constraint failure.
+    ConstraintViolation(ConstraintViolation),
     Custom(String),
 }
 
@@ -31,6 +35,12 @@ impl Error {
 impl From<&str> for Error {
     fn from(s: &str) -> Self {
         Self::Custom(s.to_string())
+    }
+}
+
+impl From<ConstraintViolation> for Error {
+    fn from(v: ConstraintViolation) -> Self {
+        Self::ConstraintViolation(v)
     }
 }
 
@@ -49,6 +59,7 @@ impl Display for Error {
             Self::UnknownActionName(name) => write!(f, "UnknownActionName: {name}"),
             Self::AmbiguousCallResult(detail) => write!(f, "AmbiguousCallResult: {detail}"),
             Self::CallTypeMismatch(e) => write!(f, "CallTypeMismatch: {e:?}"),
+            Self::ConstraintViolation(e) => write!(f, "ConstraintViolation: {e}"),
             Self::Custom(e) => write!(f, "{e}"),
         }
     }

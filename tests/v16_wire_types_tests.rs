@@ -1,4 +1,4 @@
-//! Schema-shaped round-trips for nested OCPP 1.6 types fixed in 0.3.
+//! Schema-shaped round-trips for nested OCPP 1.6 wire types.
 
 use ocpp_rs::v16::call::{Action, RemoteStartTransaction, SendLocalList, SetChargingProfile};
 use ocpp_rs::v16::call_result::{self, CallResultRaw};
@@ -272,13 +272,14 @@ fn stop_transaction_conf_allows_empty() {
 fn call_error_accepts_nested_json_details() {
     use ocpp_rs::v16::call_error::CallError;
     use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};
+    use ocpp_rs::v16::rpc_error_code::RpcErrorCode;
     use std::collections::BTreeMap;
 
     let mut details = BTreeMap::new();
     details.insert("nested".into(), serde_json::json!({"code": 42, "ok": true}));
     let err = CallError::new(
         "e1".into(),
-        "FormationViolation".into(),
+        RpcErrorCode::FormationViolation,
         "bad payload".into(),
         details,
     );

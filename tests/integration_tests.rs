@@ -273,7 +273,7 @@ fn test_call_error_scenarios() {
     match message {
         Message::CallError(call_error) => {
             assert_eq!(call_error.unique_id, "12345");
-            assert_eq!(call_error.error_code, "GenericError");
+            assert_eq!(call_error.error_code, ocpp_rs::v16::rpc_error_code::RpcErrorCode::GenericError);
             assert_eq!(call_error.error_description, "Generic error description");
         }
         _ => panic!("Expected CallError"),
@@ -659,18 +659,22 @@ fn test_reset_and_unlock_operations() {
 }
 
 #[test]
-fn test_long_unique_ids() {
-    // Test with very long unique ID (edge case for memory management)
-    let long_id = "a".repeat(1000);
-    let data = format!("[2, \"{}\", \"Heartbeat\", {{}}]", long_id);
-
+fn test_message_id_max_length() {
+    let ok_id = "a".repeat(36);
+    let data = format!("[2, \"{ok_id}\", \"Heartbeat\", {{}}]");
     let message = deserialize_to_message(&data).unwrap();
     match message {
-        Message::Call(call) => {
-            assert_eq!(call.unique_id, long_id);
-        }
+        Message::Call(call) => assert_eq!(call.unique_id, ok_id),
         _ => panic!("Expected Call"),
     }
+
+    let long_id = "a".repeat(37);
+    let data = format!("[2, \"{long_id}\", \"Heartbeat\", {{}}]");
+    let err = deserialize_to_message(&data).unwrap_err();
+    assert!(matches!(
+        err,
+        ocpp_rs::errors::Error::ConstraintViolation(_)
+    ));
 }
 
 #[test]
@@ -740,7 +744,7 @@ fn test_serialization_roundtrip_all_message_types() {
     // Test CallError messages
     let error_msg = Message::CallError(ocpp_rs::v16::call_error::CallError::new(
         "test_001".to_string(),
-        "InternalError".to_string(),
+        ocpp_rs::v16::rpc_error_code::RpcErrorCode::InternalError,
         "Test error".to_string(),
         Default::default(),
     ));
@@ -1218,7 +1222,7 @@ fn test_message_id_consistency() {
 
     let call_error = Message::CallError(ocpp_rs::v16::call_error::CallError::new(
         "test".to_string(),
-        "GenericError".to_string(),
+        ocpp_rs::v16::rpc_error_code::RpcErrorCode::GenericError,
         "Test error".to_string(),
         Default::default(),
     ));
@@ -1228,11 +1232,11 @@ fn test_message_id_consistency() {
 
 #[test]
 fn test_unique_id_edge_cases() {
-    let long_id = "a".repeat(100);
+    let max_id = "a".repeat(36);
     let edge_case_ids = vec![
         "",            // Empty string
         "0",           // Single character
-        &long_id,      // Very long ID
+        &max_id,       // Max length MessageId
         "123-456-789", // With hyphens
         "ID_WITH_UNDERSCORES",
         "id with spaces", // With spaces

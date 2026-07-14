@@ -133,7 +133,7 @@ fn framing_all_message_types_roundtrip() {
     // Type 4
     let j = parse::serialize_message(&Message::CallError(CallError::new(
         "m4".into(),
-        "NotImplemented".into(),
+        ocpp_rs::v21::rpc_error_code::RpcErrorCode::NotImplemented,
         "".into(),
         BTreeMap::new(),
     )))
@@ -143,7 +143,7 @@ fn framing_all_message_types_roundtrip() {
     // Type 5
     let j = parse::serialize_message(&Message::CallResultError(CallResultError::new(
         "m5".into(),
-        "GenericError".into(),
+        ocpp_rs::v21::rpc_error_code::RpcErrorCode::GenericError,
         "unusable".into(),
         BTreeMap::new(),
     )))
@@ -810,6 +810,7 @@ fn production_like_session_boot_auth_transaction() {
             firmware_version: None,
             custom_data: Some(CustomDataType {
                 vendor_id: "VendorY".into(),
+                extra: Default::default(),
             }),
         },
         custom_data: None,

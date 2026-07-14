@@ -1,0 +1,46 @@
+[package]
+name = "ocpp_rs-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+ocpp_rs = { path = ".." }
+
+[profile.release]
+debug = 1
+
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "v16_deserialize"
+path = "fuzz_targets/v16_deserialize.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v21_deserialize"
+path = "fuzz_targets/v21_deserialize.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v16_roundtrip"
+path = "fuzz_targets/v16_roundtrip.rs"
+doc = false
+bench = false
+test = false
+
+[[bin]]
+name = "v21_roundtrip"
+path = "fuzz_targets/v21_roundtrip.rs"
+doc = false
+bench = false
+test = false

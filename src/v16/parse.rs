@@ -29,23 +29,34 @@ pub enum TypedMessage {
 
 /// Parses a JSON string into a [`Message`].
 ///
+/// Always enforces MessageId / UniqueId length ≤ 36.
+/// With feature `schema_validate`, also enforces Part 3 / 1.6 schema bounds on CALL payloads.
+///
 /// # Errors
-/// Message type not in 2..=4 or JSON failure.
+/// Message type not in 2..=4, JSON failure, or constraint violation.
 pub fn deserialize_to_message(data: &str) -> Result<Message> {
     let call_type = get_call_type(data)?;
 
     match call_type {
         2 => {
             let call: Call = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&call.unique_id)?;
+            #[cfg(feature = "schema_validate")]
+            {
+                let payload = serde_json::to_value(&call.payload).map_err(Error::SerdeJson)?;
+                super::validate_gen::validate_action_payload(call.action_kind(), &payload)?;
+            }
             Ok(Message::Call(call))
         }
         3 => {
             let call_result: CallResultRaw =
                 serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&call_result.unique_id)?;
             Ok(Message::CallResult(call_result))
         }
         4 => {
             let call_error: CallError = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&call_error.unique_id)?;
             Ok(Message::CallError(call_error))
         }
         _ => Err(Error::InvalidMessageCallType),

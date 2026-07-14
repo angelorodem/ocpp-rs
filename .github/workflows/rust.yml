@@ -62,6 +62,12 @@ jobs:
             features: ""
           - label: datetime_serialize_rfc3339
             features: datetime_serialize_rfc3339
+          - label: schema_validate
+            features: schema_validate
+          - label: device_model_catalog
+            features: device_model_catalog
+          - label: all-features
+            features: datetime_serialize_rfc3339,schema_validate,device_model_catalog
 
     steps:
       - uses: actions/checkout@v4
@@ -110,3 +116,25 @@ jobs:
 
       - name: Freestanding thumbv7em-none-eabi
         run: cargo build --lib --target thumbv7em-none-eabi --verbose
+
+  codegen:
+    name: codegen --check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check generated validators / device model
+        run: |
+          # Schemas/CSVs live under docs/ (may be absent on shallow clones without extracts).
+          if [ -d docs/2-1-raw/schemas ]; then
+            python tools/gen_validate.py --check
+          else
+            echo "skip gen_validate --check (no docs/2-1-raw/schemas)"
+          fi
+          if [ -d docs/2-1-raw/appendices-csv ]; then
+            python tools/gen_device_model.py --check
+          else
+            echo "skip gen_device_model --check (no appendices-csv)"
+          fi

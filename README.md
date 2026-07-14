@@ -1,58 +1,57 @@
 # OCPP-RS
 
-OCPP-RS is a Rust library for implementing the Open Charge Point Protocol (OCPP) in Rust.
+Rust protocol library for the [Open Charge Point Protocol](https://www.openchargealliance.org/) (OCPP).
 
-It supports **OCPP 1.6** and **OCPP 2.1** (2.0.1-compatible additive schemas).
+Supports **OCPP 1.6** (JSON) and **OCPP 2.1** (additive / 2.0.1-compatible schemas).
 
-[Documentation](https://docs.rs/ocpp_rs/latest/ocpp_rs/) · [Changelog](CHANGELOG.md)
+[Documentation](https://docs.rs/ocpp_rs/latest/ocpp_rs/) · [Changelog](CHANGELOG.md) · [Guides](guides/)
 
-- Full implementation of OCPP 1.6 and OCPP 2.1 message payloads
-- Batteries included: OCPP-J parse/serialize for both versions
+## Features
+
+- Full OCPP 1.6 and 2.1 message payloads + OCPP-J parse/serialize
 - CallResult typing via `PendingCalls` / action-name correlation (no untagged guessing)
-- **`#![no_std]` + `alloc`** — library code never uses `std` (baremetal-friendly). You must provide a global allocator (e.g. `embedded-alloc`, `linked_list_allocator`, or your RTOS heap).
-- Inspired by a [python ocpp library](https://github.com/mobilityhouse/ocpp); 2.1 layout inspired by [rust-ocpp](https://github.com/tommymalmqvist/rust-ocpp)
+- Typed RPC framework error codes; MessageId length ≤ 36
+- Optional Part 3 schema bounds (`schema_validate`) and device-model catalogs
+- **`#![no_std]` + `alloc`** — zero `std` in library code (global allocator required on baremetal)
+- Inspired by [mobilityhouse/ocpp](https://github.com/mobilityhouse/ocpp); 2.1 layout inspired by [rust-ocpp](https://github.com/tommymalmqvist/rust-ocpp)
+
+## Install
+
+```toml
+[dependencies]
+ocpp-rs = "0.4"
+
+# Optional:
+# features = ["schema_validate", "device_model_catalog", "datetime_serialize_rfc3339"]
+```
+
+| Feature | Purpose |
+|---------|---------|
+| `schema_validate` | Enforce Part 3 / 1.6 string/array/numeric bounds after parse |
+| `device_model_catalog` | Standard 2.1 component/variable name tables |
+| `datetime_serialize_rfc3339` | Emit RFC3339 millis instead of `%.3fZ` |
+
+**MSRV:** 1.85 (edition 2024).
+
+Upgrading from **0.2.x:** [guides/migration-0.4.md](guides/migration-0.4.md).
 
 ## `no_std` / firmware
 
-The published library (`src/`) is `#![no_std]` + `alloc` end-to-end: zero `std::` usage, and dependencies are built with `default-features = false` (chrono without `clock`/`std`). Integration tests and `example/` may use `std` for host runners only — that does not leak into firmware consumers.
-
-You must provide a **global allocator** on baremetal (e.g. `embedded-alloc`, `linked_list_allocator`, or your RTOS heap).
-
 ```toml
-# Typical embedded consumer
 [dependencies]
-ocpp_rs = { version = "0.3", default-features = false }
-# plus your allocator crate / #[global_allocator]
+ocpp_rs = { version = "0.4", default-features = false }
+# plus your allocator / #[global_allocator]
 ```
-
-Sanity checks:
 
 ```bash
-# Library must build under #![no_std] (host is enough to catch std usage in src/)
 cargo build --lib
-
-# Optional: freestanding target (requires rustup target)
-cargo build --lib --target thumbv7em-none-eabi
-
-# Chrono must not enable std/clock via feature unification
-cargo tree -p chrono -f '{p} {f}' | head -5
-# expect: chrono … alloc,serde   (not std/clock)
+cargo build --lib --target thumbv7em-none-eabi   # optional freestanding check
+cargo tree -p chrono -f '{p} {f}' | head -5       # expect: alloc,serde (not std/clock)
 ```
-
-## Usage
-
-```toml
-[dependencies]
-ocpp-rs = "^0.3"
-```
-
-Upgrading from 0.2.x: see [guides/migration-0.3.md](guides/migration-0.3.md).
-
-# Particularities
 
 ## OCPP 1.6 CallResult
 
-CALLRESULT has no action on the wire. Blind parse yields `CallResultRaw`. Correlate with `PendingCalls` (same idea as 2.1):
+CALLRESULT has no action on the wire. Blind parse yields `CallResultRaw`. Correlate with `PendingCalls`:
 
 ```rust
 use ocpp_rs::v16::call::{Action, Call, Heartbeat};
@@ -66,16 +65,13 @@ let typed = pending.deserialize_typed(r#"[3, "1", {"currentTime": "2024-01-01T00
 assert!(matches!(typed, TypedMessage::CallResult(TypedCallResult::Heartbeat(_))));
 ```
 
-- **Sticky sessions** or **Redis `messageId → action name`** + `resolve_with_action_name` for load-balanced deploys
-- **Datetime**: always parse RFC3339; serialize defaults to `%.3fZ` (optional `datetime_serialize_rfc3339`) — [guides/datetime-features.md](guides/datetime-features.md)
-- Last resort: `try_resolve_unique` / `probe_candidates` (often ambiguous for `{}`)
-
-Details: [`v16::pending`](src/v16/pending.rs), [migration guide](guides/migration-0.3.md).
+- Sticky sessions or Redis `messageId → action name` + `resolve_with_action_name`
+- Datetime: RFC3339 parse; serialize defaults to `%.3fZ` — [guides/datetime-features.md](guides/datetime-features.md)
+- Details: [`v16::pending`](src/v16/pending.rs), [migration guide](guides/migration-0.4.md)
 
 ## OCPP 2.1
 
-Same CallResult correlation model under `v21::pending`. Framing includes types 2–6
-(CALL, CALLRESULT, CALLERROR, CALLRESULTERROR, SEND).
+Same correlation model under `v21::pending`. Framing types **2–6** (CALL, CALLRESULT, CALLERROR, CALLRESULTERROR, SEND).
 
 ```rust
 use ocpp_rs::v21::call::{Action, Call};
@@ -89,7 +85,6 @@ let call = Call::new(
     "1".into(),
     Action::Heartbeat(HeartbeatRequest { custom_data: None }),
 );
-// For Redis / multi-node: store call.action_kind() (== "Heartbeat") with the message id
 assert_eq!(call.action_kind(), "Heartbeat");
 let _wire = pending.send_call(call)?;
 let typed = pending.deserialize_typed(
@@ -101,7 +96,9 @@ assert!(matches!(
 ));
 ```
 
-### Load-balanced example (2.1)
+2.0.1 subprotocol gating: [guides/ocpp-2.0.1.md](guides/ocpp-2.0.1.md).
+
+### Load-balanced resolve
 
 ```rust
 use ocpp_rs::v21::pending::resolve_with_action_name;
@@ -117,34 +114,31 @@ let typed = resolve_with_action_name(raw, &redis_getdel(&raw.unique_id)?)?;
 use ocpp_rs::v16::parse::{self, Message};
 use ocpp_rs::v16::call::Action;
 
-let incoming_text = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
-let incoming_message = parse::deserialize_to_message(incoming_text);
-if let Ok(Message::Call(call)) = incoming_message {
+let incoming_text = r#"[2, "19223201", "BootNotification", {"chargePointVendor":"VendorX","chargePointModel":"SingleSocketCharger"}]"#;
+let incoming_message = parse::deserialize_to_message(incoming_text)?;
+if let Message::Call(call) = incoming_message {
     match call.payload {
-        Action::BootNotification(_boot_notification) => { /* … */ }
+        Action::BootNotification(_boot) => { /* … */ }
         _ => {}
     }
 }
 ```
 
-Sending a CALLRESULT:
+## Out of scope
 
-```rust
-use ocpp_rs::v16::call_result::CallResultRaw;
-use ocpp_rs::v16::parse::{self, Message};
+This is a **protocol wire crate**, not a full stack:
 
-let response = Message::CallResult(CallResultRaw::new(
-    "1234".into(),
-    serde_json::to_value(/* your *Response struct */)?,
-));
-let json = parse::serialize_message(&response)?;
-```
+- No SOAP / HTTP binding for 1.6
+- No WebSocket, TLS, or Security Profile handshake
+- No Charge Point / CSMS state machines or OCA Part 6 runner
 
 ## Contributing
 
-Contributions are welcome. Please add/update tests with behavior changes.
+Add or update tests with behavior changes. Fuzz (optional, nightly):
 
-## Roadmap
+```bash
+cargo install cargo-fuzz
+cargo +nightly fuzz run v21_deserialize --fuzz-dir fuzz
+```
 
-- Harden OCPP 2.1 field coverage against Part 3 schemas / errata
-- Fuzzing for v16 and v21 wire parsers
+License: MIT.

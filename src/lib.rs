@@ -7,7 +7,7 @@
 //! In Cargo.toml, add the following dependency:
 //! ```toml
 //! [dependencies]
-//! ocpp-rs = "^0.3"
+//! ocpp-rs = "^0.4"
 //! ```
 //!
 //! # Particularities
@@ -18,7 +18,7 @@
 //! [`v16::pending::resolve_with_action_name`]). Do **not** guess from JSON shape.
 //! Datetime: parse always accepts RFC3339; serialize defaults to `%Y-%m-%dT%H:%M:%S%.3fZ`
 //! (enable `datetime_serialize_rfc3339` to emit RFC3339 millis — see [`datetime`]).
-//! Migration from 0.2.x: `guides/migration-0.3.md`.
+//! Migration from 0.2.x: `guides/migration-0.4.md`.
 //!
 //! ## OCPP 2.1
 //! Same CallResult model under [`v21::pending`]. Framing includes types 2–6
@@ -145,3 +145,4 @@ pub mod datetime;
 pub mod errors;
 pub mod v16;
 pub mod v21;
+pub mod validate;

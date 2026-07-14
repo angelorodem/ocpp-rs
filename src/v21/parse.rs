@@ -35,33 +35,50 @@ pub enum TypedMessage {
 
 /// Parses a JSON string into a [`Message`].
 ///
-/// CALLRESULT payloads are returned as [`CallResultRaw`] (no action guessing).
+/// Always enforces MessageId length ≤ 36.
+/// With feature `schema_validate`, also enforces Part 3 schema bounds on CALL/SEND payloads.
 ///
 /// # Errors
-/// Returns an error if the message type is not in `2..=6` or JSON deserialization fails.
+/// Returns an error if the message type is not in `2..=6`, JSON deserialization fails,
+/// or a constraint is violated.
 pub fn deserialize_to_message(data: &str) -> Result<Message> {
     let call_type = get_call_type(data)?;
 
     match call_type {
         2 => {
             let call: Call = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&call.unique_id)?;
+            #[cfg(feature = "schema_validate")]
+            {
+                let payload = serde_json::to_value(&call.payload).map_err(Error::SerdeJson)?;
+                super::validate_gen::validate_action_payload(call.action_kind(), &payload)?;
+            }
             Ok(Message::Call(call))
         }
         3 => {
             let call_result: CallResultRaw =
                 serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&call_result.unique_id)?;
             Ok(Message::CallResult(call_result))
         }
         4 => {
             let call_error: CallError = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&call_error.unique_id)?;
             Ok(Message::CallError(call_error))
         }
         5 => {
             let err: CallResultError = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&err.unique_id)?;
             Ok(Message::CallResultError(err))
         }
         6 => {
             let send: Send = serde_json::from_str(data).map_err(Error::SerdeJson)?;
+            crate::validate::check_message_id_len(&send.unique_id)?;
+            #[cfg(feature = "schema_validate")]
+            {
+                let payload = serde_json::to_value(&send.payload).map_err(Error::SerdeJson)?;
+                super::validate_gen::validate_action_payload(send.payload.action_name(), &payload)?;
+            }
             Ok(Message::Send(send))
         }
         _ => Err(Error::UnsupportedMessageType(call_type)),

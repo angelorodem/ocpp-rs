@@ -16,10 +16,10 @@ OCPP payloads store times as [`DateTimeWrapper`](../src/datetime.rs) (`chrono::D
 
 ```toml
 # Default: accept RFC3339 inbound, emit %.3fZ outbound
-ocpp-rs = { version = "0.3" }
+ocpp-rs = { version = "0.4" }
 
 # Emit RFC3339 millis on the wire as well:
-ocpp-rs = { version = "0.3", features = ["datetime_serialize_rfc3339"] }
+ocpp-rs = { version = "0.4", features = ["datetime_serialize_rfc3339"] }
 ```
 
 In-memory values are always `DateTime<Utc>`. You do not need a feature to “use RFC3339 in Rust code.”

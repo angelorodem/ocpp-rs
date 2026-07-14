@@ -1,7 +1,7 @@
 [package]
 authors = ["Angelo L. B. Rodem"]
 name = "ocpp_rs"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2024"
 rust-version = "1.85"
 license = "MIT"
@@ -9,16 +9,27 @@ readme = "README.md"
 repository = "https://github.com/angelorodem/ocpp-rs"
 homepage = "https://github.com/angelorodem/ocpp-rs"
 description = """
-Protocol implementation for Open Charge Point Protocol (OCPP) in Rust.
+no_std + alloc OCPP 1.6 and 2.1 protocol library (OCPP-J parse/serialize, CallResult correlation).
 """
 categories = ["data-structures", "algorithms", "no-std", "embedded"]
 keywords = ["ocpp", "charger", "oca", "electric-vehicle"]
-exclude = ["doc_imgs/", ".*"]
+exclude = [
+    "doc_imgs/",
+    ".*",
+    "docs/",
+    "fuzz/",
+    "tools/",
+    "doc.txt",
+    "example/",
+    "src/v21/actions.txt",
+]
 resolver = "2"
 
 [features]
 default = []
 datetime_serialize_rfc3339 = []
+schema_validate = []
+device_model_catalog = []
 
 [dependencies]
 strum = { version = "^0.28.0", default-features = false, features = ["derive"] } # No_std

@@ -1,11 +1,13 @@
-# Migrating to ocpp-rs 0.3.0
+# Migrating to ocpp-rs 0.4.0
 
-Crate version **0.3.0** is a breaking release for the whole package (OCPP 1.6 and 2.1 share framing helpers).
-If you only used 1.6 CallResult guessing, the CallResult sections below are the main work.
-If you already used 2.1, still update `Response::get_response` and any `CallError` detail maps.
+Upgrade guide from **0.2.x** → **0.4.0**.
 
-Study materials under `docs/` (schemas, errata notes) are local/dev extracts and may not be in git.
-These guides under `guides/` are meant to ship with the repo.
+This release merges CallResult correlation, OCPP 2.1, wire-type fixes, typed RPC errors,
+schema validation, and device-model catalogs into one breaking jump from the 0.2 line.
+SOAP remains unsupported.
+
+Study materials under `docs/` (schemas, errata) are local/dev extracts and may not be in git.
+Guides under `guides/` ship with the repository.
 
 ---
 
@@ -16,13 +18,18 @@ These guides under `guides/` are meant to ship with the repo.
 ocpp-rs = "^0.2"
 
 # after
-ocpp-rs = "^0.3"
+ocpp-rs = "^0.4"
 
-# Optional: emit RFC3339 millis instead of %.3fZ (parse is always RFC3339)
-# ocpp-rs = { version = "^0.3", features = ["datetime_serialize_rfc3339"] }
+# Optional features:
+# ocpp-rs = { version = "0.4", features = [
+#   "datetime_serialize_rfc3339",
+#   "schema_validate",
+#   "device_model_catalog",
+# ] }
 ```
 
-Requires a Rust toolchain that supports **edition 2024** (typically **1.85+**). The library is `#![no_std]` + `alloc` (global allocator required on baremetal).
+Requires a Rust toolchain that supports **edition 2024** (**MSRV 1.85+**).
+The library is `#![no_std]` + `alloc` (provide a global allocator on baremetal).
 
 ---
 
@@ -39,7 +46,7 @@ match deserialize_to_message(data)? {
 }
 ```
 
-**After (0.3)** — always raw until you correlate:
+**After (0.4)** — always raw until you correlate:
 
 ```rust
 use ocpp_rs::v16::call_result::CallResultRaw;
@@ -110,6 +117,7 @@ In-process string map: [`PendingActionNames`](../src/v16/pending.rs) (and the v2
 | `UnknownPendingMessageId` | CALLRESULT `unique_id` was never registered |
 | `UnknownActionName` | Action string is not a known CALL action (1.6 or 2.1) |
 | `AmbiguousCallResult` | Probe matched multiple schemas (typical for `{}` / status-only) |
+| `ConstraintViolation` | MessageId longer than 36, or (with `schema_validate`) Part 3 / 1.6 bounds |
 
 ---
 
@@ -169,7 +177,6 @@ Message::CallResult(CallResultRaw::new(
 | `GenericIdTagInfo` | `call_result::Authorize { id_tag_info }` (**required**) / `call_result::StopTransaction { id_tag_info: Option<_> }` |
 | `SendLocalList.local_authorization_list: Vec<String>` | `Option<Vec<AuthorizationData>>` |
 | `BTreeMap` placeholders for profiles / schedules / security nests | `ChargingProfile`, `ChargingSchedule`, `CertificateHashData`, `LogParameters`, `Firmware` |
-| `CallError.error_details: BTreeMap<String, String>` | `BTreeMap<String, serde_json::Value>` (v16; v21 already used `Value`) |
 | Nested `UnlockConnector { status: GenericStatusResponse }` | Flat `UnlockConnector { status: UnlockStatus }` |
 
 **Authorize.conf** rejects `{}` (missing `idTagInfo`). **StopTransaction.conf** still allows `{}`.
@@ -178,7 +185,59 @@ Security Whitepaper types are best-effort (no core 1.6 schemas in-tree); field s
 
 ---
 
-## 6. Datetime (v16 and v21)
+## 6. `CallError.error_code` is an enum
+
+**Before:** `error_code: String`  
+**After:** version-specific `RpcErrorCode` (exact wire spellings, including 1.6 misspellings).
+
+```rust
+// 1.6
+use ocpp_rs::v16::rpc_error_code::RpcErrorCode;
+CallError::new(id, RpcErrorCode::NotImplemented, desc, details);
+// or
+CallError::not_implemented(id, desc);
+
+// 2.1
+use ocpp_rs::v21::rpc_error_code::RpcErrorCode;
+CallError::new(id, RpcErrorCode::NotSupported, desc, details);
+```
+
+| Version | Notable wire strings |
+|---------|----------------------|
+| 1.6 | `FormationViolation`, `OccurenceConstraintViolation` |
+| 2.1 | `FormatViolation`, `OccurrenceConstraintViolation`, `RpcFrameworkError` |
+
+Unknown codes deserialize as `RpcErrorCode::Unknown`.
+
+`CallError.error_details` is `BTreeMap<String, serde_json::Value>` (was `BTreeMap<String, String>` on v16 in 0.2.x).
+
+---
+
+## 7. `CustomDataType` (2.1)
+
+Vendor extension properties are preserved:
+
+```rust
+use alloc::collections::BTreeMap;
+use ocpp_rs::v21::datatypes::CustomDataType;
+use serde_json::json;
+
+CustomDataType {
+    vendor_id: "VendorX".into(),
+    extra: BTreeMap::from([("foo".into(), json!(1))]),
+}
+```
+
+---
+
+## 8. MessageId length
+
+Parse **always** rejects MessageId / UniqueId longer than **36** characters
+(`Error::ConstraintViolation`).
+
+---
+
+## 9. Datetime (v16 and v21)
 
 **Parse** always accepts RFC3339 (including `%.3fZ`, offsets, variable fractional seconds).
 
@@ -188,17 +247,27 @@ In-memory values are always `DateTimeWrapper` / `chrono::DateTime<Utc>`. See [da
 
 ---
 
-## 7. Unchanged
+## 10. Optional features (new in 0.4)
 
-- CALL / CALLERROR (and v21 CALLRESULTERROR / SEND) framing shapes
-- Most Action request field layouts (aside from nested-type fixes above)
-- `no_std` + `alloc`
-- CallResult correlation model relative to 0.3’s first cut (raw + pending)
-- Default **serialize** form `%.3fZ` (parse is always RFC3339 in 0.3)
+| Feature | Effect |
+|---------|--------|
+| `schema_validate` | After serde parse, enforce Part 3 / 1.6 `maxLength` / `minItems` / numeric bounds |
+| `device_model_catalog` | Standard component/variable tables under `v21::device_model` |
+| `datetime_serialize_rfc3339` | Emit RFC3339 millis instead of `%.3fZ` |
+
+See [schema-validation.md](schema-validation.md) and [ocpp-2.0.1.md](ocpp-2.0.1.md).
 
 ---
 
-## 8. Last resort when type is unknown
+## 11. Unchanged framing
+
+- CALL / CALLERROR (and v21 CALLRESULTERROR / SEND) array shapes
+- Most Action request field layouts (aside from nested-type fixes above)
+- `no_std` + `alloc`
+
+---
+
+## 12. Last resort when type is unknown
 
 ```rust
 use ocpp_rs::v16::pending::try_resolve_unique;
@@ -220,6 +289,8 @@ let typed = try_resolve_unique(&raw)?;
 ## See also
 
 - [datetime-features.md](datetime-features.md)
+- [schema-validation.md](schema-validation.md)
+- [ocpp-2.0.1.md](ocpp-2.0.1.md)
 - [`src/v16/pending.rs`](../src/v16/pending.rs) — primary 1.6 design notes
 - [`src/v21/pending.rs`](../src/v21/pending.rs) — same pattern for 2.1
 - Crate docs: `ocpp_rs` / `datetime`

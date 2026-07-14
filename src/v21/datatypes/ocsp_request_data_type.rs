@@ -11,6 +11,7 @@ pub struct OCSPRequestDataType {
     pub issuer_name_hash: String,
     pub issuer_key_hash: String,
     pub serial_number: String,
+    #[serde(rename = "responderURL")]
     pub responder_url: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]

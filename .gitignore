@@ -19,3 +19,12 @@ Cargo.lock
 
 /target
 afl-fuzz/out/default/cmdline
+
+# cargo-fuzz: build outputs and discovered inputs (keep only named *.json seeds)
+fuzz/target/
+fuzz/artifacts/
+fuzz/coverage/
+fuzz/Cargo.lock
+fuzz/corpus/**
+!fuzz/corpus/**/
+!fuzz/corpus/**/*.json

@@ -20,11 +20,20 @@ pub mod call_result;
 pub mod call_result_error;
 pub mod datatypes;
 pub mod enumerations;
+pub mod errata;
 pub mod log_helper;
 pub mod messages;
 pub mod parse;
 pub mod pending;
 pub mod response_trait;
+pub mod rpc_error_code;
 pub mod send;
 pub mod typed_call_result;
 pub mod utils;
+pub mod version;
+
+#[cfg(feature = "device_model_catalog")]
+pub mod device_model;
+
+#[cfg(feature = "schema_validate")]
+pub mod validate_gen;

@@ -1,3 +1,4 @@
+// Bootstrap inventory of OCPP 2.1 CALL action names (dev reference; not used at runtime).
 AFRRSignal
 AdjustPeriodicEventStream
 Authorize

@@ -164,7 +164,7 @@ fn response_trait_builds_call_result() {
 fn call_error_and_call_result_error_and_send() {
     let err = CallError::new(
         "e1".into(),
-        "NotSupported".into(),
+        ocpp_rs::v21::rpc_error_code::RpcErrorCode::NotSupported,
         "nope".into(),
         BTreeMap::new(),
     );
@@ -176,7 +176,7 @@ fn call_error_and_call_result_error_and_send() {
 
     let err5 = CallResultError::new(
         "e2".into(),
-        "GenericError".into(),
+        ocpp_rs::v21::rpc_error_code::RpcErrorCode::GenericError,
         "bad result".into(),
         BTreeMap::new(),
     );
@@ -233,14 +233,25 @@ fn send_call_registers_for_later_result() {
 
 #[test]
 fn custom_data_roundtrip() {
+    let mut extra = std::collections::BTreeMap::new();
+    extra.insert("foo".into(), serde_json::json!(123));
+    extra.insert("bar".into(), serde_json::json!({"nested": true}));
     let req = HeartbeatRequest {
         custom_data: Some(CustomDataType {
             vendor_id: "VendorX".into(),
+            extra,
         }),
     };
     let json = serde_json::to_string(&req).unwrap();
+    assert!(json.contains("\"foo\":123"));
     let back: HeartbeatRequest = serde_json::from_str(&json).unwrap();
-    assert_eq!(back.custom_data.unwrap().vendor_id, "VendorX");
+    let cd = back.custom_data.unwrap();
+    assert_eq!(cd.vendor_id, "VendorX");
+    assert_eq!(cd.extra.get("foo"), Some(&serde_json::json!(123)));
+    assert_eq!(
+        cd.extra.get("bar"),
+        Some(&serde_json::json!({"nested": true}))
+    );
 }
 
 #[test]
