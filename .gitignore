@@ -30,3 +30,6 @@ fuzz/corpus/**
 !fuzz/corpus/**/
 !fuzz/corpus/**/*.json
 fuzz-*.log
+
+# Editor
+.vscode/
