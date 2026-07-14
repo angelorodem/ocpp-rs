@@ -64,7 +64,10 @@ impl CallError {
     }
 
     #[must_use]
-    pub const fn property_constraint_violation(unique_id: String, error_description: String) -> Self {
+    pub const fn property_constraint_violation(
+        unique_id: String,
+        error_description: String,
+    ) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::PropertyConstraintViolation,
@@ -74,7 +77,10 @@ impl CallError {
     }
 
     #[must_use]
-    pub const fn occurrence_constraint_violation(unique_id: String, error_description: String) -> Self {
+    pub const fn occurrence_constraint_violation(
+        unique_id: String,
+        error_description: String,
+    ) -> Self {
         Self::new(
             unique_id,
             RpcErrorCode::OccurrenceConstraintViolation,

@@ -835,10 +835,9 @@ impl TypedCallResult {
         ) {
             out.push(typed);
         }
-        if let Ok(typed) = Self::resolve_from_action_name(
-            CallResultRaw::new(unique_id, payload),
-            "UpdateFirmware",
-        ) {
+        if let Ok(typed) =
+            Self::resolve_from_action_name(CallResultRaw::new(unique_id, payload), "UpdateFirmware")
+        {
             out.push(typed);
         }
         out
