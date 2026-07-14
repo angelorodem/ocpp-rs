@@ -27,7 +27,7 @@ assert!(!allows_action(v, "SetDERControl"));
 assert!(allows_action(v, "BootNotification"));
 ```
 
-## Known 2.0.1 ↔ 2.1 exceptions (Part 0)
+## Known 2.0.1 ↔ 2.1 exceptions
 
 - `SignCertificateRequest.requestId` (optional in 2.1): when present, CSMS must echo it on `CertificateSigned`.
 - `NotifyMonitoringReport` / `VariableMonitoringType.eventNotificationType` became required in 2.1; a 2.0.1 CSMS that ignores the field still works.

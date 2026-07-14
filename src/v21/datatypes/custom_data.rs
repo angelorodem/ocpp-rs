@@ -1,7 +1,7 @@
 //! Vendor extension envelope (`customData`).
 //!
-//! Part 3 schemas intentionally omit `additionalProperties: false` so vendors
-//! may attach arbitrary JSON properties alongside required `vendorId`.
+//! Extra JSON properties alongside required `vendorId` are allowed and preserved
+//! on round-trip via [`CustomDataType::extra`].
 
 use alloc::{collections::BTreeMap, string::String};
 use serde::{Deserialize, Serialize};

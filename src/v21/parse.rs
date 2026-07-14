@@ -36,7 +36,7 @@ pub enum TypedMessage {
 /// Parses a JSON string into a [`Message`].
 ///
 /// Always enforces MessageId length ≤ 36.
-/// With feature `schema_validate`, also enforces Part 3 schema bounds on CALL/SEND payloads.
+/// With feature `schema_validate`, also enforces string/array/numeric bounds on CALL/SEND payloads.
 ///
 /// # Errors
 /// Returns an error if the message type is not in `2..=6`, JSON deserialization fails,

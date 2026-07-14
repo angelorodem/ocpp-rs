@@ -7,7 +7,7 @@ ocpp-rs = { version = "0.4", features = ["schema_validate"] }
 ```
 
 When enabled, [`deserialize_to_message`](../src/v21/parse.rs) (v16 and v21) runs generated
-Part 3 / 1.6 constraint checks on CALL (and v21 SEND) payloads after serde succeeds.
+constraint checks on CALL (and v21 SEND) payloads after serde succeeds.
 
 ## What is checked
 
@@ -38,4 +38,4 @@ python tools/gen_validate.py
 python tools/gen_validate.py --check   # CI
 ```
 
-Sources: `docs/2-1-raw/schemas/`, `docs/1-6-raw/schemas/` (local extracts).
+Maintainer note: generators read JSON Schemas under `docs/` when present locally.

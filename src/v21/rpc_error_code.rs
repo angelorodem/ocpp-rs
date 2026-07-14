@@ -1,7 +1,7 @@
 //! OCPP 2.1 OCPP-J RPC framework error codes (CALLERROR / CALLRESULTERROR).
 //!
-//! See Part 4 §4.3. `MessageTypeNotSupported` is deprecated (errata [1161]);
-//! unknown message type numbers must be silently ignored.
+//! `MessageTypeNotSupported` is deprecated: unknown message type numbers must be
+//! silently ignored rather than answered with this code.
 
 use core::fmt;
 use serde::{Deserialize, Serialize};
@@ -12,7 +12,7 @@ pub enum RpcErrorCode {
     FormatViolation,
     GenericError,
     InternalError,
-    /// Deprecated: unknown Message Type Number → silent ignore (errata [1161]).
+    /// Deprecated: unknown message type numbers should be silently ignored.
     MessageTypeNotSupported,
     NotImplemented,
     NotSupported,

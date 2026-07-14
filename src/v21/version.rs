@@ -35,7 +35,7 @@ impl NegotiatedVersion {
 
 /// Actions introduced in OCPP 2.1 (not present in 2.0.1).
 ///
-/// Based on Part 0 additive message set (DER, tariffs, battery swap, periodic streams, …).
+/// Includes DER, tariffs, battery swap, periodic event streams, and related actions.
 pub const OCPP21_ONLY_ACTIONS: &[&str] = &[
     "AFRRSignal",
     "AdjustPeriodicEventStream",

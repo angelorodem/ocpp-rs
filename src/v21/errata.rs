@@ -1,8 +1,8 @@
 //! Errata-related wire string constants (reason codes, etc.).
 //!
-//! Full Part 2 behavioural errata are not implemented here — only stable strings
-//! called out in Edition 2 Errata that differ from older drafts.
+//! This module only ships a few stable wire strings that differ from older drafts;
+//! full protocol behavioural errata are not modelled here.
 
 /// `SetChargingProfileResponse.statusInfo.reasonCode` when a profile arrives before
-/// `NotifyEVChargingNeedsRequest` (errata: was `InvalidMessageSequence`).
+/// `NotifyEVChargingNeedsRequest` (prefer `InvalidMessageSeq` over older spellings).
 pub const REASON_INVALID_MESSAGE_SEQ: &str = "InvalidMessageSeq";

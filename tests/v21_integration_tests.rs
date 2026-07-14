@@ -1,11 +1,8 @@
 //! OCPP 2.1 integration tests.
 //!
-//! Part 6 certification procedures are catalogued in
-//! [`docs/2-1-docs/07-testcases-index.md`](../docs/2-1-docs/07-testcases-index.md).
-//! Those TCs are full CS/CSMS behavioral suites (TLS, state machines, reusable states).
-//! This file covers the **library-layer** message sequences those blocks require:
-//! serialize/deserialize round-trips, `PendingCalls` correlation, and multi-message workflows
-//! for the informative basic set (blocks B, C, E, F, G, P, plus framing types 2–6).
+//! Covers library-layer message sequences: serialize/deserialize round-trips,
+//! `PendingCalls` correlation, and multi-message workflows for common charging /
+//! authorization / firmware / reservation flows, plus framing types 2–6.
 
 use chrono::{TimeZone, Timelike, Utc};
 use ocpp_rs::v21::call::{Action, Call};
@@ -105,7 +102,7 @@ fn assert_pending_result(
 }
 
 // ---------------------------------------------------------------------------
-// Framing (Part 4 / message types 2–6)
+// Framing (message types 2–6)
 // ---------------------------------------------------------------------------
 
 #[test]
@@ -927,7 +924,7 @@ fn production_like_session_boot_auth_transaction() {
 }
 
 #[test]
-fn part4_boot_notification_json_samples() {
+fn boot_notification_json_samples() {
     let request = r#"[2,"19223201","BootNotification",{"reason":"PowerUp","chargingStation":{"model":"SingleSocketCharger","vendorName":"VendorX"}}]"#;
     let response = r#"[3,"19223201",{"currentTime":"2013-02-01T20:53:32.486Z","interval":300,"status":"Accepted"}]"#;
 

@@ -144,11 +144,11 @@ pub struct MeterValue {
     pub sampled_value: Vec<SampledValue>,
 }
 
-// Security Whitepaper extension types (OCPP 1.6-J overlay).
+// OCPP 1.6 security-extension types (certificates, signed firmware, logging).
 //
-// Schemas for these are **not** checked in under `docs/1-6-docs/schemas/` (core 1.6 only).
-// Field shapes follow the Security Whitepaper / common interop practice and may need
-// adjustment if you target a specific whitepaper edition.
+// These are not covered by the core 1.6 JSON Schemas checked into this repo.
+// Field shapes follow common interop practice and may need adjustment for a
+// particular deployment.
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -163,7 +163,7 @@ pub struct CertificateHashData {
     pub serial_number: String,
 }
 
-// Security Whitepaper (see CertificateHashData note above).
+// 1.6 security extension (see CertificateHashData note above).
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -181,7 +181,7 @@ pub struct Firmware {
     pub signature: Option<String>,
 }
 
-// Security Whitepaper (see CertificateHashData note above).
+// 1.6 security extension (see CertificateHashData note above).
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]

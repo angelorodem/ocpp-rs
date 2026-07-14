@@ -6,13 +6,13 @@
 use alloc::string::String;
 use core::fmt;
 
-/// Maximum OCPP-J MessageId / UniqueId length (Part 4).
+/// Maximum OCPP-J MessageId / UniqueId length.
 pub const MESSAGE_ID_MAX_LEN: usize = 36;
 
 /// Result of a constraint check.
 pub type Result<T> = core::result::Result<T, ConstraintViolation>;
 
-/// A Part 3 / schema constraint failure.
+/// A schema constraint failure (`maxLength`, array size, numeric bounds, MessageId length).
 #[derive(Debug, Clone, PartialEq)]
 pub struct ConstraintViolation {
     pub path: String,

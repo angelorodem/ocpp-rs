@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Value-based Part 3 / 1.6 constraint validators for ocpp_rs.
+"""Generate Value-based JSON Schema constraint validators for ocpp_rs.
 
 Usage:
   python tools/gen_validate.py           # write generated Rust modules

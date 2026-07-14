@@ -17,7 +17,7 @@ Migration: [`guides/migration-0.4.md`](guides/migration-0.4.md).
 - OCPP **1.6** CallResult correlation (`CallResultRaw`, `TypedCallResult`, `PendingCalls` / `PendingActionNames`)
 - Shared [`datetime`](src/datetime.rs): RFC3339 **parse** always; serialize defaults to `%.3fZ`
 - Feature `datetime_serialize_rfc3339`
-- Feature **`schema_validate`**: Part 3 / 1.6 constraint checks
+- Feature **`schema_validate`**: string/array/numeric payload bounds after parse
 - Feature **`device_model_catalog`**: `v21::device_model` component/variable catalogs
 - Typed RPC error codes (`v16` / `v21` `RpcErrorCode`)
 - `Call::action_kind()` on v16 (parity with v21)
@@ -49,7 +49,7 @@ Migration: [`guides/migration-0.4.md`](guides/migration-0.4.md).
 
 - `UnitOfMeasure` accepts legacy `Celcius` spelling
 - Spec-aligned enum `Default`s (`Wh`, `Energy.Active.Import.Register`, `Outlet`, `Sample.Periodic`)
-- Security Whitepaper firmware / trigger variants; optional `requestId` on signed firmware status
+- 1.6 security-extension firmware / trigger variants; optional `requestId` on signed firmware status
 - Errata reason-code constant `InvalidMessageSeq` (`v21::errata`)
 
 ## [0.2.x]

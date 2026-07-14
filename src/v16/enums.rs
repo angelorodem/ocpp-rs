@@ -210,7 +210,7 @@ pub enum FirmwareStatus {
     Installing,
     /// New firmware has successfully been installed in charge point.    
     Installed,
-    // --- OCPP 1.6 Security Whitepaper (SignedFirmwareStatusNotification) ---
+    // --- OCPP 1.6 security extension (SignedFirmwareStatusNotification) ---
     /// Download of the signed firmware has been scheduled.    
     DownloadScheduled,
     /// Download of the signed firmware has been paused.    
@@ -620,7 +620,7 @@ pub enum MessageTrigger {
     MeterValues,
     ///  To trigger a `StatusNotification` request    
     StatusNotification,
-    // --- OCPP 1.6 Security Whitepaper (`ExtendedTriggerMessage`) ---
+    // --- OCPP 1.6 security extension (`ExtendedTriggerMessage`) ---
     /// To trigger a `LogStatusNotification` request    
     LogStatusNotification,
     /// To trigger a `SignCertificate` request (charge point CSR)    

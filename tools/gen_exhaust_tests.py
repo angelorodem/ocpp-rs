@@ -151,7 +151,7 @@ def gen_v16() -> str:
         lines.append("}")
         lines.append("")
 
-    # Security whitepaper fixtures (not in core 1.6 schema dir)
+    # 1.6 security-extension fixtures (not in core 1.6 schema dir)
     security = [
         (
             "GetLog",

@@ -11,7 +11,7 @@ Supports **OCPP 1.6** (JSON) and **OCPP 2.1** (additive / 2.0.1-compatible schem
 - Full OCPP 1.6 and 2.1 message payloads + OCPP-J parse/serialize
 - CallResult typing via `PendingCalls` / action-name correlation (no untagged guessing)
 - Typed RPC framework error codes; MessageId length ≤ 36
-- Optional Part 3 schema bounds (`schema_validate`) and device-model catalogs
+- Optional payload length/bounds checks (`schema_validate`) and device-model catalogs
 - **`#![no_std]` + `alloc`** — zero `std` in library code (global allocator required on baremetal)
 
 ## Install
@@ -26,7 +26,7 @@ ocpp-rs = "0.4"
 
 | Feature | Purpose |
 |---------|---------|
-| `schema_validate` | Enforce Part 3 / 1.6 string/array/numeric bounds after parse |
+| `schema_validate` | Enforce string/array/numeric bounds on CALL (and 2.1 SEND) payloads after parse |
 | `device_model_catalog` | Standard 2.1 component/variable name tables |
 | `datetime_serialize_rfc3339` | Emit RFC3339 millis instead of `%.3fZ` |
 
@@ -107,6 +107,14 @@ let Message::CallResult(raw) = deserialize_to_message(wire)? else { /* … */ };
 let typed = resolve_with_action_name(raw, &redis_getdel(&raw.unique_id)?)?;
 ```
 
+## Example crate
+
+```bash
+cd example && cargo run
+```
+
+Covers 1.6 and 2.1: `PendingCalls` correlation, CALL / CALLRESULT / CALLERROR, and 2.0.1 subprotocol gating.
+
 ## Example (1.6 CALL)
 
 ```rust
@@ -129,7 +137,7 @@ This is a **protocol wire crate**, not a full stack:
 
 - No SOAP / HTTP binding for 1.6
 - No WebSocket, TLS, or Security Profile handshake
-- No Charge Point / CSMS state machines or OCA Part 6 runner
+- No Charge Point / CSMS state machines or certification test runners
 
 ## Contributing
 

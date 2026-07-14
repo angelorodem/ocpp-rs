@@ -23,7 +23,7 @@ pub enum Error {
     CallTypeMismatch(CallTypeMismatch),
     /// OCPP-J requires CALLRESULT / CALLERROR details payloads to be JSON objects.
     InvalidPayloadShape(&'static str),
-    /// OCPP-J MessageId length or Part 3 schema constraint failure.
+    /// MessageId longer than 36 characters, or (with `schema_validate`) a payload bounds failure.
     ConstraintViolation(ConstraintViolation),
     Custom(String),
 }

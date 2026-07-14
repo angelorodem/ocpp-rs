@@ -11,7 +11,7 @@ pub struct ComponentVariableRow {
     pub unit: &'static str,
 }
 
-/// Component–variable matrix from Part 2 appendices.
+/// Component–variable association matrix.
 pub const COMPONENT_VARIABLE_MATRIX: &[ComponentVariableRow] = &[
     ComponentVariableRow {
         component: "<generic>",

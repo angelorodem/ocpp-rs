@@ -117,7 +117,7 @@ In-process string map: [`PendingActionNames`](../src/v16/pending.rs) (and the v2
 | `UnknownPendingMessageId` | CALLRESULT `unique_id` was never registered |
 | `UnknownActionName` | Action string is not a known CALL action (1.6 or 2.1) |
 | `AmbiguousCallResult` | Probe matched multiple schemas (typical for `{}` / status-only) |
-| `ConstraintViolation` | MessageId longer than 36, or (with `schema_validate`) Part 3 / 1.6 bounds |
+| `ConstraintViolation` | MessageId longer than 36, or (with `schema_validate`) payload length/bounds checks |
 
 ---
 
@@ -181,7 +181,7 @@ Message::CallResult(CallResultRaw::new(
 
 **Authorize.conf** rejects `{}` (missing `idTagInfo`). **StopTransaction.conf** still allows `{}`.
 
-Security Whitepaper types are best-effort (no core 1.6 schemas in-tree); field shapes may need tweaks per whitepaper edition. See comments on [`CertificateHashData`](../src/v16/data_types.rs).
+1.6 security-extension types (certificates, signed firmware, logging) follow common interop shapes; field layouts may still vary across deployments. See comments on [`CertificateHashData`](../src/v16/data_types.rs).
 
 ---
 
@@ -251,7 +251,7 @@ In-memory values are always `DateTimeWrapper` / `chrono::DateTime<Utc>`. See [da
 
 | Feature | Effect |
 |---------|--------|
-| `schema_validate` | After serde parse, enforce Part 3 / 1.6 `maxLength` / `minItems` / numeric bounds |
+| `schema_validate` | After serde parse, enforce `maxLength` / `minItems` / numeric bounds on CALL (and 2.1 SEND) payloads |
 | `device_model_catalog` | Standard component/variable tables under `v21::device_model` |
 | `datetime_serialize_rfc3339` | Emit RFC3339 millis instead of `%.3fZ` |
 

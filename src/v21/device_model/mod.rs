@@ -1,6 +1,6 @@
 //! OCPP 2.1 standardized device-model catalogs (feature `device_model_catalog`).
 //!
-//! Generated from Part 2 appendices CSVs. Names are case-insensitive per the spec.
+//! Lookup tables of common component and variable names. Matching is case-insensitive.
 
 pub mod components;
 pub mod matrix;

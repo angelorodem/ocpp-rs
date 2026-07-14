@@ -3,7 +3,7 @@
 use arbitrary::{Arbitrary, Result as ArbitraryResult, Unstructured};
 use serde_json::{Map, Number, Value};
 
-/// Well-known OCPP 1.6 CALL actions (core + security whitepaper).
+/// Well-known OCPP 1.6 CALL actions (core + security extensions).
 pub const V16_ACTIONS: &[&str] = &[
     "Authorize",
     "BootNotification",

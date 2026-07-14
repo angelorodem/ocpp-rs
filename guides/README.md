@@ -9,4 +9,4 @@ User-facing docs shipped with the repository.
 | [schema-validation.md](schema-validation.md) | Feature `schema_validate` |
 | [ocpp-2.0.1.md](ocpp-2.0.1.md) | 2.0.1 subprotocol / additive schemas |
 
-Local study extracts (schemas, errata, PDF tooling) live under `docs/` and may be gitignored on developer machines via `.git/info/exclude`.
+Local study extracts (schemas, errata, PDF tooling) may live under `docs/` on maintainer machines; they are not part of the published crate.

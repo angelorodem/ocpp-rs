@@ -54,7 +54,7 @@ fn boot_notification_call_roundtrip() {
 }
 
 #[test]
-fn boot_notification_sample_from_part4() {
+fn boot_notification_sample_json() {
     let incoming = r#"[2, "19223201", "BootNotification", {"reason": "PowerUp", "chargingStation": {"model": "SingleSocketCharger", "vendorName": "VendorX"}}]"#;
     let msg = parse::deserialize_to_message(incoming).unwrap();
     assert!(matches!(
