@@ -15,7 +15,7 @@ pub struct CompositeScheduleType {
     pub evse_id: i32,
     pub duration: i32,
     #[serde(with = "crate::v21::utils::rfc3339_date_time")]
-    pub schedule_start: DateTimeWrapper,
+    pub start_schedule: DateTimeWrapper,
     pub charging_rate_unit: ChargingRateUnitEnumType,
     pub charging_schedule_period: Vec<ChargingSchedulePeriodType>,
     #[serde(skip_serializing_if = "Option::is_none")]

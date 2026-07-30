@@ -473,7 +473,7 @@ mod get_composite_schedule_response {
         };
         if let Some(v) = obj.get("status") {}
         if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("scheduleStart") {}
+        if let Some(v) = obj.get("startSchedule") {}
         if let Some(v) = obj.get("chargingSchedule") {}
         let _ = obj;
         Ok(())

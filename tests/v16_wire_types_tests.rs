@@ -174,7 +174,7 @@ fn get_composite_schedule_response_with_schedule() {
         serde_json::json!({
             "status": "Accepted",
             "connectorId": 1,
-            "scheduleStart": "2024-06-01T10:00:00.000Z",
+            "startSchedule": "2024-06-01T10:00:00.000Z",
             "chargingSchedule": {
                 "chargingRateUnit": "A",
                 "chargingSchedulePeriod": [{"startPeriod": 0, "limit": 32.0}]

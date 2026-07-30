@@ -4955,7 +4955,7 @@ mod get_composite_schedule_response {
             }
         }
         if let Some(v) = obj.get("duration") {}
-        if let Some(v) = obj.get("scheduleStart") {}
+        if let Some(v) = obj.get("startSchedule") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
