@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-08-04
+
+### Fixed
+
+- OCPP 1.6 `GetCompositeSchedule` response: `scheduleStart` is optional; deserialize with
+  `#[serde(default)]` so messages that omit the field are accepted ([#8](https://github.com/angelorodem/ocpp-rs/pull/8))
+
 ## [0.4.0] - 2026-07-14
 
 Breaking release from the **0.2.x** line: OCPP 2.1, CallResult correlation, wire-type fixes,
