@@ -132,7 +132,9 @@
     // Some OCPP datatypes expose more than three booleans by schema.
     clippy::struct_excessive_bools,
     // Adjacent `CallResult<T>` arms share bodies but cannot use `|` across different `T`.
-    clippy::match_same_arms
+    clippy::match_same_arms,
+    // Library Cargo.lock is gitignored; serde_tuple/serde may pull syn 2+3 together.
+    clippy::multiple_crate_versions
 )]
 #![deny(
     clippy::unwrap_used,
@@ -143,7 +145,6 @@
     clippy::unused_result_ok,
     clippy::panic,
     clippy::get_unwrap,
-    clippy::multiple_crate_versions,
     clippy::std_instead_of_core,
     clippy::std_instead_of_alloc,
     unused_must_use
