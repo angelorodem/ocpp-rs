@@ -1,4 +1,4 @@
-//! AUTO-generated exhaustive v21 CALL round-trips. Regenerate: python tools/gen_exhaust_tests.py
+//! AUTO-generated exhaustive v21 CALL round-trips. Regenerate: python `tools/gen_exhaust_tests.py`
 use ocpp_rs::v21::parse::{Message, deserialize_to_message, serialize_message};
 
 fn assert_call_roundtrip(wire: &str) {

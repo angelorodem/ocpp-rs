@@ -37,6 +37,9 @@ use ocpp_rs::v21::messages::get_variables::{
     GetVariablesResponse,
 };
 use ocpp_rs::v21::messages::heartbeat::{HeartbeatRequest, HeartbeatResponse};
+use ocpp_rs::v21::messages::notify_periodic_event_stream::{
+    NotifyPeriodicEventStream, StreamDataElementType,
+};
 use ocpp_rs::v21::messages::request_start_transaction::{
     RequestStartTransactionRequest, RequestStartTransactionResponse,
 };
@@ -83,7 +86,7 @@ fn id_token(token: &str, kind: &str) -> IdTokenType {
 }
 
 fn roundtrip_call(call: Call) -> Call {
-    let json = parse::serialize_message(&Message::Call(call.clone())).expect("serialize call");
+    let json = parse::serialize_message(&Message::Call(call)).expect("serialize call");
     match parse::deserialize_to_message(&json).expect("deserialize call") {
         Message::Call(c) => c,
         other => panic!("expected Call, got {other:?}"),
@@ -131,7 +134,7 @@ fn framing_all_message_types_roundtrip() {
     let j = parse::serialize_message(&Message::CallError(CallError::new(
         "m4".into(),
         ocpp_rs::v21::rpc_error_code::RpcErrorCode::NotImplemented,
-        "".into(),
+        String::new(),
         BTreeMap::new(),
     )))
     .unwrap();
@@ -148,9 +151,6 @@ fn framing_all_message_types_roundtrip() {
     assert!(j.starts_with("[5,"));
 
     // Type 6
-    use ocpp_rs::v21::messages::notify_periodic_event_stream::{
-        NotifyPeriodicEventStream, StreamDataElementType,
-    };
     let j = parse::serialize_message(&Message::Send(Send::new(
         "m6".into(),
         SendAction::NotifyPeriodicEventStream(NotifyPeriodicEventStream {
@@ -193,11 +193,10 @@ fn log_helper_covers_all_core_types() {
 // Block B — Provisioning (TC_B_01 / TC_B_02 / TC_B_03 / TC_B_06 / TC_B_09 / TC_B_12 / TC_B_20)
 // ---------------------------------------------------------------------------
 
-/// Inspired by TC_B_01_CS: Cold Boot Charging Station - Accepted.
+/// Inspired by `TC_B_01_CS`: Cold Boot Charging Station - Accepted.
 #[test]
 fn tc_b_01_cold_boot_accepted_workflow() {
     let mut cs_pending = PendingCalls::new(); // station waits for BootNotification.conf
-    let mut csms_seen_boot = false;
 
     // CS → CSMS: BootNotification
     let boot_call = Call::new(
@@ -218,39 +217,36 @@ fn tc_b_01_cold_boot_accepted_workflow() {
     let boot_wire = cs_pending.send_call(boot_call).unwrap();
 
     // CSMS receives CALL
-    match parse::deserialize_to_message(&boot_wire).unwrap() {
-        Message::Call(Call {
-            payload: Action::BootNotification(req),
-            unique_id,
-            ..
-        }) => {
-            assert_eq!(unique_id, "boot-1");
-            assert_eq!(req.reason, BootReasonEnumType::PowerUp);
-            csms_seen_boot = true;
+    let Message::Call(Call {
+        payload: Action::BootNotification(req),
+        unique_id,
+        ..
+    }) = parse::deserialize_to_message(&boot_wire).unwrap()
+    else {
+        panic!("expected BootNotification call");
+    };
+    assert_eq!(unique_id, "boot-1");
+    assert_eq!(req.reason, BootReasonEnumType::PowerUp);
 
-            let conf = BootNotificationResponse {
-                current_time: now_ms(),
-                interval: 300,
-                status: RegistrationStatusEnumType::Accepted,
-                status_info: None,
-                custom_data: None,
-            };
-            let resp_msg = req
-                .get_response(unique_id, conf)
-                .expect("serialize response");
-            let resp_wire = parse::serialize_message(&resp_msg).unwrap();
+    let conf = BootNotificationResponse {
+        current_time: now_ms(),
+        interval: 300,
+        status: RegistrationStatusEnumType::Accepted,
+        status_info: None,
+        custom_data: None,
+    };
+    let resp_msg = req
+        .get_response(unique_id, conf)
+        .expect("serialize response");
+    let resp_wire = parse::serialize_message(&resp_msg).unwrap();
 
-            assert_pending_result(&mut cs_pending, &resp_wire, |t| match t {
-                TypedCallResult::BootNotification(cr) => {
-                    assert_eq!(cr.payload.status, RegistrationStatusEnumType::Accepted);
-                    assert_eq!(cr.payload.interval, 300);
-                }
-                other => panic!("{other:?}"),
-            });
+    assert_pending_result(&mut cs_pending, &resp_wire, |t| match t {
+        TypedCallResult::BootNotification(cr) => {
+            assert_eq!(cr.payload.status, RegistrationStatusEnumType::Accepted);
+            assert_eq!(cr.payload.interval, 300);
         }
         other => panic!("{other:?}"),
-    }
-    assert!(csms_seen_boot);
+    });
 
     // Post-boot: StatusNotification for connectors (TC_B_01 post validation)
     let status = Call::new(
@@ -290,7 +286,7 @@ fn tc_b_01_cold_boot_accepted_workflow() {
     });
 }
 
-/// Inspired by TC_B_02 / TC_B_03: Pending and Rejected registration.
+/// Inspired by `TC_B_02` / `TC_B_03`: Pending and Rejected registration.
 #[test]
 fn tc_b_02_b_03_boot_pending_and_rejected() {
     for (status, interval) in [
@@ -336,7 +332,7 @@ fn tc_b_02_b_03_boot_pending_and_rejected() {
     }
 }
 
-/// Inspired by TC_B_06_CS: Get Variables - single value.
+/// Inspired by `TC_B_06_CS`: Get Variables - single value.
 #[test]
 fn tc_b_06_get_variables_single() {
     let mut pending = PendingCalls::new();
@@ -391,7 +387,7 @@ fn tc_b_06_get_variables_single() {
     });
 }
 
-/// Inspired by TC_B_09 / TC_B_12 / TC_B_20: SetVariables, GetBaseReport, Reset wire shapes.
+/// Inspired by `TC_B_09` / `TC_B_12` / `TC_B_20`: `SetVariables`, `GetBaseReport`, Reset wire shapes.
 #[test]
 fn tc_b_provisioning_control_messages_roundtrip() {
     let reset = roundtrip_call(Call::new(
@@ -528,7 +524,7 @@ fn block_c_authorize_accepted_roundtrip() {
 // Block E — Transactions (TC_E_* start/update/end via TransactionEvent)
 // ---------------------------------------------------------------------------
 
-/// Inspired by Block E: TransactionEvent Started → Updated → Ended with PendingCalls.
+/// Inspired by Block E: `TransactionEvent` Started → Updated → Ended with `PendingCalls`.
 #[test]
 fn block_e_transaction_event_lifecycle() {
     let tx_id = "tx-42";
@@ -794,6 +790,7 @@ fn block_p_data_transfer_unknown_vendor() {
 // ---------------------------------------------------------------------------
 
 #[test]
+#[allow(clippy::too_many_lines)]
 fn production_like_session_boot_auth_transaction() {
     // 1) Boot Accepted
     let mut boot_pending = PendingCalls::new();
@@ -807,7 +804,7 @@ fn production_like_session_boot_auth_transaction() {
             firmware_version: None,
             custom_data: Some(CustomDataType {
                 vendor_id: "VendorY".into(),
-                extra: Default::default(),
+                extra: BTreeMap::new(),
             }),
         },
         custom_data: None,

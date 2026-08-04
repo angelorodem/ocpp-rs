@@ -35,9 +35,9 @@ def header() -> str:
 //! Regenerate: `python tools/gen_validate.py`
 //! Check: `python tools/gen_validate.py --check`
 
-#![allow(clippy::all)]
-#![allow(dead_code)]
-#![allow(unused_imports)]
+// Generated stubs often have no constraints; silence noise without weakening hand-written code.
+#![allow(clippy::all, clippy::pedantic, clippy::nursery)]
+#![allow(dead_code, unused_imports, unused_variables, unused_assignments)]
 
 use crate::validate::{ConstraintViolation, Result as ValidateResult};
 use alloc::format;
@@ -93,79 +93,89 @@ def collect_refs(defn: dict, out: set[str]) -> None:
         collect_refs(p, out)
 
 
-def emit_property(lines: list[str], prop: str, pdef: dict, ind: str) -> None:
-    """Emit checks for one property; `obj` is the parent object, `path` is parent path."""
-    lines.append(f'{ind}if let Some(v) = obj.get("{prop}") {{')
+def property_body_lines(prop: str, pdef: dict, ind: str) -> list[str]:
+    """Return check lines for one property (no surrounding `if let Some(v)`)."""
+    body: list[str] = []
     if "$ref" in pdef:
         ref = pdef["$ref"].split("/")[-1]
-        lines.append(f'{ind}    let child = format!("{{path}}.{prop}");')
-        lines.append(f"{ind}    {fn_name(ref)}(v, &child)?;")
-        lines.append(f"{ind}}}")
-        return
+        body.append(f'{ind}let child = format!("{{path}}.{prop}");')
+        body.append(f"{ind}{fn_name(ref)}(v, &child)?;")
+        return body
 
     typ = pdef.get("type")
     if isinstance(typ, list):
         typ = next((t for t in typ if t != "null"), typ[0] if typ else None)
 
     if typ == "string" and "maxLength" in pdef:
-        lines.append(f"{ind}    if let Some(s) = v.as_str() {{")
-        lines.append(
-            f'{ind}        let child = format!("{{path}}.{prop}");'
-        )
-        lines.append(
-            f"{ind}        check_str_max(&child, s, {pdef['maxLength']})?;"
-        )
-        lines.append(f"{ind}    }}")
+        body.append(f"{ind}if let Some(s) = v.as_str() {{")
+        body.append(f'{ind}    let child = format!("{{path}}.{prop}");')
+        body.append(f"{ind}    check_str_max(&child, s, {pdef['maxLength']})?;")
+        body.append(f"{ind}}}")
 
     if typ in ("integer", "number") or "minimum" in pdef or "maximum" in pdef:
         if "minimum" in pdef or "maximum" in pdef:
-            lines.append(f"{ind}    if let Some(n) = v.as_f64() {{")
-            lines.append(
-                f'{ind}        let child = format!("{{path}}.{prop}");'
-            )
+            body.append(f"{ind}if let Some(n) = v.as_f64() {{")
+            body.append(f'{ind}    let child = format!("{{path}}.{prop}");')
             if "minimum" in pdef:
-                lines.append(
-                    f"{ind}        check_num_min(&child, n, {float(pdef['minimum'])})?;"
+                body.append(
+                    f"{ind}    check_num_min(&child, n, {float(pdef['minimum'])})?;"
                 )
             if "maximum" in pdef:
-                lines.append(
-                    f"{ind}        check_num_max(&child, n, {float(pdef['maximum'])})?;"
+                body.append(
+                    f"{ind}    check_num_max(&child, n, {float(pdef['maximum'])})?;"
                 )
-            lines.append(f"{ind}    }}")
+            body.append(f"{ind}}}")
 
     if typ == "array":
-        lines.append(f"{ind}    if let Some(arr) = v.as_array() {{")
-        lines.append(f'{ind}        let child = format!("{{path}}.{prop}");')
-        if "minItems" in pdef:
-            lines.append(
-                f"{ind}        check_arr_min(&child, arr, {pdef['minItems']})?;"
-            )
-        if "maxItems" in pdef:
-            lines.append(
-                f"{ind}        check_arr_max(&child, arr, {pdef['maxItems']})?;"
-            )
         items = pdef.get("items") or {}
-        if "$ref" in items:
-            ref = items["$ref"].split("/")[-1]
-            lines.append(f"{ind}        for (i, item) in arr.iter().enumerate() {{")
-            lines.append(
-                f'{ind}            let ip = format!("{{child}}[{{i}}]");'
-            )
-            lines.append(f"{ind}            {fn_name(ref)}(item, &ip)?;")
-            lines.append(f"{ind}        }}")
-        elif items.get("type") == "string" and "maxLength" in items:
-            ml = items["maxLength"]
-            lines.append(f"{ind}        for (i, item) in arr.iter().enumerate() {{")
-            lines.append(f"{ind}            if let Some(s) = item.as_str() {{")
-            lines.append(
-                f'{ind}                let ip = format!("{{child}}[{{i}}]");'
-            )
-            lines.append(f"{ind}                check_str_max(&ip, s, {ml})?;")
-            lines.append(f"{ind}            }}")
-            lines.append(f"{ind}        }}")
-        lines.append(f"{ind}    }}")
+        has_arr_checks = (
+            "minItems" in pdef
+            or "maxItems" in pdef
+            or "$ref" in items
+            or (items.get("type") == "string" and "maxLength" in items)
+        )
+        if has_arr_checks:
+            body.append(f"{ind}if let Some(arr) = v.as_array() {{")
+            body.append(f'{ind}    let child = format!("{{path}}.{prop}");')
+            if "minItems" in pdef:
+                body.append(
+                    f"{ind}    check_arr_min(&child, arr, {pdef['minItems']})?;"
+                )
+            if "maxItems" in pdef:
+                body.append(
+                    f"{ind}    check_arr_max(&child, arr, {pdef['maxItems']})?;"
+                )
+            if "$ref" in items:
+                ref = items["$ref"].split("/")[-1]
+                body.append(f"{ind}    for (i, item) in arr.iter().enumerate() {{")
+                body.append(f'{ind}        let ip = format!("{{child}}[{{i}}]");')
+                body.append(f"{ind}        {fn_name(ref)}(item, &ip)?;")
+                body.append(f"{ind}    }}")
+            elif items.get("type") == "string" and "maxLength" in items:
+                ml = items["maxLength"]
+                body.append(f"{ind}    for (i, item) in arr.iter().enumerate() {{")
+                body.append(f"{ind}        if let Some(s) = item.as_str() {{")
+                body.append(f'{ind}            let ip = format!("{{child}}[{{i}}]");')
+                body.append(f"{ind}            check_str_max(&ip, s, {ml})?;")
+                body.append(f"{ind}        }}")
+                body.append(f"{ind}    }}")
+            body.append(f"{ind}}}")
 
+    return body
+
+
+def emit_property(lines: list[str], prop: str, pdef: dict, ind: str) -> bool:
+    """Emit checks for one property; skip when the schema has no enforceable constraints.
+
+    Returns True if any checks were emitted.
+    """
+    body = property_body_lines(prop, pdef, ind + "    ")
+    if not body:
+        return False
+    lines.append(f'{ind}if let Some(v) = obj.get("{prop}") {{')
+    lines.extend(body)
     lines.append(f"{ind}}}")
+    return True
 
 
 def emit_defn_fn(
@@ -214,11 +224,23 @@ def emit_defn_fn(
         lines.append("")
         return
 
+    prop_lines: list[str] = []
+    any_checks = False
+    for prop, pdef in (defn.get("properties") or {}).items():
+        if emit_property(prop_lines, prop, pdef, "    "):
+            any_checks = True
+
+    if not any_checks:
+        lines.append("    let _ = (value, path);")
+        lines.append("    Ok(())")
+        lines.append("}")
+        lines.append("")
+        return
+
     lines.append("    let Some(obj) = value.as_object() else {")
     lines.append("        return Ok(());")
     lines.append("    };")
-    for prop, pdef in (defn.get("properties") or {}).items():
-        emit_property(lines, prop, pdef, "    ")
+    lines.extend(prop_lines)
     lines.append("    let _ = obj;")
     lines.append("    Ok(())")
     lines.append("}")
@@ -246,7 +268,13 @@ def generate_for_dir(schema_dir: Path, version_label: str) -> str:
         schema = json.loads(path.read_text())
         mod = snake(stem)
         lines.append(f"mod {mod} {{")
-        lines.append("    use super::*;")
+        # Explicit imports avoid clippy::wildcard_imports (pedantic is warn at crate root).
+        lines.append("    use super::{")
+        lines.append(
+            "        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,"
+        )
+        lines.append("        check_num_min, check_str_max, format,")
+        lines.append("    };")
         lines.append("")
         body: list[str] = []
         emitted: set[str] = set()

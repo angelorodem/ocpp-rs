@@ -1,6 +1,8 @@
-//! Schema validation + MessageId length tests.
+//! Schema validation + `MessageId` length tests.
 
+#[cfg(feature = "schema_validate")]
 use ocpp_rs::errors::Error;
+#[cfg(feature = "schema_validate")]
 use ocpp_rs::v21::parse::deserialize_to_message;
 use ocpp_rs::validate::{MESSAGE_ID_MAX_LEN, check_message_id_len};
 

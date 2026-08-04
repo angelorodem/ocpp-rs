@@ -99,13 +99,17 @@ fn set_charging_profile_nested_object() {
                     cs_charging_profiles.charging_schedule.charging_rate_unit,
                     ChargingRateUnitType::A
                 );
-                assert_eq!(
-                    cs_charging_profiles
-                        .charging_schedule
-                        .charging_schedule_period[0]
-                        .limit,
-                    16.0
-                );
+                // Exact JSON number from the fixture; not a computed float.
+                #[allow(clippy::float_cmp)]
+                {
+                    assert_eq!(
+                        cs_charging_profiles
+                            .charging_schedule
+                            .charging_schedule_period[0]
+                            .limit,
+                        16.0
+                    );
+                }
             }
             other => panic!("unexpected action: {other:?}"),
         },
@@ -187,7 +191,11 @@ fn get_composite_schedule_response_with_schedule() {
             assert_eq!(cr.payload.status, GetCompositeScheduleStatus::Accepted);
             let schedule = cr.payload.charging_schedule.expect("schedule");
             assert_eq!(schedule.charging_rate_unit, ChargingRateUnitType::A);
-            assert_eq!(schedule.charging_schedule_period[0].limit, 32.0);
+            // Exact JSON number from the fixture; not a computed float.
+            #[allow(clippy::float_cmp)]
+            {
+                assert_eq!(schedule.charging_schedule_period[0].limit, 32.0);
+            }
         }
         other => panic!("unexpected: {other:?}"),
     }

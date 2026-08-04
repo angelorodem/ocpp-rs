@@ -9,6 +9,7 @@ use ocpp_rs::v16::parse::{Message, deserialize_to_message};
 use ocpp_rs::v16::pending::PendingCalls;
 use ocpp_rs::v16::response_trait::Response;
 use ocpp_rs::v16::typed_call_result::TypedCallResult;
+use std::collections::BTreeMap;
 
 // Fixed instant (no chrono `clock` / `std`) with millisecond precision for wire round-trips.
 fn now_with_millis() -> DateTimeWrapper {
@@ -23,7 +24,7 @@ fn now_with_millis() -> DateTimeWrapper {
 fn test_parse_boot_notification() {
     let data = "[2, \"19223201\", \"BootNotification\", { \"chargePointVendor\": \"VendorX\", \"chargePointModel\": \"SingleSocketCharger\" }]";
     let message = deserialize_to_message(data).unwrap();
-    println!("\nParsed: {:?}\n", message);
+    println!("\nParsed: {message:?}\n");
 
     let message_eq: Message = Message::Call(Call::new(
         "19223201".to_string(),
@@ -47,7 +48,7 @@ fn test_parse_boot_notification() {
 fn test_parse_boot_notification_formatted() {
     let data = "[\n 2,\n \"000002202408090409141051003\",\n \"BootNotification\",\n {\n \"chargePointModel\": \"DC\",\n \"chargePointSerialNumber\": \"bbb\",\n \"chargePointVendor\": \"xxx\",\n \"firmwareVersion\": \"230906.0755\",\n \"iccid\": \"\",\n \"meterType\": \"DC\"\n }\n]\n";
     let message = deserialize_to_message(data).unwrap();
-    println!("\nParsed: {:?}\n", message);
+    println!("\nParsed: {message:?}\n");
 
     let message_eq: Message = Message::Call(Call::new(
         "000002202408090409141051003".to_string(),
@@ -56,7 +57,7 @@ fn test_parse_boot_notification_formatted() {
             charge_point_model: "DC".to_string(),
             charge_point_serial_number: Some("bbb".to_string()),
             firmware_version: Some("230906.0755".to_string()),
-            iccid: Some("".to_string()),
+            iccid: Some(String::new()),
             meter_type: Some("DC".to_string()),
             ..Default::default()
         }),
@@ -75,7 +76,7 @@ fn test_parse_boot_notification_formatted() {
 fn test_parse_heartbeat() {
     let data = "[2, \"19223201\", \"Heartbeat\", {}]";
     let message = deserialize_to_message(data).unwrap();
-    println!("\nParsed: {:?}\n", message);
+    println!("\nParsed: {message:?}\n");
 
     let message_eq: Message = Message::Call(Call::new(
         "19223201".to_string(),
@@ -95,7 +96,7 @@ fn test_parse_heartbeat() {
 fn test_status_notification() {
     let data = "[2, \"253356461\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"2024-06-01T19:52:45Z\"}]";
     let message = deserialize_to_message(data).unwrap();
-    println!("\nParsed: {:?}\n", message);
+    println!("\nParsed: {message:?}\n");
 
     let time = DateTimeWrapper::new(
         DateTime::parse_from_rfc3339("2024-06-01T19:52:45Z")
@@ -149,7 +150,7 @@ fn test_status_notification() {
 fn test_authorization_call_result() {
     let data = "[3, \"253356461\", {\"idTagInfo\":{\"status\":\"Accepted\"}}]";
     let message = deserialize_to_message(data).unwrap();
-    println!("\nParsed: {:?}\n", message);
+    println!("\nParsed: {message:?}\n");
 
     let id_tag_info = IdTagInfo {
         expiry_date: None,
@@ -178,7 +179,7 @@ fn test_get_configuration_call_result() {
         {\"key\":\"key2\", \"readonly\": true, \"value\": \"val2\" }
     ]}]";
     let message = deserialize_to_message(data).unwrap();
-    println!("\nParsed: {:?}\n", message);
+    println!("\nParsed: {message:?}\n");
 
     let config = ocpp_rs::v16::call_result::GetConfiguration {
         configuration_key: Some(vec![
@@ -759,7 +760,7 @@ fn test_serialization_roundtrip_all_message_types() {
         "test_001".to_string(),
         ocpp_rs::v16::rpc_error_code::RpcErrorCode::InternalError,
         "Test error".to_string(),
-        Default::default(),
+        BTreeMap::new(),
     ));
 
     let serialized = parse::serialize_message(&error_msg).unwrap();
@@ -780,8 +781,7 @@ fn test_datetime_timezone_handling() {
 
     for datetime_str in test_cases {
         let data = format!(
-            "[2, \"dt_test\", \"StatusNotification\", {{\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"{}\"}}]",
-            datetime_str
+            "[2, \"dt_test\", \"StatusNotification\", {{\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"{datetime_str}\"}}]"
         );
 
         let message = deserialize_to_message(&data).unwrap();
@@ -809,15 +809,13 @@ fn test_malformed_datetime_handling() {
 
     for invalid_dt in invalid_datetimes {
         let data = format!(
-            "[2, \"dt_test\", \"StatusNotification\", {{\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"{}\"}}]",
-            invalid_dt
+            "[2, \"dt_test\", \"StatusNotification\", {{\"connectorId\":1,\"errorCode\":\"NoError\",\"status\":\"Available\",\"timestamp\":\"{invalid_dt}\"}}]"
         );
 
         let result = deserialize_to_message(&data);
         assert!(
             result.is_err(),
-            "Expected failure for datetime: {}",
-            invalid_dt
+            "Expected failure for datetime: {invalid_dt}"
         );
     }
 }
@@ -865,8 +863,7 @@ fn test_extreme_numeric_values() {
 
     for (value, description) in test_cases {
         let data = format!(
-            "[2, \"numeric_test\", \"StartTransaction\", {{\"connectorId\":1,\"idTag\":\"TEST\",\"meterStart\":1000,\"timestamp\":\"2024-01-01T00:00:00Z\",\"reservationId\":{}}}]",
-            value
+            "[2, \"numeric_test\", \"StartTransaction\", {{\"connectorId\":1,\"idTag\":\"TEST\",\"meterStart\":1000,\"timestamp\":\"2024-01-01T00:00:00Z\",\"reservationId\":{value}}}]"
         );
 
         let result = deserialize_to_message(&data);
@@ -878,9 +875,7 @@ fn test_extreme_numeric_values() {
             _ => {
                 assert!(
                     result.is_ok(),
-                    "Failed to parse {} value: {}",
-                    description,
-                    value
+                    "Failed to parse {description} value: {value}"
                 );
                 if let Ok(message) = result {
                     let serialized = parse::serialize_message(&message).unwrap();
@@ -930,8 +925,7 @@ fn test_concurrent_message_processing() {
         handle.join().unwrap();
     }
 
-    let final_results = results.lock().unwrap();
-    assert_eq!(final_results.len(), 5);
+    assert_eq!(results.lock().unwrap().len(), 5);
 }
 
 #[test]
@@ -967,18 +961,15 @@ fn test_memory_pressure_large_payloads() {
     // Performance assertions (adjust thresholds based on requirements)
     assert!(
         parse_time.as_millis() < 1000,
-        "Parsing took too long: {:?}",
-        parse_time
+        "Parsing took too long: {parse_time:?}"
     );
     assert!(
         serialize_time.as_millis() < 1000,
-        "Serialization took too long: {:?}",
-        serialize_time
+        "Serialization took too long: {serialize_time:?}"
     );
     assert!(
         roundtrip_time.as_millis() < 1000,
-        "Roundtrip took too long: {:?}",
-        roundtrip_time
+        "Roundtrip took too long: {roundtrip_time:?}"
     );
 }
 
@@ -1059,6 +1050,7 @@ fn test_all_enum_variants_serialization() {
 }
 
 #[test]
+#[allow(clippy::too_many_lines)]
 fn test_production_workflow_simulation() {
     // Simulate a complete charging session workflow
     let mut messages = Vec::new();
@@ -1237,7 +1229,7 @@ fn test_message_id_consistency() {
         "test".to_string(),
         ocpp_rs::v16::rpc_error_code::RpcErrorCode::GenericError,
         "Test error".to_string(),
-        Default::default(),
+        BTreeMap::new(),
     ));
     let serialized = parse::serialize_message(&call_error).unwrap();
     assert!(serialized.starts_with("[4,"));
@@ -1339,7 +1331,7 @@ fn test_optional_field_combinations() {
     ];
 
     for (i, boot) in boot_variants.into_iter().enumerate() {
-        let call = Call::new(format!("boot_{}", i), Action::BootNotification(boot));
+        let call = Call::new(format!("boot_{i}"), Action::BootNotification(boot));
         let message = Message::Call(call);
 
         let serialized = parse::serialize_message(&message).unwrap();

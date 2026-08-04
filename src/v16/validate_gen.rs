@@ -2,9 +2,9 @@
 //! Regenerate: `python tools/gen_validate.py`
 //! Check: `python tools/gen_validate.py --check`
 
-#![allow(clippy::all)]
-#![allow(dead_code)]
-#![allow(unused_imports)]
+// Generated stubs often have no constraints; silence noise without weakening hand-written code.
+#![allow(clippy::all, clippy::pedantic, clippy::nursery)]
+#![allow(dead_code, unused_imports, unused_variables, unused_assignments)]
 
 use crate::validate::{ConstraintViolation, Result as ValidateResult};
 use alloc::format;
@@ -47,8 +47,12 @@ fn check_num_max(path: &str, n: f64, max: f64) -> ValidateResult<()> {
     Ok(())
 }
 
+
 mod authorize {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_authorize(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -68,14 +72,13 @@ mod authorize {
 }
 
 mod authorize_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_authorize_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("idTagInfo") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -83,7 +86,10 @@ mod authorize_response {
 }
 
 mod boot_notification {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_boot_notification(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -151,16 +157,13 @@ mod boot_notification {
 }
 
 mod boot_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_boot_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        if let Some(v) = obj.get("currentTime") {}
-        if let Some(v) = obj.get("interval") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -168,14 +171,13 @@ mod boot_notification_response {
 }
 
 mod cancel_reservation {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_cancel_reservation(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("reservationId") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -183,14 +185,13 @@ mod cancel_reservation {
 }
 
 mod cancel_reservation_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_cancel_reservation_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -198,15 +199,13 @@ mod cancel_reservation_response {
 }
 
 mod change_availability {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_change_availability(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("type") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -214,14 +213,13 @@ mod change_availability {
 }
 
 mod change_availability_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_change_availability_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -229,7 +227,10 @@ mod change_availability_response {
 }
 
 mod change_configuration {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_change_configuration(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -255,14 +256,13 @@ mod change_configuration {
 }
 
 mod change_configuration_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_change_configuration_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -270,13 +270,13 @@ mod change_configuration_response {
 }
 
 mod clear_cache {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_clear_cache(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -284,14 +284,13 @@ mod clear_cache {
 }
 
 mod clear_cache_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_clear_cache_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -299,17 +298,13 @@ mod clear_cache_response {
 }
 
 mod clear_charging_profile {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_clear_charging_profile(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("id") {}
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("chargingProfilePurpose") {}
-        if let Some(v) = obj.get("stackLevel") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -317,17 +312,13 @@ mod clear_charging_profile {
 }
 
 mod clear_charging_profile_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_clear_charging_profile_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+    pub fn validate_clear_charging_profile_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -335,7 +326,10 @@ mod clear_charging_profile_response {
 }
 
 mod data_transfer {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_data_transfer(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -353,7 +347,6 @@ mod data_transfer {
                 check_str_max(&child, s, 50)?;
             }
         }
-        if let Some(v) = obj.get("data") {}
         let _ = obj;
         Ok(())
     }
@@ -362,15 +355,13 @@ mod data_transfer {
 }
 
 mod data_transfer_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_data_transfer_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        if let Some(v) = obj.get("data") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -378,17 +369,13 @@ mod data_transfer_response {
 }
 
 mod diagnostics_status_notification {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_diagnostics_status_notification(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+    pub fn validate_diagnostics_status_notification(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -396,16 +383,13 @@ mod diagnostics_status_notification {
 }
 
 mod diagnostics_status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_diagnostics_status_notification_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+    pub fn validate_diagnostics_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -413,14 +397,13 @@ mod diagnostics_status_notification_response {
 }
 
 mod firmware_status_notification {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_firmware_status_notification(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -428,16 +411,13 @@ mod firmware_status_notification {
 }
 
 mod firmware_status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_firmware_status_notification_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+    pub fn validate_firmware_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -445,16 +425,13 @@ mod firmware_status_notification_response {
 }
 
 mod get_composite_schedule {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_get_composite_schedule(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("duration") {}
-        if let Some(v) = obj.get("chargingRateUnit") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -462,20 +439,13 @@ mod get_composite_schedule {
 }
 
 mod get_composite_schedule_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_composite_schedule_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("scheduleStart") {}
-        if let Some(v) = obj.get("chargingSchedule") {}
-        let _ = obj;
+    pub fn validate_get_composite_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -483,7 +453,10 @@ mod get_composite_schedule_response {
 }
 
 mod get_configuration {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_get_configuration(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -508,17 +481,15 @@ mod get_configuration {
 }
 
 mod get_configuration_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_get_configuration_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("configurationKey") {
-            if let Some(arr) = v.as_array() {
-                let child = format!("{path}.configurationKey");
-            }
-        }
         if let Some(v) = obj.get("unknownKey") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.unknownKey");
@@ -538,18 +509,13 @@ mod get_configuration_response {
 }
 
 mod get_diagnostics {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_get_diagnostics(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("location") {}
-        if let Some(v) = obj.get("retries") {}
-        if let Some(v) = obj.get("retryInterval") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("stopTime") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -557,7 +523,10 @@ mod get_diagnostics {
 }
 
 mod get_diagnostics_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_get_diagnostics_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -577,13 +546,13 @@ mod get_diagnostics_response {
 }
 
 mod get_local_list_version {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_get_local_list_version(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -591,17 +560,13 @@ mod get_local_list_version {
 }
 
 mod get_local_list_version_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_local_list_version_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("listVersion") {}
-        let _ = obj;
+    pub fn validate_get_local_list_version_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -609,13 +574,13 @@ mod get_local_list_version_response {
 }
 
 mod heartbeat {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_heartbeat(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -623,14 +588,13 @@ mod heartbeat {
 }
 
 mod heartbeat_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_heartbeat_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("currentTime") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -638,20 +602,13 @@ mod heartbeat_response {
 }
 
 mod meter_values {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_meter_values(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("transactionId") {}
-        if let Some(v) = obj.get("meterValue") {
-            if let Some(arr) = v.as_array() {
-                let child = format!("{path}.meterValue");
-            }
-        }
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -659,13 +616,13 @@ mod meter_values {
 }
 
 mod meter_values_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_meter_values_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -673,20 +630,21 @@ mod meter_values_response {
 }
 
 mod remote_start_transaction {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_remote_start_transaction(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {}
         if let Some(v) = obj.get("idTag") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.idTag");
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("chargingProfile") {}
         let _ = obj;
         Ok(())
     }
@@ -695,17 +653,13 @@ mod remote_start_transaction {
 }
 
 mod remote_start_transaction_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_remote_start_transaction_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+    pub fn validate_remote_start_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -713,14 +667,13 @@ mod remote_start_transaction_response {
 }
 
 mod remote_stop_transaction {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_remote_stop_transaction(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("transactionId") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -728,17 +681,13 @@ mod remote_stop_transaction {
 }
 
 mod remote_stop_transaction_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_remote_stop_transaction_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+    pub fn validate_remote_stop_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
+        let _ = (value, path);
         Ok(())
     }
 
@@ -746,14 +695,15 @@ mod remote_stop_transaction_response {
 }
 
 mod reserve_now {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reserve_now(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("expiryDate") {}
         if let Some(v) = obj.get("idTag") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.idTag");
@@ -766,7 +716,6 @@ mod reserve_now {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("reservationId") {}
         let _ = obj;
         Ok(())
     }
@@ -775,14 +724,13 @@ mod reserve_now {
 }
 
 mod reserve_now_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reserve_now_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -790,14 +738,13 @@ mod reserve_now_response {
 }
 
 mod reset {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reset(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("type") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -805,14 +752,13 @@ mod reset {
 }
 
 mod reset_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reset_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -820,20 +766,13 @@ mod reset_response {
 }
 
 mod send_local_list {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_send_local_list(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("listVersion") {}
-        if let Some(v) = obj.get("localAuthorizationList") {
-            if let Some(arr) = v.as_array() {
-                let child = format!("{path}.localAuthorizationList");
-            }
-        }
-        if let Some(v) = obj.get("updateType") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -841,14 +780,13 @@ mod send_local_list {
 }
 
 mod send_local_list_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_send_local_list_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -856,15 +794,13 @@ mod send_local_list_response {
 }
 
 mod set_charging_profile {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_set_charging_profile(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("csChargingProfiles") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -872,14 +808,13 @@ mod set_charging_profile {
 }
 
 mod set_charging_profile_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_set_charging_profile_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -887,22 +822,21 @@ mod set_charging_profile_response {
 }
 
 mod start_transaction {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_start_transaction(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {}
         if let Some(v) = obj.get("idTag") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.idTag");
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("meterStart") {}
-        if let Some(v) = obj.get("reservationId") {}
-        if let Some(v) = obj.get("timestamp") {}
         let _ = obj;
         Ok(())
     }
@@ -911,15 +845,13 @@ mod start_transaction {
 }
 
 mod start_transaction_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_start_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("idTagInfo") {}
-        if let Some(v) = obj.get("transactionId") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -927,22 +859,21 @@ mod start_transaction_response {
 }
 
 mod status_notification {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_status_notification(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("connectorId") {}
-        if let Some(v) = obj.get("errorCode") {}
         if let Some(v) = obj.get("info") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.info");
                 check_str_max(&child, s, 50)?;
             }
         }
-        if let Some(v) = obj.get("status") {}
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("vendorId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.vendorId");
@@ -963,13 +894,13 @@ mod status_notification {
 }
 
 mod status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -977,7 +908,10 @@ mod status_notification_response {
 }
 
 mod stop_transaction {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_stop_transaction(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -989,15 +923,6 @@ mod stop_transaction {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("meterStop") {}
-        if let Some(v) = obj.get("timestamp") {}
-        if let Some(v) = obj.get("transactionId") {}
-        if let Some(v) = obj.get("reason") {}
-        if let Some(v) = obj.get("transactionData") {
-            if let Some(arr) = v.as_array() {
-                let child = format!("{path}.transactionData");
-            }
-        }
         let _ = obj;
         Ok(())
     }
@@ -1006,14 +931,13 @@ mod stop_transaction {
 }
 
 mod stop_transaction_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_stop_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("idTagInfo") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1021,15 +945,13 @@ mod stop_transaction_response {
 }
 
 mod trigger_message {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_trigger_message(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("requestedMessage") {}
-        if let Some(v) = obj.get("connectorId") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1037,14 +959,13 @@ mod trigger_message {
 }
 
 mod trigger_message_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_trigger_message_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1052,14 +973,13 @@ mod trigger_message_response {
 }
 
 mod unlock_connector {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_unlock_connector(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("connectorId") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1067,14 +987,13 @@ mod unlock_connector {
 }
 
 mod unlock_connector_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_unlock_connector_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("status") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1082,17 +1001,13 @@ mod unlock_connector_response {
 }
 
 mod update_firmware {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_update_firmware(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        if let Some(v) = obj.get("location") {}
-        if let Some(v) = obj.get("retries") {}
-        if let Some(v) = obj.get("retrieveDate") {}
-        if let Some(v) = obj.get("retryInterval") {}
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1100,13 +1015,13 @@ mod update_firmware {
 }
 
 mod update_firmware_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_update_firmware_response(value: &Value, path: &str) -> ValidateResult<()> {
-        let Some(obj) = value.as_object() else {
-            return Ok(());
-        };
-        let _ = obj;
+        let _ = (value, path);
         Ok(())
     }
 
@@ -1159,12 +1074,8 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "ClearCache" => clear_cache_response::root(payload, action),
         "ClearChargingProfile" => clear_charging_profile_response::root(payload, action),
         "DataTransfer" => data_transfer_response::root(payload, action),
-        "DiagnosticsStatusNotification" => {
-            diagnostics_status_notification_response::root(payload, action)
-        }
-        "FirmwareStatusNotification" => {
-            firmware_status_notification_response::root(payload, action)
-        }
+        "DiagnosticsStatusNotification" => diagnostics_status_notification_response::root(payload, action),
+        "FirmwareStatusNotification" => firmware_status_notification_response::root(payload, action),
         "GetCompositeSchedule" => get_composite_schedule_response::root(payload, action),
         "GetConfiguration" => get_configuration_response::root(payload, action),
         "GetDiagnostics" => get_diagnostics_response::root(payload, action),

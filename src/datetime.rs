@@ -23,8 +23,6 @@ impl DateTimeWrapper {
     }
 }
 
-const STRICT_FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
-
 fn serialize_utc<S>(dt: DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
@@ -38,6 +36,7 @@ where
     #[cfg(not(feature = "datetime_serialize_rfc3339"))]
     {
         use alloc::format;
+        const STRICT_FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
         let s = format!("{}", dt.format(STRICT_FORMAT));
         serializer.serialize_str(&s)
     }

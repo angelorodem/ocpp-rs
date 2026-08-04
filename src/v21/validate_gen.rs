@@ -2,9 +2,9 @@
 //! Regenerate: `python tools/gen_validate.py`
 //! Check: `python tools/gen_validate.py --check`
 
-#![allow(clippy::all)]
-#![allow(dead_code)]
-#![allow(unused_imports)]
+// Generated stubs often have no constraints; silence noise without weakening hand-written code.
+#![allow(clippy::all, clippy::pedantic, clippy::nursery)]
+#![allow(dead_code, unused_imports, unused_variables, unused_assignments)]
 
 use crate::validate::{ConstraintViolation, Result as ValidateResult};
 use alloc::format;
@@ -47,8 +47,12 @@ fn check_num_max(path: &str, n: f64, max: f64) -> ValidateResult<()> {
     Ok(())
 }
 
+
 mod afrr_signal_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -68,8 +72,6 @@ mod afrr_signal_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timestamp") {}
-        if let Some(v) = obj.get("signal") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -82,7 +84,10 @@ mod afrr_signal_request {
 }
 
 mod afrr_signal_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -151,7 +156,10 @@ mod afrr_signal_response {
 }
 
 mod adjust_periodic_event_stream_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -167,10 +175,7 @@ mod adjust_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -194,10 +199,7 @@ mod adjust_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_adjust_periodic_event_stream_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_adjust_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -223,7 +225,10 @@ mod adjust_periodic_event_stream_request {
 }
 
 mod adjust_periodic_event_stream_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -268,10 +273,7 @@ mod adjust_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_adjust_periodic_event_stream_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_adjust_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -295,7 +297,10 @@ mod adjust_periodic_event_stream_response {
 }
 
 mod authorize_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -451,20 +456,17 @@ mod authorize_request {
 }
 
 mod authorize_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_authorization_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_authorization_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_authorize_certificate_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_authorize_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -474,10 +476,7 @@ mod authorize_response {
         Ok(())
     }
 
-    pub fn validate_energy_transfer_mode_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_energy_transfer_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -600,8 +599,6 @@ mod authorize_response {
             let child = format!("{path}.status");
             validate_authorization_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("cacheExpiryDateTime") {}
-        if let Some(v) = obj.get("chargingPriority") {}
         if let Some(v) = obj.get("groupIdToken") {
             let child = format!("{path}.groupIdToken");
             validate_id_token_type(v, &child)?;
@@ -646,7 +643,6 @@ mod authorize_response {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("tax") {}
         if let Some(v) = obj.get("stack") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stack");
@@ -665,8 +661,6 @@ mod authorize_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exclTax") {}
-        if let Some(v) = obj.get("inclTax") {}
         if let Some(v) = obj.get("taxRates") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.taxRates");
@@ -690,8 +684,6 @@ mod authorize_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startTimeOfDay") {}
-        if let Some(v) = obj.get("endTimeOfDay") {}
         if let Some(v) = obj.get("dayOfWeek") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.dayOfWeek");
@@ -703,8 +695,6 @@ mod authorize_response {
                 }
             }
         }
-        if let Some(v) = obj.get("validFromDate") {}
-        if let Some(v) = obj.get("validToDate") {}
         if let Some(v) = obj.get("evseKind") {
             let child = format!("{path}.evseKind");
             validate_evse_kind_enum_type(v, &child)?;
@@ -733,8 +723,6 @@ mod authorize_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startTimeOfDay") {}
-        if let Some(v) = obj.get("endTimeOfDay") {}
         if let Some(v) = obj.get("dayOfWeek") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.dayOfWeek");
@@ -746,24 +734,10 @@ mod authorize_response {
                 }
             }
         }
-        if let Some(v) = obj.get("validFromDate") {}
-        if let Some(v) = obj.get("validToDate") {}
         if let Some(v) = obj.get("evseKind") {
             let child = format!("{path}.evseKind");
             validate_evse_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minEnergy") {}
-        if let Some(v) = obj.get("maxEnergy") {}
-        if let Some(v) = obj.get("minCurrent") {}
-        if let Some(v) = obj.get("maxCurrent") {}
-        if let Some(v) = obj.get("minPower") {}
-        if let Some(v) = obj.get("maxPower") {}
-        if let Some(v) = obj.get("minTime") {}
-        if let Some(v) = obj.get("maxTime") {}
-        if let Some(v) = obj.get("minChargingTime") {}
-        if let Some(v) = obj.get("maxChargingTime") {}
-        if let Some(v) = obj.get("minIdleTime") {}
-        if let Some(v) = obj.get("maxIdleTime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -776,7 +750,6 @@ mod authorize_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("priceKwh") {}
         if let Some(v) = obj.get("conditions") {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_type(v, &child)?;
@@ -830,7 +803,6 @@ mod authorize_response {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_fixed_type(v, &child)?;
         }
-        if let Some(v) = obj.get("priceFixed") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -876,7 +848,6 @@ mod authorize_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("priceMinute") {}
         if let Some(v) = obj.get("conditions") {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_type(v, &child)?;
@@ -953,7 +924,6 @@ mod authorize_response {
             let child = format!("{path}.energy");
             validate_tariff_energy_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
         if let Some(v) = obj.get("chargingTime") {
             let child = format!("{path}.chargingTime");
             validate_tariff_time_type(v, &child)?;
@@ -1028,7 +998,10 @@ mod authorize_response {
 }
 
 mod battery_swap_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_battery_swap_event_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -1103,7 +1076,6 @@ mod battery_swap_request {
                 check_num_max(&child, n, 100.0)?;
             }
         }
-        if let Some(v) = obj.get("productionDate") {}
         if let Some(v) = obj.get("vendorInfo") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.vendorInfo");
@@ -1174,7 +1146,6 @@ mod battery_swap_request {
             let child = format!("{path}.idToken");
             validate_id_token_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -1187,7 +1158,10 @@ mod battery_swap_request {
 }
 
 mod battery_swap_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -1219,7 +1193,10 @@ mod battery_swap_response {
 }
 
 mod boot_notification_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_boot_reason_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -1328,7 +1305,10 @@ mod boot_notification_request {
 }
 
 mod boot_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_registration_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -1377,8 +1357,6 @@ mod boot_notification_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("currentTime") {}
-        if let Some(v) = obj.get("interval") {}
         if let Some(v) = obj.get("status") {
             let child = format!("{path}.status");
             validate_registration_status_enum_type(v, &child)?;
@@ -1399,7 +1377,10 @@ mod boot_notification_response {
 }
 
 mod cancel_reservation_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -1437,12 +1418,12 @@ mod cancel_reservation_request {
 }
 
 mod cancel_reservation_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_cancel_reservation_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_cancel_reservation_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1509,12 +1490,12 @@ mod cancel_reservation_response {
 }
 
 mod certificate_signed_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_certificate_signing_use_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_signing_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1547,7 +1528,6 @@ mod certificate_signed_request {
             let child = format!("{path}.certificateType");
             validate_certificate_signing_use_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -1560,12 +1540,12 @@ mod certificate_signed_request {
 }
 
 mod certificate_signed_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_certificate_signed_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_signed_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1632,7 +1612,10 @@ mod certificate_signed_response {
 }
 
 mod change_availability_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_operational_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -1701,12 +1684,12 @@ mod change_availability_request {
 }
 
 mod change_availability_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_change_availability_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_change_availability_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1773,7 +1756,10 @@ mod change_availability_response {
 }
 
 mod change_transaction_tariff_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_day_of_week_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -1842,7 +1828,6 @@ mod change_transaction_tariff_request {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("tax") {}
         if let Some(v) = obj.get("stack") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stack");
@@ -1861,8 +1846,6 @@ mod change_transaction_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exclTax") {}
-        if let Some(v) = obj.get("inclTax") {}
         if let Some(v) = obj.get("taxRates") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.taxRates");
@@ -1886,8 +1869,6 @@ mod change_transaction_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startTimeOfDay") {}
-        if let Some(v) = obj.get("endTimeOfDay") {}
         if let Some(v) = obj.get("dayOfWeek") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.dayOfWeek");
@@ -1899,8 +1880,6 @@ mod change_transaction_tariff_request {
                 }
             }
         }
-        if let Some(v) = obj.get("validFromDate") {}
-        if let Some(v) = obj.get("validToDate") {}
         if let Some(v) = obj.get("evseKind") {
             let child = format!("{path}.evseKind");
             validate_evse_kind_enum_type(v, &child)?;
@@ -1929,8 +1908,6 @@ mod change_transaction_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startTimeOfDay") {}
-        if let Some(v) = obj.get("endTimeOfDay") {}
         if let Some(v) = obj.get("dayOfWeek") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.dayOfWeek");
@@ -1942,24 +1919,10 @@ mod change_transaction_tariff_request {
                 }
             }
         }
-        if let Some(v) = obj.get("validFromDate") {}
-        if let Some(v) = obj.get("validToDate") {}
         if let Some(v) = obj.get("evseKind") {
             let child = format!("{path}.evseKind");
             validate_evse_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minEnergy") {}
-        if let Some(v) = obj.get("maxEnergy") {}
-        if let Some(v) = obj.get("minCurrent") {}
-        if let Some(v) = obj.get("maxCurrent") {}
-        if let Some(v) = obj.get("minPower") {}
-        if let Some(v) = obj.get("maxPower") {}
-        if let Some(v) = obj.get("minTime") {}
-        if let Some(v) = obj.get("maxTime") {}
-        if let Some(v) = obj.get("minChargingTime") {}
-        if let Some(v) = obj.get("maxChargingTime") {}
-        if let Some(v) = obj.get("minIdleTime") {}
-        if let Some(v) = obj.get("maxIdleTime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -1972,7 +1935,6 @@ mod change_transaction_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("priceKwh") {}
         if let Some(v) = obj.get("conditions") {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_type(v, &child)?;
@@ -2026,7 +1988,6 @@ mod change_transaction_tariff_request {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_fixed_type(v, &child)?;
         }
-        if let Some(v) = obj.get("priceFixed") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -2072,7 +2033,6 @@ mod change_transaction_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("priceMinute") {}
         if let Some(v) = obj.get("conditions") {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_type(v, &child)?;
@@ -2149,7 +2109,6 @@ mod change_transaction_tariff_request {
             let child = format!("{path}.energy");
             validate_tariff_energy_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
         if let Some(v) = obj.get("chargingTime") {
             let child = format!("{path}.chargingTime");
             validate_tariff_time_type(v, &child)?;
@@ -2186,10 +2145,7 @@ mod change_transaction_tariff_request {
         Ok(())
     }
 
-    pub fn validate_change_transaction_tariff_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_change_transaction_tariff_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2215,12 +2171,12 @@ mod change_transaction_tariff_request {
 }
 
 mod change_transaction_tariff_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_tariff_change_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_tariff_change_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2263,10 +2219,7 @@ mod change_transaction_tariff_response {
         Ok(())
     }
 
-    pub fn validate_change_transaction_tariff_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_change_transaction_tariff_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2290,7 +2243,10 @@ mod change_transaction_tariff_response {
 }
 
 mod clear_cache_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -2322,7 +2278,10 @@ mod clear_cache_request {
 }
 
 mod clear_cache_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_clear_cache_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -2391,12 +2350,12 @@ mod clear_cache_response {
 }
 
 mod clear_charging_profile_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_purpose_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2443,14 +2402,10 @@ mod clear_charging_profile_request {
         Ok(())
     }
 
-    pub fn validate_clear_charging_profile_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("chargingProfileId") {}
         if let Some(v) = obj.get("chargingProfileCriteria") {
             let child = format!("{path}.chargingProfileCriteria");
             validate_clear_charging_profile_type(v, &child)?;
@@ -2467,12 +2422,12 @@ mod clear_charging_profile_request {
 }
 
 mod clear_charging_profile_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_clear_charging_profile_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2515,10 +2470,7 @@ mod clear_charging_profile_response {
         Ok(())
     }
 
-    pub fn validate_clear_charging_profile_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2542,7 +2494,10 @@ mod clear_charging_profile_response {
 }
 
 mod clear_der_control_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -2567,7 +2522,6 @@ mod clear_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("isDefault") {}
         if let Some(v) = obj.get("controlType") {
             let child = format!("{path}.controlType");
             validate_der_control_enum_type(v, &child)?;
@@ -2590,7 +2544,10 @@ mod clear_der_control_request {
 }
 
 mod clear_der_control_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -2659,7 +2616,10 @@ mod clear_der_control_response {
 }
 
 mod clear_display_message_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -2697,12 +2657,12 @@ mod clear_display_message_request {
 }
 
 mod clear_display_message_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_clear_message_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_message_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2745,10 +2705,7 @@ mod clear_display_message_response {
         Ok(())
     }
 
-    pub fn validate_clear_display_message_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_display_message_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2772,7 +2729,10 @@ mod clear_display_message_response {
 }
 
 mod clear_tariffs_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -2822,7 +2782,10 @@ mod clear_tariffs_request {
 }
 
 mod clear_tariffs_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_tariff_clear_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -2919,7 +2882,10 @@ mod clear_tariffs_response {
 }
 
 mod clear_variable_monitoring_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -2935,10 +2901,7 @@ mod clear_variable_monitoring_request {
         Ok(())
     }
 
-    pub fn validate_clear_variable_monitoring_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_variable_monitoring_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2960,12 +2923,12 @@ mod clear_variable_monitoring_request {
 }
 
 mod clear_variable_monitoring_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_clear_monitoring_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_monitoring_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3034,10 +2997,7 @@ mod clear_variable_monitoring_response {
         Ok(())
     }
 
-    pub fn validate_clear_variable_monitoring_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_clear_variable_monitoring_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3063,7 +3023,10 @@ mod clear_variable_monitoring_response {
 }
 
 mod cleared_charging_limit_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3079,10 +3042,7 @@ mod cleared_charging_limit_request {
         Ok(())
     }
 
-    pub fn validate_cleared_charging_limit_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_cleared_charging_limit_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3110,7 +3070,10 @@ mod cleared_charging_limit_request {
 }
 
 mod cleared_charging_limit_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3126,10 +3089,7 @@ mod cleared_charging_limit_response {
         Ok(())
     }
 
-    pub fn validate_cleared_charging_limit_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_cleared_charging_limit_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3145,7 +3105,10 @@ mod cleared_charging_limit_response {
 }
 
 mod close_periodic_event_stream_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3161,10 +3124,7 @@ mod close_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_close_periodic_event_stream_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_close_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3186,7 +3146,10 @@ mod close_periodic_event_stream_request {
 }
 
 mod close_periodic_event_stream_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3202,10 +3165,7 @@ mod close_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_close_periodic_event_stream_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_close_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3221,7 +3181,10 @@ mod close_periodic_event_stream_response {
 }
 
 mod cost_updated_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3241,7 +3204,6 @@ mod cost_updated_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("totalCost") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
@@ -3260,7 +3222,10 @@ mod cost_updated_request {
 }
 
 mod cost_updated_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3292,7 +3257,10 @@ mod cost_updated_response {
 }
 
 mod customer_information_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -3423,8 +3391,6 @@ mod customer_information_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("report") {}
-        if let Some(v) = obj.get("clear") {}
         if let Some(v) = obj.get("customerIdentifier") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.customerIdentifier");
@@ -3443,12 +3409,12 @@ mod customer_information_request {
 }
 
 mod customer_information_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_customer_information_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_customer_information_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3515,7 +3481,10 @@ mod customer_information_response {
 }
 
 mod data_transfer_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3541,7 +3510,6 @@ mod data_transfer_request {
                 check_str_max(&child, s, 50)?;
             }
         }
-        if let Some(v) = obj.get("data") {}
         if let Some(v) = obj.get("vendorId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.vendorId");
@@ -3560,12 +3528,12 @@ mod data_transfer_request {
 }
 
 mod data_transfer_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_data_transfer_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_data_transfer_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3620,7 +3588,6 @@ mod data_transfer_response {
             let child = format!("{path}.statusInfo");
             validate_status_info_type(v, &child)?;
         }
-        if let Some(v) = obj.get("data") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -3633,7 +3600,10 @@ mod data_transfer_response {
 }
 
 mod delete_certificate_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -3708,12 +3678,12 @@ mod delete_certificate_request {
 }
 
 mod delete_certificate_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_delete_certificate_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_delete_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3780,7 +3750,10 @@ mod delete_certificate_response {
 }
 
 mod firmware_status_notification_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -3825,10 +3798,7 @@ mod firmware_status_notification_request {
         Ok(())
     }
 
-    pub fn validate_firmware_status_notification_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_firmware_status_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3836,7 +3806,6 @@ mod firmware_status_notification_request {
             let child = format!("{path}.status");
             validate_firmware_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("statusInfo") {
             let child = format!("{path}.statusInfo");
             validate_status_info_type(v, &child)?;
@@ -3853,7 +3822,10 @@ mod firmware_status_notification_request {
 }
 
 mod firmware_status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -3869,10 +3841,7 @@ mod firmware_status_notification_response {
         Ok(())
     }
 
-    pub fn validate_firmware_status_notification_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_firmware_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3888,7 +3857,10 @@ mod firmware_status_notification_response {
 }
 
 mod get15118_ev_certificate_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_certificate_action_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -3909,10 +3881,7 @@ mod get15118_ev_certificate_request {
         Ok(())
     }
 
-    pub fn validate_get15118_ev_certificate_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get15118_ev_certificate_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3963,12 +3932,12 @@ mod get15118_ev_certificate_request {
 }
 
 mod get15118_ev_certificate_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_iso15118_ev_certificate_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_iso15118_ev_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4011,10 +3980,7 @@ mod get15118_ev_certificate_response {
         Ok(())
     }
 
-    pub fn validate_get15118_ev_certificate_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get15118_ev_certificate_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4050,7 +4016,10 @@ mod get15118_ev_certificate_response {
 }
 
 mod get_base_report_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_report_base_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -4075,7 +4044,6 @@ mod get_base_report_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("reportBase") {
             let child = format!("{path}.reportBase");
             validate_report_base_enum_type(v, &child)?;
@@ -4092,12 +4060,12 @@ mod get_base_report_request {
 }
 
 mod get_base_report_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_generic_device_model_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4164,12 +4132,12 @@ mod get_base_report_response {
 }
 
 mod get_certificate_chain_status_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_certificate_status_source_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_status_source_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4227,10 +4195,7 @@ mod get_certificate_chain_status_request {
         Ok(())
     }
 
-    pub fn validate_certificate_status_request_info_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_status_request_info_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4263,10 +4228,7 @@ mod get_certificate_chain_status_request {
         Ok(())
     }
 
-    pub fn validate_get_certificate_chain_status_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_chain_status_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4293,17 +4255,17 @@ mod get_certificate_chain_status_request {
 }
 
 mod get_certificate_chain_status_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_certificate_status_source_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_status_source_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4377,7 +4339,6 @@ mod get_certificate_chain_status_response {
             let child = format!("{path}.status");
             validate_certificate_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("nextUpdate") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -4386,10 +4347,7 @@ mod get_certificate_chain_status_response {
         Ok(())
     }
 
-    pub fn validate_get_certificate_chain_status_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_chain_status_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4416,7 +4374,10 @@ mod get_certificate_chain_status_response {
 }
 
 mod get_certificate_status_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -4477,10 +4438,7 @@ mod get_certificate_status_request {
         Ok(())
     }
 
-    pub fn validate_get_certificate_status_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_status_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4500,12 +4458,12 @@ mod get_certificate_status_request {
 }
 
 mod get_certificate_status_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_certificate_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4548,10 +4506,7 @@ mod get_certificate_status_response {
         Ok(())
     }
 
-    pub fn validate_get_certificate_status_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_status_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4581,12 +4536,12 @@ mod get_certificate_status_response {
 }
 
 mod get_charging_profiles_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_purpose_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4605,10 +4560,7 @@ mod get_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_charging_profile_criterion_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_criterion_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4653,7 +4605,6 @@ mod get_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("evseId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.evseId");
@@ -4676,12 +4627,12 @@ mod get_charging_profiles_request {
 }
 
 mod get_charging_profiles_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_charging_profile_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4724,10 +4675,7 @@ mod get_charging_profiles_response {
         Ok(())
     }
 
-    pub fn validate_get_charging_profiles_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_charging_profiles_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4751,7 +4699,10 @@ mod get_charging_profiles_response {
 }
 
 mod get_composite_schedule_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -4772,14 +4723,10 @@ mod get_composite_schedule_request {
         Ok(())
     }
 
-    pub fn validate_get_composite_schedule_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_composite_schedule_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
@@ -4802,7 +4749,10 @@ mod get_composite_schedule_request {
 }
 
 mod get_composite_schedule_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -4837,8 +4787,6 @@ mod get_composite_schedule_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("frequency") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -4851,8 +4799,6 @@ mod get_composite_schedule_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("signal") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -4865,10 +4811,6 @@ mod get_composite_schedule_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startPeriod") {}
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("numberPhases") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberPhases");
@@ -4901,15 +4843,6 @@ mod get_composite_schedule_response {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
-        if let Some(v) = obj.get("preconditioningRequest") {}
-        if let Some(v) = obj.get("evseSleep") {}
-        if let Some(v) = obj.get("v2xBaseline") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -4954,8 +4887,6 @@ mod get_composite_schedule_response {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("duration") {}
-        if let Some(v) = obj.get("scheduleStart") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
@@ -5002,10 +4933,7 @@ mod get_composite_schedule_response {
         Ok(())
     }
 
-    pub fn validate_get_composite_schedule_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_composite_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5033,7 +4961,10 @@ mod get_composite_schedule_response {
 }
 
 mod get_der_control_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -5058,8 +4989,6 @@ mod get_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("requestId") {}
-        if let Some(v) = obj.get("isDefault") {}
         if let Some(v) = obj.get("controlType") {
             let child = format!("{path}.controlType");
             validate_der_control_enum_type(v, &child)?;
@@ -5082,7 +5011,10 @@ mod get_der_control_request {
 }
 
 mod get_der_control_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -5151,7 +5083,10 @@ mod get_der_control_response {
 }
 
 mod get_display_messages_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_message_priority_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -5187,7 +5122,6 @@ mod get_display_messages_request {
                 check_arr_min(&child, arr, 1)?;
             }
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("priority") {
             let child = format!("{path}.priority");
             validate_message_priority_enum_type(v, &child)?;
@@ -5208,12 +5142,12 @@ mod get_display_messages_request {
 }
 
 mod get_display_messages_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_display_messages_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_display_messages_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5280,12 +5214,12 @@ mod get_display_messages_response {
 }
 
 mod get_installed_certificate_ids_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_certificate_id_use_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_id_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5304,10 +5238,7 @@ mod get_installed_certificate_ids_request {
         Ok(())
     }
 
-    pub fn validate_get_installed_certificate_ids_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_installed_certificate_ids_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5333,20 +5264,17 @@ mod get_installed_certificate_ids_request {
 }
 
 mod get_installed_certificate_ids_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_get_certificate_id_use_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_certificate_id_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_get_installed_certificate_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_installed_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5404,10 +5332,7 @@ mod get_installed_certificate_ids_response {
         Ok(())
     }
 
-    pub fn validate_certificate_hash_data_chain_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_hash_data_chain_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5462,10 +5387,7 @@ mod get_installed_certificate_ids_response {
         Ok(())
     }
 
-    pub fn validate_get_installed_certificate_ids_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_installed_certificate_ids_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5499,7 +5421,10 @@ mod get_installed_certificate_ids_response {
 }
 
 mod get_local_list_version_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -5515,10 +5440,7 @@ mod get_local_list_version_request {
         Ok(())
     }
 
-    pub fn validate_get_local_list_version_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_local_list_version_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5534,7 +5456,10 @@ mod get_local_list_version_request {
 }
 
 mod get_local_list_version_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -5550,14 +5475,10 @@ mod get_local_list_version_response {
         Ok(())
     }
 
-    pub fn validate_get_local_list_version_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_local_list_version_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("versionNumber") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -5570,7 +5491,10 @@ mod get_local_list_version_response {
 }
 
 mod get_log_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_log_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -5601,8 +5525,6 @@ mod get_log_request {
                 check_str_max(&child, s, 2000)?;
             }
         }
-        if let Some(v) = obj.get("oldestTimestamp") {}
-        if let Some(v) = obj.get("latestTimestamp") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -5623,14 +5545,12 @@ mod get_log_request {
             let child = format!("{path}.logType");
             validate_log_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("retries") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.retries");
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("retryInterval") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -5643,7 +5563,10 @@ mod get_log_request {
 }
 
 mod get_log_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_log_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -5718,12 +5641,12 @@ mod get_log_response {
 }
 
 mod get_monitoring_report_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_monitoring_criterion_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_monitoring_criterion_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5852,7 +5775,6 @@ mod get_monitoring_report_request {
                 }
             }
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("monitoringCriteria") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.monitoringCriteria");
@@ -5876,12 +5798,12 @@ mod get_monitoring_report_request {
 }
 
 mod get_monitoring_report_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_generic_device_model_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5924,10 +5846,7 @@ mod get_monitoring_report_response {
         Ok(())
     }
 
-    pub fn validate_get_monitoring_report_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_monitoring_report_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5951,7 +5870,10 @@ mod get_monitoring_report_response {
 }
 
 mod get_periodic_event_stream_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -5967,10 +5889,7 @@ mod get_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_get_periodic_event_stream_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5986,7 +5905,10 @@ mod get_periodic_event_stream_request {
 }
 
 mod get_periodic_event_stream_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -6002,10 +5924,7 @@ mod get_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -6057,10 +5976,7 @@ mod get_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_get_periodic_event_stream_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -6086,7 +6002,10 @@ mod get_periodic_event_stream_response {
 }
 
 mod get_report_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_component_criterion_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -6217,7 +6136,6 @@ mod get_report_request {
                 }
             }
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("componentCriteria") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.componentCriteria");
@@ -6241,12 +6159,12 @@ mod get_report_request {
 }
 
 mod get_report_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_generic_device_model_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -6313,7 +6231,10 @@ mod get_report_response {
 }
 
 mod get_tariffs_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -6351,7 +6272,10 @@ mod get_tariffs_request {
 }
 
 mod get_tariffs_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_tariff_get_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -6415,7 +6339,6 @@ mod get_tariffs_response {
             let child = format!("{path}.tariffKind");
             validate_tariff_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
         if let Some(v) = obj.get("evseIds") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.evseIds");
@@ -6476,7 +6399,10 @@ mod get_tariffs_response {
 }
 
 mod get_transaction_status_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -6492,10 +6418,7 @@ mod get_transaction_status_request {
         Ok(())
     }
 
-    pub fn validate_get_transaction_status_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_transaction_status_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -6517,7 +6440,10 @@ mod get_transaction_status_request {
 }
 
 mod get_transaction_status_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -6533,15 +6459,10 @@ mod get_transaction_status_response {
         Ok(())
     }
 
-    pub fn validate_get_transaction_status_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_get_transaction_status_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("ongoingIndicator") {}
-        if let Some(v) = obj.get("messagesInQueue") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -6554,7 +6475,10 @@ mod get_transaction_status_response {
 }
 
 mod get_variables_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -6701,7 +6625,10 @@ mod get_variables_request {
 }
 
 mod get_variables_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -6891,7 +6818,10 @@ mod get_variables_response {
 }
 
 mod heartbeat_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -6923,7 +6853,10 @@ mod heartbeat_request {
 }
 
 mod heartbeat_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -6943,7 +6876,6 @@ mod heartbeat_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("currentTime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -6956,12 +6888,12 @@ mod heartbeat_response {
 }
 
 mod install_certificate_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_install_certificate_use_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_install_certificate_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7006,12 +6938,12 @@ mod install_certificate_request {
 }
 
 mod install_certificate_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_install_certificate_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_install_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7078,7 +7010,10 @@ mod install_certificate_response {
 }
 
 mod log_status_notification_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_upload_log_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -7123,10 +7058,7 @@ mod log_status_notification_request {
         Ok(())
     }
 
-    pub fn validate_log_status_notification_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_log_status_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7134,7 +7066,6 @@ mod log_status_notification_request {
             let child = format!("{path}.status");
             validate_upload_log_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("statusInfo") {
             let child = format!("{path}.statusInfo");
             validate_status_info_type(v, &child)?;
@@ -7151,7 +7082,10 @@ mod log_status_notification_request {
 }
 
 mod log_status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -7167,10 +7101,7 @@ mod log_status_notification_response {
         Ok(())
     }
 
-    pub fn validate_log_status_notification_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_log_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7186,7 +7117,10 @@ mod log_status_notification_response {
 }
 
 mod meter_values_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_location_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -7268,7 +7202,6 @@ mod meter_values_request {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("multiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7281,7 +7214,6 @@ mod meter_values_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("measurand") {
             let child = format!("{path}.measurand");
             validate_measurand_enum_type(v, &child)?;
@@ -7328,7 +7260,6 @@ mod meter_values_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7369,7 +7300,10 @@ mod meter_values_request {
 }
 
 mod meter_values_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -7401,12 +7335,12 @@ mod meter_values_response {
 }
 
 mod notify_allowed_energy_transfer_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_energy_transfer_mode_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_energy_transfer_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7425,10 +7359,7 @@ mod notify_allowed_energy_transfer_request {
         Ok(())
     }
 
-    pub fn validate_notify_allowed_energy_transfer_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_allowed_energy_transfer_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7460,12 +7391,12 @@ mod notify_allowed_energy_transfer_request {
 }
 
 mod notify_allowed_energy_transfer_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_notify_allowed_energy_transfer_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_allowed_energy_transfer_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7508,10 +7439,7 @@ mod notify_allowed_energy_transfer_response {
         Ok(())
     }
 
-    pub fn validate_notify_allowed_energy_transfer_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_allowed_energy_transfer_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7535,7 +7463,10 @@ mod notify_allowed_energy_transfer_response {
 }
 
 mod notify_charging_limit_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -7570,8 +7501,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exponent") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7580,10 +7509,7 @@ mod notify_charging_limit_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7619,8 +7545,6 @@ mod notify_charging_limit_request {
                 check_str_max(&child, s, 32)?;
             }
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("overstayFeePeriod") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7648,7 +7572,6 @@ mod notify_charging_limit_request {
                 }
             }
         }
-        if let Some(v) = obj.get("overstayTimeThreshold") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7661,7 +7584,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("parkingFeePeriod") {}
         if let Some(v) = obj.get("carbonDioxideEmission") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.carbonDioxideEmission");
@@ -7699,7 +7621,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceRule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.priceRule");
@@ -7735,11 +7656,6 @@ mod notify_charging_limit_request {
                 check_str_max(&child, s, 100)?;
             }
         }
-        if let Some(v) = obj.get("taxIncludedInPrice") {}
-        if let Some(v) = obj.get("appliesToEnergyFee") {}
-        if let Some(v) = obj.get("appliesToParkingFee") {}
-        if let Some(v) = obj.get("appliesToOverstayFee") {}
-        if let Some(v) = obj.get("appliesToMinimumMaximumCost") {}
         if let Some(v) = obj.get("taxRate") {
             let child = format!("{path}.taxRate");
             validate_rational_number_type(v, &child)?;
@@ -7756,7 +7672,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleID") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleID");
@@ -7850,8 +7765,6 @@ mod notify_charging_limit_request {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("isLocalGeneration") {}
-        if let Some(v) = obj.get("isGridCritical") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7864,8 +7777,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("frequency") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7878,8 +7789,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("signal") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7892,10 +7801,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startPeriod") {}
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("numberPhases") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberPhases");
@@ -7928,15 +7833,6 @@ mod notify_charging_limit_request {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
-        if let Some(v) = obj.get("preconditioningRequest") {}
-        if let Some(v) = obj.get("evseSleep") {}
-        if let Some(v) = obj.get("v2xBaseline") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -7982,7 +7878,6 @@ mod notify_charging_limit_request {
                 check_num_max(&child, n, 100.0)?;
             }
         }
-        if let Some(v) = obj.get("limit") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -7991,14 +7886,10 @@ mod notify_charging_limit_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceLevel");
@@ -8028,7 +7919,6 @@ mod notify_charging_limit_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleId");
@@ -8063,8 +7953,6 @@ mod notify_charging_limit_request {
             let child = format!("{path}.costKind");
             validate_cost_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("amount") {}
-        if let Some(v) = obj.get("amountMultiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -8077,7 +7965,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startValue") {}
         if let Some(v) = obj.get("cost") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.cost");
@@ -8101,8 +7988,6 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("start") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -8189,19 +8074,14 @@ mod notify_charging_limit_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("limitAtSoC") {
             let child = format!("{path}.limitAtSoC");
             validate_limit_at_so_c_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startSchedule") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minChargingRate") {}
-        if let Some(v) = obj.get("powerTolerance") {}
         if let Some(v) = obj.get("signatureId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.signatureId");
@@ -8214,7 +8094,6 @@ mod notify_charging_limit_request {
                 check_str_max(&child, s, 88)?;
             }
         }
-        if let Some(v) = obj.get("useLocalTime") {}
         if let Some(v) = obj.get("chargingSchedulePeriod") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedulePeriod");
@@ -8288,7 +8167,10 @@ mod notify_charging_limit_request {
 }
 
 mod notify_charging_limit_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8304,10 +8186,7 @@ mod notify_charging_limit_response {
         Ok(())
     }
 
-    pub fn validate_notify_charging_limit_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_charging_limit_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8323,7 +8202,10 @@ mod notify_charging_limit_response {
 }
 
 mod notify_customer_information_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8339,10 +8221,7 @@ mod notify_customer_information_request {
         Ok(())
     }
 
-    pub fn validate_notify_customer_information_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_customer_information_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8352,14 +8231,12 @@ mod notify_customer_information_request {
                 check_str_max(&child, s, 512)?;
             }
         }
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("seqNo") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.seqNo");
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("generatedAt") {}
         if let Some(v) = obj.get("requestId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.requestId");
@@ -8378,7 +8255,10 @@ mod notify_customer_information_request {
 }
 
 mod notify_customer_information_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8394,10 +8274,7 @@ mod notify_customer_information_response {
         Ok(())
     }
 
-    pub fn validate_notify_customer_information_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_customer_information_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8413,7 +8290,10 @@ mod notify_customer_information_response {
 }
 
 mod notify_der_alarm_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -8451,8 +8331,6 @@ mod notify_der_alarm_request {
             let child = format!("{path}.gridEventFault");
             validate_grid_event_fault_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("alarmEnded") {}
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("extraInfo") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.extraInfo");
@@ -8471,7 +8349,10 @@ mod notify_der_alarm_request {
 }
 
 mod notify_der_alarm_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8503,7 +8384,10 @@ mod notify_der_alarm_response {
 }
 
 mod notify_der_start_stop_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8529,8 +8413,6 @@ mod notify_der_start_stop_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("started") {}
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("supersededIds") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.supersededIds");
@@ -8556,7 +8438,10 @@ mod notify_der_start_stop_request {
 }
 
 mod notify_der_start_stop_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8572,10 +8457,7 @@ mod notify_der_start_stop_response {
         Ok(())
     }
 
-    pub fn validate_notify_der_start_stop_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_der_start_stop_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8591,7 +8473,10 @@ mod notify_der_start_stop_response {
 }
 
 mod notify_display_messages_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_message_format_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -8724,8 +8609,6 @@ mod notify_display_messages_request {
             let child = format!("{path}.state");
             validate_message_state_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startDateTime") {}
-        if let Some(v) = obj.get("endDateTime") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
@@ -8755,10 +8638,7 @@ mod notify_display_messages_request {
         Ok(())
     }
 
-    pub fn validate_notify_display_messages_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_display_messages_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8772,8 +8652,6 @@ mod notify_display_messages_request {
                 }
             }
         }
-        if let Some(v) = obj.get("requestId") {}
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -8786,7 +8664,10 @@ mod notify_display_messages_request {
 }
 
 mod notify_display_messages_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -8802,10 +8683,7 @@ mod notify_display_messages_response {
         Ok(())
     }
 
-    pub fn validate_notify_display_messages_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_display_messages_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8821,7 +8699,10 @@ mod notify_display_messages_response {
 }
 
 mod notify_ev_charging_needs_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_control_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -8833,10 +8714,7 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_energy_transfer_mode_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_energy_transfer_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -8869,10 +8747,6 @@ mod notify_ev_charging_needs_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("energyAmount") {}
-        if let Some(v) = obj.get("evMinCurrent") {}
-        if let Some(v) = obj.get("evMaxCurrent") {}
-        if let Some(v) = obj.get("evMaxVoltage") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -8885,11 +8759,6 @@ mod notify_ev_charging_needs_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("evMaxCurrent") {}
-        if let Some(v) = obj.get("evMaxVoltage") {}
-        if let Some(v) = obj.get("evMaxPower") {}
-        if let Some(v) = obj.get("evEnergyCapacity") {}
-        if let Some(v) = obj.get("energyAmount") {}
         if let Some(v) = obj.get("stateOfCharge") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stateOfCharge");
@@ -8933,33 +8802,6 @@ mod notify_ev_charging_needs_request {
                 }
             }
         }
-        if let Some(v) = obj.get("evOverExcitedMaxDischargePower") {}
-        if let Some(v) = obj.get("evOverExcitedPowerFactor") {}
-        if let Some(v) = obj.get("evUnderExcitedMaxDischargePower") {}
-        if let Some(v) = obj.get("evUnderExcitedPowerFactor") {}
-        if let Some(v) = obj.get("maxApparentPower") {}
-        if let Some(v) = obj.get("maxChargeApparentPower") {}
-        if let Some(v) = obj.get("maxChargeApparentPower_L2") {}
-        if let Some(v) = obj.get("maxChargeApparentPower_L3") {}
-        if let Some(v) = obj.get("maxDischargeApparentPower") {}
-        if let Some(v) = obj.get("maxDischargeApparentPower_L2") {}
-        if let Some(v) = obj.get("maxDischargeApparentPower_L3") {}
-        if let Some(v) = obj.get("maxChargeReactivePower") {}
-        if let Some(v) = obj.get("maxChargeReactivePower_L2") {}
-        if let Some(v) = obj.get("maxChargeReactivePower_L3") {}
-        if let Some(v) = obj.get("minChargeReactivePower") {}
-        if let Some(v) = obj.get("minChargeReactivePower_L2") {}
-        if let Some(v) = obj.get("minChargeReactivePower_L3") {}
-        if let Some(v) = obj.get("maxDischargeReactivePower") {}
-        if let Some(v) = obj.get("maxDischargeReactivePower_L2") {}
-        if let Some(v) = obj.get("maxDischargeReactivePower_L3") {}
-        if let Some(v) = obj.get("minDischargeReactivePower") {}
-        if let Some(v) = obj.get("minDischargeReactivePower_L2") {}
-        if let Some(v) = obj.get("minDischargeReactivePower_L3") {}
-        if let Some(v) = obj.get("nominalVoltage") {}
-        if let Some(v) = obj.get("nominalVoltageOffset") {}
-        if let Some(v) = obj.get("maxNominalVoltage") {}
-        if let Some(v) = obj.get("minNominalVoltage") {}
         if let Some(v) = obj.get("evInverterManufacturer") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.evInverterManufacturer");
@@ -9000,13 +8842,6 @@ mod notify_ev_charging_needs_request {
                 }
             }
         }
-        if let Some(v) = obj.get("evIslandingTripTime") {}
-        if let Some(v) = obj.get("evMaximumLevel1DCInjection") {}
-        if let Some(v) = obj.get("evDurationLevel1DCInjection") {}
-        if let Some(v) = obj.get("evMaximumLevel2DCInjection") {}
-        if let Some(v) = obj.get("evDurationLevel2DCInjection") {}
-        if let Some(v) = obj.get("evReactiveSusceptance") {}
-        if let Some(v) = obj.get("evSessionTotalDischargeEnergyAvailable") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9019,8 +8854,6 @@ mod notify_ev_charging_needs_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("energyFee") {}
-        if let Some(v) = obj.get("powerRangeStart") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9029,14 +8862,10 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_ev_absolute_price_schedule_entry_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_ev_absolute_price_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("evPriceRule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.evPriceRule");
@@ -9056,14 +8885,10 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_ev_absolute_price_schedule_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_ev_absolute_price_schedule_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("currency") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.currency");
@@ -9099,8 +8924,6 @@ mod notify_ev_charging_needs_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9124,7 +8947,6 @@ mod notify_ev_charging_needs_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9157,29 +8979,6 @@ mod notify_ev_charging_needs_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("minChargePower") {}
-        if let Some(v) = obj.get("minChargePower_L2") {}
-        if let Some(v) = obj.get("minChargePower_L3") {}
-        if let Some(v) = obj.get("maxChargePower") {}
-        if let Some(v) = obj.get("maxChargePower_L2") {}
-        if let Some(v) = obj.get("maxChargePower_L3") {}
-        if let Some(v) = obj.get("minDischargePower") {}
-        if let Some(v) = obj.get("minDischargePower_L2") {}
-        if let Some(v) = obj.get("minDischargePower_L3") {}
-        if let Some(v) = obj.get("maxDischargePower") {}
-        if let Some(v) = obj.get("maxDischargePower_L2") {}
-        if let Some(v) = obj.get("maxDischargePower_L3") {}
-        if let Some(v) = obj.get("minChargeCurrent") {}
-        if let Some(v) = obj.get("maxChargeCurrent") {}
-        if let Some(v) = obj.get("minDischargeCurrent") {}
-        if let Some(v) = obj.get("maxDischargeCurrent") {}
-        if let Some(v) = obj.get("minVoltage") {}
-        if let Some(v) = obj.get("maxVoltage") {}
-        if let Some(v) = obj.get("evTargetEnergyRequest") {}
-        if let Some(v) = obj.get("evMinEnergyRequest") {}
-        if let Some(v) = obj.get("evMaxEnergyRequest") {}
-        if let Some(v) = obj.get("evMinV2XEnergyRequest") {}
-        if let Some(v) = obj.get("evMaxV2XEnergyRequest") {}
         if let Some(v) = obj.get("targetSoC") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.targetSoC");
@@ -9241,7 +9040,6 @@ mod notify_ev_charging_needs_request {
             let child = format!("{path}.mobilityNeedsMode");
             validate_mobility_needs_mode_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("departureTime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9250,10 +9048,7 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_needs_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_needs_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9273,7 +9068,6 @@ mod notify_ev_charging_needs_request {
             let child = format!("{path}.chargingNeeds");
             validate_charging_needs_type(v, &child)?;
         }
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9286,12 +9080,12 @@ mod notify_ev_charging_needs_request {
 }
 
 mod notify_ev_charging_needs_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_notify_ev_charging_needs_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_needs_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -9334,10 +9128,7 @@ mod notify_ev_charging_needs_response {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_needs_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_needs_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9361,7 +9152,10 @@ mod notify_ev_charging_needs_response {
 }
 
 mod notify_ev_charging_schedule_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -9396,8 +9190,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exponent") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9406,10 +9198,7 @@ mod notify_ev_charging_schedule_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9445,8 +9234,6 @@ mod notify_ev_charging_schedule_request {
                 check_str_max(&child, s, 32)?;
             }
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("overstayFeePeriod") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9474,7 +9261,6 @@ mod notify_ev_charging_schedule_request {
                 }
             }
         }
-        if let Some(v) = obj.get("overstayTimeThreshold") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9487,7 +9273,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("parkingFeePeriod") {}
         if let Some(v) = obj.get("carbonDioxideEmission") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.carbonDioxideEmission");
@@ -9525,7 +9310,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceRule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.priceRule");
@@ -9561,11 +9345,6 @@ mod notify_ev_charging_schedule_request {
                 check_str_max(&child, s, 100)?;
             }
         }
-        if let Some(v) = obj.get("taxIncludedInPrice") {}
-        if let Some(v) = obj.get("appliesToEnergyFee") {}
-        if let Some(v) = obj.get("appliesToParkingFee") {}
-        if let Some(v) = obj.get("appliesToOverstayFee") {}
-        if let Some(v) = obj.get("appliesToMinimumMaximumCost") {}
         if let Some(v) = obj.get("taxRate") {
             let child = format!("{path}.taxRate");
             validate_rational_number_type(v, &child)?;
@@ -9582,7 +9361,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleID") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleID");
@@ -9670,8 +9448,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("frequency") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9684,8 +9460,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("signal") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9698,10 +9472,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startPeriod") {}
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("numberPhases") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberPhases");
@@ -9734,15 +9504,6 @@ mod notify_ev_charging_schedule_request {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
-        if let Some(v) = obj.get("preconditioningRequest") {}
-        if let Some(v) = obj.get("evseSleep") {}
-        if let Some(v) = obj.get("v2xBaseline") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -9788,7 +9549,6 @@ mod notify_ev_charging_schedule_request {
                 check_num_max(&child, n, 100.0)?;
             }
         }
-        if let Some(v) = obj.get("limit") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9797,14 +9557,10 @@ mod notify_ev_charging_schedule_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceLevel");
@@ -9834,7 +9590,6 @@ mod notify_ev_charging_schedule_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleId");
@@ -9869,8 +9624,6 @@ mod notify_ev_charging_schedule_request {
             let child = format!("{path}.costKind");
             validate_cost_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("amount") {}
-        if let Some(v) = obj.get("amountMultiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9883,7 +9636,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startValue") {}
         if let Some(v) = obj.get("cost") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.cost");
@@ -9907,8 +9659,6 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("start") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -9995,19 +9745,14 @@ mod notify_ev_charging_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("limitAtSoC") {
             let child = format!("{path}.limitAtSoC");
             validate_limit_at_so_c_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startSchedule") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minChargingRate") {}
-        if let Some(v) = obj.get("powerTolerance") {}
         if let Some(v) = obj.get("signatureId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.signatureId");
@@ -10020,7 +9765,6 @@ mod notify_ev_charging_schedule_request {
                 check_str_max(&child, s, 88)?;
             }
         }
-        if let Some(v) = obj.get("useLocalTime") {}
         if let Some(v) = obj.get("chargingSchedulePeriod") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedulePeriod");
@@ -10058,14 +9802,10 @@ mod notify_ev_charging_schedule_request {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_schedule_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_schedule_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeBase") {}
         if let Some(v) = obj.get("chargingSchedule") {
             let child = format!("{path}.chargingSchedule");
             validate_charging_schedule_type(v, &child)?;
@@ -10082,7 +9822,6 @@ mod notify_ev_charging_schedule_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("powerToleranceAcceptance") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -10095,7 +9834,10 @@ mod notify_ev_charging_schedule_request {
 }
 
 mod notify_ev_charging_schedule_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -10140,10 +9882,7 @@ mod notify_ev_charging_schedule_response {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_schedule_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10167,7 +9906,10 @@ mod notify_ev_charging_schedule_response {
 }
 
 mod notify_event_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_event_notification_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -10279,7 +10021,6 @@ mod notify_event_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("trigger") {
             let child = format!("{path}.trigger");
             validate_event_trigger_enum_type(v, &child)?;
@@ -10308,7 +10049,6 @@ mod notify_event_request {
                 check_str_max(&child, s, 500)?;
             }
         }
-        if let Some(v) = obj.get("cleared") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
@@ -10351,8 +10091,6 @@ mod notify_event_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("generatedAt") {}
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("seqNo") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.seqNo");
@@ -10381,7 +10119,10 @@ mod notify_event_request {
 }
 
 mod notify_event_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -10413,7 +10154,10 @@ mod notify_event_response {
 }
 
 mod notify_monitoring_report_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_event_notification_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -10501,8 +10245,6 @@ mod notify_monitoring_report_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("transaction") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("type") {
             let child = format!("{path}.type");
             validate_monitor_enum_type(v, &child)?;
@@ -10579,10 +10321,7 @@ mod notify_monitoring_report_request {
         Ok(())
     }
 
-    pub fn validate_notify_monitoring_report_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_monitoring_report_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10596,15 +10335,12 @@ mod notify_monitoring_report_request {
                 }
             }
         }
-        if let Some(v) = obj.get("requestId") {}
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("seqNo") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.seqNo");
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("generatedAt") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -10617,7 +10353,10 @@ mod notify_monitoring_report_request {
 }
 
 mod notify_monitoring_report_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -10633,10 +10372,7 @@ mod notify_monitoring_report_response {
         Ok(())
     }
 
-    pub fn validate_notify_monitoring_report_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_monitoring_report_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10652,7 +10388,10 @@ mod notify_monitoring_report_response {
 }
 
 mod notify_periodic_event_stream {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -10672,7 +10411,6 @@ mod notify_periodic_event_stream {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("t") {}
         if let Some(v) = obj.get("v") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.v");
@@ -10713,7 +10451,6 @@ mod notify_periodic_event_stream {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("basetime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -10726,7 +10463,10 @@ mod notify_periodic_event_stream {
 }
 
 mod notify_priority_charging_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -10742,10 +10482,7 @@ mod notify_priority_charging_request {
         Ok(())
     }
 
-    pub fn validate_notify_priority_charging_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_priority_charging_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10755,7 +10492,6 @@ mod notify_priority_charging_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("activated") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -10768,7 +10504,10 @@ mod notify_priority_charging_request {
 }
 
 mod notify_priority_charging_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -10784,10 +10523,7 @@ mod notify_priority_charging_response {
         Ok(())
     }
 
-    pub fn validate_notify_priority_charging_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_priority_charging_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10803,7 +10539,10 @@ mod notify_priority_charging_response {
 }
 
 mod notify_report_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -10904,8 +10643,6 @@ mod notify_report_request {
             let child = format!("{path}.mutability");
             validate_mutability_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("persistent") {}
-        if let Some(v) = obj.get("constant") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -10928,8 +10665,6 @@ mod notify_report_request {
             let child = format!("{path}.dataType");
             validate_data_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minLimit") {}
-        if let Some(v) = obj.get("maxLimit") {}
         if let Some(v) = obj.get("maxElements") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.maxElements");
@@ -10942,7 +10677,6 @@ mod notify_report_request {
                 check_str_max(&child, s, 1000)?;
             }
         }
-        if let Some(v) = obj.get("supportsMonitoring") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -11014,8 +10748,6 @@ mod notify_report_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("requestId") {}
-        if let Some(v) = obj.get("generatedAt") {}
         if let Some(v) = obj.get("reportData") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.reportData");
@@ -11026,7 +10758,6 @@ mod notify_report_request {
                 }
             }
         }
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("seqNo") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.seqNo");
@@ -11045,7 +10776,10 @@ mod notify_report_request {
 }
 
 mod notify_report_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11077,7 +10811,10 @@ mod notify_report_response {
 }
 
 mod notify_settlement_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_payment_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -11172,8 +10909,6 @@ mod notify_settlement_request {
                 check_str_max(&child, s, 500)?;
             }
         }
-        if let Some(v) = obj.get("settlementAmount") {}
-        if let Some(v) = obj.get("settlementTime") {}
         if let Some(v) = obj.get("receiptId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.receiptId");
@@ -11208,7 +10943,10 @@ mod notify_settlement_request {
 }
 
 mod notify_settlement_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11252,7 +10990,10 @@ mod notify_settlement_response {
 }
 
 mod notify_web_payment_started_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11268,10 +11009,7 @@ mod notify_web_payment_started_request {
         Ok(())
     }
 
-    pub fn validate_notify_web_payment_started_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_web_payment_started_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11281,7 +11019,6 @@ mod notify_web_payment_started_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("timeout") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -11294,7 +11031,10 @@ mod notify_web_payment_started_request {
 }
 
 mod notify_web_payment_started_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11310,10 +11050,7 @@ mod notify_web_payment_started_response {
         Ok(())
     }
 
-    pub fn validate_notify_web_payment_started_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_notify_web_payment_started_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11329,7 +11066,10 @@ mod notify_web_payment_started_response {
 }
 
 mod open_periodic_event_stream_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11345,10 +11085,7 @@ mod open_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11400,10 +11137,7 @@ mod open_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_open_periodic_event_stream_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_open_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11423,7 +11157,10 @@ mod open_periodic_event_stream_request {
 }
 
 mod open_periodic_event_stream_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -11468,10 +11205,7 @@ mod open_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_open_periodic_event_stream_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_open_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11495,7 +11229,10 @@ mod open_periodic_event_stream_response {
 }
 
 mod publish_firmware_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11557,7 +11294,10 @@ mod publish_firmware_request {
 }
 
 mod publish_firmware_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -11626,12 +11366,12 @@ mod publish_firmware_response {
 }
 
 mod publish_firmware_status_notification_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_publish_firmware_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_publish_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -11674,10 +11414,7 @@ mod publish_firmware_status_notification_request {
         Ok(())
     }
 
-    pub fn validate_publish_firmware_status_notification_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_publish_firmware_status_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11719,7 +11456,10 @@ mod publish_firmware_status_notification_request {
 }
 
 mod publish_firmware_status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11735,10 +11475,7 @@ mod publish_firmware_status_notification_response {
         Ok(())
     }
 
-    pub fn validate_publish_firmware_status_notification_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_publish_firmware_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11754,7 +11491,10 @@ mod publish_firmware_status_notification_response {
 }
 
 mod pull_dynamic_schedule_update_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -11770,14 +11510,10 @@ mod pull_dynamic_schedule_update_request {
         Ok(())
     }
 
-    pub fn validate_pull_dynamic_schedule_update_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_pull_dynamic_schedule_update_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("chargingProfileId") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -11790,12 +11526,12 @@ mod pull_dynamic_schedule_update_request {
 }
 
 mod pull_dynamic_schedule_update_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -11818,9 +11554,6 @@ mod pull_dynamic_schedule_update_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("dischargeLimit") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.dischargeLimit");
@@ -11839,12 +11572,6 @@ mod pull_dynamic_schedule_update_response {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -11877,10 +11604,7 @@ mod pull_dynamic_schedule_update_response {
         Ok(())
     }
 
-    pub fn validate_pull_dynamic_schedule_update_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_pull_dynamic_schedule_update_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11908,20 +11632,17 @@ mod pull_dynamic_schedule_update_response {
 }
 
 mod report_charging_profiles_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_kind_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_kind_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_charging_profile_purpose_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -11964,8 +11685,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exponent") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -11974,10 +11693,7 @@ mod report_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -12013,8 +11729,6 @@ mod report_charging_profiles_request {
                 check_str_max(&child, s, 32)?;
             }
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("overstayFeePeriod") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12042,7 +11756,6 @@ mod report_charging_profiles_request {
                 }
             }
         }
-        if let Some(v) = obj.get("overstayTimeThreshold") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12055,7 +11768,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("parkingFeePeriod") {}
         if let Some(v) = obj.get("carbonDioxideEmission") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.carbonDioxideEmission");
@@ -12093,7 +11805,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceRule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.priceRule");
@@ -12129,11 +11840,6 @@ mod report_charging_profiles_request {
                 check_str_max(&child, s, 100)?;
             }
         }
-        if let Some(v) = obj.get("taxIncludedInPrice") {}
-        if let Some(v) = obj.get("appliesToEnergyFee") {}
-        if let Some(v) = obj.get("appliesToParkingFee") {}
-        if let Some(v) = obj.get("appliesToOverstayFee") {}
-        if let Some(v) = obj.get("appliesToMinimumMaximumCost") {}
         if let Some(v) = obj.get("taxRate") {
             let child = format!("{path}.taxRate");
             validate_rational_number_type(v, &child)?;
@@ -12150,7 +11856,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleID") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleID");
@@ -12238,8 +11943,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("frequency") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12252,8 +11955,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("signal") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12266,10 +11967,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startPeriod") {}
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("numberPhases") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberPhases");
@@ -12302,15 +11999,6 @@ mod report_charging_profiles_request {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
-        if let Some(v) = obj.get("preconditioningRequest") {}
-        if let Some(v) = obj.get("evseSleep") {}
-        if let Some(v) = obj.get("v2xBaseline") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -12356,7 +12044,6 @@ mod report_charging_profiles_request {
                 check_num_max(&child, n, 100.0)?;
             }
         }
-        if let Some(v) = obj.get("limit") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12365,14 +12052,10 @@ mod report_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceLevel");
@@ -12402,7 +12085,6 @@ mod report_charging_profiles_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleId");
@@ -12437,8 +12119,6 @@ mod report_charging_profiles_request {
             let child = format!("{path}.costKind");
             validate_cost_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("amount") {}
-        if let Some(v) = obj.get("amountMultiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12451,7 +12131,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startValue") {}
         if let Some(v) = obj.get("cost") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.cost");
@@ -12475,8 +12154,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("start") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12563,19 +12240,14 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("limitAtSoC") {
             let child = format!("{path}.limitAtSoC");
             validate_limit_at_so_c_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startSchedule") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minChargingRate") {}
-        if let Some(v) = obj.get("powerTolerance") {}
         if let Some(v) = obj.get("signatureId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.signatureId");
@@ -12588,7 +12260,6 @@ mod report_charging_profiles_request {
                 check_str_max(&child, s, 88)?;
             }
         }
-        if let Some(v) = obj.get("useLocalTime") {}
         if let Some(v) = obj.get("chargingSchedulePeriod") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedulePeriod");
@@ -12630,7 +12301,6 @@ mod report_charging_profiles_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("stackLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stackLevel");
@@ -12649,15 +12319,12 @@ mod report_charging_profiles_request {
             let child = format!("{path}.recurrencyKind");
             validate_recurrency_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
-        if let Some(v) = obj.get("validTo") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("maxOfflineDuration") {}
         if let Some(v) = obj.get("chargingSchedule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedule");
@@ -12669,9 +12336,6 @@ mod report_charging_profiles_request {
                 }
             }
         }
-        if let Some(v) = obj.get("invalidAfterOfflineDuration") {}
-        if let Some(v) = obj.get("dynUpdateInterval") {}
-        if let Some(v) = obj.get("dynUpdateTime") {}
         if let Some(v) = obj.get("priceScheduleSignature") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.priceScheduleSignature");
@@ -12686,14 +12350,10 @@ mod report_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_report_charging_profiles_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_report_charging_profiles_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("chargingLimitSource") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.chargingLimitSource");
@@ -12710,7 +12370,6 @@ mod report_charging_profiles_request {
                 }
             }
         }
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("evseId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.evseId");
@@ -12729,7 +12388,10 @@ mod report_charging_profiles_request {
 }
 
 mod report_charging_profiles_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -12745,10 +12407,7 @@ mod report_charging_profiles_response {
         Ok(())
     }
 
-    pub fn validate_report_charging_profiles_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_report_charging_profiles_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -12764,7 +12423,10 @@ mod report_charging_profiles_response {
 }
 
 mod report_der_control_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -12776,10 +12438,7 @@ mod report_der_control_request {
         Ok(())
     }
 
-    pub fn validate_power_during_cessation_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_power_during_cessation_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -12802,8 +12461,6 @@ mod report_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("x") {}
-        if let Some(v) = obj.get("y") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12816,10 +12473,6 @@ mod report_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("hysteresisHigh") {}
-        if let Some(v) = obj.get("hysteresisLow") {}
-        if let Some(v) = obj.get("hysteresisDelay") {}
-        if let Some(v) = obj.get("hysteresisGradient") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12832,9 +12485,6 @@ mod report_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("vRef") {}
-        if let Some(v) = obj.get("autonomousVRefEnable") {}
-        if let Some(v) = obj.get("autonomousVRefTimeConstant") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12847,8 +12497,6 @@ mod report_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("hv10MinMeanValue") {}
-        if let Some(v) = obj.get("hv10MinMeanTripDelay") {}
         if let Some(v) = obj.get("powerDuringCessation") {
             let child = format!("{path}.powerDuringCessation");
             validate_power_during_cessation_enum_type(v, &child)?;
@@ -12898,9 +12546,6 @@ mod report_der_control_request {
             let child = format!("{path}.yUnit");
             validate_der_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("responseTime") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12927,8 +12572,6 @@ mod report_der_control_request {
             let child = format!("{path}.curveType");
             validate_der_control_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("isDefault") {}
-        if let Some(v) = obj.get("isSuperseded") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12947,13 +12590,6 @@ mod report_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("highVoltage") {}
-        if let Some(v) = obj.get("lowVoltage") {}
-        if let Some(v) = obj.get("highFreq") {}
-        if let Some(v) = obj.get("lowFreq") {}
-        if let Some(v) = obj.get("delay") {}
-        if let Some(v) = obj.get("randomDelay") {}
-        if let Some(v) = obj.get("rampRate") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -12994,10 +12630,6 @@ mod report_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("displacement") {}
-        if let Some(v) = obj.get("excitation") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13020,8 +12652,6 @@ mod report_der_control_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("isDefault") {}
-        if let Some(v) = obj.get("isSuperseded") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13040,13 +12670,10 @@ mod report_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
         if let Some(v) = obj.get("unit") {
             let child = format!("{path}.unit");
             validate_der_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13069,8 +12696,6 @@ mod report_der_control_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("isDefault") {}
-        if let Some(v) = obj.get("isSuperseded") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13089,13 +12714,6 @@ mod report_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("overFreq") {}
-        if let Some(v) = obj.get("underFreq") {}
-        if let Some(v) = obj.get("overDroop") {}
-        if let Some(v) = obj.get("underDroop") {}
-        if let Some(v) = obj.get("responseTime") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13118,8 +12736,6 @@ mod report_der_control_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("isDefault") {}
-        if let Some(v) = obj.get("isSuperseded") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13138,8 +12754,6 @@ mod report_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("gradient") {}
-        if let Some(v) = obj.get("softGradient") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13180,13 +12794,10 @@ mod report_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("pctMaxDischargePower") {}
         if let Some(v) = obj.get("powerMonitoringMustTrip") {
             let child = format!("{path}.powerMonitoringMustTrip");
             validate_der_curve_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13205,8 +12816,6 @@ mod report_der_control_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("isDefault") {}
-        if let Some(v) = obj.get("isSuperseded") {}
         if let Some(v) = obj.get("limitMaxDischarge") {
             let child = format!("{path}.limitMaxDischarge");
             validate_limit_max_discharge_type(v, &child)?;
@@ -13311,8 +12920,6 @@ mod report_der_control_request {
                 }
             }
         }
-        if let Some(v) = obj.get("requestId") {}
-        if let Some(v) = obj.get("tbc") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13325,7 +12932,10 @@ mod report_der_control_request {
 }
 
 mod report_der_control_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -13357,7 +12967,10 @@ mod report_der_control_response {
 }
 
 mod request_battery_swap_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -13439,7 +13052,6 @@ mod request_battery_swap_request {
             let child = format!("{path}.idToken");
             validate_id_token_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13452,7 +13064,10 @@ mod request_battery_swap_request {
 }
 
 mod request_battery_swap_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -13521,20 +13136,17 @@ mod request_battery_swap_response {
 }
 
 mod request_start_transaction_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_kind_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_kind_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_charging_profile_purpose_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -13577,8 +13189,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exponent") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13587,10 +13197,7 @@ mod request_start_transaction_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -13626,8 +13233,6 @@ mod request_start_transaction_request {
                 check_str_max(&child, s, 32)?;
             }
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("overstayFeePeriod") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13655,7 +13260,6 @@ mod request_start_transaction_request {
                 }
             }
         }
-        if let Some(v) = obj.get("overstayTimeThreshold") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13668,7 +13272,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("parkingFeePeriod") {}
         if let Some(v) = obj.get("carbonDioxideEmission") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.carbonDioxideEmission");
@@ -13706,7 +13309,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceRule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.priceRule");
@@ -13742,11 +13344,6 @@ mod request_start_transaction_request {
                 check_str_max(&child, s, 100)?;
             }
         }
-        if let Some(v) = obj.get("taxIncludedInPrice") {}
-        if let Some(v) = obj.get("appliesToEnergyFee") {}
-        if let Some(v) = obj.get("appliesToParkingFee") {}
-        if let Some(v) = obj.get("appliesToOverstayFee") {}
-        if let Some(v) = obj.get("appliesToMinimumMaximumCost") {}
         if let Some(v) = obj.get("taxRate") {
             let child = format!("{path}.taxRate");
             validate_rational_number_type(v, &child)?;
@@ -13763,7 +13360,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleID") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleID");
@@ -13875,8 +13471,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("frequency") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13889,8 +13483,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("signal") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -13903,10 +13495,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startPeriod") {}
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("numberPhases") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberPhases");
@@ -13939,15 +13527,6 @@ mod request_start_transaction_request {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
-        if let Some(v) = obj.get("preconditioningRequest") {}
-        if let Some(v) = obj.get("evseSleep") {}
-        if let Some(v) = obj.get("v2xBaseline") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -13993,7 +13572,6 @@ mod request_start_transaction_request {
                 check_num_max(&child, n, 100.0)?;
             }
         }
-        if let Some(v) = obj.get("limit") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -14002,14 +13580,10 @@ mod request_start_transaction_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceLevel");
@@ -14039,7 +13613,6 @@ mod request_start_transaction_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleId");
@@ -14074,8 +13647,6 @@ mod request_start_transaction_request {
             let child = format!("{path}.costKind");
             validate_cost_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("amount") {}
-        if let Some(v) = obj.get("amountMultiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -14088,7 +13659,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startValue") {}
         if let Some(v) = obj.get("cost") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.cost");
@@ -14112,8 +13682,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("start") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -14200,19 +13768,14 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("limitAtSoC") {
             let child = format!("{path}.limitAtSoC");
             validate_limit_at_so_c_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startSchedule") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minChargingRate") {}
-        if let Some(v) = obj.get("powerTolerance") {}
         if let Some(v) = obj.get("signatureId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.signatureId");
@@ -14225,7 +13788,6 @@ mod request_start_transaction_request {
                 check_str_max(&child, s, 88)?;
             }
         }
-        if let Some(v) = obj.get("useLocalTime") {}
         if let Some(v) = obj.get("chargingSchedulePeriod") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedulePeriod");
@@ -14267,7 +13829,6 @@ mod request_start_transaction_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("stackLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stackLevel");
@@ -14286,15 +13847,12 @@ mod request_start_transaction_request {
             let child = format!("{path}.recurrencyKind");
             validate_recurrency_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
-        if let Some(v) = obj.get("validTo") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("maxOfflineDuration") {}
         if let Some(v) = obj.get("chargingSchedule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedule");
@@ -14306,9 +13864,6 @@ mod request_start_transaction_request {
                 }
             }
         }
-        if let Some(v) = obj.get("invalidAfterOfflineDuration") {}
-        if let Some(v) = obj.get("dynUpdateInterval") {}
-        if let Some(v) = obj.get("dynUpdateTime") {}
         if let Some(v) = obj.get("priceScheduleSignature") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.priceScheduleSignature");
@@ -14357,10 +13912,7 @@ mod request_start_transaction_request {
         Ok(())
     }
 
-    pub fn validate_request_start_transaction_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_request_start_transaction_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14378,7 +13930,6 @@ mod request_start_transaction_request {
             let child = format!("{path}.idToken");
             validate_id_token_type(v, &child)?;
         }
-        if let Some(v) = obj.get("remoteStartId") {}
         if let Some(v) = obj.get("chargingProfile") {
             let child = format!("{path}.chargingProfile");
             validate_charging_profile_type(v, &child)?;
@@ -14395,12 +13946,12 @@ mod request_start_transaction_request {
 }
 
 mod request_start_transaction_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_request_start_stop_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_request_start_stop_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14443,10 +13994,7 @@ mod request_start_transaction_response {
         Ok(())
     }
 
-    pub fn validate_request_start_transaction_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_request_start_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14476,7 +14024,10 @@ mod request_start_transaction_response {
 }
 
 mod request_stop_transaction_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -14492,10 +14043,7 @@ mod request_stop_transaction_request {
         Ok(())
     }
 
-    pub fn validate_request_stop_transaction_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_request_stop_transaction_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14517,12 +14065,12 @@ mod request_stop_transaction_request {
 }
 
 mod request_stop_transaction_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_request_start_stop_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_request_start_stop_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14565,10 +14113,7 @@ mod request_stop_transaction_response {
         Ok(())
     }
 
-    pub fn validate_request_stop_transaction_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_request_stop_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14592,12 +14137,12 @@ mod request_stop_transaction_response {
 }
 
 mod reservation_status_update_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_reservation_update_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_reservation_update_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14616,10 +14161,7 @@ mod reservation_status_update_request {
         Ok(())
     }
 
-    pub fn validate_reservation_status_update_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_reservation_status_update_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14645,7 +14187,10 @@ mod reservation_status_update_request {
 }
 
 mod reservation_status_update_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -14661,10 +14206,7 @@ mod reservation_status_update_response {
         Ok(())
     }
 
-    pub fn validate_reservation_status_update_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_reservation_status_update_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14680,7 +14222,10 @@ mod reservation_status_update_response {
 }
 
 mod reserve_now_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -14764,7 +14309,6 @@ mod reserve_now_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("expiryDateTime") {}
         if let Some(v) = obj.get("connectorType") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.connectorType");
@@ -14797,7 +14341,10 @@ mod reserve_now_request {
 }
 
 mod reserve_now_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reserve_now_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -14866,7 +14413,10 @@ mod reserve_now_response {
 }
 
 mod reset_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reset_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -14913,7 +14463,10 @@ mod reset_request {
 }
 
 mod reset_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_reset_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -14982,7 +14535,10 @@ mod reset_response {
 }
 
 mod security_event_notification_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -14998,10 +14554,7 @@ mod security_event_notification_request {
         Ok(())
     }
 
-    pub fn validate_security_event_notification_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_security_event_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -15011,7 +14564,6 @@ mod security_event_notification_request {
                 check_str_max(&child, s, 50)?;
             }
         }
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("techInfo") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.techInfo");
@@ -15030,7 +14582,10 @@ mod security_event_notification_request {
 }
 
 mod security_event_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -15046,10 +14601,7 @@ mod security_event_notification_response {
         Ok(())
     }
 
-    pub fn validate_security_event_notification_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_security_event_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -15065,12 +14617,12 @@ mod security_event_notification_response {
 }
 
 mod send_local_list_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_authorization_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_authorization_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -15193,8 +14745,6 @@ mod send_local_list_request {
             let child = format!("{path}.status");
             validate_authorization_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("cacheExpiryDateTime") {}
-        if let Some(v) = obj.get("chargingPriority") {}
         if let Some(v) = obj.get("groupIdToken") {
             let child = format!("{path}.groupIdToken");
             validate_id_token_type(v, &child)?;
@@ -15263,7 +14813,6 @@ mod send_local_list_request {
                 }
             }
         }
-        if let Some(v) = obj.get("versionNumber") {}
         if let Some(v) = obj.get("updateType") {
             let child = format!("{path}.updateType");
             validate_update_enum_type(v, &child)?;
@@ -15280,12 +14829,12 @@ mod send_local_list_request {
 }
 
 mod send_local_list_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_send_local_list_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_send_local_list_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -15352,20 +14901,17 @@ mod send_local_list_response {
 }
 
 mod set_charging_profile_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_kind_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_kind_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_charging_profile_purpose_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -15408,8 +14954,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exponent") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15418,10 +14962,7 @@ mod set_charging_profile_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -15457,8 +14998,6 @@ mod set_charging_profile_request {
                 check_str_max(&child, s, 32)?;
             }
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("overstayFeePeriod") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15486,7 +15025,6 @@ mod set_charging_profile_request {
                 }
             }
         }
-        if let Some(v) = obj.get("overstayTimeThreshold") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15499,7 +15037,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("parkingFeePeriod") {}
         if let Some(v) = obj.get("carbonDioxideEmission") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.carbonDioxideEmission");
@@ -15537,7 +15074,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceRule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.priceRule");
@@ -15573,11 +15109,6 @@ mod set_charging_profile_request {
                 check_str_max(&child, s, 100)?;
             }
         }
-        if let Some(v) = obj.get("taxIncludedInPrice") {}
-        if let Some(v) = obj.get("appliesToEnergyFee") {}
-        if let Some(v) = obj.get("appliesToParkingFee") {}
-        if let Some(v) = obj.get("appliesToOverstayFee") {}
-        if let Some(v) = obj.get("appliesToMinimumMaximumCost") {}
         if let Some(v) = obj.get("taxRate") {
             let child = format!("{path}.taxRate");
             validate_rational_number_type(v, &child)?;
@@ -15594,7 +15125,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleID") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleID");
@@ -15682,8 +15212,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("frequency") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15696,8 +15224,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("signal") {}
-        if let Some(v) = obj.get("power") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15710,10 +15236,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startPeriod") {}
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("numberPhases") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberPhases");
@@ -15746,15 +15268,6 @@ mod set_charging_profile_request {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
-        if let Some(v) = obj.get("preconditioningRequest") {}
-        if let Some(v) = obj.get("evseSleep") {}
-        if let Some(v) = obj.get("v2xBaseline") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -15800,7 +15313,6 @@ mod set_charging_profile_request {
                 check_num_max(&child, n, 100.0)?;
             }
         }
-        if let Some(v) = obj.get("limit") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15809,14 +15321,10 @@ mod set_charging_profile_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("priceLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceLevel");
@@ -15846,7 +15354,6 @@ mod set_charging_profile_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timeAnchor") {}
         if let Some(v) = obj.get("priceScheduleId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.priceScheduleId");
@@ -15881,8 +15388,6 @@ mod set_charging_profile_request {
             let child = format!("{path}.costKind");
             validate_cost_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("amount") {}
-        if let Some(v) = obj.get("amountMultiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -15895,7 +15400,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startValue") {}
         if let Some(v) = obj.get("cost") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.cost");
@@ -15919,8 +15423,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("start") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16007,19 +15509,14 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("limitAtSoC") {
             let child = format!("{path}.limitAtSoC");
             validate_limit_at_so_c_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startSchedule") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("chargingRateUnit") {
             let child = format!("{path}.chargingRateUnit");
             validate_charging_rate_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minChargingRate") {}
-        if let Some(v) = obj.get("powerTolerance") {}
         if let Some(v) = obj.get("signatureId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.signatureId");
@@ -16032,7 +15529,6 @@ mod set_charging_profile_request {
                 check_str_max(&child, s, 88)?;
             }
         }
-        if let Some(v) = obj.get("useLocalTime") {}
         if let Some(v) = obj.get("chargingSchedulePeriod") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedulePeriod");
@@ -16074,7 +15570,6 @@ mod set_charging_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("id") {}
         if let Some(v) = obj.get("stackLevel") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stackLevel");
@@ -16093,15 +15588,12 @@ mod set_charging_profile_request {
             let child = format!("{path}.recurrencyKind");
             validate_recurrency_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
-        if let Some(v) = obj.get("validTo") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("maxOfflineDuration") {}
         if let Some(v) = obj.get("chargingSchedule") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.chargingSchedule");
@@ -16113,9 +15605,6 @@ mod set_charging_profile_request {
                 }
             }
         }
-        if let Some(v) = obj.get("invalidAfterOfflineDuration") {}
-        if let Some(v) = obj.get("dynUpdateInterval") {}
-        if let Some(v) = obj.get("dynUpdateTime") {}
         if let Some(v) = obj.get("priceScheduleSignature") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.priceScheduleSignature");
@@ -16156,12 +15645,12 @@ mod set_charging_profile_request {
 }
 
 mod set_charging_profile_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -16228,7 +15717,10 @@ mod set_charging_profile_response {
 }
 
 mod set_der_control_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -16240,10 +15732,7 @@ mod set_der_control_request {
         Ok(())
     }
 
-    pub fn validate_power_during_cessation_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_power_during_cessation_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -16266,8 +15755,6 @@ mod set_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("x") {}
-        if let Some(v) = obj.get("y") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16280,10 +15767,6 @@ mod set_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("hysteresisHigh") {}
-        if let Some(v) = obj.get("hysteresisLow") {}
-        if let Some(v) = obj.get("hysteresisDelay") {}
-        if let Some(v) = obj.get("hysteresisGradient") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16296,9 +15779,6 @@ mod set_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("vRef") {}
-        if let Some(v) = obj.get("autonomousVRefEnable") {}
-        if let Some(v) = obj.get("autonomousVRefTimeConstant") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16311,8 +15791,6 @@ mod set_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("hv10MinMeanValue") {}
-        if let Some(v) = obj.get("hv10MinMeanTripDelay") {}
         if let Some(v) = obj.get("powerDuringCessation") {
             let child = format!("{path}.powerDuringCessation");
             validate_power_during_cessation_enum_type(v, &child)?;
@@ -16362,9 +15840,6 @@ mod set_der_control_request {
             let child = format!("{path}.yUnit");
             validate_der_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("responseTime") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16383,13 +15858,6 @@ mod set_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("highVoltage") {}
-        if let Some(v) = obj.get("lowVoltage") {}
-        if let Some(v) = obj.get("highFreq") {}
-        if let Some(v) = obj.get("lowFreq") {}
-        if let Some(v) = obj.get("delay") {}
-        if let Some(v) = obj.get("randomDelay") {}
-        if let Some(v) = obj.get("rampRate") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16408,10 +15876,6 @@ mod set_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("displacement") {}
-        if let Some(v) = obj.get("excitation") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16430,13 +15894,10 @@ mod set_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
         if let Some(v) = obj.get("unit") {
             let child = format!("{path}.unit");
             validate_der_unit_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16455,13 +15916,6 @@ mod set_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("overFreq") {}
-        if let Some(v) = obj.get("underFreq") {}
-        if let Some(v) = obj.get("overDroop") {}
-        if let Some(v) = obj.get("underDroop") {}
-        if let Some(v) = obj.get("responseTime") {}
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16480,8 +15934,6 @@ mod set_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("gradient") {}
-        if let Some(v) = obj.get("softGradient") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16500,13 +15952,10 @@ mod set_der_control_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("pctMaxDischargePower") {}
         if let Some(v) = obj.get("powerMonitoringMustTrip") {
             let child = format!("{path}.powerMonitoringMustTrip");
             validate_der_curve_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startTime") {}
-        if let Some(v) = obj.get("duration") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16519,7 +15968,6 @@ mod set_der_control_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("isDefault") {}
         if let Some(v) = obj.get("controlId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.controlId");
@@ -16574,7 +16022,10 @@ mod set_der_control_request {
 }
 
 mod set_der_control_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_der_control_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -16656,7 +16107,10 @@ mod set_der_control_response {
 }
 
 mod set_default_tariff_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_day_of_week_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -16725,7 +16179,6 @@ mod set_default_tariff_request {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("tax") {}
         if let Some(v) = obj.get("stack") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stack");
@@ -16744,8 +16197,6 @@ mod set_default_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exclTax") {}
-        if let Some(v) = obj.get("inclTax") {}
         if let Some(v) = obj.get("taxRates") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.taxRates");
@@ -16769,8 +16220,6 @@ mod set_default_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startTimeOfDay") {}
-        if let Some(v) = obj.get("endTimeOfDay") {}
         if let Some(v) = obj.get("dayOfWeek") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.dayOfWeek");
@@ -16782,8 +16231,6 @@ mod set_default_tariff_request {
                 }
             }
         }
-        if let Some(v) = obj.get("validFromDate") {}
-        if let Some(v) = obj.get("validToDate") {}
         if let Some(v) = obj.get("evseKind") {
             let child = format!("{path}.evseKind");
             validate_evse_kind_enum_type(v, &child)?;
@@ -16812,8 +16259,6 @@ mod set_default_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("startTimeOfDay") {}
-        if let Some(v) = obj.get("endTimeOfDay") {}
         if let Some(v) = obj.get("dayOfWeek") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.dayOfWeek");
@@ -16825,24 +16270,10 @@ mod set_default_tariff_request {
                 }
             }
         }
-        if let Some(v) = obj.get("validFromDate") {}
-        if let Some(v) = obj.get("validToDate") {}
         if let Some(v) = obj.get("evseKind") {
             let child = format!("{path}.evseKind");
             validate_evse_kind_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("minEnergy") {}
-        if let Some(v) = obj.get("maxEnergy") {}
-        if let Some(v) = obj.get("minCurrent") {}
-        if let Some(v) = obj.get("maxCurrent") {}
-        if let Some(v) = obj.get("minPower") {}
-        if let Some(v) = obj.get("maxPower") {}
-        if let Some(v) = obj.get("minTime") {}
-        if let Some(v) = obj.get("maxTime") {}
-        if let Some(v) = obj.get("minChargingTime") {}
-        if let Some(v) = obj.get("maxChargingTime") {}
-        if let Some(v) = obj.get("minIdleTime") {}
-        if let Some(v) = obj.get("maxIdleTime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16855,7 +16286,6 @@ mod set_default_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("priceKwh") {}
         if let Some(v) = obj.get("conditions") {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_type(v, &child)?;
@@ -16909,7 +16339,6 @@ mod set_default_tariff_request {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_fixed_type(v, &child)?;
         }
-        if let Some(v) = obj.get("priceFixed") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -16955,7 +16384,6 @@ mod set_default_tariff_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("priceMinute") {}
         if let Some(v) = obj.get("conditions") {
             let child = format!("{path}.conditions");
             validate_tariff_conditions_type(v, &child)?;
@@ -17032,7 +16460,6 @@ mod set_default_tariff_request {
             let child = format!("{path}.energy");
             validate_tariff_energy_type(v, &child)?;
         }
-        if let Some(v) = obj.get("validFrom") {}
         if let Some(v) = obj.get("chargingTime") {
             let child = format!("{path}.chargingTime");
             validate_tariff_time_type(v, &child)?;
@@ -17095,7 +16522,10 @@ mod set_default_tariff_request {
 }
 
 mod set_default_tariff_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_tariff_set_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -17164,7 +16594,10 @@ mod set_default_tariff_response {
 }
 
 mod set_display_message_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_message_format_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -17297,8 +16730,6 @@ mod set_display_message_request {
             let child = format!("{path}.state");
             validate_message_state_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("startDateTime") {}
-        if let Some(v) = obj.get("endDateTime") {}
         if let Some(v) = obj.get("transactionId") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.transactionId");
@@ -17348,12 +16779,12 @@ mod set_display_message_request {
 }
 
 mod set_display_message_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_display_message_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_display_message_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -17420,7 +16851,10 @@ mod set_display_message_response {
 }
 
 mod set_monitoring_base_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_monitoring_base_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -17461,12 +16895,12 @@ mod set_monitoring_base_request {
 }
 
 mod set_monitoring_base_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_generic_device_model_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -17533,7 +16967,10 @@ mod set_monitoring_base_response {
 }
 
 mod set_monitoring_level_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -17571,7 +17008,10 @@ mod set_monitoring_level_request {
 }
 
 mod set_monitoring_level_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -17640,7 +17080,10 @@ mod set_monitoring_level_response {
 }
 
 mod set_network_profile_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_apn_authentication_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -17703,14 +17146,12 @@ mod set_network_profile_request {
                 check_str_max(&child, s, 64)?;
             }
         }
-        if let Some(v) = obj.get("simPin") {}
         if let Some(v) = obj.get("preferredNetwork") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.preferredNetwork");
                 check_str_max(&child, s, 6)?;
             }
         }
-        if let Some(v) = obj.get("useOnlyPreferredNetwork") {}
         if let Some(v) = obj.get("apnAuthentication") {
             let child = format!("{path}.apnAuthentication");
             validate_apn_authentication_enum_type(v, &child)?;
@@ -17769,10 +17210,7 @@ mod set_network_profile_request {
         Ok(())
     }
 
-    pub fn validate_network_connection_profile_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_network_connection_profile_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -17792,7 +17230,6 @@ mod set_network_profile_request {
             let child = format!("{path}.ocppTransport");
             validate_ocpp_transport_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("messageTimeout") {}
         if let Some(v) = obj.get("ocppCsmsUrl") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.ocppCsmsUrl");
@@ -17833,7 +17270,6 @@ mod set_network_profile_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("configurationSlot") {}
         if let Some(v) = obj.get("connectionData") {
             let child = format!("{path}.connectionData");
             validate_network_connection_profile_type(v, &child)?;
@@ -17850,12 +17286,12 @@ mod set_network_profile_request {
 }
 
 mod set_network_profile_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_set_network_profile_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_set_network_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -17922,7 +17358,10 @@ mod set_network_profile_response {
 }
 
 mod set_variable_monitoring_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_monitor_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -17995,10 +17434,7 @@ mod set_variable_monitoring_request {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -18060,8 +17496,6 @@ mod set_variable_monitoring_request {
             let child = format!("{path}.periodicEventStream");
             validate_periodic_event_stream_params_type(v, &child)?;
         }
-        if let Some(v) = obj.get("transaction") {}
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("type") {
             let child = format!("{path}.type");
             validate_monitor_enum_type(v, &child)?;
@@ -18088,10 +17522,7 @@ mod set_variable_monitoring_request {
         Ok(())
     }
 
-    pub fn validate_set_variable_monitoring_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_set_variable_monitoring_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -18117,17 +17548,17 @@ mod set_variable_monitoring_request {
 }
 
 mod set_variable_monitoring_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_monitor_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_set_monitoring_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_set_monitoring_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -18290,10 +17721,7 @@ mod set_variable_monitoring_response {
         Ok(())
     }
 
-    pub fn validate_set_variable_monitoring_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_set_variable_monitoring_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -18319,7 +17747,10 @@ mod set_variable_monitoring_response {
 }
 
 mod set_variables_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -18472,7 +17903,10 @@ mod set_variables_request {
 }
 
 mod set_variables_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -18656,12 +18090,12 @@ mod set_variables_response {
 }
 
 mod sign_certificate_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_certificate_signing_use_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_certificate_signing_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -18737,7 +18171,6 @@ mod sign_certificate_request {
             let child = format!("{path}.hashRootCertificate");
             validate_certificate_hash_data_type(v, &child)?;
         }
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -18750,7 +18183,10 @@ mod sign_certificate_request {
 }
 
 mod sign_certificate_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -18819,7 +18255,10 @@ mod sign_certificate_response {
 }
 
 mod status_notification_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_connector_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -18844,7 +18283,6 @@ mod status_notification_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("connectorStatus") {
             let child = format!("{path}.connectorStatus");
             validate_connector_status_enum_type(v, &child)?;
@@ -18873,7 +18311,10 @@ mod status_notification_request {
 }
 
 mod status_notification_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -18905,7 +18346,10 @@ mod status_notification_response {
 }
 
 mod transaction_event_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_charging_state_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -18937,10 +18381,7 @@ mod transaction_event_request {
         Ok(())
     }
 
-    pub fn validate_preconditioning_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_preconditioning_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19016,7 +18457,6 @@ mod transaction_event_request {
             let child = format!("{path}.type");
             validate_cost_dimension_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("volume") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -19045,7 +18485,6 @@ mod transaction_event_request {
                 check_str_max(&child, s, 60)?;
             }
         }
-        if let Some(v) = obj.get("startPeriod") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -19064,7 +18503,6 @@ mod transaction_event_request {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("tax") {}
         if let Some(v) = obj.get("stack") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.stack");
@@ -19083,8 +18521,6 @@ mod transaction_event_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exclTax") {}
-        if let Some(v) = obj.get("inclTax") {}
         if let Some(v) = obj.get("taxRates") {
             if let Some(arr) = v.as_array() {
                 let child = format!("{path}.taxRates");
@@ -19108,8 +18544,6 @@ mod transaction_event_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("exclTax") {}
-        if let Some(v) = obj.get("inclTax") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -19172,10 +18606,6 @@ mod transaction_event_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("energy") {}
-        if let Some(v) = obj.get("chargingTime") {}
-        if let Some(v) = obj.get("idleTime") {}
-        if let Some(v) = obj.get("reservationTime") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -19206,7 +18636,6 @@ mod transaction_event_request {
             let child = format!("{path}.totalUsage");
             validate_total_usage_type(v, &child)?;
         }
-        if let Some(v) = obj.get("failureToCalculate") {}
         if let Some(v) = obj.get("failureReason") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.failureReason");
@@ -19325,7 +18754,6 @@ mod transaction_event_request {
                 check_str_max(&child, s, 20)?;
             }
         }
-        if let Some(v) = obj.get("multiplier") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -19338,7 +18766,6 @@ mod transaction_event_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("value") {}
         if let Some(v) = obj.get("measurand") {
             let child = format!("{path}.measurand");
             validate_measurand_enum_type(v, &child)?;
@@ -19385,7 +18812,6 @@ mod transaction_event_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -19398,9 +18824,6 @@ mod transaction_event_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("maxCost") {}
-        if let Some(v) = obj.get("maxEnergy") {}
-        if let Some(v) = obj.get("maxTime") {}
         if let Some(v) = obj.get("maxSoC") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.maxSoC");
@@ -19430,12 +18853,10 @@ mod transaction_event_request {
             let child = format!("{path}.chargingState");
             validate_charging_state_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("timeSpentCharging") {}
         if let Some(v) = obj.get("stoppedReason") {
             let child = format!("{path}.stoppedReason");
             validate_reason_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("remoteStartId") {}
         if let Some(v) = obj.get("operationMode") {
             let child = format!("{path}.operationMode");
             validate_operation_mode_enum_type(v, &child)?;
@@ -19480,7 +18901,6 @@ mod transaction_event_request {
                 }
             }
         }
-        if let Some(v) = obj.get("timestamp") {}
         if let Some(v) = obj.get("triggerReason") {
             let child = format!("{path}.triggerReason");
             validate_trigger_reason_enum_type(v, &child)?;
@@ -19491,7 +18911,6 @@ mod transaction_event_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("offline") {}
         if let Some(v) = obj.get("numberOfPhasesUsed") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.numberOfPhasesUsed");
@@ -19499,7 +18918,6 @@ mod transaction_event_request {
                 check_num_max(&child, n, 3.0)?;
             }
         }
-        if let Some(v) = obj.get("cableMaxCurrent") {}
         if let Some(v) = obj.get("reservationId") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.reservationId");
@@ -19510,7 +18928,6 @@ mod transaction_event_request {
             let child = format!("{path}.preconditioningStatus");
             validate_preconditioning_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("evseSleep") {}
         if let Some(v) = obj.get("transactionInfo") {
             let child = format!("{path}.transactionInfo");
             validate_transaction_type(v, &child)?;
@@ -19535,12 +18952,12 @@ mod transaction_event_request {
 }
 
 mod transaction_event_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_authorization_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_authorization_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19658,8 +19075,6 @@ mod transaction_event_response {
             let child = format!("{path}.status");
             validate_authorization_status_enum_type(v, &child)?;
         }
-        if let Some(v) = obj.get("cacheExpiryDateTime") {}
-        if let Some(v) = obj.get("chargingPriority") {}
         if let Some(v) = obj.get("groupIdToken") {
             let child = format!("{path}.groupIdToken");
             validate_id_token_type(v, &child)?;
@@ -19698,9 +19113,6 @@ mod transaction_event_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("maxCost") {}
-        if let Some(v) = obj.get("maxEnergy") {}
-        if let Some(v) = obj.get("maxTime") {}
         if let Some(v) = obj.get("maxSoC") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.maxSoC");
@@ -19720,8 +19132,6 @@ mod transaction_event_response {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("totalCost") {}
-        if let Some(v) = obj.get("chargingPriority") {}
         if let Some(v) = obj.get("idTokenInfo") {
             let child = format!("{path}.idTokenInfo");
             validate_id_token_info_type(v, &child)?;
@@ -19757,7 +19167,10 @@ mod transaction_event_response {
 }
 
 mod trigger_message_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_message_trigger_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -19832,12 +19245,12 @@ mod trigger_message_request {
 }
 
 mod trigger_message_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_trigger_message_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_trigger_message_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19904,7 +19317,10 @@ mod trigger_message_response {
 }
 
 mod unlock_connector_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -19948,7 +19364,10 @@ mod unlock_connector_request {
 }
 
 mod unlock_connector_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_unlock_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -20017,7 +19436,10 @@ mod unlock_connector_response {
 }
 
 mod unpublish_firmware_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -20055,12 +19477,12 @@ mod unpublish_firmware_request {
 }
 
 mod unpublish_firmware_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_unpublish_firmware_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_unpublish_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -20099,7 +19521,10 @@ mod unpublish_firmware_response {
 }
 
 mod update_dynamic_schedule_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -20119,9 +19544,6 @@ mod update_dynamic_schedule_request {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("limit") {}
-        if let Some(v) = obj.get("limit_L2") {}
-        if let Some(v) = obj.get("limit_L3") {}
         if let Some(v) = obj.get("dischargeLimit") {
             if let Some(n) = v.as_f64() {
                 let child = format!("{path}.dischargeLimit");
@@ -20140,12 +19562,6 @@ mod update_dynamic_schedule_request {
                 check_num_max(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("setpoint") {}
-        if let Some(v) = obj.get("setpoint_L2") {}
-        if let Some(v) = obj.get("setpoint_L3") {}
-        if let Some(v) = obj.get("setpointReactive") {}
-        if let Some(v) = obj.get("setpointReactive_L2") {}
-        if let Some(v) = obj.get("setpointReactive_L3") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -20154,14 +19570,10 @@ mod update_dynamic_schedule_request {
         Ok(())
     }
 
-    pub fn validate_update_dynamic_schedule_request(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_update_dynamic_schedule_request(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
-        if let Some(v) = obj.get("chargingProfileId") {}
         if let Some(v) = obj.get("scheduleUpdate") {
             let child = format!("{path}.scheduleUpdate");
             validate_charging_schedule_update_type(v, &child)?;
@@ -20178,12 +19590,12 @@ mod update_dynamic_schedule_request {
 }
 
 mod update_dynamic_schedule_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_charging_profile_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -20226,10 +19638,7 @@ mod update_dynamic_schedule_response {
         Ok(())
     }
 
-    pub fn validate_update_dynamic_schedule_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_update_dynamic_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -20253,7 +19662,10 @@ mod update_dynamic_schedule_response {
 }
 
 mod update_firmware_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -20279,8 +19691,6 @@ mod update_firmware_request {
                 check_str_max(&child, s, 2000)?;
             }
         }
-        if let Some(v) = obj.get("retrieveDateTime") {}
-        if let Some(v) = obj.get("installDateTime") {}
         if let Some(v) = obj.get("signingCertificate") {
             if let Some(s) = v.as_str() {
                 let child = format!("{path}.signingCertificate");
@@ -20311,8 +19721,6 @@ mod update_firmware_request {
                 check_num_min(&child, n, 0.0)?;
             }
         }
-        if let Some(v) = obj.get("retryInterval") {}
-        if let Some(v) = obj.get("requestId") {}
         if let Some(v) = obj.get("firmware") {
             let child = format!("{path}.firmware");
             validate_firmware_type(v, &child)?;
@@ -20329,12 +19737,12 @@ mod update_firmware_request {
 }
 
 mod update_firmware_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_update_firmware_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_update_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -20401,7 +19809,10 @@ mod update_firmware_response {
 }
 
 mod use_priority_charging_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -20427,7 +19838,6 @@ mod use_priority_charging_request {
                 check_str_max(&child, s, 36)?;
             }
         }
-        if let Some(v) = obj.get("activate") {}
         if let Some(v) = obj.get("customData") {
             let child = format!("{path}.customData");
             validate_custom_data_type(v, &child)?;
@@ -20440,12 +19850,12 @@ mod use_priority_charging_request {
 }
 
 mod use_priority_charging_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
-    pub fn validate_priority_charging_status_enum_type(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_priority_charging_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -20488,10 +19898,7 @@ mod use_priority_charging_response {
         Ok(())
     }
 
-    pub fn validate_use_priority_charging_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_use_priority_charging_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -20515,7 +19922,10 @@ mod use_priority_charging_response {
 }
 
 mod vat_number_validation_request {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
@@ -20559,7 +19969,10 @@ mod vat_number_validation_request {
 }
 
 mod vat_number_validation_response {
-    use super::*;
+    use super::{
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
+        check_num_min, check_str_max, format,
+    };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
         let _ = (value, path);
@@ -20652,10 +20065,7 @@ mod vat_number_validation_response {
         Ok(())
     }
 
-    pub fn validate_vat_number_validation_response(
-        value: &Value,
-        path: &str,
-    ) -> ValidateResult<()> {
+    pub fn validate_vat_number_validation_response(value: &Value, path: &str) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -20727,9 +20137,7 @@ pub fn validate_action_payload(action: &str, payload: &Value) -> ValidateResult<
         "GetCompositeSchedule" => get_composite_schedule_request::root(payload, action),
         "GetDERControl" => get_der_control_request::root(payload, action),
         "GetDisplayMessages" => get_display_messages_request::root(payload, action),
-        "GetInstalledCertificateIds" => {
-            get_installed_certificate_ids_request::root(payload, action)
-        }
+        "GetInstalledCertificateIds" => get_installed_certificate_ids_request::root(payload, action),
         "GetLocalListVersion" => get_local_list_version_request::root(payload, action),
         "GetLog" => get_log_request::root(payload, action),
         "GetMonitoringReport" => get_monitoring_report_request::root(payload, action),
@@ -20742,9 +20150,7 @@ pub fn validate_action_payload(action: &str, payload: &Value) -> ValidateResult<
         "InstallCertificate" => install_certificate_request::root(payload, action),
         "LogStatusNotification" => log_status_notification_request::root(payload, action),
         "MeterValues" => meter_values_request::root(payload, action),
-        "NotifyAllowedEnergyTransfer" => {
-            notify_allowed_energy_transfer_request::root(payload, action)
-        }
+        "NotifyAllowedEnergyTransfer" => notify_allowed_energy_transfer_request::root(payload, action),
         "NotifyChargingLimit" => notify_charging_limit_request::root(payload, action),
         "NotifyCustomerInformation" => notify_customer_information_request::root(payload, action),
         "NotifyDERAlarm" => notify_der_alarm_request::root(payload, action),
@@ -20761,9 +20167,7 @@ pub fn validate_action_payload(action: &str, payload: &Value) -> ValidateResult<
         "NotifyWebPaymentStarted" => notify_web_payment_started_request::root(payload, action),
         "OpenPeriodicEventStream" => open_periodic_event_stream_request::root(payload, action),
         "PublishFirmware" => publish_firmware_request::root(payload, action),
-        "PublishFirmwareStatusNotification" => {
-            publish_firmware_status_notification_request::root(payload, action)
-        }
+        "PublishFirmwareStatusNotification" => publish_firmware_status_notification_request::root(payload, action),
         "PullDynamicScheduleUpdate" => pull_dynamic_schedule_update_request::root(payload, action),
         "ReportChargingProfiles" => report_charging_profiles_request::root(payload, action),
         "ReportDERControl" => report_der_control_request::root(payload, action),
@@ -20822,9 +20226,7 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "CustomerInformation" => customer_information_response::root(payload, action),
         "DataTransfer" => data_transfer_response::root(payload, action),
         "DeleteCertificate" => delete_certificate_response::root(payload, action),
-        "FirmwareStatusNotification" => {
-            firmware_status_notification_response::root(payload, action)
-        }
+        "FirmwareStatusNotification" => firmware_status_notification_response::root(payload, action),
         "Get15118EVCertificate" => get15118_ev_certificate_response::root(payload, action),
         "GetBaseReport" => get_base_report_response::root(payload, action),
         "GetCertificateChainStatus" => get_certificate_chain_status_response::root(payload, action),
@@ -20833,9 +20235,7 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "GetCompositeSchedule" => get_composite_schedule_response::root(payload, action),
         "GetDERControl" => get_der_control_response::root(payload, action),
         "GetDisplayMessages" => get_display_messages_response::root(payload, action),
-        "GetInstalledCertificateIds" => {
-            get_installed_certificate_ids_response::root(payload, action)
-        }
+        "GetInstalledCertificateIds" => get_installed_certificate_ids_response::root(payload, action),
         "GetLocalListVersion" => get_local_list_version_response::root(payload, action),
         "GetLog" => get_log_response::root(payload, action),
         "GetMonitoringReport" => get_monitoring_report_response::root(payload, action),
@@ -20848,9 +20248,7 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "InstallCertificate" => install_certificate_response::root(payload, action),
         "LogStatusNotification" => log_status_notification_response::root(payload, action),
         "MeterValues" => meter_values_response::root(payload, action),
-        "NotifyAllowedEnergyTransfer" => {
-            notify_allowed_energy_transfer_response::root(payload, action)
-        }
+        "NotifyAllowedEnergyTransfer" => notify_allowed_energy_transfer_response::root(payload, action),
         "NotifyChargingLimit" => notify_charging_limit_response::root(payload, action),
         "NotifyCustomerInformation" => notify_customer_information_response::root(payload, action),
         "NotifyDERAlarm" => notify_der_alarm_response::root(payload, action),
@@ -20866,9 +20264,7 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "NotifyWebPaymentStarted" => notify_web_payment_started_response::root(payload, action),
         "OpenPeriodicEventStream" => open_periodic_event_stream_response::root(payload, action),
         "PublishFirmware" => publish_firmware_response::root(payload, action),
-        "PublishFirmwareStatusNotification" => {
-            publish_firmware_status_notification_response::root(payload, action)
-        }
+        "PublishFirmwareStatusNotification" => publish_firmware_status_notification_response::root(payload, action),
         "PullDynamicScheduleUpdate" => pull_dynamic_schedule_update_response::root(payload, action),
         "ReportChargingProfiles" => report_charging_profiles_response::root(payload, action),
         "ReportDERControl" => report_der_control_response::root(payload, action),

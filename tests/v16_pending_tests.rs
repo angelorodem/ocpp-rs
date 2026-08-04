@@ -1,4 +1,4 @@
-//! OCPP 1.6 PendingCalls / action-name / probe tests.
+//! OCPP 1.6 `PendingCalls` / action-name / probe tests.
 
 use ocpp_rs::v16::call::{Action, Call, ClearCache, Heartbeat, StatusNotification};
 use ocpp_rs::v16::call_result::{CallResultRaw, ClearCache as ClearCacheResult, EmptyResponse};

@@ -1,4 +1,4 @@
-//! OCPP 2.1 framing and CallResult correlation tests.
+//! OCPP 2.1 framing and `CallResult` correlation tests.
 
 use chrono::{TimeZone, Utc};
 use ocpp_rs::v21::call::{Action, Call};
@@ -14,6 +14,9 @@ use ocpp_rs::v21::messages::boot_notification::{
 use ocpp_rs::v21::messages::clear_cache::ClearCacheRequest;
 use ocpp_rs::v21::messages::clear_cache::ClearCacheStatusEnumType;
 use ocpp_rs::v21::messages::heartbeat::{HeartbeatRequest, HeartbeatResponse};
+use ocpp_rs::v21::messages::notify_periodic_event_stream::{
+    NotifyPeriodicEventStream, StreamDataElementType,
+};
 use ocpp_rs::v21::messages::status_notification::StatusNotificationResponse;
 use ocpp_rs::v21::parse::{self, Message, TypedMessage};
 use ocpp_rs::v21::pending::PendingCalls;
@@ -187,9 +190,6 @@ fn call_error_and_call_result_error_and_send() {
     ));
 
     // SEND NotifyPeriodicEventStream — minimal valid payload
-    use ocpp_rs::v21::messages::notify_periodic_event_stream::{
-        NotifyPeriodicEventStream, StreamDataElementType,
-    };
     let send = Send::new(
         "s1".into(),
         SendAction::NotifyPeriodicEventStream(NotifyPeriodicEventStream {

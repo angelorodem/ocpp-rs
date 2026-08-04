@@ -18,6 +18,5 @@ fn catalogs_are_non_empty() {
 
 #[test]
 fn matrix_lookup() {
-    let rows: Vec<_> = rows_for_component("AuthCtrlr").collect();
-    assert!(!rows.is_empty());
+    assert!(rows_for_component("AuthCtrlr").next().is_some());
 }
