@@ -256,6 +256,18 @@ def schema_root_defn(schema: dict, stem: str) -> dict:
     }
 
 
+def emit_match_arm(lines: list[str], action: str, fn: str) -> None:
+    """Emit a match arm, wrapping long lines so `cargo fmt --check` stays clean."""
+    call = f"{fn}(payload, action)"
+    one_line = f'        "{action}" => {call},'
+    if len(one_line) <= 100:
+        lines.append(one_line)
+        return
+    lines.append(f'        "{action}" => {{')
+    lines.append(f"            {call}")
+    lines.append("        }")
+
+
 def generate_for_dir(schema_dir: Path, version_label: str) -> str:
     lines: list[str] = [header()]
     # Per-file emission to avoid cross-file def clashes: each schema file gets
@@ -316,7 +328,7 @@ def generate_for_dir(schema_dir: Path, version_label: str) -> str:
     )
     lines.append("    match action {")
     for action, f in action_dispatch:
-        lines.append(f'        "{action}" => {f}(payload, action),')
+        emit_match_arm(lines, action, f)
     lines.append('        _ => Ok(()),')
     lines.append("    }")
     lines.append("}")
@@ -329,7 +341,7 @@ def generate_for_dir(schema_dir: Path, version_label: str) -> str:
     )
     lines.append("    match action {")
     for action, f in response_dispatch:
-        lines.append(f'        "{action}" => {f}(payload, action),')
+        emit_match_arm(lines, action, f)
     lines.append("        _ => Ok(()),")
     lines.append("    }")
     lines.append("}")
@@ -337,8 +349,29 @@ def generate_for_dir(schema_dir: Path, version_label: str) -> str:
     return "\n".join(lines)
 
 
+def rustfmt_source(content: str) -> str:
+    """Format generated Rust with rustfmt so codegen --check matches `cargo fmt`."""
+    import subprocess
+
+    try:
+        proc = subprocess.run(
+            ["rustfmt", "--edition", "2024"],
+            input=content,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return content
+    if proc.returncode != 0:
+        print(proc.stderr, file=sys.stderr)
+        return content
+    return proc.stdout
+
+
 def write_or_check(path: Path, content: str, check: bool) -> bool:
     path.parent.mkdir(parents=True, exist_ok=True)
+    content = rustfmt_source(content)
     if check:
         if not path.exists():
             print(f"missing {path}", file=sys.stderr)

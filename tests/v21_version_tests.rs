@@ -19,7 +19,7 @@ fn subprotocol_parse() {
 
 #[test]
 fn message_types_and_actions() {
-    use NegotiatedVersion::{Ocpp201, Ocpp21};
+    use NegotiatedVersion::{Ocpp21, Ocpp201};
     assert!(allows_message_type(Ocpp201, 2));
     assert!(!allows_message_type(Ocpp201, 5));
     assert!(!allows_message_type(Ocpp201, 6));

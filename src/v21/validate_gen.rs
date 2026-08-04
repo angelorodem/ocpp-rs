@@ -47,11 +47,10 @@ fn check_num_max(path: &str, n: f64, max: f64) -> ValidateResult<()> {
     Ok(())
 }
 
-
 mod afrr_signal_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -85,8 +84,8 @@ mod afrr_signal_request {
 
 mod afrr_signal_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -157,8 +156,8 @@ mod afrr_signal_response {
 
 mod adjust_periodic_event_stream_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -175,7 +174,10 @@ mod adjust_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -199,7 +201,10 @@ mod adjust_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_adjust_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_adjust_periodic_event_stream_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -226,8 +231,8 @@ mod adjust_periodic_event_stream_request {
 
 mod adjust_periodic_event_stream_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -273,7 +278,10 @@ mod adjust_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_adjust_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_adjust_periodic_event_stream_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -298,8 +306,8 @@ mod adjust_periodic_event_stream_response {
 
 mod authorize_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -457,16 +465,22 @@ mod authorize_request {
 
 mod authorize_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_authorization_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_authorization_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_authorize_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_authorize_certificate_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -476,7 +490,10 @@ mod authorize_response {
         Ok(())
     }
 
-    pub fn validate_energy_transfer_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_energy_transfer_mode_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -999,8 +1016,8 @@ mod authorize_response {
 
 mod battery_swap_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_battery_swap_event_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -1159,8 +1176,8 @@ mod battery_swap_request {
 
 mod battery_swap_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -1194,8 +1211,8 @@ mod battery_swap_response {
 
 mod boot_notification_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_boot_reason_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -1306,8 +1323,8 @@ mod boot_notification_request {
 
 mod boot_notification_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_registration_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -1378,8 +1395,8 @@ mod boot_notification_response {
 
 mod cancel_reservation_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -1419,11 +1436,14 @@ mod cancel_reservation_request {
 
 mod cancel_reservation_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_cancel_reservation_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_cancel_reservation_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1491,11 +1511,14 @@ mod cancel_reservation_response {
 
 mod certificate_signed_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_certificate_signing_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_signing_use_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1541,11 +1564,14 @@ mod certificate_signed_request {
 
 mod certificate_signed_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_certificate_signed_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_signed_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1613,8 +1639,8 @@ mod certificate_signed_response {
 
 mod change_availability_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_operational_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -1685,11 +1711,14 @@ mod change_availability_request {
 
 mod change_availability_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_change_availability_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_change_availability_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -1757,8 +1786,8 @@ mod change_availability_response {
 
 mod change_transaction_tariff_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_day_of_week_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2145,7 +2174,10 @@ mod change_transaction_tariff_request {
         Ok(())
     }
 
-    pub fn validate_change_transaction_tariff_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_change_transaction_tariff_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2172,11 +2204,14 @@ mod change_transaction_tariff_request {
 
 mod change_transaction_tariff_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_tariff_change_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_tariff_change_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2219,7 +2254,10 @@ mod change_transaction_tariff_response {
         Ok(())
     }
 
-    pub fn validate_change_transaction_tariff_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_change_transaction_tariff_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2244,8 +2282,8 @@ mod change_transaction_tariff_response {
 
 mod clear_cache_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2279,8 +2317,8 @@ mod clear_cache_request {
 
 mod clear_cache_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_clear_cache_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2351,11 +2389,14 @@ mod clear_cache_response {
 
 mod clear_charging_profile_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2402,7 +2443,10 @@ mod clear_charging_profile_request {
         Ok(())
     }
 
-    pub fn validate_clear_charging_profile_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2423,11 +2467,14 @@ mod clear_charging_profile_request {
 
 mod clear_charging_profile_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_clear_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2470,7 +2517,10 @@ mod clear_charging_profile_response {
         Ok(())
     }
 
-    pub fn validate_clear_charging_profile_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_charging_profile_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2495,8 +2545,8 @@ mod clear_charging_profile_response {
 
 mod clear_der_control_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2545,8 +2595,8 @@ mod clear_der_control_request {
 
 mod clear_der_control_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2617,8 +2667,8 @@ mod clear_der_control_response {
 
 mod clear_display_message_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2658,11 +2708,14 @@ mod clear_display_message_request {
 
 mod clear_display_message_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_clear_message_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_message_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2705,7 +2758,10 @@ mod clear_display_message_response {
         Ok(())
     }
 
-    pub fn validate_clear_display_message_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_display_message_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2730,8 +2786,8 @@ mod clear_display_message_response {
 
 mod clear_tariffs_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2783,8 +2839,8 @@ mod clear_tariffs_request {
 
 mod clear_tariffs_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_tariff_clear_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2883,8 +2939,8 @@ mod clear_tariffs_response {
 
 mod clear_variable_monitoring_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -2901,7 +2957,10 @@ mod clear_variable_monitoring_request {
         Ok(())
     }
 
-    pub fn validate_clear_variable_monitoring_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_variable_monitoring_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -2924,11 +2983,14 @@ mod clear_variable_monitoring_request {
 
 mod clear_variable_monitoring_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_clear_monitoring_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_monitoring_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -2997,7 +3059,10 @@ mod clear_variable_monitoring_response {
         Ok(())
     }
 
-    pub fn validate_clear_variable_monitoring_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_clear_variable_monitoring_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3024,8 +3089,8 @@ mod clear_variable_monitoring_response {
 
 mod cleared_charging_limit_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3042,7 +3107,10 @@ mod cleared_charging_limit_request {
         Ok(())
     }
 
-    pub fn validate_cleared_charging_limit_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_cleared_charging_limit_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3071,8 +3139,8 @@ mod cleared_charging_limit_request {
 
 mod cleared_charging_limit_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3089,7 +3157,10 @@ mod cleared_charging_limit_response {
         Ok(())
     }
 
-    pub fn validate_cleared_charging_limit_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_cleared_charging_limit_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3106,8 +3177,8 @@ mod cleared_charging_limit_response {
 
 mod close_periodic_event_stream_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3124,7 +3195,10 @@ mod close_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_close_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_close_periodic_event_stream_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3147,8 +3221,8 @@ mod close_periodic_event_stream_request {
 
 mod close_periodic_event_stream_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3165,7 +3239,10 @@ mod close_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_close_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_close_periodic_event_stream_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3182,8 +3259,8 @@ mod close_periodic_event_stream_response {
 
 mod cost_updated_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3223,8 +3300,8 @@ mod cost_updated_request {
 
 mod cost_updated_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3258,8 +3335,8 @@ mod cost_updated_response {
 
 mod customer_information_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3410,11 +3487,14 @@ mod customer_information_request {
 
 mod customer_information_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_customer_information_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_customer_information_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3482,8 +3562,8 @@ mod customer_information_response {
 
 mod data_transfer_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3529,11 +3609,14 @@ mod data_transfer_request {
 
 mod data_transfer_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_data_transfer_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_data_transfer_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3601,8 +3684,8 @@ mod data_transfer_response {
 
 mod delete_certificate_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3679,11 +3762,14 @@ mod delete_certificate_request {
 
 mod delete_certificate_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_delete_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_delete_certificate_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3751,8 +3837,8 @@ mod delete_certificate_response {
 
 mod firmware_status_notification_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3798,7 +3884,10 @@ mod firmware_status_notification_request {
         Ok(())
     }
 
-    pub fn validate_firmware_status_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_firmware_status_notification_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3823,8 +3912,8 @@ mod firmware_status_notification_request {
 
 mod firmware_status_notification_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3841,7 +3930,10 @@ mod firmware_status_notification_response {
         Ok(())
     }
 
-    pub fn validate_firmware_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_firmware_status_notification_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3858,8 +3950,8 @@ mod firmware_status_notification_response {
 
 mod get15118_ev_certificate_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_certificate_action_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -3881,7 +3973,10 @@ mod get15118_ev_certificate_request {
         Ok(())
     }
 
-    pub fn validate_get15118_ev_certificate_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get15118_ev_certificate_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -3933,11 +4028,14 @@ mod get15118_ev_certificate_request {
 
 mod get15118_ev_certificate_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_iso15118_ev_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_iso15118_ev_certificate_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -3980,7 +4078,10 @@ mod get15118_ev_certificate_response {
         Ok(())
     }
 
-    pub fn validate_get15118_ev_certificate_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get15118_ev_certificate_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4017,8 +4118,8 @@ mod get15118_ev_certificate_response {
 
 mod get_base_report_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_report_base_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -4061,11 +4162,14 @@ mod get_base_report_request {
 
 mod get_base_report_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4133,11 +4237,14 @@ mod get_base_report_response {
 
 mod get_certificate_chain_status_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_certificate_status_source_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_status_source_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4195,7 +4302,10 @@ mod get_certificate_chain_status_request {
         Ok(())
     }
 
-    pub fn validate_certificate_status_request_info_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_status_request_info_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4228,7 +4338,10 @@ mod get_certificate_chain_status_request {
         Ok(())
     }
 
-    pub fn validate_get_certificate_chain_status_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_chain_status_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4256,8 +4369,8 @@ mod get_certificate_chain_status_request {
 
 mod get_certificate_chain_status_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -4265,7 +4378,10 @@ mod get_certificate_chain_status_response {
         Ok(())
     }
 
-    pub fn validate_certificate_status_source_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_status_source_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4347,7 +4463,10 @@ mod get_certificate_chain_status_response {
         Ok(())
     }
 
-    pub fn validate_get_certificate_chain_status_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_chain_status_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4375,8 +4494,8 @@ mod get_certificate_chain_status_response {
 
 mod get_certificate_status_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_hash_algorithm_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -4438,7 +4557,10 @@ mod get_certificate_status_request {
         Ok(())
     }
 
-    pub fn validate_get_certificate_status_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_status_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4459,11 +4581,14 @@ mod get_certificate_status_request {
 
 mod get_certificate_status_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_get_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4506,7 +4631,10 @@ mod get_certificate_status_response {
         Ok(())
     }
 
-    pub fn validate_get_certificate_status_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_status_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4537,11 +4665,14 @@ mod get_certificate_status_response {
 
 mod get_charging_profiles_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4560,7 +4691,10 @@ mod get_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_charging_profile_criterion_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_criterion_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4628,11 +4762,14 @@ mod get_charging_profiles_request {
 
 mod get_charging_profiles_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_get_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_charging_profile_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -4675,7 +4812,10 @@ mod get_charging_profiles_response {
         Ok(())
     }
 
-    pub fn validate_get_charging_profiles_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_charging_profiles_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4700,8 +4840,8 @@ mod get_charging_profiles_response {
 
 mod get_composite_schedule_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -4723,7 +4863,10 @@ mod get_composite_schedule_request {
         Ok(())
     }
 
-    pub fn validate_get_composite_schedule_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_composite_schedule_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4750,8 +4893,8 @@ mod get_composite_schedule_request {
 
 mod get_composite_schedule_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -4933,7 +5076,10 @@ mod get_composite_schedule_response {
         Ok(())
     }
 
-    pub fn validate_get_composite_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_composite_schedule_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -4962,8 +5108,8 @@ mod get_composite_schedule_response {
 
 mod get_der_control_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5012,8 +5158,8 @@ mod get_der_control_request {
 
 mod get_der_control_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5084,8 +5230,8 @@ mod get_der_control_response {
 
 mod get_display_messages_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_message_priority_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5143,11 +5289,14 @@ mod get_display_messages_request {
 
 mod get_display_messages_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_get_display_messages_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_display_messages_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5215,11 +5364,14 @@ mod get_display_messages_response {
 
 mod get_installed_certificate_ids_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_get_certificate_id_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_id_use_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5238,7 +5390,10 @@ mod get_installed_certificate_ids_request {
         Ok(())
     }
 
-    pub fn validate_get_installed_certificate_ids_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_installed_certificate_ids_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5265,16 +5420,22 @@ mod get_installed_certificate_ids_request {
 
 mod get_installed_certificate_ids_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_get_certificate_id_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_certificate_id_use_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_get_installed_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_installed_certificate_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5332,7 +5493,10 @@ mod get_installed_certificate_ids_response {
         Ok(())
     }
 
-    pub fn validate_certificate_hash_data_chain_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_hash_data_chain_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5387,7 +5551,10 @@ mod get_installed_certificate_ids_response {
         Ok(())
     }
 
-    pub fn validate_get_installed_certificate_ids_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_installed_certificate_ids_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5422,8 +5589,8 @@ mod get_installed_certificate_ids_response {
 
 mod get_local_list_version_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5440,7 +5607,10 @@ mod get_local_list_version_request {
         Ok(())
     }
 
-    pub fn validate_get_local_list_version_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_local_list_version_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5457,8 +5627,8 @@ mod get_local_list_version_request {
 
 mod get_local_list_version_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5475,7 +5645,10 @@ mod get_local_list_version_response {
         Ok(())
     }
 
-    pub fn validate_get_local_list_version_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_local_list_version_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5492,8 +5665,8 @@ mod get_local_list_version_response {
 
 mod get_log_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_log_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5564,8 +5737,8 @@ mod get_log_request {
 
 mod get_log_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_log_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5642,11 +5815,14 @@ mod get_log_response {
 
 mod get_monitoring_report_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_monitoring_criterion_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_monitoring_criterion_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5799,11 +5975,14 @@ mod get_monitoring_report_request {
 
 mod get_monitoring_report_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -5846,7 +6025,10 @@ mod get_monitoring_report_response {
         Ok(())
     }
 
-    pub fn validate_get_monitoring_report_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_monitoring_report_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5871,8 +6053,8 @@ mod get_monitoring_report_response {
 
 mod get_periodic_event_stream_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5889,7 +6071,10 @@ mod get_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_get_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_periodic_event_stream_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5906,8 +6091,8 @@ mod get_periodic_event_stream_request {
 
 mod get_periodic_event_stream_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -5924,7 +6109,10 @@ mod get_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -5976,7 +6164,10 @@ mod get_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_get_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_periodic_event_stream_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -6003,8 +6194,8 @@ mod get_periodic_event_stream_response {
 
 mod get_report_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_component_criterion_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6160,11 +6351,14 @@ mod get_report_request {
 
 mod get_report_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -6232,8 +6426,8 @@ mod get_report_response {
 
 mod get_tariffs_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6273,8 +6467,8 @@ mod get_tariffs_request {
 
 mod get_tariffs_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_tariff_get_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6400,8 +6594,8 @@ mod get_tariffs_response {
 
 mod get_transaction_status_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6418,7 +6612,10 @@ mod get_transaction_status_request {
         Ok(())
     }
 
-    pub fn validate_get_transaction_status_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_transaction_status_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -6441,8 +6638,8 @@ mod get_transaction_status_request {
 
 mod get_transaction_status_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6459,7 +6656,10 @@ mod get_transaction_status_response {
         Ok(())
     }
 
-    pub fn validate_get_transaction_status_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_get_transaction_status_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -6476,8 +6676,8 @@ mod get_transaction_status_response {
 
 mod get_variables_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6626,8 +6826,8 @@ mod get_variables_request {
 
 mod get_variables_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6819,8 +7019,8 @@ mod get_variables_response {
 
 mod heartbeat_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6854,8 +7054,8 @@ mod heartbeat_request {
 
 mod heartbeat_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -6889,11 +7089,14 @@ mod heartbeat_response {
 
 mod install_certificate_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_install_certificate_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_install_certificate_use_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -6939,11 +7142,14 @@ mod install_certificate_request {
 
 mod install_certificate_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_install_certificate_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_install_certificate_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7011,8 +7217,8 @@ mod install_certificate_response {
 
 mod log_status_notification_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_upload_log_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -7058,7 +7264,10 @@ mod log_status_notification_request {
         Ok(())
     }
 
-    pub fn validate_log_status_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_log_status_notification_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7083,8 +7292,8 @@ mod log_status_notification_request {
 
 mod log_status_notification_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -7101,7 +7310,10 @@ mod log_status_notification_response {
         Ok(())
     }
 
-    pub fn validate_log_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_log_status_notification_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7118,8 +7330,8 @@ mod log_status_notification_response {
 
 mod meter_values_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_location_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -7301,8 +7513,8 @@ mod meter_values_request {
 
 mod meter_values_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -7336,11 +7548,14 @@ mod meter_values_response {
 
 mod notify_allowed_energy_transfer_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_energy_transfer_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_energy_transfer_mode_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7359,7 +7574,10 @@ mod notify_allowed_energy_transfer_request {
         Ok(())
     }
 
-    pub fn validate_notify_allowed_energy_transfer_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_allowed_energy_transfer_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7392,11 +7610,14 @@ mod notify_allowed_energy_transfer_request {
 
 mod notify_allowed_energy_transfer_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_notify_allowed_energy_transfer_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_allowed_energy_transfer_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -7439,7 +7660,10 @@ mod notify_allowed_energy_transfer_response {
         Ok(())
     }
 
-    pub fn validate_notify_allowed_energy_transfer_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_allowed_energy_transfer_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7464,8 +7688,8 @@ mod notify_allowed_energy_transfer_response {
 
 mod notify_charging_limit_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -7509,7 +7733,10 @@ mod notify_charging_limit_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -7886,7 +8113,10 @@ mod notify_charging_limit_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8168,8 +8398,8 @@ mod notify_charging_limit_request {
 
 mod notify_charging_limit_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8186,7 +8416,10 @@ mod notify_charging_limit_response {
         Ok(())
     }
 
-    pub fn validate_notify_charging_limit_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_charging_limit_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8203,8 +8436,8 @@ mod notify_charging_limit_response {
 
 mod notify_customer_information_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8221,7 +8454,10 @@ mod notify_customer_information_request {
         Ok(())
     }
 
-    pub fn validate_notify_customer_information_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_customer_information_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8256,8 +8492,8 @@ mod notify_customer_information_request {
 
 mod notify_customer_information_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8274,7 +8510,10 @@ mod notify_customer_information_response {
         Ok(())
     }
 
-    pub fn validate_notify_customer_information_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_customer_information_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8291,8 +8530,8 @@ mod notify_customer_information_response {
 
 mod notify_der_alarm_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8350,8 +8589,8 @@ mod notify_der_alarm_request {
 
 mod notify_der_alarm_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8385,8 +8624,8 @@ mod notify_der_alarm_response {
 
 mod notify_der_start_stop_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8439,8 +8678,8 @@ mod notify_der_start_stop_request {
 
 mod notify_der_start_stop_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8457,7 +8696,10 @@ mod notify_der_start_stop_response {
         Ok(())
     }
 
-    pub fn validate_notify_der_start_stop_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_der_start_stop_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8474,8 +8716,8 @@ mod notify_der_start_stop_response {
 
 mod notify_display_messages_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_message_format_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8638,7 +8880,10 @@ mod notify_display_messages_request {
         Ok(())
     }
 
-    pub fn validate_notify_display_messages_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_display_messages_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8665,8 +8910,8 @@ mod notify_display_messages_request {
 
 mod notify_display_messages_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8683,7 +8928,10 @@ mod notify_display_messages_response {
         Ok(())
     }
 
-    pub fn validate_notify_display_messages_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_display_messages_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8700,8 +8948,8 @@ mod notify_display_messages_response {
 
 mod notify_ev_charging_needs_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_control_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -8714,7 +8962,10 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_energy_transfer_mode_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_energy_transfer_mode_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -8862,7 +9113,10 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_ev_absolute_price_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_ev_absolute_price_schedule_entry_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -8885,7 +9139,10 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_ev_absolute_price_schedule_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_ev_absolute_price_schedule_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9048,7 +9305,10 @@ mod notify_ev_charging_needs_request {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_needs_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_needs_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9081,11 +9341,14 @@ mod notify_ev_charging_needs_request {
 
 mod notify_ev_charging_needs_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_notify_ev_charging_needs_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_needs_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -9128,7 +9391,10 @@ mod notify_ev_charging_needs_response {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_needs_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_needs_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9153,8 +9419,8 @@ mod notify_ev_charging_needs_response {
 
 mod notify_ev_charging_schedule_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_charging_rate_unit_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -9198,7 +9464,10 @@ mod notify_ev_charging_schedule_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9557,7 +9826,10 @@ mod notify_ev_charging_schedule_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9802,7 +10074,10 @@ mod notify_ev_charging_schedule_request {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_schedule_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_schedule_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9835,8 +10110,8 @@ mod notify_ev_charging_schedule_request {
 
 mod notify_ev_charging_schedule_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -9882,7 +10157,10 @@ mod notify_ev_charging_schedule_response {
         Ok(())
     }
 
-    pub fn validate_notify_ev_charging_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_ev_charging_schedule_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -9907,8 +10185,8 @@ mod notify_ev_charging_schedule_response {
 
 mod notify_event_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_event_notification_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10120,8 +10398,8 @@ mod notify_event_request {
 
 mod notify_event_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10155,8 +10433,8 @@ mod notify_event_response {
 
 mod notify_monitoring_report_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_event_notification_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10321,7 +10599,10 @@ mod notify_monitoring_report_request {
         Ok(())
     }
 
-    pub fn validate_notify_monitoring_report_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_monitoring_report_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10354,8 +10635,8 @@ mod notify_monitoring_report_request {
 
 mod notify_monitoring_report_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10372,7 +10653,10 @@ mod notify_monitoring_report_response {
         Ok(())
     }
 
-    pub fn validate_notify_monitoring_report_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_monitoring_report_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10389,8 +10673,8 @@ mod notify_monitoring_report_response {
 
 mod notify_periodic_event_stream {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10464,8 +10748,8 @@ mod notify_periodic_event_stream {
 
 mod notify_priority_charging_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10482,7 +10766,10 @@ mod notify_priority_charging_request {
         Ok(())
     }
 
-    pub fn validate_notify_priority_charging_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_priority_charging_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10505,8 +10792,8 @@ mod notify_priority_charging_request {
 
 mod notify_priority_charging_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10523,7 +10810,10 @@ mod notify_priority_charging_response {
         Ok(())
     }
 
-    pub fn validate_notify_priority_charging_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_priority_charging_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -10540,8 +10830,8 @@ mod notify_priority_charging_response {
 
 mod notify_report_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10777,8 +11067,8 @@ mod notify_report_request {
 
 mod notify_report_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10812,8 +11102,8 @@ mod notify_report_response {
 
 mod notify_settlement_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_payment_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10944,8 +11234,8 @@ mod notify_settlement_request {
 
 mod notify_settlement_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -10991,8 +11281,8 @@ mod notify_settlement_response {
 
 mod notify_web_payment_started_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11009,7 +11299,10 @@ mod notify_web_payment_started_request {
         Ok(())
     }
 
-    pub fn validate_notify_web_payment_started_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_web_payment_started_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11032,8 +11325,8 @@ mod notify_web_payment_started_request {
 
 mod notify_web_payment_started_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11050,7 +11343,10 @@ mod notify_web_payment_started_response {
         Ok(())
     }
 
-    pub fn validate_notify_web_payment_started_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_notify_web_payment_started_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11067,8 +11363,8 @@ mod notify_web_payment_started_response {
 
 mod open_periodic_event_stream_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11085,7 +11381,10 @@ mod open_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11137,7 +11436,10 @@ mod open_periodic_event_stream_request {
         Ok(())
     }
 
-    pub fn validate_open_periodic_event_stream_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_open_periodic_event_stream_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11158,8 +11460,8 @@ mod open_periodic_event_stream_request {
 
 mod open_periodic_event_stream_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11205,7 +11507,10 @@ mod open_periodic_event_stream_response {
         Ok(())
     }
 
-    pub fn validate_open_periodic_event_stream_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_open_periodic_event_stream_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11230,8 +11535,8 @@ mod open_periodic_event_stream_response {
 
 mod publish_firmware_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11295,8 +11600,8 @@ mod publish_firmware_request {
 
 mod publish_firmware_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11367,11 +11672,14 @@ mod publish_firmware_response {
 
 mod publish_firmware_status_notification_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_publish_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_publish_firmware_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -11414,7 +11722,10 @@ mod publish_firmware_status_notification_request {
         Ok(())
     }
 
-    pub fn validate_publish_firmware_status_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_publish_firmware_status_notification_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11457,8 +11768,8 @@ mod publish_firmware_status_notification_request {
 
 mod publish_firmware_status_notification_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11475,7 +11786,10 @@ mod publish_firmware_status_notification_response {
         Ok(())
     }
 
-    pub fn validate_publish_firmware_status_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_publish_firmware_status_notification_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11492,8 +11806,8 @@ mod publish_firmware_status_notification_response {
 
 mod pull_dynamic_schedule_update_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -11510,7 +11824,10 @@ mod pull_dynamic_schedule_update_request {
         Ok(())
     }
 
-    pub fn validate_pull_dynamic_schedule_update_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_pull_dynamic_schedule_update_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11527,11 +11844,14 @@ mod pull_dynamic_schedule_update_request {
 
 mod pull_dynamic_schedule_update_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -11604,7 +11924,10 @@ mod pull_dynamic_schedule_update_response {
         Ok(())
     }
 
-    pub fn validate_pull_dynamic_schedule_update_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_pull_dynamic_schedule_update_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -11633,16 +11956,22 @@ mod pull_dynamic_schedule_update_response {
 
 mod report_charging_profiles_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_kind_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_kind_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -11693,7 +12022,10 @@ mod report_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -12052,7 +12384,10 @@ mod report_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -12350,7 +12685,10 @@ mod report_charging_profiles_request {
         Ok(())
     }
 
-    pub fn validate_report_charging_profiles_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_report_charging_profiles_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -12389,8 +12727,8 @@ mod report_charging_profiles_request {
 
 mod report_charging_profiles_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -12407,7 +12745,10 @@ mod report_charging_profiles_response {
         Ok(())
     }
 
-    pub fn validate_report_charging_profiles_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_report_charging_profiles_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -12424,8 +12765,8 @@ mod report_charging_profiles_response {
 
 mod report_der_control_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -12438,7 +12779,10 @@ mod report_der_control_request {
         Ok(())
     }
 
-    pub fn validate_power_during_cessation_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_power_during_cessation_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -12933,8 +13277,8 @@ mod report_der_control_request {
 
 mod report_der_control_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -12968,8 +13312,8 @@ mod report_der_control_response {
 
 mod request_battery_swap_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -13065,8 +13409,8 @@ mod request_battery_swap_request {
 
 mod request_battery_swap_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -13137,16 +13481,22 @@ mod request_battery_swap_response {
 
 mod request_start_transaction_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_kind_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_kind_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -13197,7 +13547,10 @@ mod request_start_transaction_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -13580,7 +13933,10 @@ mod request_start_transaction_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -13912,7 +14268,10 @@ mod request_start_transaction_request {
         Ok(())
     }
 
-    pub fn validate_request_start_transaction_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_request_start_transaction_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -13947,11 +14306,14 @@ mod request_start_transaction_request {
 
 mod request_start_transaction_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_request_start_stop_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_request_start_stop_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -13994,7 +14356,10 @@ mod request_start_transaction_response {
         Ok(())
     }
 
-    pub fn validate_request_start_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_request_start_transaction_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14025,8 +14390,8 @@ mod request_start_transaction_response {
 
 mod request_stop_transaction_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14043,7 +14408,10 @@ mod request_stop_transaction_request {
         Ok(())
     }
 
-    pub fn validate_request_stop_transaction_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_request_stop_transaction_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14066,11 +14434,14 @@ mod request_stop_transaction_request {
 
 mod request_stop_transaction_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_request_start_stop_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_request_start_stop_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14113,7 +14484,10 @@ mod request_stop_transaction_response {
         Ok(())
     }
 
-    pub fn validate_request_stop_transaction_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_request_stop_transaction_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14138,11 +14512,14 @@ mod request_stop_transaction_response {
 
 mod reservation_status_update_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_reservation_update_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_reservation_update_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14161,7 +14538,10 @@ mod reservation_status_update_request {
         Ok(())
     }
 
-    pub fn validate_reservation_status_update_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_reservation_status_update_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14188,8 +14568,8 @@ mod reservation_status_update_request {
 
 mod reservation_status_update_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14206,7 +14586,10 @@ mod reservation_status_update_response {
         Ok(())
     }
 
-    pub fn validate_reservation_status_update_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_reservation_status_update_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14223,8 +14606,8 @@ mod reservation_status_update_response {
 
 mod reserve_now_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14342,8 +14725,8 @@ mod reserve_now_request {
 
 mod reserve_now_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_reserve_now_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14414,8 +14797,8 @@ mod reserve_now_response {
 
 mod reset_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_reset_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14464,8 +14847,8 @@ mod reset_request {
 
 mod reset_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_reset_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14536,8 +14919,8 @@ mod reset_response {
 
 mod security_event_notification_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14554,7 +14937,10 @@ mod security_event_notification_request {
         Ok(())
     }
 
-    pub fn validate_security_event_notification_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_security_event_notification_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14583,8 +14969,8 @@ mod security_event_notification_request {
 
 mod security_event_notification_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -14601,7 +14987,10 @@ mod security_event_notification_response {
         Ok(())
     }
 
-    pub fn validate_security_event_notification_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_security_event_notification_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -14618,11 +15007,14 @@ mod security_event_notification_response {
 
 mod send_local_list_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_authorization_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_authorization_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14830,11 +15222,14 @@ mod send_local_list_request {
 
 mod send_local_list_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_send_local_list_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_send_local_list_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14902,16 +15297,22 @@ mod send_local_list_response {
 
 mod set_charging_profile_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_kind_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_kind_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
 
-    pub fn validate_charging_profile_purpose_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_purpose_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -14962,7 +15363,10 @@ mod set_charging_profile_request {
         Ok(())
     }
 
-    pub fn validate_additional_selected_services_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_additional_selected_services_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -15321,7 +15725,10 @@ mod set_charging_profile_request {
         Ok(())
     }
 
-    pub fn validate_price_level_schedule_entry_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_price_level_schedule_entry_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -15646,11 +16053,14 @@ mod set_charging_profile_request {
 
 mod set_charging_profile_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -15718,8 +16128,8 @@ mod set_charging_profile_response {
 
 mod set_der_control_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -15732,7 +16142,10 @@ mod set_der_control_request {
         Ok(())
     }
 
-    pub fn validate_power_during_cessation_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_power_during_cessation_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -16023,8 +16436,8 @@ mod set_der_control_request {
 
 mod set_der_control_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_der_control_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -16108,8 +16521,8 @@ mod set_der_control_response {
 
 mod set_default_tariff_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_day_of_week_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -16523,8 +16936,8 @@ mod set_default_tariff_request {
 
 mod set_default_tariff_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_tariff_set_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -16595,8 +17008,8 @@ mod set_default_tariff_response {
 
 mod set_display_message_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_message_format_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -16780,11 +17193,14 @@ mod set_display_message_request {
 
 mod set_display_message_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_display_message_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_display_message_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -16852,8 +17268,8 @@ mod set_display_message_response {
 
 mod set_monitoring_base_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_monitoring_base_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -16896,11 +17312,14 @@ mod set_monitoring_base_request {
 
 mod set_monitoring_base_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_generic_device_model_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_generic_device_model_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -16968,8 +17387,8 @@ mod set_monitoring_base_response {
 
 mod set_monitoring_level_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -17009,8 +17428,8 @@ mod set_monitoring_level_request {
 
 mod set_monitoring_level_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -17081,8 +17500,8 @@ mod set_monitoring_level_response {
 
 mod set_network_profile_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_apn_authentication_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -17210,7 +17629,10 @@ mod set_network_profile_request {
         Ok(())
     }
 
-    pub fn validate_network_connection_profile_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_network_connection_profile_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -17287,11 +17709,14 @@ mod set_network_profile_request {
 
 mod set_network_profile_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_set_network_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_set_network_profile_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -17359,8 +17784,8 @@ mod set_network_profile_response {
 
 mod set_variable_monitoring_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_monitor_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -17434,7 +17859,10 @@ mod set_variable_monitoring_request {
         Ok(())
     }
 
-    pub fn validate_periodic_event_stream_params_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_periodic_event_stream_params_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -17522,7 +17950,10 @@ mod set_variable_monitoring_request {
         Ok(())
     }
 
-    pub fn validate_set_variable_monitoring_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_set_variable_monitoring_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -17549,8 +17980,8 @@ mod set_variable_monitoring_request {
 
 mod set_variable_monitoring_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_monitor_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -17558,7 +17989,10 @@ mod set_variable_monitoring_response {
         Ok(())
     }
 
-    pub fn validate_set_monitoring_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_set_monitoring_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -17721,7 +18155,10 @@ mod set_variable_monitoring_response {
         Ok(())
     }
 
-    pub fn validate_set_variable_monitoring_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_set_variable_monitoring_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -17748,8 +18185,8 @@ mod set_variable_monitoring_response {
 
 mod set_variables_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -17904,8 +18341,8 @@ mod set_variables_request {
 
 mod set_variables_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_attribute_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -18091,11 +18528,14 @@ mod set_variables_response {
 
 mod sign_certificate_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_certificate_signing_use_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_certificate_signing_use_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -18184,8 +18624,8 @@ mod sign_certificate_request {
 
 mod sign_certificate_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -18256,8 +18696,8 @@ mod sign_certificate_response {
 
 mod status_notification_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_connector_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -18312,8 +18752,8 @@ mod status_notification_request {
 
 mod status_notification_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -18347,8 +18787,8 @@ mod status_notification_response {
 
 mod transaction_event_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_charging_state_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -18381,7 +18821,10 @@ mod transaction_event_request {
         Ok(())
     }
 
-    pub fn validate_preconditioning_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_preconditioning_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -18953,11 +19396,14 @@ mod transaction_event_request {
 
 mod transaction_event_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_authorization_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_authorization_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19168,8 +19614,8 @@ mod transaction_event_response {
 
 mod trigger_message_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_message_trigger_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19246,11 +19692,14 @@ mod trigger_message_request {
 
 mod trigger_message_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_trigger_message_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_trigger_message_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19318,8 +19767,8 @@ mod trigger_message_response {
 
 mod unlock_connector_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19365,8 +19814,8 @@ mod unlock_connector_request {
 
 mod unlock_connector_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_unlock_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19437,8 +19886,8 @@ mod unlock_connector_response {
 
 mod unpublish_firmware_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19478,11 +19927,14 @@ mod unpublish_firmware_request {
 
 mod unpublish_firmware_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_unpublish_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_unpublish_firmware_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19522,8 +19974,8 @@ mod unpublish_firmware_response {
 
 mod update_dynamic_schedule_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19570,7 +20022,10 @@ mod update_dynamic_schedule_request {
         Ok(())
     }
 
-    pub fn validate_update_dynamic_schedule_request(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_update_dynamic_schedule_request(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -19591,11 +20046,14 @@ mod update_dynamic_schedule_request {
 
 mod update_dynamic_schedule_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_charging_profile_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_charging_profile_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19638,7 +20096,10 @@ mod update_dynamic_schedule_response {
         Ok(())
     }
 
-    pub fn validate_update_dynamic_schedule_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_update_dynamic_schedule_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -19663,8 +20124,8 @@ mod update_dynamic_schedule_response {
 
 mod update_firmware_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19738,11 +20199,14 @@ mod update_firmware_request {
 
 mod update_firmware_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_update_firmware_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_update_firmware_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19810,8 +20274,8 @@ mod update_firmware_response {
 
 mod use_priority_charging_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19851,11 +20315,14 @@ mod use_priority_charging_request {
 
 mod use_priority_charging_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
-    pub fn validate_priority_charging_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_priority_charging_status_enum_type(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let _ = (value, path);
         Ok(())
     }
@@ -19898,7 +20365,10 @@ mod use_priority_charging_response {
         Ok(())
     }
 
-    pub fn validate_use_priority_charging_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_use_priority_charging_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -19923,8 +20393,8 @@ mod use_priority_charging_response {
 
 mod vat_number_validation_request {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_custom_data_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -19970,8 +20440,8 @@ mod vat_number_validation_request {
 
 mod vat_number_validation_response {
     use super::{
-        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max,
-        check_num_min, check_str_max, format,
+        ValidateResult, Value, check_arr_max, check_arr_min, check_num_max, check_num_min,
+        check_str_max, format,
     };
 
     pub fn validate_generic_status_enum_type(value: &Value, path: &str) -> ValidateResult<()> {
@@ -20065,7 +20535,10 @@ mod vat_number_validation_response {
         Ok(())
     }
 
-    pub fn validate_vat_number_validation_response(value: &Value, path: &str) -> ValidateResult<()> {
+    pub fn validate_vat_number_validation_response(
+        value: &Value,
+        path: &str,
+    ) -> ValidateResult<()> {
         let Some(obj) = value.as_object() else {
             return Ok(());
         };
@@ -20137,7 +20610,9 @@ pub fn validate_action_payload(action: &str, payload: &Value) -> ValidateResult<
         "GetCompositeSchedule" => get_composite_schedule_request::root(payload, action),
         "GetDERControl" => get_der_control_request::root(payload, action),
         "GetDisplayMessages" => get_display_messages_request::root(payload, action),
-        "GetInstalledCertificateIds" => get_installed_certificate_ids_request::root(payload, action),
+        "GetInstalledCertificateIds" => {
+            get_installed_certificate_ids_request::root(payload, action)
+        }
         "GetLocalListVersion" => get_local_list_version_request::root(payload, action),
         "GetLog" => get_log_request::root(payload, action),
         "GetMonitoringReport" => get_monitoring_report_request::root(payload, action),
@@ -20150,7 +20625,9 @@ pub fn validate_action_payload(action: &str, payload: &Value) -> ValidateResult<
         "InstallCertificate" => install_certificate_request::root(payload, action),
         "LogStatusNotification" => log_status_notification_request::root(payload, action),
         "MeterValues" => meter_values_request::root(payload, action),
-        "NotifyAllowedEnergyTransfer" => notify_allowed_energy_transfer_request::root(payload, action),
+        "NotifyAllowedEnergyTransfer" => {
+            notify_allowed_energy_transfer_request::root(payload, action)
+        }
         "NotifyChargingLimit" => notify_charging_limit_request::root(payload, action),
         "NotifyCustomerInformation" => notify_customer_information_request::root(payload, action),
         "NotifyDERAlarm" => notify_der_alarm_request::root(payload, action),
@@ -20167,7 +20644,9 @@ pub fn validate_action_payload(action: &str, payload: &Value) -> ValidateResult<
         "NotifyWebPaymentStarted" => notify_web_payment_started_request::root(payload, action),
         "OpenPeriodicEventStream" => open_periodic_event_stream_request::root(payload, action),
         "PublishFirmware" => publish_firmware_request::root(payload, action),
-        "PublishFirmwareStatusNotification" => publish_firmware_status_notification_request::root(payload, action),
+        "PublishFirmwareStatusNotification" => {
+            publish_firmware_status_notification_request::root(payload, action)
+        }
         "PullDynamicScheduleUpdate" => pull_dynamic_schedule_update_request::root(payload, action),
         "ReportChargingProfiles" => report_charging_profiles_request::root(payload, action),
         "ReportDERControl" => report_der_control_request::root(payload, action),
@@ -20226,7 +20705,9 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "CustomerInformation" => customer_information_response::root(payload, action),
         "DataTransfer" => data_transfer_response::root(payload, action),
         "DeleteCertificate" => delete_certificate_response::root(payload, action),
-        "FirmwareStatusNotification" => firmware_status_notification_response::root(payload, action),
+        "FirmwareStatusNotification" => {
+            firmware_status_notification_response::root(payload, action)
+        }
         "Get15118EVCertificate" => get15118_ev_certificate_response::root(payload, action),
         "GetBaseReport" => get_base_report_response::root(payload, action),
         "GetCertificateChainStatus" => get_certificate_chain_status_response::root(payload, action),
@@ -20235,7 +20716,9 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "GetCompositeSchedule" => get_composite_schedule_response::root(payload, action),
         "GetDERControl" => get_der_control_response::root(payload, action),
         "GetDisplayMessages" => get_display_messages_response::root(payload, action),
-        "GetInstalledCertificateIds" => get_installed_certificate_ids_response::root(payload, action),
+        "GetInstalledCertificateIds" => {
+            get_installed_certificate_ids_response::root(payload, action)
+        }
         "GetLocalListVersion" => get_local_list_version_response::root(payload, action),
         "GetLog" => get_log_response::root(payload, action),
         "GetMonitoringReport" => get_monitoring_report_response::root(payload, action),
@@ -20248,7 +20731,9 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "InstallCertificate" => install_certificate_response::root(payload, action),
         "LogStatusNotification" => log_status_notification_response::root(payload, action),
         "MeterValues" => meter_values_response::root(payload, action),
-        "NotifyAllowedEnergyTransfer" => notify_allowed_energy_transfer_response::root(payload, action),
+        "NotifyAllowedEnergyTransfer" => {
+            notify_allowed_energy_transfer_response::root(payload, action)
+        }
         "NotifyChargingLimit" => notify_charging_limit_response::root(payload, action),
         "NotifyCustomerInformation" => notify_customer_information_response::root(payload, action),
         "NotifyDERAlarm" => notify_der_alarm_response::root(payload, action),
@@ -20264,7 +20749,9 @@ pub fn validate_response_payload(action: &str, payload: &Value) -> ValidateResul
         "NotifyWebPaymentStarted" => notify_web_payment_started_response::root(payload, action),
         "OpenPeriodicEventStream" => open_periodic_event_stream_response::root(payload, action),
         "PublishFirmware" => publish_firmware_response::root(payload, action),
-        "PublishFirmwareStatusNotification" => publish_firmware_status_notification_response::root(payload, action),
+        "PublishFirmwareStatusNotification" => {
+            publish_firmware_status_notification_response::root(payload, action)
+        }
         "PullDynamicScheduleUpdate" => pull_dynamic_schedule_update_response::root(payload, action),
         "ReportChargingProfiles" => report_charging_profiles_response::root(payload, action),
         "ReportDERControl" => report_der_control_response::root(payload, action),

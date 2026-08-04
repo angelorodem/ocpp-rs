@@ -38,14 +38,14 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - name: Build
-        run: cargo build --verbose
+        run: cargo build --locked --verbose
 
       - name: Test
-        run: cargo test --all --verbose
+        run: cargo test --locked --all --verbose
 
       - name: Clippy
         if: matrix.rust == 'stable' && matrix.os == 'ubuntu-latest'
-        run: cargo clippy --all-targets --all-features
+        run: cargo clippy --locked --all-targets --all-features
 
       - name: Format
         if: matrix.rust == 'stable' && matrix.os == 'ubuntu-latest'
@@ -79,9 +79,9 @@ jobs:
       - name: Test with features
         run: |
           if [ -z "${{ matrix.features }}" ]; then
-            cargo test --all --verbose
+            cargo test --locked --all --verbose
           else
-            cargo test --all --verbose --features "${{ matrix.features }}"
+            cargo test --locked --all --verbose --features "${{ matrix.features }}"
           fi
 
   no_std:
@@ -97,7 +97,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - name: Build library (host, #![no_std])
-        run: cargo build --lib --verbose
+        run: cargo build --locked --lib --verbose
 
       - name: Chrono must stay alloc+serde only
         run: |
@@ -115,7 +115,7 @@ jobs:
           fi
 
       - name: Freestanding thumbv7em-none-eabi
-        run: cargo build --lib --target thumbv7em-none-eabi --verbose
+        run: cargo build --locked --lib --target thumbv7em-none-eabi --verbose
 
   codegen:
     name: codegen --check
