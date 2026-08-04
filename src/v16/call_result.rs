@@ -267,6 +267,7 @@ pub struct GetInstalledCertificateIds {
 pub struct GetCompositeSchedule {
     pub status: GetCompositeScheduleStatus,
     pub connector_id: Option<i32>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(with = "iso8601_date_time_optional")]
     pub schedule_start: Option<DateTimeWrapper>,
