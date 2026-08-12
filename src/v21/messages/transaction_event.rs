@@ -14,19 +14,16 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum ChargingStateEnumType {
-    #[serde(rename = "EVConnected")]
-    EVConnected,
-    #[serde(rename = "Charging")]
-    Charging,
-    #[serde(rename = "SuspendedEV")]
-    SuspendedEV,
-    #[serde(rename = "SuspendedEVSE")]
-    SuspendedEVSE,
-    #[serde(rename = "Idle")]
-    Idle,
+crate::lenient_str_enum! {
+    /// Charging state within a transaction.
+    pub enum ChargingStateEnumType {
+        EVConnected,
+        Charging,
+        SuspendedEV,
+        SuspendedEVSE,
+        Idle,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -88,49 +85,34 @@ pub enum PreconditioningStatusEnumType {
     Preconditioning,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum ReasonEnumType {
-    #[serde(rename = "DeAuthorized")]
-    DeAuthorized,
-    #[serde(rename = "EmergencyStop")]
-    EmergencyStop,
-    #[serde(rename = "EnergyLimitReached")]
-    EnergyLimitReached,
-    #[serde(rename = "EVDisconnected")]
-    EVDisconnected,
-    #[serde(rename = "GroundFault")]
-    GroundFault,
-    #[serde(rename = "ImmediateReset")]
-    ImmediateReset,
-    #[serde(rename = "MasterPass")]
-    MasterPass,
-    #[serde(rename = "Local")]
-    Local,
-    #[serde(rename = "LocalOutOfCredit")]
-    LocalOutOfCredit,
-    #[serde(rename = "Other")]
-    Other,
-    #[serde(rename = "OvercurrentFault")]
-    OvercurrentFault,
-    #[serde(rename = "PowerLoss")]
-    PowerLoss,
-    #[serde(rename = "PowerQuality")]
-    PowerQuality,
-    #[serde(rename = "Reboot")]
-    Reboot,
-    #[serde(rename = "Remote")]
-    Remote,
-    #[serde(rename = "SOCLimitReached")]
-    SOCLimitReached,
-    #[serde(rename = "StoppedByEV")]
-    StoppedByEV,
-    #[serde(rename = "TimeLimitReached")]
-    TimeLimitReached,
-    #[serde(rename = "Timeout")]
-    Timeout,
-    #[serde(rename = "ReqEnergyTransferRejected")]
-    ReqEnergyTransferRejected,
+crate::lenient_str_enum! {
+    /// Reason a transaction stopped (`TransactionType.stoppedReason`).
+    ///
+    /// Unknown / vendor-specific wire strings are accepted as [`ReasonEnumType::Unknown`]
+    /// so a proprietary value cannot fail the whole `TransactionEvent` parse.
+    pub enum ReasonEnumType {
+        DeAuthorized,
+        EmergencyStop,
+        EnergyLimitReached,
+        EVDisconnected,
+        GroundFault,
+        ImmediateReset,
+        MasterPass,
+        Local,
+        LocalOutOfCredit,
+        Other,
+        OvercurrentFault,
+        PowerLoss,
+        PowerQuality,
+        Reboot,
+        Remote,
+        SOCLimitReached,
+        StoppedByEV,
+        TimeLimitReached,
+        Timeout,
+        ReqEnergyTransferRejected,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -261,67 +243,40 @@ pub struct TransactionType {
     pub custom_data: Option<CustomDataType>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum TriggerReasonEnumType {
-    #[serde(rename = "AbnormalCondition")]
-    AbnormalCondition,
-    #[serde(rename = "Authorized")]
-    Authorized,
-    #[serde(rename = "CablePluggedIn")]
-    CablePluggedIn,
-    #[serde(rename = "ChargingRateChanged")]
-    ChargingRateChanged,
-    #[serde(rename = "ChargingStateChanged")]
-    ChargingStateChanged,
-    #[serde(rename = "CostLimitReached")]
-    CostLimitReached,
-    #[serde(rename = "Deauthorized")]
-    Deauthorized,
-    #[serde(rename = "EnergyLimitReached")]
-    EnergyLimitReached,
-    #[serde(rename = "EVCommunicationLost")]
-    EVCommunicationLost,
-    #[serde(rename = "EVConnectTimeout")]
-    EVConnectTimeout,
-    #[serde(rename = "EVDeparted")]
-    EVDeparted,
-    #[serde(rename = "EVDetected")]
-    EVDetected,
-    #[serde(rename = "LimitSet")]
-    LimitSet,
-    #[serde(rename = "MeterValueClock")]
-    MeterValueClock,
-    #[serde(rename = "MeterValuePeriodic")]
-    MeterValuePeriodic,
-    #[serde(rename = "OperationModeChanged")]
-    OperationModeChanged,
-    #[serde(rename = "RemoteStart")]
-    RemoteStart,
-    #[serde(rename = "RemoteStop")]
-    RemoteStop,
-    #[serde(rename = "ResetCommand")]
-    ResetCommand,
-    #[serde(rename = "RunningCost")]
-    RunningCost,
-    #[serde(rename = "SignedDataReceived")]
-    SignedDataReceived,
-    #[serde(rename = "SoCLimitReached")]
-    SoCLimitReached,
-    #[serde(rename = "StopAuthorized")]
-    StopAuthorized,
-    #[serde(rename = "TariffChanged")]
-    TariffChanged,
-    #[serde(rename = "TariffNotAccepted")]
-    TariffNotAccepted,
-    #[serde(rename = "TimeLimitReached")]
-    TimeLimitReached,
-    #[serde(rename = "Trigger")]
-    Trigger,
-    #[serde(rename = "TxResumed")]
-    TxResumed,
-    #[serde(rename = "UnlockCommand")]
-    UnlockCommand,
+crate::lenient_str_enum! {
+    /// Why a `TransactionEvent` was sent.
+    pub enum TriggerReasonEnumType {
+        AbnormalCondition,
+        Authorized,
+        CablePluggedIn,
+        ChargingRateChanged,
+        ChargingStateChanged,
+        CostLimitReached,
+        Deauthorized,
+        EnergyLimitReached,
+        EVCommunicationLost,
+        EVConnectTimeout,
+        EVDeparted,
+        EVDetected,
+        LimitSet,
+        MeterValueClock,
+        MeterValuePeriodic,
+        OperationModeChanged,
+        RemoteStart,
+        RemoteStop,
+        ResetCommand,
+        RunningCost,
+        SignedDataReceived,
+        SoCLimitReached,
+        StopAuthorized,
+        TariffChanged,
+        TariffNotAccepted,
+        TimeLimitReached,
+        Trigger,
+        TxResumed,
+        UnlockCommand,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

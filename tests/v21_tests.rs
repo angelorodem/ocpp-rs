@@ -327,3 +327,74 @@ fn probe_and_try_resolve_unique_when_type_unknown() {
         ocpp_rs::errors::Error::AmbiguousCallResult(_)
     ));
 }
+
+#[test]
+fn boot_notification_accepts_unrecognized_reason() {
+    let incoming = r#"[2,"b1","BootNotification",{"reason":"VendorBoot","chargingStation":{"model":"M","vendorName":"V"}}]"#;
+    let msg = parse::deserialize_to_message(incoming).expect("parse");
+    match msg {
+        Message::Call(c) => match c.payload {
+            Action::BootNotification(req) => {
+                assert_eq!(
+                    req.reason,
+                    BootReasonEnumType::Unrecognized("VendorBoot".into())
+                );
+                assert_eq!(req.reason.as_str(), "VendorBoot");
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+    // Spec unit Unknown still maps to the known variant.
+    let known_unknown = r#"[2,"b2","BootNotification",{"reason":"Unknown","chargingStation":{"model":"M","vendorName":"V"}}]"#;
+    match parse::deserialize_to_message(known_unknown).unwrap() {
+        Message::Call(c) => match c.payload {
+            Action::BootNotification(req) => {
+                assert_eq!(req.reason, BootReasonEnumType::Unknown);
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+}
+
+#[test]
+fn status_notification_accepts_unknown_connector_status() {
+    use ocpp_rs::v21::messages::status_notification::ConnectorStatusEnumType;
+
+    let incoming = r#"[2,"s1","StatusNotification",{"timestamp":"2024-01-01T00:00:00.000Z","connectorStatus":"VendorOccupied","evseId":1,"connectorId":1}]"#;
+    match parse::deserialize_to_message(incoming).unwrap() {
+        Message::Call(c) => match c.payload {
+            Action::StatusNotification(req) => {
+                assert_eq!(
+                    req.connector_status,
+                    ConnectorStatusEnumType::Unknown("VendorOccupied".into())
+                );
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+}
+
+#[test]
+fn transaction_event_accepts_unknown_trigger_reason() {
+    use ocpp_rs::v21::messages::transaction_event::{
+        TransactionEventEnumType, TriggerReasonEnumType,
+    };
+
+    let incoming = r#"[2,"t1","TransactionEvent",{"eventType":"Ended","timestamp":"2024-01-01T00:00:00.000Z","triggerReason":"GunTemperatureAbnormal","seqNo":0,"transactionInfo":{"transactionId":"x"}}]"#;
+    match parse::deserialize_to_message(incoming).unwrap() {
+        Message::Call(c) => match c.payload {
+            Action::TransactionEvent(req) => {
+                assert_eq!(req.event_type, TransactionEventEnumType::Ended);
+                assert_eq!(
+                    req.trigger_reason,
+                    TriggerReasonEnumType::Unknown("GunTemperatureAbnormal".into())
+                );
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+}

@@ -4,37 +4,24 @@ use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum FirmwareStatusEnumType {
-    #[serde(rename = "Downloaded")]
-    Downloaded,
-    #[serde(rename = "DownloadFailed")]
-    DownloadFailed,
-    #[serde(rename = "Downloading")]
-    Downloading,
-    #[serde(rename = "DownloadScheduled")]
-    DownloadScheduled,
-    #[serde(rename = "DownloadPaused")]
-    DownloadPaused,
-    #[serde(rename = "Idle")]
-    Idle,
-    #[serde(rename = "InstallationFailed")]
-    InstallationFailed,
-    #[serde(rename = "Installing")]
-    Installing,
-    #[serde(rename = "Installed")]
-    Installed,
-    #[serde(rename = "InstallRebooting")]
-    InstallRebooting,
-    #[serde(rename = "InstallScheduled")]
-    InstallScheduled,
-    #[serde(rename = "InstallVerificationFailed")]
-    InstallVerificationFailed,
-    #[serde(rename = "InvalidSignature")]
-    InvalidSignature,
-    #[serde(rename = "SignatureVerified")]
-    SignatureVerified,
+crate::lenient_str_enum! {
+    pub enum FirmwareStatusEnumType {
+        Downloaded,
+        DownloadFailed,
+        Downloading,
+        DownloadScheduled,
+        DownloadPaused,
+        Idle,
+        InstallationFailed,
+        Installing,
+        Installed,
+        InstallRebooting,
+        InstallScheduled,
+        InstallVerificationFailed,
+        InvalidSignature,
+        SignatureVerified,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

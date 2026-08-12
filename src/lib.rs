@@ -154,6 +154,7 @@
 extern crate alloc;
 pub mod datetime;
 pub mod errors;
+pub mod lenient_str_enum;
 pub mod v16;
 pub mod v21;
 pub mod validate;

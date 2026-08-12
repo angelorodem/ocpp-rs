@@ -4,19 +4,15 @@ use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::DateTimeWrapper;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum ConnectorStatusEnumType {
-    #[serde(rename = "Available")]
-    Available,
-    #[serde(rename = "Occupied")]
-    Occupied,
-    #[serde(rename = "Reserved")]
-    Reserved,
-    #[serde(rename = "Unavailable")]
-    Unavailable,
-    #[serde(rename = "Faulted")]
-    Faulted,
+crate::lenient_str_enum! {
+    pub enum ConnectorStatusEnumType {
+        Available,
+        Occupied,
+        Reserved,
+        Unavailable,
+        Faulted,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

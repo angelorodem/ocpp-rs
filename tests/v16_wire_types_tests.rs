@@ -277,6 +277,147 @@ fn stop_transaction_conf_allows_empty() {
 }
 
 #[test]
+fn stop_transaction_accepts_unknown_vendor_reason() {
+    use ocpp_rs::v16::call::Action;
+    use ocpp_rs::v16::enums::Reason;
+    use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};
+
+    let data = r#"[2,"stop_vendor","StopTransaction",{
+        "meterStop": 13142330,
+        "timestamp": "2024-01-01T13:18:00.000Z",
+        "transactionId": 1403279238,
+        "reason": "GunTemperatureAbnormal"
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse StopTransaction");
+    match &message {
+        Message::Call(call) => match &call.payload {
+            Action::StopTransaction(stop) => {
+                assert_eq!(stop.meter_stop, 13142330);
+                assert_eq!(stop.transaction_id, 1403279238);
+                assert_eq!(
+                    stop.reason,
+                    Some(Reason::Unknown("GunTemperatureAbnormal".into()))
+                );
+                assert_eq!(
+                    stop.reason.as_ref().map(Reason::as_str),
+                    Some("GunTemperatureAbnormal")
+                );
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+
+    // Round-trip preserves the vendor string on the wire.
+    let again = deserialize_to_message(&serialize_message(&message).expect("ser")).expect("reparse");
+    match again {
+        Message::Call(call) => match call.payload {
+            Action::StopTransaction(stop) => {
+                assert_eq!(
+                    stop.reason,
+                    Some(Reason::Unknown("GunTemperatureAbnormal".into()))
+                );
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+
+    // Standard reasons still map to unit variants.
+    let local: Reason = serde_json::from_value(serde_json::json!("Local")).expect("Local");
+    assert_eq!(local, Reason::Local);
+    let other: Reason = serde_json::from_value(serde_json::json!("Other")).expect("Other");
+    assert_eq!(other, Reason::Other);
+}
+
+#[test]
+fn status_notification_accepts_unknown_vendor_enums() {
+    use ocpp_rs::v16::call::Action;
+    use ocpp_rs::v16::enums::{ChargePointErrorCode, ChargePointStatus};
+    use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};
+
+    let data = r#"[2,"st1","StatusNotification",{
+        "connectorId": 1,
+        "errorCode": "GunTemperatureAbnormal",
+        "status": "VendorPreparing"
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse");
+    match &message {
+        Message::Call(call) => match &call.payload {
+            Action::StatusNotification(status) => {
+                assert_eq!(
+                    status.error_code,
+                    ChargePointErrorCode::Unknown("GunTemperatureAbnormal".into())
+                );
+                assert_eq!(
+                    status.status,
+                    ChargePointStatus::Unknown("VendorPreparing".into())
+                );
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+    let again = deserialize_to_message(&serialize_message(&message).expect("ser")).expect("reparse");
+    match again {
+        Message::Call(call) => match call.payload {
+            Action::StatusNotification(status) => {
+                assert_eq!(status.error_code.as_str(), "GunTemperatureAbnormal");
+                assert_eq!(status.status.as_str(), "VendorPreparing");
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+}
+
+#[test]
+fn meter_values_accepts_unknown_sampled_value_enums() {
+    use ocpp_rs::v16::call::Action;
+    use ocpp_rs::v16::enums::{Location, Measurand, Phase, ReadingContext, UnitOfMeasure};
+    use ocpp_rs::v16::parse::{Message, deserialize_to_message};
+
+    let data = r#"[2,"mv1","MeterValues",{
+        "connectorId": 1,
+        "meterValue": [{
+            "timestamp": "2024-01-01T00:00:00.000Z",
+            "sampledValue": [{
+                "value": "1.0",
+                "context": "VendorContext",
+                "measurand": "Vendor.Measurand",
+                "phase": "L4",
+                "location": "VendorLoc",
+                "unit": "degC"
+            }]
+        }]
+    }]"#;
+    let message = deserialize_to_message(data).expect("parse MeterValues");
+    match message {
+        Message::Call(call) => match call.payload {
+            Action::MeterValues(mv) => {
+                let sample = &mv.meter_value[0].sampled_value[0];
+                assert_eq!(
+                    sample.context,
+                    Some(ReadingContext::Unknown("VendorContext".into()))
+                );
+                assert_eq!(
+                    sample.measurand,
+                    Some(Measurand::Unknown("Vendor.Measurand".into()))
+                );
+                assert_eq!(sample.phase, Some(Phase::Unknown("L4".into())));
+                assert_eq!(
+                    sample.location,
+                    Some(Location::Unknown("VendorLoc".into()))
+                );
+                assert_eq!(sample.unit, Some(UnitOfMeasure::Unknown("degC".into())));
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
+}
+
+#[test]
 fn call_error_accepts_nested_json_details() {
     use ocpp_rs::v16::call_error::CallError;
     use ocpp_rs::v16::parse::{Message, deserialize_to_message, serialize_message};

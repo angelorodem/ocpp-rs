@@ -1201,9 +1201,22 @@ fn test_error_recovery_scenarios() {
     let missing_fields = "[2, \"test\", \"BootNotification\", {}]";
     assert!(deserialize_to_message(missing_fields).is_err());
 
-    // Invalid enum values
-    let invalid_enum = "[2, \"test\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"InvalidErrorCode\",\"status\":\"Available\"}]";
-    assert!(deserialize_to_message(invalid_enum).is_err());
+    // Unknown enum values are accepted into Unknown(...) so vendor strings cannot
+    // fail the whole StatusNotification / StopTransaction / MeterValues parse.
+    let unknown_enum = "[2, \"test\", \"StatusNotification\", {\"connectorId\":1,\"errorCode\":\"InvalidErrorCode\",\"status\":\"Available\"}]";
+    match deserialize_to_message(unknown_enum).expect("lenient StatusNotification") {
+        Message::Call(call) => match call.payload {
+            Action::StatusNotification(status) => {
+                assert_eq!(
+                    status.error_code,
+                    ChargePointErrorCode::Unknown("InvalidErrorCode".into())
+                );
+                assert_eq!(status.status, ChargePointStatus::Available);
+            }
+            other => panic!("unexpected action: {other:?}"),
+        },
+        other => panic!("unexpected message: {other:?}"),
+    }
 
     // Null values in required fields
     let null_required = "[2, \"test\", \"BootNotification\", {\"chargePointVendor\":null,\"chargePointModel\":\"Test\"}]";

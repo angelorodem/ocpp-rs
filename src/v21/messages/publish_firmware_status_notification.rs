@@ -6,29 +6,20 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum PublishFirmwareStatusEnumType {
-    #[serde(rename = "Idle")]
-    Idle,
-    #[serde(rename = "DownloadScheduled")]
-    DownloadScheduled,
-    #[serde(rename = "Downloading")]
-    Downloading,
-    #[serde(rename = "Downloaded")]
-    Downloaded,
-    #[serde(rename = "Published")]
-    Published,
-    #[serde(rename = "DownloadFailed")]
-    DownloadFailed,
-    #[serde(rename = "DownloadPaused")]
-    DownloadPaused,
-    #[serde(rename = "InvalidChecksum")]
-    InvalidChecksum,
-    #[serde(rename = "ChecksumVerified")]
-    ChecksumVerified,
-    #[serde(rename = "PublishFailed")]
-    PublishFailed,
+crate::lenient_str_enum! {
+    pub enum PublishFirmwareStatusEnumType {
+        Idle,
+        DownloadScheduled,
+        Downloading,
+        Downloaded,
+        Published,
+        DownloadFailed,
+        DownloadPaused,
+        InvalidChecksum,
+        ChecksumVerified,
+        PublishFailed,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

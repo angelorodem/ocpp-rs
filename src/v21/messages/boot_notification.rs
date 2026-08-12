@@ -6,27 +6,19 @@ use crate::v21::datatypes::StatusInfoType;
 use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum BootReasonEnumType {
-    #[serde(rename = "ApplicationReset")]
-    ApplicationReset,
-    #[serde(rename = "FirmwareUpdate")]
-    FirmwareUpdate,
-    #[serde(rename = "LocalReset")]
-    LocalReset,
-    #[serde(rename = "PowerUp")]
-    PowerUp,
-    #[serde(rename = "RemoteReset")]
-    RemoteReset,
-    #[serde(rename = "ScheduledReset")]
-    ScheduledReset,
-    #[serde(rename = "Triggered")]
-    Triggered,
-    #[serde(rename = "Unknown")]
-    Unknown,
-    #[serde(rename = "Watchdog")]
-    Watchdog,
+crate::lenient_str_enum! {
+    pub enum BootReasonEnumType {
+        ApplicationReset,
+        FirmwareUpdate,
+        LocalReset,
+        PowerUp,
+        RemoteReset,
+        ScheduledReset,
+        Triggered,
+        Unknown,
+        Watchdog,
+    }
+    @unknown Unrecognized
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

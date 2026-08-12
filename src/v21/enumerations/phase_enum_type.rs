@@ -1,27 +1,17 @@
 //! `PhaseEnumType`
-use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum PhaseEnumType {
-    #[serde(rename = "L1")]
-    L1,
-    #[serde(rename = "L2")]
-    L2,
-    #[serde(rename = "L3")]
-    L3,
-    #[serde(rename = "N")]
-    N,
-    #[serde(rename = "L1-N")]
-    L1N,
-    #[serde(rename = "L2-N")]
-    L2N,
-    #[serde(rename = "L3-N")]
-    L3N,
-    #[serde(rename = "L1-L2")]
-    L1L2,
-    #[serde(rename = "L2-L3")]
-    L2L3,
-    #[serde(rename = "L3-L1")]
-    L3L1,
+crate::lenient_str_enum! {
+    pub enum PhaseEnumType {
+        L1,
+        L2,
+        L3,
+        N,
+        L1N => "L1-N",
+        L2N => "L2-N",
+        L3N => "L3-N",
+        L1L2 => "L1-L2",
+        L2L3 => "L2-L3",
+        L3L1 => "L3-L1",
+    }
+    @unknown Unknown
 }

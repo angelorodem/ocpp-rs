@@ -4,25 +4,18 @@ use crate::v21::datatypes::CustomDataType;
 use crate::v21::datatypes::StatusInfoType;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub enum UploadLogStatusEnumType {
-    #[serde(rename = "BadMessage")]
-    BadMessage,
-    #[serde(rename = "Idle")]
-    Idle,
-    #[serde(rename = "NotSupportedOperation")]
-    NotSupportedOperation,
-    #[serde(rename = "PermissionDenied")]
-    PermissionDenied,
-    #[serde(rename = "Uploaded")]
-    Uploaded,
-    #[serde(rename = "UploadFailure")]
-    UploadFailure,
-    #[serde(rename = "Uploading")]
-    Uploading,
-    #[serde(rename = "AcceptedCanceled")]
-    AcceptedCanceled,
+crate::lenient_str_enum! {
+    pub enum UploadLogStatusEnumType {
+        BadMessage,
+        Idle,
+        NotSupportedOperation,
+        PermissionDenied,
+        Uploaded,
+        UploadFailure,
+        Uploading,
+        AcceptedCanceled,
+    }
+    @unknown Unknown
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
