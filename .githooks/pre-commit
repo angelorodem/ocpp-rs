@@ -1,0 +1,25 @@
+#!/bin/sh
+# Auto-format Rust sources so `cargo fmt -- --check` in CI cannot fail the commit.
+set -e
+
+if ! command -v cargo >/dev/null 2>&1; then
+    echo "pre-commit: cargo not found; skip rustfmt" >&2
+    exit 0
+fi
+
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep '\.rs$' || true)
+if [ -z "$staged" ]; then
+    exit 0
+fi
+
+if ! cargo fmt --all; then
+    echo "pre-commit: cargo fmt failed (install rustfmt: rustup component add rustfmt)" >&2
+    exit 1
+fi
+
+# Include rustfmt's edits in this commit (only files that were already staged).
+printf '%s\n' "$staged" | while IFS= read -r f; do
+    if [ -f "$f" ]; then
+        git add -- "$f"
+    fi
+done

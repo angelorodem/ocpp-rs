@@ -143,6 +143,16 @@ This is a **protocol wire crate**, not a full stack:
 
 Add or update tests with behavior changes.
 
+CI runs `cargo fmt -- --check`. Enable the repo hook so rustfmt runs (and restages) on commit:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Requires `cargo` + `rustfmt` (`rustup component add rustfmt`). The hook only runs when staged `*.rs` files are present.
+
+Alternatively, [pre-commit](https://pre-commit.com): `pip install pre-commit && pre-commit install` (formats in place; you may need to `git add` and commit again).
+
 ### Fuzzing
 
 Requires nightly + [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz):

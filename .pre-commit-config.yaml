@@ -1,0 +1,15 @@
+# https://pre-commit.com — optional alternative to `.githooks/`
+#   pip install pre-commit && pre-commit install
+#
+# Prefer `git config core.hooksPath .githooks` so rustfmt is restaged in the
+# same commit. This config formats in place; pre-commit may ask you to
+# `git add` and commit again if files changed.
+repos:
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: cargo fmt
+        language: system
+        entry: cargo fmt --all
+        pass_filenames: false
+        types: [rust]

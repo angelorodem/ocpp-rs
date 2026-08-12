@@ -309,7 +309,8 @@ fn stop_transaction_accepts_unknown_vendor_reason() {
     }
 
     // Round-trip preserves the vendor string on the wire.
-    let again = deserialize_to_message(&serialize_message(&message).expect("ser")).expect("reparse");
+    let again =
+        deserialize_to_message(&serialize_message(&message).expect("ser")).expect("reparse");
     match again {
         Message::Call(call) => match call.payload {
             Action::StopTransaction(stop) => {
@@ -358,7 +359,8 @@ fn status_notification_accepts_unknown_vendor_enums() {
         },
         other => panic!("unexpected message: {other:?}"),
     }
-    let again = deserialize_to_message(&serialize_message(&message).expect("ser")).expect("reparse");
+    let again =
+        deserialize_to_message(&serialize_message(&message).expect("ser")).expect("reparse");
     match again {
         Message::Call(call) => match call.payload {
             Action::StatusNotification(status) => {
@@ -405,10 +407,7 @@ fn meter_values_accepts_unknown_sampled_value_enums() {
                     Some(Measurand::Unknown("Vendor.Measurand".into()))
                 );
                 assert_eq!(sample.phase, Some(Phase::Unknown("L4".into())));
-                assert_eq!(
-                    sample.location,
-                    Some(Location::Unknown("VendorLoc".into()))
-                );
+                assert_eq!(sample.location, Some(Location::Unknown("VendorLoc".into())));
                 assert_eq!(sample.unit, Some(UnitOfMeasure::Unknown("degC".into())));
             }
             other => panic!("unexpected action: {other:?}"),
